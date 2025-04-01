@@ -1,0 +1,7 @@
+﻿.vs
+**/bin
+**/obj
+data/FinPlanner360_DV.db
+data/FinPlanner360_DV.db-shm
+data/FinPlanner360_DV.db-wal
+src/api_prototype1

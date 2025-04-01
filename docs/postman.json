@@ -1,0 +1,795 @@
+{
+    "info": {
+      "_postman_id": "f5a7b3c1-e8b6-4d0a-9c07-d8f5a3d6e0b1",
+      "name": "FluencyHub API",
+      "description": "Collection para testar a API do FluencyHub - Plataforma de Educação Online para Cursos de Idioma",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Autenticação",
+        "description": "Endpoints para autenticação e registro de usuários",
+        "item": [
+          {
+            "name": "Login (Administrador)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"email\": \"admin@fluencyhub.com\",\n    \"password\": \"Admin123!\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/Auth/login",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "Auth", "login"]
+              },
+              "description": "Autenticação de um administrador na plataforma"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "var jsonData = JSON.parse(responseBody);",
+                    "pm.globals.set(\"adminToken\", jsonData.token);",
+                    "pm.test(\"Status code is 200\", function () {",
+                    "    pm.response.to.have.status(200);",
+                    "});",
+                    "pm.test(\"Token is present\", function() {",
+                    "    pm.expect(jsonData.token).to.be.a('string').and.not.empty;",
+                    "});"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "Login (Aluno)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"email\": \"aluno@example.com\",\n    \"password\": \"Aluno123!\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/Auth/login",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "Auth", "login"]
+              },
+              "description": "Autenticação de um aluno na plataforma"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "var jsonData = JSON.parse(responseBody);",
+                    "pm.globals.set(\"studentToken\", jsonData.token);",
+                    "pm.test(\"Status code is 200\", function () {",
+                    "    pm.response.to.have.status(200);",
+                    "});",
+                    "pm.test(\"Token is present\", function() {",
+                    "    pm.expect(jsonData.token).to.be.a('string').and.not.empty;",
+                    "});"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "Registro de Usuário",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"email\": \"novousuario@example.com\",\n    \"password\": \"Senha123!\",\n    \"firstName\": \"Novo\",\n    \"lastName\": \"Usuário\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/Auth/register",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "Auth", "register"]
+              },
+              "description": "Registra um novo usuário na plataforma"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "var jsonData = JSON.parse(responseBody);",
+                    "pm.globals.set(\"newUserToken\", jsonData.token);",
+                    "pm.test(\"Status code is 200\", function () {",
+                    "    pm.response.to.have.status(200);",
+                    "});",
+                    "pm.test(\"Token is present\", function() {",
+                    "    pm.expect(jsonData.token).to.be.a('string').and.not.empty;",
+                    "});"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Gestão de Conteúdo",
+        "description": "Endpoints para gerenciar cursos e aulas",
+        "item": [
+          {
+            "name": "Obter Curso por ID",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{studentToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/api/Courses/{{courseId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "Courses", "{{courseId}}"]
+              },
+              "description": "Obtém informações detalhadas de um curso específico"
+            },
+            "response": []
+          },
+          {
+            "name": "Criar Curso (Admin)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"name\": \"Curso de Inglês para Iniciantes\",\n    \"description\": \"Um curso completo para quem deseja iniciar no idioma inglês\",\n    \"syllabus\": \"Aulas semanais com foco em gramática e conversação\",\n    \"learningObjectives\": \"Ao final do curso, o aluno será capaz de se comunicar em situações básicas do cotidiano\",\n    \"preRequisites\": \"Nenhum conhecimento prévio necessário\",\n    \"targetAudience\": \"Iniciantes sem conhecimento prévio do idioma\",\n    \"language\": \"Inglês\",\n    \"level\": \"A1\",\n    \"price\": 199.99\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/Courses",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "Courses"]
+              },
+              "description": "Cria um novo curso na plataforma (apenas administradores)"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test(\"Status code is 201\", function () {",
+                    "    pm.response.to.have.status(201);",
+                    "});",
+                    "",
+                    "// Extrair e salvar o ID do curso da Location header",
+                    "var locationHeader = pm.response.headers.get(\"Location\");",
+                    "if (locationHeader) {",
+                    "    var courseId = locationHeader.split('/').pop();",
+                    "    pm.globals.set(\"courseId\", courseId);",
+                    "    console.log(\"Curso criado com ID: \" + courseId);",
+                    "}"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "Obter Aulas do Curso",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{studentToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/api/courses/{{courseId}}/lessons",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "courses", "{{courseId}}", "lessons"]
+              },
+              "description": "Obtém todas as aulas de um curso específico"
+            },
+            "response": []
+          },
+          {
+            "name": "Adicionar Aula ao Curso (Admin)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"courseId\": \"{{courseId}}\",\n    \"title\": \"Introdução à Gramática Básica\",\n    \"content\": \"Nesta aula, vamos aprender os princípios básicos da gramática inglesa, incluindo verbos, substantivos e adjetivos.\",\n    \"materialUrl\": \"https://fluencyhub.com/materials/grammar-basics.pdf\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/courses/{{courseId}}/lessons",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "courses", "{{courseId}}", "lessons"]
+              },
+              "description": "Adiciona uma nova aula a um curso existente (apenas administradores)"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test(\"Status code is 201\", function () {",
+                    "    pm.response.to.have.status(201);",
+                    "});",
+                    "",
+                    "// Extrair e salvar o ID da aula da Location header",
+                    "var locationHeader = pm.response.headers.get(\"Location\");",
+                    "if (locationHeader) {",
+                    "    var lessonId = locationHeader.split('/').pop();",
+                    "    pm.globals.set(\"lessonId\", lessonId);",
+                    "    console.log(\"Aula criada com ID: \" + lessonId);",
+                    "}"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "Atualizar Aula (Admin)",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"courseId\": \"{{courseId}}\",\n    \"lessonId\": \"{{lessonId}}\",\n    \"title\": \"Introdução à Gramática Básica - Atualizado\",\n    \"content\": \"Conteúdo atualizado com exemplos práticos e exercícios.\",\n    \"materialUrl\": \"https://fluencyhub.com/materials/grammar-basics-updated.pdf\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/courses/{{courseId}}/lessons/{{lessonId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "courses", "{{courseId}}", "lessons", "{{lessonId}}"]
+              },
+              "description": "Atualiza uma aula existente (apenas administradores)"
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Gestão de Alunos",
+        "description": "Endpoints para gerenciar dados dos alunos",
+        "item": [
+          {
+            "name": "Obter Aluno por ID",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/api/Students/{{studentId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "Students", "{{studentId}}"]
+              },
+              "description": "Obtém informações detalhadas de um aluno específico"
+            },
+            "response": []
+          },
+          {
+            "name": "Criar Aluno (Admin)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Silva\",\n    \"email\": \"carlos.silva@example.com\",\n    \"dateOfBirth\": \"1995-03-15\",\n    \"phoneNumber\": \"+5511987654321\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/Students",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "Students"]
+              },
+              "description": "Cria um novo registro de aluno na plataforma (apenas administradores)"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test(\"Status code is 201\", function () {",
+                    "    pm.response.to.have.status(201);",
+                    "});",
+                    "",
+                    "// Extrair e salvar o ID do aluno da Location header",
+                    "var locationHeader = pm.response.headers.get(\"Location\");",
+                    "if (locationHeader) {",
+                    "    var studentId = locationHeader.split('/').pop();",
+                    "    pm.globals.set(\"studentId\", studentId);",
+                    "    console.log(\"Aluno criado com ID: \" + studentId);",
+                    "}"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "Atualizar Aluno",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{studentToken}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"id\": \"{{studentId}}\",\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Silva Oliveira\",\n    \"email\": \"carlos.silva@example.com\",\n    \"dateOfBirth\": \"1995-03-15\",\n    \"phoneNumber\": \"+5511998765432\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/Students/{{studentId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "Students", "{{studentId}}"]
+              },
+              "description": "Atualiza informações de um aluno existente"
+            },
+            "response": []
+          },
+          {
+            "name": "Desativar Aluno (Admin)",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/api/Students/{{studentId}}/deactivate",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "Students", "{{studentId}}", "deactivate"]
+              },
+              "description": "Desativa um aluno na plataforma (apenas administradores)"
+            },
+            "response": []
+          },
+          {
+            "name": "Ativar Aluno (Admin)",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/api/Students/{{studentId}}/activate",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "Students", "{{studentId}}", "activate"]
+              },
+              "description": "Ativa um aluno que estava desativado (apenas administradores)"
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Matrículas",
+        "description": "Endpoints para gerenciar matrículas de alunos em cursos",
+        "item": [
+          {
+            "name": "Matricular Aluno em Curso",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{studentToken}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"studentId\": \"{{studentId}}\",\n    \"courseId\": \"{{courseId}}\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/Enrollments",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "Enrollments"]
+              },
+              "description": "Matricula um aluno em um curso específico"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test(\"Status code is 201\", function () {",
+                    "    pm.response.to.have.status(201);",
+                    "});",
+                    "",
+                    "// Extrair e salvar o ID da matrícula da Location header",
+                    "var locationHeader = pm.response.headers.get(\"Location\");",
+                    "if (locationHeader) {",
+                    "    var enrollmentId = locationHeader.split('/').pop();",
+                    "    pm.globals.set(\"enrollmentId\", enrollmentId);",
+                    "    console.log(\"Matrícula criada com ID: \" + enrollmentId);",
+                    "}"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "Obter Matrícula por ID",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{studentToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/api/Enrollments/{{enrollmentId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "Enrollments", "{{enrollmentId}}"]
+              },
+              "description": "Obtém detalhes de uma matrícula específica"
+            },
+            "response": []
+          },
+          {
+            "name": "Obter Matrículas do Aluno",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{studentToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/api/Enrollments/student/{{studentId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "Enrollments", "student", "{{studentId}}"]
+              },
+              "description": "Obtém todas as matrículas de um aluno específico"
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Pagamentos",
+        "description": "Endpoints para gerenciar pagamentos",
+        "item": [
+          {
+            "name": "Processar Pagamento",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{studentToken}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"enrollmentId\": \"{{enrollmentId}}\",\n    \"cardNumber\": \"4111111111111111\",\n    \"cardHolderName\": \"CARLOS SILVA\",\n    \"expirationDate\": \"12/2025\",\n    \"securityCode\": \"123\",\n    \"amount\": 199.99\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/Payments",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "Payments"]
+              },
+              "description": "Processa um pagamento para uma matrícula pendente"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test(\"Status code is 201\", function () {",
+                    "    pm.response.to.have.status(201);",
+                    "});",
+                    "",
+                    "// Extrair e salvar o ID do pagamento da Location header",
+                    "var locationHeader = pm.response.headers.get(\"Location\");",
+                    "if (locationHeader) {",
+                    "    var paymentId = locationHeader.split('/').pop();",
+                    "    pm.globals.set(\"paymentId\", paymentId);",
+                    "    console.log(\"Pagamento criado com ID: \" + paymentId);",
+                    "}"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "Obter Pagamento por ID",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{studentToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/api/Payments/{{paymentId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "Payments", "{{paymentId}}"]
+              },
+              "description": "Obtém detalhes de um pagamento específico"
+            },
+            "response": []
+          },
+          {
+            "name": "Reembolsar Pagamento (Admin)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"reason\": \"Curso cancelado pelo aluno\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/Payments/{{paymentId}}/refund",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "Payments", "{{paymentId}}", "refund"]
+              },
+              "description": "Realiza o reembolso de um pagamento (apenas administradores)"
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Certificados",
+        "description": "Endpoints para gerenciar certificados de conclusão",
+        "item": [
+          {
+            "name": "Gerar Certificado",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{studentToken}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"studentId\": \"{{studentId}}\",\n    \"courseId\": \"{{courseId}}\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/Certificates",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "Certificates"]
+              },
+              "description": "Gera um certificado de conclusão para um curso finalizado"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test(\"Status code is 201\", function () {",
+                    "    pm.response.to.have.status(201);",
+                    "});",
+                    "",
+                    "// Extrair e salvar o ID do certificado da Location header",
+                    "var locationHeader = pm.response.headers.get(\"Location\");",
+                    "if (locationHeader) {",
+                    "    var certificateId = locationHeader.split('/').pop();",
+                    "    pm.globals.set(\"certificateId\", certificateId);",
+                    "    console.log(\"Certificado criado com ID: \" + certificateId);",
+                    "}"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "Obter Certificado por ID",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{studentToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/api/Certificates/{{certificateId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "Certificates", "{{certificateId}}"]
+              },
+              "description": "Obtém detalhes de um certificado específico"
+            },
+            "response": []
+          },
+          {
+            "name": "Obter Certificados do Aluno",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{studentToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/api/Certificates/student/{{studentId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "Certificates", "student", "{{studentId}}"]
+              },
+              "description": "Obtém todos os certificados de um aluno específico"
+            },
+            "response": []
+          }
+        ]
+      }
+    ],
+    "event": [
+      {
+        "listen": "prerequest",
+        "script": {
+          "type": "text/javascript",
+          "exec": [
+            ""
+          ]
+        }
+      },
+      {
+        "listen": "test",
+        "script": {
+          "type": "text/javascript",
+          "exec": [
+            ""
+          ]
+        }
+      }
+    ],
+    "variable": [
+      {
+        "key": "baseUrl",
+        "value": "https://localhost:7152",
+        "type": "string"
+      },
+      {
+        "key": "adminToken",
+        "value": "",
+        "type": "string"
+      },
+      {
+        "key": "studentToken",
+        "value": "",
+        "type": "string"
+      },
+      {
+        "key": "newUserToken",
+        "value": "",
+        "type": "string"
+      },
+      {
+        "key": "courseId",
+        "value": "",
+        "type": "string"
+      },
+      {
+        "key": "lessonId",
+        "value": "",
+        "type": "string"
+      },
+      {
+        "key": "enrollmentId",
+        "value": "",
+        "type": "string"
+      },
+      {
+        "key": "certificateId",
+        "value": "",
+        "type": "string"
+      },
+      {
+        "key": "paymentId",
+        "value": "",
+        "type": "string"
+      }
+    ]
+  }

@@ -1,0 +1,6 @@
+@FluencyHub.API_HostAddress = http://localhost:5110
+
+GET {{FluencyHub.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
