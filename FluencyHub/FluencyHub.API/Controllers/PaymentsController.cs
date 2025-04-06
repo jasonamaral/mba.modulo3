@@ -2,6 +2,7 @@ using FluencyHub.Application.Common.Exceptions;
 using FluencyHub.Application.PaymentProcessing.Commands.ProcessPayment;
 using FluencyHub.Application.PaymentProcessing.Commands.RefundPayment;
 using FluencyHub.Application.PaymentProcessing.Queries.GetPaymentById;
+using FluencyHub.API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,20 +25,28 @@ public class PaymentsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> ProcessPayment(ProcessPaymentCommand command)
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+    public async Task<IActionResult> ProcessPayment([FromBody] PaymentProcessRequest request)
     {
         try
         {
+            var command = request.ToCommand();
             var paymentId = await _mediator.Send(command);
-            return CreatedAtAction(nameof(GetPayment), new { id = paymentId }, null);
+            
+            var payment = await _mediator.Send(new GetPaymentByIdQuery(paymentId));
+            return CreatedAtAction(nameof(GetPayment), new { id = paymentId }, payment);
         }
         catch (NotFoundException ex)
         {
             return NotFound(ex.Message);
         }
+        catch (InvalidOperationException ex)
+        {
+            return UnprocessableEntity(new { error = ex.Message });
+        }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(new { error = ex.Message });
         }
     }
     
@@ -62,25 +71,28 @@ public class PaymentsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> RefundPayment(Guid id, RefundPaymentCommand command)
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+    public async Task<IActionResult> RefundPayment(Guid id, [FromBody] RefundProcessRequest request)
     {
-        if (id != command.PaymentId)
-        {
-            return BadRequest("Payment ID in the route must match the payment ID in the command");
-        }
-        
         try
         {
+            var command = request.ToCommand(id);
             await _mediator.Send(command);
-            return Ok();
+            
+            var payment = await _mediator.Send(new GetPaymentByIdQuery(id));
+            return Ok(payment);
         }
         catch (NotFoundException ex)
         {
             return NotFound(ex.Message);
         }
+        catch (InvalidOperationException ex)
+        {
+            return UnprocessableEntity(new { error = ex.Message });
+        }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(new { error = ex.Message });
         }
     }
 } 

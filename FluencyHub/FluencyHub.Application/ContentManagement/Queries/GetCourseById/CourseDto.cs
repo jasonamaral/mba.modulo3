@@ -6,6 +6,7 @@ public record CourseDto
     public string Name { get; init; } = string.Empty;
     public string Description { get; init; } = string.Empty;
     public CourseContentDto Content { get; init; } = null!;
+    public decimal Price { get; init; }
     public IEnumerable<LessonDto> Lessons { get; init; } = new List<LessonDto>();
     public bool IsActive { get; init; }
     public DateTime CreatedAt { get; init; }
@@ -29,4 +30,7 @@ public record LessonDto
     public string Content { get; init; } = string.Empty;
     public string? MaterialUrl { get; init; }
     public int Order { get; init; }
+    public bool IsActive { get; init; }
+    public DateTime CreatedAt { get; init; }
+    public DateTime? UpdatedAt { get; init; }
 } 

@@ -29,7 +29,10 @@ public class GetLessonsByCourseQueryHandler : IRequestHandler<GetLessonsByCourse
             Title = lesson.Title,
             Content = lesson.Content,
             MaterialUrl = lesson.MaterialUrl,
-            Order = lesson.Order
+            Order = lesson.Order,
+            IsActive = true, // Todos os lessons disponíveis são ativos por padrão
+            CreatedAt = lesson.CreatedAt,
+            UpdatedAt = lesson.UpdatedAt
         });
     }
 } 

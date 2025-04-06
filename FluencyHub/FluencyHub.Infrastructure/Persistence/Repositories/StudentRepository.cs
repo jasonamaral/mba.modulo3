@@ -24,6 +24,8 @@ public class StudentRepository : Application.Common.Interfaces.IStudentRepositor
     public async Task<Student?> GetByEmailAsync(string email)
     {
         return await _context.Students
+            .Include(s => s.Enrollments)
+            .Include(s => s.Certificates)
             .FirstOrDefaultAsync(s => s.Email == email);
     }
     

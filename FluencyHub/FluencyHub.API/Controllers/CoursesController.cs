@@ -1,6 +1,8 @@
 using FluencyHub.Application.Common.Exceptions;
 using FluencyHub.Application.ContentManagement.Commands.CreateCourse;
 using FluencyHub.Application.ContentManagement.Queries.GetCourseById;
+using FluencyHub.Application.ContentManagement.Queries.GetAllCourses;
+using FluencyHub.API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +18,14 @@ public class CoursesController : ControllerBase
     public CoursesController(IMediator mediator)
     {
         _mediator = mediator;
+    }
+    
+    [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<CourseDto>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAllCourses()
+    {
+        var courses = await _mediator.Send(new GetAllCoursesQuery());
+        return Ok(courses);
     }
     
     [HttpGet("{id}")]
@@ -38,12 +48,13 @@ public class CoursesController : ControllerBase
     [Authorize(Roles = "Administrator")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> CreateCourse(CreateCourseCommand command)
+    public async Task<IActionResult> CreateCourse(CourseCreateRequest request)
     {
         try
         {
+            var command = request.ToCommand();
             var courseId = await _mediator.Send(command);
-            return CreatedAtAction(nameof(GetCourseById), new { id = courseId }, null);
+            return CreatedAtAction(nameof(GetCourseById), new { id = courseId }, new { id = courseId });
         }
         catch (ValidationException ex)
         {

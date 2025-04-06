@@ -11,4 +11,7 @@ public record LessonDto
     public string Content { get; init; } = string.Empty;
     public string? MaterialUrl { get; init; }
     public int Order { get; init; }
+    public bool IsActive { get; init; }
+    public DateTime CreatedAt { get; init; }
+    public DateTime? UpdatedAt { get; init; }
 } 

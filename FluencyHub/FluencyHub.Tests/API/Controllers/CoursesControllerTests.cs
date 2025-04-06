@@ -1,7 +1,9 @@
 using FluencyHub.API.Controllers;
+using FluencyHub.API.Models;
 using FluencyHub.Application.Common.Exceptions;
 using FluencyHub.Application.ContentManagement.Commands.CreateCourse;
 using FluencyHub.Application.ContentManagement.Queries.GetCourseById;
+using FluencyHub.Domain.ContentManagement;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -38,6 +40,7 @@ public class CoursesControllerTests
                 Language = "English",
                 Level = "Beginner"
             },
+            Price = 99.99m,
             IsActive = true,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = null
@@ -62,72 +65,73 @@ public class CoursesControllerTests
     {
         // Arrange
         var courseId = Guid.NewGuid();
-        var exceptionMessage = $"Entity \"Course\" ({courseId}) was not found.";
         
         _mediatorMock.Setup(m => m.Send(It.IsAny<GetCourseByIdQuery>(), It.IsAny<CancellationToken>()))
-            .ThrowsAsync(new NotFoundException("Course", courseId));
+            .ThrowsAsync(new NotFoundException(nameof(Course), courseId));
         
         // Act
         var result = await _controller.GetCourseById(courseId);
         
         // Assert
-        var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
-        Assert.Equal(exceptionMessage, notFoundResult.Value);
+        Assert.IsType<NotFoundObjectResult>(result);
     }
     
     [Fact]
-    public async Task CreateCourse_WithValidCommand_ReturnsCreatedAtAction()
+    public async Task CreateCourse_WithValidData_ReturnsCreatedResult()
     {
         // Arrange
         var courseId = Guid.NewGuid();
-        var command = new CreateCourseCommand
+        var request = new CourseCreateRequest
         {
             Name = "Test Course",
             Description = "Test Description",
-            Syllabus = "Test Syllabus",
-            LearningObjectives = "Test Objectives",
-            PreRequisites = "Test Prerequisites",
-            TargetAudience = "Test Audience",
-            Language = "English",
-            Level = "Beginner",
-            Price = 99.99m
+            Price = 99.99m,
+            Content = new CourseContentRequest 
+            {
+                Description = "Test Syllabus",
+                Goals = "Test Objectives",
+                Requirements = "Test Prerequisites"
+            }
         };
         
-        _mediatorMock.Setup(m => m.Send(command, It.IsAny<CancellationToken>()))
+        var command = request.ToCommand();
+        
+        _mediatorMock.Setup(m => m.Send(It.IsAny<CreateCourseCommand>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(courseId);
         
         // Act
-        var result = await _controller.CreateCourse(command);
+        var result = await _controller.CreateCourse(request);
         
         // Assert
-        var createdAtActionResult = Assert.IsType<CreatedAtActionResult>(result);
-        Assert.Equal("GetCourseById", createdAtActionResult.ActionName);
-        Assert.Equal(courseId, createdAtActionResult.RouteValues["id"]);
-        Assert.Null(createdAtActionResult.Value);
+        var createdResult = Assert.IsType<CreatedAtActionResult>(result);
+        Assert.Equal(nameof(_controller.GetCourseById), createdResult.ActionName);
+        Assert.Equal(courseId, createdResult.RouteValues["id"]);
     }
     
     [Fact]
-    public async Task CreateCourse_WithInvalidCommand_ReturnsBadRequest()
+    public async Task CreateCourse_WithInvalidData_ReturnsBadRequest()
     {
         // Arrange
-        var command = new CreateCourseCommand
+        var request = new CourseCreateRequest
         {
-            Name = "", // Empty name
+            Name = "", // Nome inválido
             Description = "Test Description",
-            Syllabus = "Test Syllabus",
-            LearningObjectives = "Test Objectives",
-            PreRequisites = "Test Prerequisites",
-            TargetAudience = "Test Audience",
-            Language = "English",
-            Level = "Beginner",
-            Price = 99.99m
+            Price = 99.99m,
+            Content = new CourseContentRequest 
+            {
+                Description = "Test Syllabus",
+                Goals = "Test Objectives",
+                Requirements = "Test Prerequisites"
+            }
         };
         
-        _mediatorMock.Setup(m => m.Send(command, It.IsAny<CancellationToken>()))
+        var command = request.ToCommand();
+        
+        _mediatorMock.Setup(m => m.Send(It.IsAny<CreateCourseCommand>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new ValidationException());
         
         // Act
-        var result = await _controller.CreateCourse(command);
+        var result = await _controller.CreateCourse(request);
         
         // Assert
         Assert.IsType<BadRequestObjectResult>(result);

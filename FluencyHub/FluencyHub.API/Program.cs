@@ -141,6 +141,67 @@ using (var scope = app.Services.CreateScope())
                 await roleManager.CreateAsync(new IdentityRole(role));
             }
         }
+
+        // Seed default student
+        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+        var studentRepository = services.GetRequiredService<FluencyHub.Application.Common.Interfaces.IStudentRepository>();
+        
+        // Create admin user if not exists
+        var adminEmail = "admin@fluencyhub.com";
+        var adminUser = await userManager.FindByEmailAsync(adminEmail);
+        if (adminUser == null)
+        {
+            adminUser = new ApplicationUser
+            {
+                UserName = adminEmail,
+                Email = adminEmail,
+                FirstName = "Admin",
+                LastName = "User",
+                EmailConfirmed = true
+            };
+            
+            var result = await userManager.CreateAsync(adminUser, "Pass@word1");
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(adminUser, "Administrator");
+                logger.LogInformation("Admin user created successfully");
+            }
+        }
+        
+        // Create student user if not exists
+        var studentEmail = "student@example.com";
+        var studentUser = await userManager.FindByEmailAsync(studentEmail);
+        if (studentUser == null)
+        {
+            studentUser = new ApplicationUser
+            {
+                UserName = studentEmail,
+                Email = studentEmail,
+                FirstName = "Test",
+                LastName = "Student",
+                EmailConfirmed = true
+            };
+            
+            var result = await userManager.CreateAsync(studentUser, "Student123!");
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(studentUser, "Student");
+                logger.LogInformation("Student user created successfully");
+                
+                // Create student entity in domain database
+                var student = new FluencyHub.Domain.StudentManagement.Student(
+                    studentUser.FirstName,
+                    studentUser.LastName,
+                    studentUser.Email,
+                    DateTime.Now.AddYears(-20),
+                    "+1234567890"
+                );
+                
+                await studentRepository.AddAsync(student);
+                await studentRepository.SaveChangesAsync();
+                logger.LogInformation("Student entity created successfully with ID: {StudentId}", student.Id);
+            }
+        }
     }
     catch (Exception ex)
     {
@@ -274,36 +335,41 @@ public class RemoveUnusedComponentsDocumentFilter : Swashbuckle.AspNetCore.Swagg
             }
         }
         
-        // Remove unused schemas
-        var unusedSchemas = swaggerDoc.Components.Schemas.Keys
-            .Where(key => !referencedSchemas.Contains(key))
+        // Remove unreferenced schemas
+        var schemasToRemove = swaggerDoc.Components.Schemas
+            .Where(x => !referencedSchemas.Contains(x.Key))
             .ToList();
-            
-        foreach (var unusedSchema in unusedSchemas)
+        
+        foreach (var schema in schemasToRemove)
         {
-            swaggerDoc.Components.Schemas.Remove(unusedSchema);
+            swaggerDoc.Components.Schemas.Remove(schema.Key);
         }
     }
 }
 
-// Filter para excluir tipos do domínio
+// Document filter to exclude domain types
 public class ExcludeDomainTypesDocumentFilter : Swashbuckle.AspNetCore.SwaggerGen.IDocumentFilter
 {
     public void Apply(Microsoft.OpenApi.Models.OpenApiDocument swaggerDoc, Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext context)
     {
-        // Remove schemas de modelos de domínio
-        var domainTypes = context.SchemaRepository.Schemas
-            .Where(x => x.Key.StartsWith("FluencyHub.Domain."))
-            .Select(x => x.Key)
-            .ToList();
-            
-        foreach (var type in domainTypes)
+        var domainNamespaces = new[]
         {
-            // Tenta remover do dicionário de esquemas
-            swaggerDoc.Components.Schemas.Remove(type);
+            "FluencyHub.Domain"
+        };
+        
+        var schemasToRemove = swaggerDoc.Components.Schemas
+            .Where(x => domainNamespaces.Any(ns => x.Key.StartsWith(ns)))
+            .ToList();
+        
+        foreach (var schema in schemasToRemove)
+        {
+            swaggerDoc.Components.Schemas.Remove(schema.Key);
         }
     }
 }
+
+// Make Program class public and partial for testing
+public partial class Program { }
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {

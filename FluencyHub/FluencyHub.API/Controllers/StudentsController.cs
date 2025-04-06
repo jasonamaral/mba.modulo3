@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using FluencyHub.Application.StudentManagement.Queries.GetStudentByEmail;
 
 namespace FluencyHub.API.Controllers;
 
@@ -21,6 +22,40 @@ public class StudentsController : ControllerBase
     public StudentsController(IMediator mediator)
     {
         _mediator = mediator;
+    }
+    
+    [HttpGet("me")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetCurrentStudent()
+    {
+        var userEmail = User.FindFirstValue(ClaimTypes.Email);
+        Console.WriteLine($"Student/me endpoint called. Email from token: {userEmail}");
+        
+        foreach (var claim in User.Claims)
+        {
+            Console.WriteLine($"Claim: {claim.Type} = {claim.Value}");
+        }
+        
+        if (string.IsNullOrEmpty(userEmail))
+        {
+            Console.WriteLine("Email não encontrado no token");
+            return BadRequest(new { error = "Email não encontrado no token" });
+        }
+        
+        try
+        {
+            Console.WriteLine($"Buscando estudante com email: {userEmail}");
+            var student = await _mediator.Send(new GetStudentByEmailQuery(userEmail));
+            Console.WriteLine($"Estudante encontrado: {student.Id}");
+            return Ok(student);
+        }
+        catch (NotFoundException ex)
+        {
+            Console.WriteLine($"Estudante não encontrado: {ex.Message}");
+            return NotFound(ex.Message);
+        }
     }
     
     [HttpGet("{id}")]
