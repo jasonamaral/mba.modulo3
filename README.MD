@@ -41,7 +41,7 @@ O projeto consiste em:
 ```mermaid
 graph TD
     %% Configurações globais
-    classDef title fill:#1a237e,color:white,stroke:none,font-size:20px
+    classDef title fill:#1a237e,color:black,stroke:none,font-size:20px
     classDef bc fill:#f5f5f5,stroke:#333,stroke-width:1.5px,color:#1a237e
     classDef entity fill:#ffffff,stroke:#1a237e,stroke-width:1px,color:#1a237e
     classDef relationship fill:#fafafa,stroke:#666,stroke-dasharray:5
