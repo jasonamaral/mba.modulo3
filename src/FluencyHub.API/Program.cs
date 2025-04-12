@@ -175,7 +175,7 @@ using (var scope = app.Services.CreateScope())
                 EmailConfirmed = true
             };
 
-            var result = await userManager.CreateAsync(studentUser, "Student123!");
+            var result = await userManager.CreateAsync(studentUser, "Test@123");
             if (result.Succeeded)
             {
                 await userManager.AddToRoleAsync(studentUser, "Student");

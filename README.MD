@@ -1,4 +1,4 @@
-# **FluencyHub - Sistema online para educação e treinamento de idiomas. Aplicação com SPA e API RESTful**
+# **FluencyHub - Sistema online para educação e treinamento de idiomas. API RESTful**
 
 
 ## **1. Apresentação**
