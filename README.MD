@@ -39,17 +39,18 @@ O projeto consiste em:
 
 ## **4. Estrutura do Projeto**
 ```mermaid
+%%{init: {'theme': 'dark'}}%%
 graph TD
     %% Configurações globais
-    classDef title fill:#1a237e,color:black,stroke:none,font-size:20px
-    classDef bc fill:#f5f5f5,stroke:#333,stroke-width:1.5px,color:#1a237e
-    classDef entity fill:#ffffff,stroke:#1a237e,stroke-width:1px,color:#1a237e
-    classDef relationship fill:#fafafa,stroke:#666,stroke-dasharray:5
+    classDef title fill:#1a237e,color:#ffffff,stroke:none,font-size:20px
+    classDef bc fill:#1e1e1e,stroke:#aaa,stroke-width:1.5px,color:#90caf9
+    classDef entity fill:#2c2c2c,stroke:#90caf9,stroke-width:1px,color:#ffffff
+    classDef relationship fill:#333,stroke:#888,stroke-dasharray:5
 
     %% Bounded Contexts
     subgraph BC1["Gestão de Conteúdo"]
         direction TB
-		style BC1 fill:#e8f5e9,stroke:#2e7d32,color:black
+        style BC1 fill:#2e7d32,stroke:#81c784,color:#ffffff
         C1(("Curso")):::entity
         A1["▪ Aula - Vídeos Materiais"]:::entity
         CP["▫ Conteúdo Programático- Objetivos - Ementa"]:::entity
@@ -59,7 +60,7 @@ graph TD
 
     subgraph BC2["Gestão de Alunos"]
         direction TB
-        style BC1 fill:#e8f5e9,stroke:#2e7d32,color:black
+        style BC2 fill:#ef6c00,stroke:#ffb74d,color:#ffffff
         AL(("Aluno")):::entity
         MT[Matrícula]:::entity
         CT[Certificado]:::entity
@@ -71,7 +72,7 @@ graph TD
 
     subgraph BC3["Pagamento"]
         direction LR
-        style BC1 fill:#e8f5e9,stroke:#2e7d32,color:black
+        style BC3 fill:#c62828,stroke:#ef9a9a,color:#ffffff
         PG(("Pagamento")):::entity
         DC[[Dados do Cartão]]:::entity
         SP{Status}:::entity
@@ -86,9 +87,10 @@ graph TD
 
     %% Elementos auxiliares
     class T title
-    linkStyle 0,1,2 stroke:#1a237e,stroke-width:1.5px
-    linkStyle 3,4,5 stroke:#ef6c00,stroke-width:1.5px
-    linkStyle 6,7,8 stroke:#d32f2f,stroke-width:1.5px
+    linkStyle 0,1,2 stroke:#90caf9,stroke-width:1.5px
+    linkStyle 3,4,5 stroke:#ffb74d,stroke-width:1.5px
+    linkStyle 6,7,8 stroke:#ef9a9a,stroke-width:1.5px
+
 ```
 
 ```
