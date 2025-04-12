@@ -193,7 +193,7 @@ Autenticação e Usuários
    - Não há necessidade
 
 3. **Executar a API:**
-   - `cd src/Blog.Api/`
+   - `cd src/FluencyHub.API/`
    - `dotnet run`
    - Acesse a documentação da API em: https://localhost:7152/index.html
 

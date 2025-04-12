@@ -1,21 +1,14 @@
-using System.Text;
+using FluencyHub.API.Middleware;
 using FluencyHub.Application;
-using FluencyHub.Application.Common.Interfaces;
 using FluencyHub.Infrastructure;
 using FluencyHub.Infrastructure.Identity;
 using FluencyHub.Infrastructure.Persistence;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using FluencyHub.API.Middleware;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System.Reflection;
-using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,13 +30,13 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo 
-    { 
-        Title = "FluencyHub API", 
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "FluencyHub API",
         Version = "v1",
         Description = "API para o Sistema de Aprendizagem de Idiomas FluencyHub"
     });
-    
+
     // Add JWT Authentication to Swagger
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
@@ -54,7 +47,7 @@ builder.Services.AddSwaggerGen(c =>
         In = ParameterLocation.Header,
         Description = "JWT Authorization header using the Bearer scheme."
     });
-    
+
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -69,7 +62,7 @@ builder.Services.AddSwaggerGen(c =>
             Array.Empty<string>()
         }
     });
-    
+
     // Include XML comments if they exist
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -77,7 +70,7 @@ builder.Services.AddSwaggerGen(c =>
     {
         c.IncludeXmlComments(xmlPath);
     }
-    
+
     // Customize schema generation
     c.CustomSchemaIds(type => type.FullName);
     c.UseAllOfForInheritance();
@@ -85,7 +78,7 @@ builder.Services.AddSwaggerGen(c =>
     c.SchemaFilter<RemoveReadOnlyPropertiesSchemaFilter>();
     c.SchemaFilter<EnumSchemaFilter>();
     c.DocumentFilter<RemoveUnusedComponentsDocumentFilter>();
-    
+
     // Comment out this line as it may be filtering out controller methods
     // c.DocumentFilter<ExcludeDomainTypesDocumentFilter>();
 });
@@ -132,7 +125,7 @@ using (var scope = app.Services.CreateScope())
         // Seed roles
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
         var roles = new[] { "Administrator", "Student" };
-        
+
         foreach (var role in roles)
         {
             if (!await roleManager.RoleExistsAsync(role))
@@ -145,7 +138,7 @@ using (var scope = app.Services.CreateScope())
         // Seed default student
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
         var studentRepository = services.GetRequiredService<FluencyHub.Application.Common.Interfaces.IStudentRepository>();
-        
+
         // Create admin user if not exists
         var adminEmail = "admin@fluencyhub.com";
         var adminUser = await userManager.FindByEmailAsync(adminEmail);
@@ -159,15 +152,15 @@ using (var scope = app.Services.CreateScope())
                 LastName = "User",
                 EmailConfirmed = true
             };
-            
-            var result = await userManager.CreateAsync(adminUser, "Pass@word1");
+
+            var result = await userManager.CreateAsync(adminUser, "Test@123");
             if (result.Succeeded)
             {
                 await userManager.AddToRoleAsync(adminUser, "Administrator");
                 logger.LogInformation("Admin user created successfully");
             }
         }
-        
+
         // Create student user if not exists
         var studentEmail = "student@example.com";
         var studentUser = await userManager.FindByEmailAsync(studentEmail);
@@ -181,13 +174,13 @@ using (var scope = app.Services.CreateScope())
                 LastName = "Student",
                 EmailConfirmed = true
             };
-            
+
             var result = await userManager.CreateAsync(studentUser, "Student123!");
             if (result.Succeeded)
             {
                 await userManager.AddToRoleAsync(studentUser, "Student");
                 logger.LogInformation("Student user created successfully");
-                
+
                 // Create student entity in domain database
                 var student = new FluencyHub.Domain.StudentManagement.Student(
                     studentUser.FirstName,
@@ -196,7 +189,7 @@ using (var scope = app.Services.CreateScope())
                     DateTime.Now.AddYears(-20),
                     "+1234567890"
                 );
-                
+
                 await studentRepository.AddAsync(student);
                 await studentRepository.SaveChangesAsync();
                 logger.LogInformation("Student entity created successfully with ID: {StudentId}", student.Id);
@@ -212,12 +205,12 @@ using (var scope = app.Services.CreateScope())
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger(options => 
+    app.UseSwagger(options =>
     {
         options.SerializeAsV2 = false;
     });
-    
-    app.UseSwaggerUI(c => 
+
+    app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "FluencyHub API v1");
         c.RoutePrefix = string.Empty; // Serve Swagger UI na raiz
@@ -226,7 +219,7 @@ if (app.Environment.IsDevelopment())
         c.EnableDeepLinking();
         c.DisplayRequestDuration();
     });
-    
+
     app.UseDeveloperExceptionPage();
 }
 else
@@ -291,7 +284,7 @@ public class RemoveUnusedComponentsDocumentFilter : Swashbuckle.AspNetCore.Swagg
     {
         // Get all referenced schemas
         var referencedSchemas = new HashSet<string>();
-        
+
         // Check all operations and their responses/parameters
         foreach (var path in swaggerDoc.Paths.Values)
         {
@@ -305,7 +298,7 @@ public class RemoveUnusedComponentsDocumentFilter : Swashbuckle.AspNetCore.Swagg
                         referencedSchemas.Add(parameter.Schema.Reference.Id);
                     }
                 }
-                
+
                 // Check request bodies
                 if (operation.RequestBody?.Content != null)
                 {
@@ -317,7 +310,7 @@ public class RemoveUnusedComponentsDocumentFilter : Swashbuckle.AspNetCore.Swagg
                         }
                     }
                 }
-                
+
                 // Check responses
                 foreach (var response in operation.Responses.Values)
                 {
@@ -334,12 +327,12 @@ public class RemoveUnusedComponentsDocumentFilter : Swashbuckle.AspNetCore.Swagg
                 }
             }
         }
-        
+
         // Remove unreferenced schemas
         var schemasToRemove = swaggerDoc.Components.Schemas
             .Where(x => !referencedSchemas.Contains(x.Key))
             .ToList();
-        
+
         foreach (var schema in schemasToRemove)
         {
             swaggerDoc.Components.Schemas.Remove(schema.Key);
@@ -356,11 +349,11 @@ public class ExcludeDomainTypesDocumentFilter : Swashbuckle.AspNetCore.SwaggerGe
         {
             "FluencyHub.Domain"
         };
-        
+
         var schemasToRemove = swaggerDoc.Components.Schemas
             .Where(x => domainNamespaces.Any(ns => x.Key.StartsWith(ns)))
             .ToList();
-        
+
         foreach (var schema in schemasToRemove)
         {
             swaggerDoc.Components.Schemas.Remove(schema.Key);
@@ -369,7 +362,8 @@ public class ExcludeDomainTypesDocumentFilter : Swashbuckle.AspNetCore.SwaggerGe
 }
 
 // Make Program class public and partial for testing
-public partial class Program { }
+public partial class Program
+{ }
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
