@@ -36,7 +36,7 @@ public class GetCourseByIdQueryHandlerTests
         // Set the Id property using reflection (since it's readonly)
         typeof(Course).GetProperty("Id").SetValue(course, courseId);
 
-        _courseRepositoryMock.Setup(r => r.GetByIdAsync(courseId))
+        _courseRepositoryMock.Setup(r => r.GetByIdWithLessonsAsync(courseId))
             .ReturnsAsync(course);
 
         // Act
@@ -61,7 +61,7 @@ public class GetCourseByIdQueryHandlerTests
         // Arrange
         var courseId = Guid.NewGuid();
 
-        _courseRepositoryMock.Setup(r => r.GetByIdAsync(courseId))
+        _courseRepositoryMock.Setup(r => r.GetByIdWithLessonsAsync(courseId))
             .ReturnsAsync((Course)null);
 
         // Act & Assert

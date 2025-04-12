@@ -49,9 +49,10 @@ public class Student : BaseEntity
         Email = email;
         DateOfBirth = dateOfBirth;
         PhoneNumber = phoneNumber;
-        LearningHistory = new LearningHistory();
-        IsActive = true;
+        LearningHistory = new LearningHistory(Id);
         CreatedAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
+        IsActive = true;
     }
     
     public void UpdateDetails(string firstName, string lastName, string email, DateTime dateOfBirth, string? phoneNumber)

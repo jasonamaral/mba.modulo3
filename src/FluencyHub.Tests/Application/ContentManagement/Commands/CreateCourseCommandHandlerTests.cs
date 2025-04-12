@@ -46,7 +46,7 @@ public class CreateCourseCommandHandlerTests
                 course.Id = validCourseId;
                 savedCourse = course;
             })
-            .Returns(Task.CompletedTask);
+            .ReturnsAsync((Course course) => course);
             
         _courseRepositoryMock
             .Setup(r => r.SaveChangesAsync(It.IsAny<CancellationToken>()))

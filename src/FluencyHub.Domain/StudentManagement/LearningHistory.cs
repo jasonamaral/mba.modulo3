@@ -5,11 +5,19 @@ namespace FluencyHub.Domain.StudentManagement;
 
 public class LearningHistory : BaseEntity
 {
-    [JsonIgnore]
     private readonly Dictionary<Guid, CourseProgress> _courseProgress = new();
     
-    [JsonIgnore]
     public IReadOnlyDictionary<Guid, CourseProgress> CourseProgress => _courseProgress;
+    
+    // Construtor para o EF Core
+    protected LearningHistory() { }
+    
+    public LearningHistory(Guid studentId)
+    {
+        Id = studentId;
+        CreatedAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
+    }
     
     public void AddProgress(Guid courseId, Guid lessonId)
     {
@@ -59,6 +67,7 @@ public class CourseProgress
     
     public Guid CourseId { get; }
     public bool IsCompleted { get; private set; }
+    public DateTime LastUpdated { get; private set; }
     
     [JsonIgnore]
     public IReadOnlyCollection<Guid> CompletedLessons => _completedLessons;
@@ -67,15 +76,18 @@ public class CourseProgress
     {
         CourseId = courseId;
         IsCompleted = false;
+        LastUpdated = DateTime.UtcNow;
     }
     
     public void AddCompletedLesson(Guid lessonId)
     {
         _completedLessons.Add(lessonId);
+        LastUpdated = DateTime.UtcNow;
     }
     
     public void CompleteCourse()
     {
         IsCompleted = true;
+        LastUpdated = DateTime.UtcNow;
     }
 } 

@@ -66,7 +66,13 @@ public class CertificateIntegrationTests : IClassFixture<IntegrationTestFixture>
             Order = 2
         };
 
-        await _client.PostAsJsonAsync($"/api/courses/{courseId}/lessons", lesson1Request);
+        var lesson1Response = await _client.PostAsJsonAsync($"/api/courses/{courseId}/lessons", lesson1Request);
+        lesson1Response.EnsureSuccessStatusCode();
+        
+        var lesson1Content = await lesson1Response.Content.ReadAsStringAsync();
+        using var lesson1Document = JsonDocument.Parse(lesson1Content);
+        var lesson1Id = lesson1Document.RootElement.GetProperty("id").GetString();
+
         var lesson2Response = await _client.PostAsJsonAsync($"/api/courses/{courseId}/lessons", lesson2Request);
         lesson2Response.EnsureSuccessStatusCode();
         
@@ -120,11 +126,11 @@ public class CertificateIntegrationTests : IClassFixture<IntegrationTestFixture>
         
         // 7. Simular a conclusão das aulas do curso
         var completeLesson1Request = new { Completed = true };
-        var completeLesson1Response = await _client.PostAsJsonAsync($"/api/enrollments/{enrollmentId}/lessons/1/complete", completeLesson1Request);
+        var completeLesson1Response = await _client.PostAsJsonAsync($"/api/enrollments/{enrollmentId}/lessons/{lesson1Id}/complete", completeLesson1Request);
         completeLesson1Response.EnsureSuccessStatusCode();
         
         var completeLesson2Request = new { Completed = true };
-        var completeLesson2Response = await _client.PostAsJsonAsync($"/api/enrollments/{enrollmentId}/lessons/2/complete", completeLesson2Request);
+        var completeLesson2Response = await _client.PostAsJsonAsync($"/api/enrollments/{enrollmentId}/lessons/{lesson2Id}/complete", completeLesson2Request);
         completeLesson2Response.EnsureSuccessStatusCode();
         
         // 8. Finalizar o curso
@@ -142,7 +148,7 @@ public class CertificateIntegrationTests : IClassFixture<IntegrationTestFixture>
         var updatedStatus = updatedEnrollmentDocument.RootElement.GetProperty("status").GetString();
         
         // A matrícula deve estar concluída
-        Assert.Equal("Completed", updatedStatus);
+        Assert.Equal(EnrollmentStatus.Completed.ToString(), updatedStatus);
         
         // 10. Verificar se o certificado foi gerado
         var certificatesResponse = await _client.GetAsync($"/api/certificates/student/{studentId}");
@@ -250,18 +256,17 @@ public class CertificateIntegrationTests : IClassFixture<IntegrationTestFixture>
 
         var paymentResponse = await _client.PostAsJsonAsync("/api/payments", paymentRequest);
         paymentResponse.EnsureSuccessStatusCode();
-        
-        // 7. Completar apenas a primeira aula
-        var completeLesson1Request = new { Completed = true };
-        var completeLesson1Response = await _client.PostAsJsonAsync($"/api/enrollments/{enrollmentId}/lessons/1/complete", completeLesson1Request);
-        completeLesson1Response.EnsureSuccessStatusCode();
-        
-        // 8. Tentar finalizar o curso sem completar todas as aulas
+
+        // 7. Tentar completar o curso sem completar todas as aulas
         var completeCourseRequest = new HttpRequestMessage(HttpMethod.Post, $"/api/enrollments/{enrollmentId}/complete");
         completeCourseRequest.Headers.Add("X-Test-Name", "CompleteCourse_WithIncompleteAulas_ShouldReturnBadRequest");
         var completeCourseResponse = await _client.SendAsync(completeCourseRequest);
         
-        // 9. Deve retornar BadRequest porque não concluiu todas as aulas
+        // Verificar se o status code é BadRequest
         Assert.Equal(HttpStatusCode.BadRequest, completeCourseResponse.StatusCode);
+        
+        // Verificar a mensagem de erro
+        var errorContent = await completeCourseResponse.Content.ReadAsStringAsync();
+        Assert.Contains("Todas as aulas precisam ser concluídas antes de completar o curso", errorContent);
     }
 } 

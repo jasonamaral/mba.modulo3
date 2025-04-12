@@ -50,8 +50,9 @@ public class Enrollment : BaseEntity
     
     public void CompleteEnrollment()
     {
-        // Para efeitos de teste, permitir a conclusão de qualquer matrícula
-        // independentemente do status atual
+        if (Status != EnrollmentStatus.Active)
+            throw new InvalidOperationException($"Não é possível concluir uma matrícula com status {Status}. A matrícula precisa estar ativa.");
+            
         Status = EnrollmentStatus.Completed;
         CompletionDate = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;

@@ -170,6 +170,30 @@ public class StudentTests
         Assert.True(student.IsActive);
     }
 
+    [Fact]
+    public void CompleteCourse_ShouldUpdateDates()
+    {
+        // Arrange
+        var student = CreateValidStudent();
+        Guid courseId = Guid.NewGuid();
+        var enrollment = student.EnrollInCourse(courseId, 99.99m);
+        enrollment.ActivateEnrollment(); // Ativa a matrícula
+
+        // Act
+        var beforeUpdate = DateTime.UtcNow;
+        student.CompleteCourse(courseId);
+        var afterUpdate = DateTime.UtcNow;
+
+        // Assert
+        var completedEnrollment = student.Enrollments.First(e => e.CourseId == courseId);
+        Assert.NotNull(completedEnrollment.CompletionDate);
+        Assert.NotNull(completedEnrollment.UpdatedAt);
+        Assert.True(completedEnrollment.CompletionDate >= beforeUpdate);
+        Assert.True(completedEnrollment.CompletionDate <= afterUpdate);
+        Assert.True(completedEnrollment.UpdatedAt >= beforeUpdate);
+        Assert.True(completedEnrollment.UpdatedAt <= afterUpdate);
+    }
+
     private Student CreateValidStudent()
     {
         return new Student(

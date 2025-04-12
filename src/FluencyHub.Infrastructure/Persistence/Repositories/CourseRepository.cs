@@ -1,6 +1,7 @@
 using FluencyHub.Application.Common.Interfaces;
 using FluencyHub.Domain.ContentManagement;
 using Microsoft.EntityFrameworkCore;
+using FluencyHub.Application.Common.Exceptions;
 
 namespace FluencyHub.Infrastructure.Persistence.Repositories;
 
@@ -13,7 +14,7 @@ public class CourseRepository : Application.Common.Interfaces.ICourseRepository
         _context = context;
     }
     
-    public async Task<Course?> GetByIdAsync(Guid id)
+    public async Task<Course> GetByIdAsync(Guid id)
     {
         return await _context.Courses
             .Include(c => c.Content)
@@ -21,12 +22,19 @@ public class CourseRepository : Application.Common.Interfaces.ICourseRepository
             .FirstOrDefaultAsync(c => c.Id == id);
     }
     
-    public async Task<Course?> GetByIdWithLessonsAsync(Guid id)
+    public async Task<Course> GetByIdWithLessonsAsync(Guid id)
     {
-        return await _context.Courses
+        var course = await _context.Courses
             .Include(c => c.Content)
             .Include(c => c.Lessons)
             .FirstOrDefaultAsync(c => c.Id == id);
+            
+        if (course == null)
+        {
+            throw new NotFoundException(nameof(Course), id);
+        }
+        
+        return course;
     }
     
     public async Task<IEnumerable<Course>> GetAllAsync()
@@ -60,9 +68,11 @@ public class CourseRepository : Application.Common.Interfaces.ICourseRepository
             .ToListAsync();
     }
     
-    public async Task AddAsync(Course course)
+    public async Task<Course> AddAsync(Course course)
     {
         await _context.Courses.AddAsync(course);
+        await _context.SaveChangesAsync();
+        return course;
     }
     
     public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -76,14 +86,29 @@ public class CourseRepository : Application.Common.Interfaces.ICourseRepository
         await _context.SaveChangesAsync();
     }
     
-    public async Task<bool> DeleteAsync(Guid id)
+    public async Task DeleteAsync(Guid id)
     {
         var course = await _context.Courses.FindAsync(id);
         if (course == null)
-            return false;
+        {
+            throw new NotFoundException(nameof(Course), id);
+        }
         
         _context.Courses.Remove(course);
         await _context.SaveChangesAsync();
-        return true;
+    }
+
+    public async Task<Lesson> GetLessonByIdAsync(Guid lessonId)
+    {
+        var lesson = await _context.Lessons
+            .Include(l => l.Course)
+            .FirstOrDefaultAsync(l => l.Id == lessonId);
+        
+        if (lesson == null)
+        {
+            throw new NotFoundException(nameof(Lesson), lessonId);
+        }
+        
+        return lesson;
     }
 } 

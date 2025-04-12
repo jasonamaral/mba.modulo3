@@ -7,20 +7,20 @@ namespace FluencyHub.Application.ContentManagement.Queries.GetCourseById;
 
 public class GetCourseByIdQueryHandler : IRequestHandler<GetCourseByIdQuery, CourseDto>
 {
-    private readonly Application.Common.Interfaces.ICourseRepository _courseRepository;
+    private readonly FluencyHub.Application.Common.Interfaces.ICourseRepository _courseRepository;
     
-    public GetCourseByIdQueryHandler(Application.Common.Interfaces.ICourseRepository courseRepository)
+    public GetCourseByIdQueryHandler(FluencyHub.Application.Common.Interfaces.ICourseRepository courseRepository)
     {
         _courseRepository = courseRepository;
     }
     
     public async Task<CourseDto> Handle(GetCourseByIdQuery request, CancellationToken cancellationToken)
     {
-        var course = await _courseRepository.GetByIdAsync(request.Id);
+        var course = await _courseRepository.GetByIdWithLessonsAsync(request.CourseId);
         
         if (course == null)
         {
-            throw new NotFoundException(nameof(Course), request.Id);
+            throw new NotFoundException(nameof(Course), request.CourseId);
         }
         
         return new CourseDto
@@ -28,6 +28,7 @@ public class GetCourseByIdQueryHandler : IRequestHandler<GetCourseByIdQuery, Cou
             Id = course.Id,
             Name = course.Name,
             Description = course.Description,
+            Price = course.Price,
             Content = new CourseContentDto
             {
                 Syllabus = course.Content.Syllabus,
@@ -43,8 +44,11 @@ public class GetCourseByIdQueryHandler : IRequestHandler<GetCourseByIdQuery, Cou
                 Title = l.Title,
                 Content = l.Content,
                 MaterialUrl = l.MaterialUrl,
-                Order = l.Order
-            }),
+                Order = l.Order,
+                IsActive = true,
+                CreatedAt = l.CreatedAt,
+                UpdatedAt = l.UpdatedAt
+            }).ToList(),
             IsActive = course.IsActive,
             CreatedAt = course.CreatedAt,
             UpdatedAt = course.UpdatedAt

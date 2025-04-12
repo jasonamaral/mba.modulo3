@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using FluencyHub.Application.StudentManagement.Queries.GetStudentByEmail;
+using FluencyHub.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace FluencyHub.API.Controllers;
 
@@ -18,10 +20,12 @@ namespace FluencyHub.API.Controllers;
 public class StudentsController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly FluencyHubDbContext _dbContext;
     
-    public StudentsController(IMediator mediator)
+    public StudentsController(IMediator mediator, FluencyHubDbContext dbContext)
     {
         _mediator = mediator;
+        _dbContext = dbContext;
     }
     
     [HttpGet("me")]
@@ -164,6 +168,40 @@ public class StudentsController : ControllerBase
         {
             await _mediator.Send(new ActivateStudentCommand(id));
             return Ok();
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+    }
+
+    [HttpGet("{studentId}/progress")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetStudentProgress(Guid studentId)
+    {
+        try
+        {
+            var student = await _mediator.Send(new GetStudentByIdQuery(studentId));
+            var learningHistory = await _dbContext.LearningHistories
+                .FirstOrDefaultAsync(lh => lh.Id == studentId);
+            
+            if (learningHistory == null)
+            {
+                return Ok(new { progress = new Dictionary<Guid, object>() });
+            }
+            
+            var progress = learningHistory.CourseProgress.ToDictionary(
+                kvp => kvp.Key,
+                kvp => new
+                {
+                    completedLessons = kvp.Value.CompletedLessons.Count,
+                    isCompleted = kvp.Value.IsCompleted,
+                    lastUpdated = kvp.Value.LastUpdated
+                }
+            );
+            
+            return Ok(new { progress });
         }
         catch (NotFoundException ex)
         {
