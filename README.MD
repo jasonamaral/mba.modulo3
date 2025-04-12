@@ -49,7 +49,7 @@ graph TD
     %% Bounded Contexts
     subgraph BC1["Gestão de Conteúdo"]
         direction TB
-        style BC1 fill:#e8f5e9,stroke:#2e7d32
+		style BC1 fill:#e8f5e9,stroke:#2e7d32,color:black
         C1(("Curso")):::entity
         A1["▪ Aula - Vídeos Materiais"]:::entity
         CP["▫ Conteúdo Programático- Objetivos - Ementa"]:::entity
