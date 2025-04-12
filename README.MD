@@ -3,9 +3,8 @@
 
 ## **1. Apresentação**
 
-Bem-vindo ao repositório do projeto **FluencyHub**. Este projeto é uma entrega do MBA DevXpert Full Stack .NET e é referente ao módulo **Introdução ao Desenvolvimento ASP.NET Core**.
-O objetivo principal desenvolver uma aplicação de blog que permite aos usuários criar, editar, visualizar e excluir posts e comentários, tanto através de uma interface web utilizando MVC quanto através de uma API RESTful.
-Descreva livremente mais detalhes do seu projeto aqui.
+Bem-vindo ao repositório do projeto **FluencyHub**. Este projeto é uma entrega do MBA DevXpert Full Stack .NET - Módulo 3.
+O objetivo principal desenvolver uma aplicação educacional online.
 
 ### **Autor**
 - **Jason Santos do Amaral**
