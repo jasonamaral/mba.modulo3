@@ -59,7 +59,7 @@ graph TD
 
     subgraph BC2["Gestão de Alunos"]
         direction TB
-        style BC2 fill:#fff3e0,stroke:#ef6c00
+        style BC1 fill:#e8f5e9,stroke:#2e7d32,color:black
         AL(("Aluno")):::entity
         MT[Matrícula]:::entity
         CT[Certificado]:::entity
@@ -71,7 +71,7 @@ graph TD
 
     subgraph BC3["Pagamento"]
         direction LR
-        style BC3 fill:#fbe9e7,stroke:#d32f2f
+        style BC1 fill:#e8f5e9,stroke:#2e7d32,color:black
         PG(("Pagamento")):::entity
         DC[[Dados do Cartão]]:::entity
         SP{Status}:::entity
