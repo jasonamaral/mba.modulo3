@@ -18,29 +18,66 @@ public static class DatabaseSeeder
 
         try
         {
+            logger.LogInformation("Iniciando seed do banco de dados...");
+
             var context = services.GetRequiredService<FluencyHubDbContext>();
+            logger.LogInformation("Verificando banco de dados principal...");
+            
             if (context.Database.EnsureCreated())
             {
-                logger.LogInformation("Domain database created successfully");
+                logger.LogInformation("Banco de dados principal criado com sucesso");
+            }
+            else
+            {
+                logger.LogInformation("Banco de dados principal já existe");
             }
 
             var identityContext = services.GetRequiredService<ApplicationDbContext>();
+            logger.LogInformation("Verificando banco de dados de identidade...");
+            
             if (identityContext.Database.EnsureCreated())
             {
-                logger.LogInformation("Identity database created successfully");
+                logger.LogInformation("Banco de dados de identidade criado com sucesso");
+            }
+            else
+            {
+                logger.LogInformation("Banco de dados de identidade já existe");
             }
 
+            logger.LogInformation("Iniciando seed de roles...");
             await SeedRoles(services);
+            logger.LogInformation("Seed de roles concluído");
+
+            logger.LogInformation("Iniciando seed de usuários...");
             await SeedUsers(services);
+            logger.LogInformation("Seed de usuários concluído");
+
+            logger.LogInformation("Iniciando seed de estudantes...");
             await SeedStudents(services);
+            logger.LogInformation("Seed de estudantes concluído");
+
+            logger.LogInformation("Iniciando seed de cursos...");
             await SeedCourses(services);
+            logger.LogInformation("Seed de cursos concluído");
+
+            logger.LogInformation("Iniciando seed de lições...");
             await SeedLessons(services);
+            logger.LogInformation("Seed de lições concluído");
+
+            logger.LogInformation("Iniciando seed de matrículas...");
             await SeedEnrollments(services);
+            logger.LogInformation("Seed de matrículas concluído");
+
+            logger.LogInformation("Iniciando seed de pagamentos...");
             await SeedPayments(services);
+            logger.LogInformation("Seed de pagamentos concluído");
+
+            logger.LogInformation("Seed do banco de dados concluído com sucesso!");
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "An error occurred while seeding the database");
+            logger.LogError(ex, "Ocorreu um erro durante o seed do banco de dados");
+            throw; // Re-throw para que o erro seja visível
         }
     }
 
@@ -149,7 +186,7 @@ public static class DatabaseSeeder
 
     private static async Task SeedStudents(IServiceProvider services)
     {
-        var studentRepository = services.GetRequiredService<FluencyHub.Application.Common.Interfaces.IStudentRepository>();
+        var logger = services.GetRequiredService<ILogger<Program>>();
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
 
         var studentEmails = new[]
@@ -163,25 +200,46 @@ public static class DatabaseSeeder
 
         foreach (var email in studentEmails)
         {
-            var user = await userManager.FindByEmailAsync(email);
-            if (user != null)
+            try
             {
-                var existingStudent = await studentRepository.GetByEmailAsync(email);
-                if (existingStudent == null)
-                {
-                    var student = new Student(
-                        user.FirstName,
-                        user.LastName,
-                        user.Email,
-                        DateTime.Now.AddYears(-20 - Array.IndexOf(studentEmails, email)),
-                        $"+55119{new Random().Next(10000000, 99999999)}"
-                    );
+                using var scope = services.CreateScope();
+                var studentRepository = scope.ServiceProvider.GetRequiredService<FluencyHub.Application.Common.Interfaces.IStudentRepository>();
 
-                    await studentRepository.AddAsync(student);
+                var user = await userManager.FindByEmailAsync(email);
+                if (user != null)
+                {
+                    var existingStudent = await studentRepository.GetByEmailAsync(email);
+                    if (existingStudent == null)
+                    {
+                        logger.LogInformation($"Criando estudante para o usuário {email}");
+                        var student = new Student(
+                            user.FirstName,
+                            user.LastName,
+                            user.Email,
+                            DateTime.Now.AddYears(-20 - Array.IndexOf(studentEmails, email)),
+                            $"+55119{new Random().Next(10000000, 99999999)}"
+                        );
+
+                        await studentRepository.AddAsync(student);
+                        await studentRepository.SaveChangesAsync();
+                        logger.LogInformation($"Estudante criado com sucesso para {email}");
+                    }
+                    else
+                    {
+                        logger.LogInformation($"Estudante já existe para o usuário {email}");
+                    }
+                }
+                else
+                {
+                    logger.LogWarning($"Usuário não encontrado para o email {email}");
                 }
             }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Erro ao criar estudante para {email}");
+                throw;
+            }
         }
-        await studentRepository.SaveChangesAsync();
     }
 
     private static async Task SeedCourses(IServiceProvider services)
@@ -335,8 +393,8 @@ public static class DatabaseSeeder
                 var cardDetails = new CardDetails(
                     "John Doe",
                     "4532715326849421",
-                    $"{random.Next(1, 13):00}",
-                    $"{random.Next(2024, 2027)}"
+                    $"{random.Next(1, 13):D2}",
+                    $"{DateTime.Now.Year + random.Next(1, 4)}"
                 );
 
                 var payment = new Payment(

@@ -43,6 +43,7 @@ public class Student : BaseEntity
         if (string.IsNullOrWhiteSpace(email))
             throw new ArgumentException("Email cannot be empty", nameof(email));
             
+        Id = Guid.NewGuid();
         FirstName = firstName;
         LastName = lastName;
         Email = email;

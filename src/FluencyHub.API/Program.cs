@@ -26,7 +26,19 @@ app.UseSwaggerConfiguration();
 app.MapControllers();
 
 // Seed database
-await DatabaseSeeder.SeedData(app.Services);
+try
+{
+    var logger = app.Services.GetRequiredService<ILogger<Program>>();
+    logger.LogInformation("Iniciando seed do banco de dados...");
+    await DatabaseSeeder.SeedData(app.Services);
+    logger.LogInformation("Seed do banco de dados concluído com sucesso!");
+}
+catch (Exception ex)
+{
+    var logger = app.Services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "Erro ao executar seed do banco de dados");
+    throw;
+}
 
 app.Run();
 
