@@ -1,0 +1,78 @@
+using Microsoft.OpenApi.Models;
+using System.Reflection;
+
+namespace FluencyHub.API;
+
+public static class SwaggerConfiguration
+{
+    public static IServiceCollection AddSwaggerConfiguration(this IServiceCollection services)
+    {
+        services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "FluencyHub API",
+                Version = "v1",
+                Description = "API para o Sistema de Aprendizagem de Idiomas FluencyHub"
+            });
+
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                Scheme = "Bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Description = "JWT Authorization header using the Bearer scheme."
+            });
+
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
+            });
+
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            if (File.Exists(xmlPath))
+            {
+                c.IncludeXmlComments(xmlPath);
+            }
+
+            c.CustomSchemaIds(type => type.FullName);
+            c.UseAllOfForInheritance();
+            c.UseOneOfForPolymorphism();
+        });
+
+        return services;
+    }
+
+    public static IApplicationBuilder UseSwaggerConfiguration(this IApplicationBuilder app)
+    {
+        app.UseSwagger(options =>
+        {
+            options.SerializeAsV2 = false;
+        });
+
+        app.UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "FluencyHub API v1");
+            c.RoutePrefix = string.Empty;
+            c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.List);
+            c.DefaultModelsExpandDepth(0);
+            c.EnableDeepLinking();
+            c.DisplayRequestDuration();
+        });
+
+        return app;
+    }
+} 

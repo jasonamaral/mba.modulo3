@@ -1,3 +1,4 @@
+using FluencyHub.API;
 using FluencyHub.API.Middleware;
 using FluencyHub.Application;
 using FluencyHub.Infrastructure;
@@ -12,233 +13,25 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllers()
-    .AddNewtonsoftJson(options =>
-    {
-        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-        options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-        options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-        options.SerializerSettings.Converters.Add(new StringEnumConverter());
-    });
-
-// Add application layers
-builder.Services.AddApplicationServices();
-builder.Services.AddInfrastructureServices(builder.Configuration);
-
-// Configure Swagger for API documentation
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Title = "FluencyHub API",
-        Version = "v1",
-        Description = "API para o Sistema de Aprendizagem de Idiomas FluencyHub"
-    });
-
-    // Add JWT Authentication to Swagger
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Name = "Authorization",
-        Type = SecuritySchemeType.Http,
-        Scheme = "Bearer",
-        BearerFormat = "JWT",
-        In = ParameterLocation.Header,
-        Description = "JWT Authorization header using the Bearer scheme."
-    });
-
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
-
-    // Include XML comments if they exist
-    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    if (File.Exists(xmlPath))
-    {
-        c.IncludeXmlComments(xmlPath);
-    }
-
-    // Customize schema generation
-    c.CustomSchemaIds(type => type.FullName);
-    c.UseAllOfForInheritance();
-    c.UseOneOfForPolymorphism();
-    c.SchemaFilter<RemoveReadOnlyPropertiesSchemaFilter>();
-    c.SchemaFilter<EnumSchemaFilter>();
-    c.DocumentFilter<RemoveUnusedComponentsDocumentFilter>();
-
-    // Comment out this line as it may be filtering out controller methods
-    // c.DocumentFilter<ExcludeDomainTypesDocumentFilter>();
-});
-
-// Custom schema filters for Swagger
-builder.Services.AddTransient<RemoveReadOnlyPropertiesSchemaFilter>();
-builder.Services.AddTransient<EnumSchemaFilter>();
-builder.Services.AddTransient<RemoveUnusedComponentsDocumentFilter>();
-builder.Services.AddTransient<ExcludeDomainTypesDocumentFilter>();
-
-// CORS configuration
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
-    });
-});
+// Add services to the container
+builder.Services.AddApiServices(builder.Configuration);
+builder.Services.AddSwaggerConfiguration();
 
 var app = builder.Build();
 
-// Ensure databases are created (without running migrations during development)
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var logger = services.GetRequiredService<ILogger<Program>>();
-
-    try
-    {
-        var context = services.GetRequiredService<FluencyHubDbContext>();
-        if (context.Database.EnsureCreated())
-        {
-            logger.LogInformation("Domain database created successfully");
-        }
-
-        var identityContext = services.GetRequiredService<ApplicationDbContext>();
-        if (identityContext.Database.EnsureCreated())
-        {
-            logger.LogInformation("Identity database created successfully");
-        }
-
-        // Seed roles
-        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-        var roles = new[] { "Administrator", "Student" };
-
-        foreach (var role in roles)
-        {
-            if (!await roleManager.RoleExistsAsync(role))
-            {
-                logger.LogInformation("Creating role: {Role}", role);
-                await roleManager.CreateAsync(new IdentityRole(role));
-            }
-        }
-
-        // Seed default student
-        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-        var studentRepository = services.GetRequiredService<FluencyHub.Application.Common.Interfaces.IStudentRepository>();
-
-        // Create admin user if not exists
-        var adminEmail = "admin@fluencyhub.com";
-        var adminUser = await userManager.FindByEmailAsync(adminEmail);
-        if (adminUser == null)
-        {
-            adminUser = new ApplicationUser
-            {
-                UserName = adminEmail,
-                Email = adminEmail,
-                FirstName = "Admin",
-                LastName = "User",
-                EmailConfirmed = true
-            };
-
-            var result = await userManager.CreateAsync(adminUser, "Test@123");
-            if (result.Succeeded)
-            {
-                await userManager.AddToRoleAsync(adminUser, "Administrator");
-                logger.LogInformation("Admin user created successfully");
-            }
-        }
-
-        // Create student user if not exists
-        var studentEmail = "student@example.com";
-        var studentUser = await userManager.FindByEmailAsync(studentEmail);
-        if (studentUser == null)
-        {
-            studentUser = new ApplicationUser
-            {
-                UserName = studentEmail,
-                Email = studentEmail,
-                FirstName = "Test",
-                LastName = "Student",
-                EmailConfirmed = true
-            };
-
-            var result = await userManager.CreateAsync(studentUser, "Test@123");
-            if (result.Succeeded)
-            {
-                await userManager.AddToRoleAsync(studentUser, "Student");
-                logger.LogInformation("Student user created successfully");
-
-                // Create student entity in domain database
-                var student = new FluencyHub.Domain.StudentManagement.Student(
-                    studentUser.FirstName,
-                    studentUser.LastName,
-                    studentUser.Email,
-                    DateTime.Now.AddYears(-20),
-                    "+1234567890"
-                );
-
-                await studentRepository.AddAsync(student);
-                await studentRepository.SaveChangesAsync();
-                logger.LogInformation("Student entity created successfully with ID: {StudentId}", student.Id);
-            }
-        }
-    }
-    catch (Exception ex)
-    {
-        logger.LogError(ex, "An error occurred while creating or initializing the database");
-    }
-}
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger(options =>
-    {
-        options.SerializeAsV2 = false;
-    });
-
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "FluencyHub API v1");
-        c.RoutePrefix = string.Empty; // Serve Swagger UI na raiz
-        c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.List); // Show operations expanded
-        c.DefaultModelsExpandDepth(0); // Hide schemas section by default
-        c.EnableDeepLinking();
-        c.DisplayRequestDuration();
-    });
-
-    app.UseDeveloperExceptionPage();
-}
-else
-{
-    app.UseExceptionHandler("/error");
-    app.UseHsts();
-}
-
-app.UseHttpsRedirection();
-app.UseCors("AllowAll");
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.UseMiddleware<ExceptionHandlingMiddleware>();
+// Configure the HTTP request pipeline
+app.UseMiddlewareConfiguration(app.Environment);
+app.UseSwaggerConfiguration();
 
 app.MapControllers();
 
+// Seed database
+await DatabaseSeeder.SeedData(app.Services);
+
 app.Run();
+
+// Make Program class public and partial for testing
+public partial class Program { }
 
 // Schema filter to remove read-only properties
 public class RemoveReadOnlyPropertiesSchemaFilter : Swashbuckle.AspNetCore.SwaggerGen.ISchemaFilter
@@ -360,10 +153,6 @@ public class ExcludeDomainTypesDocumentFilter : Swashbuckle.AspNetCore.SwaggerGe
         }
     }
 }
-
-// Make Program class public and partial for testing
-public partial class Program
-{ }
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
