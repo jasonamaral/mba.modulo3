@@ -205,6 +205,7 @@ public class StudentsController : ControllerBase
         {
             var student = await _mediator.Send(new GetStudentByIdQuery(studentId));
             var learningHistory = await _dbContext.LearningHistories
+                .Include(lh => lh.CourseProgress)
                 .FirstOrDefaultAsync(lh => lh.Id == studentId);
             
             if (learningHistory == null)
