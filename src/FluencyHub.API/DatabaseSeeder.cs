@@ -188,6 +188,7 @@ public static class DatabaseSeeder
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+        var context = services.GetRequiredService<FluencyHubDbContext>();
 
         var studentEmails = new[]
         {
@@ -200,46 +201,22 @@ public static class DatabaseSeeder
 
         foreach (var email in studentEmails)
         {
-            try
+            var studentUser = await userManager.FindByEmailAsync(email);
+            if (studentUser != null)
             {
-                using var scope = services.CreateScope();
-                var studentRepository = scope.ServiceProvider.GetRequiredService<FluencyHub.Application.Common.Interfaces.IStudentRepository>();
+                var studentId = Guid.NewGuid(); // Assuming a new Guid for each student
+                var learningHistory = new LearningHistory(studentId);
 
-                var user = await userManager.FindByEmailAsync(email);
-                if (user != null)
-                {
-                    var existingStudent = await studentRepository.GetByEmailAsync(email);
-                    if (existingStudent == null)
-                    {
-                        logger.LogInformation($"Criando estudante para o usuário {email}");
-                        var student = new Student(
-                            user.FirstName,
-                            user.LastName,
-                            user.Email,
-                            DateTime.Now.AddYears(-20 - Array.IndexOf(studentEmails, email)),
-                            $"+55119{new Random().Next(10000000, 99999999)}"
-                        );
+                // Add some progress for demonstration
+                var courseId = Guid.NewGuid(); // Example course ID
+                learningHistory.AddProgress(courseId, Guid.NewGuid()); // Example lesson ID
+                learningHistory.CompleteCourse(courseId);
 
-                        await studentRepository.AddAsync(student);
-                        await studentRepository.SaveChangesAsync();
-                        logger.LogInformation($"Estudante criado com sucesso para {email}");
-                    }
-                    else
-                    {
-                        logger.LogInformation($"Estudante já existe para o usuário {email}");
-                    }
-                }
-                else
-                {
-                    logger.LogWarning($"Usuário não encontrado para o email {email}");
-                }
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, $"Erro ao criar estudante para {email}");
-                throw;
+                context.LearningHistories.Add(learningHistory);
             }
         }
+
+        await context.SaveChangesAsync();
     }
 
     private static async Task SeedCourses(IServiceProvider services)

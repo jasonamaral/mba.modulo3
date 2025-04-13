@@ -19,6 +19,7 @@ public class FluencyHubDbContext : DbContext
     public DbSet<Certificate> Certificates => Set<Certificate>();
     public DbSet<Payment> Payments => Set<Payment>();
     public DbSet<LearningHistory> LearningHistories { get; set; }
+    public DbSet<CourseProgress> CourseProgresses { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

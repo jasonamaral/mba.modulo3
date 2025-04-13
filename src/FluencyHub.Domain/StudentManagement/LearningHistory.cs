@@ -5,9 +5,9 @@ namespace FluencyHub.Domain.StudentManagement;
 
 public class LearningHistory : BaseEntity
 {
-    private readonly Dictionary<Guid, CourseProgress> _courseProgress = new();
+    private readonly List<CourseProgress> _courseProgress = new();
     
-    public IReadOnlyDictionary<Guid, CourseProgress> CourseProgress => _courseProgress;
+    public IReadOnlyCollection<CourseProgress> CourseProgress => _courseProgress;
     
     // Construtor para o EF Core
     protected LearningHistory() { }
@@ -21,51 +21,55 @@ public class LearningHistory : BaseEntity
     
     public void AddProgress(Guid courseId, Guid lessonId)
     {
-        if (!_courseProgress.ContainsKey(courseId))
+        var courseProgress = _courseProgress.FirstOrDefault(cp => cp.CourseId == courseId);
+        if (courseProgress == null)
         {
-            _courseProgress[courseId] = new CourseProgress(courseId);
+            courseProgress = new CourseProgress(courseId);
+            _courseProgress.Add(courseProgress);
         }
         
-        _courseProgress[courseId].AddCompletedLesson(lessonId);
+        courseProgress.AddCompletedLesson(lessonId);
         UpdatedAt = DateTime.UtcNow;
     }
     
     public void CompleteCourse(Guid courseId)
     {
-        if (!_courseProgress.ContainsKey(courseId))
+        var courseProgress = _courseProgress.FirstOrDefault(cp => cp.CourseId == courseId);
+        if (courseProgress == null)
         {
-            _courseProgress[courseId] = new CourseProgress(courseId);
+            courseProgress = new CourseProgress(courseId);
+            _courseProgress.Add(courseProgress);
         }
         
-        _courseProgress[courseId].CompleteCourse();
+        courseProgress.CompleteCourse();
         UpdatedAt = DateTime.UtcNow;
     }
     
     public bool HasCompletedLesson(Guid courseId, Guid lessonId)
     {
-        return _courseProgress.ContainsKey(courseId) && 
-               _courseProgress[courseId].CompletedLessons.Contains(lessonId);
+        var courseProgress = _courseProgress.FirstOrDefault(cp => cp.CourseId == courseId);
+        return courseProgress != null && courseProgress.CompletedLessons.Contains(lessonId);
     }
     
     public bool HasCompletedCourse(Guid courseId)
     {
-        return _courseProgress.ContainsKey(courseId) && 
-               _courseProgress[courseId].IsCompleted;
+        var courseProgress = _courseProgress.FirstOrDefault(cp => cp.CourseId == courseId);
+        return courseProgress != null && courseProgress.IsCompleted;
     }
     
     public int GetCompletedLessonsCount(Guid courseId)
     {
-        return _courseProgress.ContainsKey(courseId)
-            ? _courseProgress[courseId].CompletedLessons.Count
-            : 0;
+        var courseProgress = _courseProgress.FirstOrDefault(cp => cp.CourseId == courseId);
+        return courseProgress != null ? courseProgress.CompletedLessons.Count : 0;
     }
 }
 
 public class CourseProgress
 {
+    public Guid Id { get; private set; } = Guid.NewGuid();
     private readonly HashSet<Guid> _completedLessons = new();
     
-    public Guid CourseId { get; }
+    public Guid CourseId { get; private set; }
     public bool IsCompleted { get; private set; }
     public DateTime LastUpdated { get; private set; }
     

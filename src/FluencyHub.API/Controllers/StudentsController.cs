@@ -192,12 +192,12 @@ public class StudentsController : ControllerBase
             }
             
             var progress = learningHistory.CourseProgress.ToDictionary(
-                kvp => kvp.Key,
-                kvp => new
+                cp => cp.CourseId,
+                cp => new
                 {
-                    completedLessons = kvp.Value.CompletedLessons.Count,
-                    isCompleted = kvp.Value.IsCompleted,
-                    lastUpdated = kvp.Value.LastUpdated
+                    completedLessons = cp.CompletedLessons.Count,
+                    isCompleted = cp.IsCompleted,
+                    lastUpdated = cp.LastUpdated
                 }
             );
             
