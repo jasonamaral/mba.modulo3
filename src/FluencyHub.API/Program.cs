@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,20 @@ var app = builder.Build();
 // Configure the HTTP request pipeline
 app.UseMiddlewareConfiguration(app.Environment);
 app.UseSwaggerConfiguration();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    
+    // Migrar o banco de dados automaticamente
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<FluencyHubDbContext>();
+        dbContext.Database.Migrate();
+    }
+}
 
 app.MapControllers();
 

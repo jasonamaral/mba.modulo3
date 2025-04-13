@@ -9,6 +9,8 @@ public class LearningHistory : BaseEntity
     
     public IReadOnlyCollection<CourseProgress> CourseProgress => _courseProgress;
     
+    public Guid StudentId => Id;
+    
     // Construtor para o EF Core
     protected LearningHistory() { }
     
@@ -19,12 +21,20 @@ public class LearningHistory : BaseEntity
         UpdatedAt = DateTime.UtcNow;
     }
     
+    public void AddCourseProgress(CourseProgress progress)
+    {
+        _courseProgress.Add(progress);
+    }
+    
     public void AddProgress(Guid courseId, Guid lessonId)
     {
         var courseProgress = _courseProgress.FirstOrDefault(cp => cp.CourseId == courseId);
         if (courseProgress == null)
         {
-            courseProgress = new CourseProgress(courseId);
+            courseProgress = new CourseProgress(courseId) 
+            {
+                LearningHistoryId = this.Id
+            };
             _courseProgress.Add(courseProgress);
         }
         
@@ -37,7 +47,10 @@ public class LearningHistory : BaseEntity
         var courseProgress = _courseProgress.FirstOrDefault(cp => cp.CourseId == courseId);
         if (courseProgress == null)
         {
-            courseProgress = new CourseProgress(courseId);
+            courseProgress = new CourseProgress(courseId) 
+            {
+                LearningHistoryId = this.Id
+            };
             _courseProgress.Add(courseProgress);
         }
         
@@ -48,7 +61,7 @@ public class LearningHistory : BaseEntity
     public bool HasCompletedLesson(Guid courseId, Guid lessonId)
     {
         var courseProgress = _courseProgress.FirstOrDefault(cp => cp.CourseId == courseId);
-        return courseProgress != null && courseProgress.CompletedLessons.Contains(lessonId);
+        return courseProgress != null && courseProgress.HasCompletedLesson(lessonId);
     }
     
     public bool HasCompletedCourse(Guid courseId)
@@ -60,21 +73,24 @@ public class LearningHistory : BaseEntity
     public int GetCompletedLessonsCount(Guid courseId)
     {
         var courseProgress = _courseProgress.FirstOrDefault(cp => cp.CourseId == courseId);
-        return courseProgress != null ? courseProgress.CompletedLessons.Count : 0;
+        return courseProgress != null ? courseProgress.GetCompletedLessonsCount() : 0;
     }
 }
 
 public class CourseProgress
 {
-    public Guid Id { get; private set; } = Guid.NewGuid();
-    private readonly HashSet<Guid> _completedLessons = new();
+    private readonly List<CompletedLesson> _completedLessons = new();
     
+    public Guid Id { get; private set; } = Guid.NewGuid();
     public Guid CourseId { get; private set; }
+    public Guid LearningHistoryId { get; set; }
     public bool IsCompleted { get; private set; }
     public DateTime LastUpdated { get; private set; }
     
-    [JsonIgnore]
-    public IReadOnlyCollection<Guid> CompletedLessons => _completedLessons;
+    public IReadOnlyCollection<CompletedLesson> CompletedLessons => _completedLessons;
+    
+    // Construtor para o EF Core
+    protected CourseProgress() { }
     
     public CourseProgress(Guid courseId)
     {
@@ -85,8 +101,26 @@ public class CourseProgress
     
     public void AddCompletedLesson(Guid lessonId)
     {
-        _completedLessons.Add(lessonId);
-        LastUpdated = DateTime.UtcNow;
+        if (!HasCompletedLesson(lessonId))
+        {
+            _completedLessons.Add(new CompletedLesson 
+            { 
+                LessonId = lessonId,
+                CourseProgressId = Id,
+                CompletedAt = DateTime.UtcNow
+            });
+            LastUpdated = DateTime.UtcNow;
+        }
+    }
+    
+    public bool HasCompletedLesson(Guid lessonId)
+    {
+        return _completedLessons.Any(cl => cl.LessonId == lessonId);
+    }
+    
+    public int GetCompletedLessonsCount()
+    {
+        return _completedLessons.Count;
     }
     
     public void CompleteCourse()
@@ -94,4 +128,15 @@ public class CourseProgress
         IsCompleted = true;
         LastUpdated = DateTime.UtcNow;
     }
+}
+
+public class CompletedLesson
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid LessonId { get; set; }
+    public Guid CourseProgressId { get; set; }
+    public DateTime CompletedAt { get; set; }
+    
+    // Relação de navegação
+    public CourseProgress CourseProgress { get; set; }
 } 

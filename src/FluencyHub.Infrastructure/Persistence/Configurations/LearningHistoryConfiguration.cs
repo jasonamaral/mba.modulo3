@@ -23,7 +23,7 @@ public class LearningHistoryConfiguration : IEntityTypeConfiguration<LearningHis
         // Configurar CourseProgress como uma entidade separada
         builder.HasMany(lh => lh.CourseProgress)
             .WithOne()
-            .HasForeignKey(cp => cp.CourseId)
+            .HasForeignKey("LearningHistoryId")
             .OnDelete(DeleteBehavior.Cascade);
     }
 } 
