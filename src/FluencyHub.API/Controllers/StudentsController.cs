@@ -11,6 +11,8 @@ using System.Security.Claims;
 using FluencyHub.Application.StudentManagement.Queries.GetStudentByEmail;
 using FluencyHub.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using FluencyHub.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace FluencyHub.API.Controllers;
 
@@ -21,11 +23,13 @@ public class StudentsController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly FluencyHubDbContext _dbContext;
+    private readonly UserManager<ApplicationUser> _userManager;
     
-    public StudentsController(IMediator mediator, FluencyHubDbContext dbContext)
+    public StudentsController(IMediator mediator, FluencyHubDbContext dbContext, UserManager<ApplicationUser> userManager)
     {
         _mediator = mediator;
         _dbContext = dbContext;
+        _userManager = userManager;
     }
     
     [HttpGet("me")]
@@ -63,19 +67,12 @@ public class StudentsController : ControllerBase
     }
     
     [HttpGet("{id}")]
+    [Authorize(Roles = "Administrator")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<IActionResult> GetStudentById(Guid id)
     {
-        // Only allow administrators or the student themselves to access their profile
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var isAdmin = User.IsInRole("Administrator");
-        
-        if (!isAdmin && userId != id.ToString())
-        {
-            return Forbid();
-        }
         
         try
         {
@@ -116,9 +113,15 @@ public class StudentsController : ControllerBase
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var isAdmin = User.IsInRole("Administrator");
         
-        if (!isAdmin && userId != id.ToString())
+        if (!isAdmin)
         {
-            return Forbid();
+            // Buscar o usuário para verificar se ele está tentando atualizar seu próprio perfil de estudante
+            var user = await _userManager.FindByIdAsync(userId);
+            
+            if (user == null || user.StudentId != id)
+            {
+                return Forbid();
+            }
         }
         
         if (id != command.Id)

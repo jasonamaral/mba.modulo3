@@ -30,4 +30,8 @@
     <ProjectReference Include="..\FluencyHub.Infrastructure\FluencyHub.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
+
 </Project>

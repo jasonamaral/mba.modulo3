@@ -97,16 +97,16 @@ public class EnrollmentsController : ControllerBase
             var enrollment = await _mediator.Send(new GetEnrollmentByIdQuery(enrollmentId));
             
             if (enrollment == null)
-                return NotFound("Matrícula não encontrada");
+                return NotFound("Enrollment not found");
 
             if (enrollment.Status != EnrollmentStatus.Active.ToString())
-                return BadRequest("Apenas matrículas ativas podem ser concluídas");
+                return BadRequest("Only active enrollments can be completed.");
             
             var lesson = await _mediator.Send(new GetLessonByIdQuery(lessonId));
             
             if (lesson.CourseId != enrollment.CourseId)
             {
-                return BadRequest(new { error = "A aula não pertence ao curso da matrícula" });
+                return BadRequest(new { error = "The class does not belong to the course of enrollment" });
             }
             
             // Obter ou criar o histórico de aprendizado do aluno
@@ -128,7 +128,7 @@ public class EnrollmentsController : ControllerBase
                 enrollmentId, 
                 lessonId, 
                 completed = request.Completed,
-                message = "Aula concluída com sucesso"
+                message = "Class completed successfully"
             });
         }
         catch (NotFoundException ex)
@@ -149,10 +149,10 @@ public class EnrollmentsController : ControllerBase
     {
         var enrollment = await _mediator.Send(new GetEnrollmentByIdQuery(id));
         if (enrollment == null)
-            return NotFound("Matrícula não encontrada");
+            return NotFound("Enrollment not found");
 
         if (enrollment.Status != "Active")
-            return BadRequest("Apenas matrículas ativas podem ser concluídas");
+            return BadRequest("Only active enrollments can be completed.");
 
         var learningHistory = await _dbContext.LearningHistories
             .FirstOrDefaultAsync(lh => lh.Id == enrollment.StudentId);
@@ -169,12 +169,12 @@ public class EnrollmentsController : ControllerBase
         var totalLessons = course.Lessons.Count();
 
         if (completedLessons < totalLessons)
-            return BadRequest($"Todas as aulas precisam ser concluídas antes de completar o curso. Aulas concluídas: {completedLessons}, Total de aulas: {totalLessons}");
+            return BadRequest($"All classes must be completed before completing the course. Completed classes: {completedLessons}, Total classes: {totalLessons}");
 
         try
         {
             await _mediator.Send(new CompleteEnrollmentCommand(id));
-            return Ok("Curso concluído com sucesso");
+            return Ok("Course completed successfully");
         }
         catch (InvalidOperationException ex)
         {

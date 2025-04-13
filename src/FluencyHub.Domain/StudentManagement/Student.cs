@@ -55,20 +55,16 @@ public class Student : BaseEntity
         IsActive = true;
     }
     
-    public void UpdateDetails(string firstName, string lastName, string email, DateTime dateOfBirth, string? phoneNumber)
+    public void UpdateDetails(string firstName, string lastName, DateTime dateOfBirth, string? phoneNumber)
     {
         if (string.IsNullOrWhiteSpace(firstName))
             throw new ArgumentException("First name cannot be empty", nameof(firstName));
             
         if (string.IsNullOrWhiteSpace(lastName))
             throw new ArgumentException("Last name cannot be empty", nameof(lastName));
-            
-        if (string.IsNullOrWhiteSpace(email))
-            throw new ArgumentException("Email cannot be empty", nameof(email));
         
         FirstName = firstName;
         LastName = lastName;
-        Email = email;
         DateOfBirth = dateOfBirth;
         PhoneNumber = phoneNumber;
         UpdatedAt = DateTime.UtcNow;

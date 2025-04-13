@@ -115,4 +115,19 @@ public class IdentityService : IIdentityService
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+
+    public async Task<bool> UpdateUserStudentIdAsync(string email, Guid studentId)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+        
+        if (user == null)
+        {
+            return false;
+        }
+
+        user.StudentId = studentId;
+        
+        var result = await _userManager.UpdateAsync(user);
+        return result.Succeeded;
+    }
 }

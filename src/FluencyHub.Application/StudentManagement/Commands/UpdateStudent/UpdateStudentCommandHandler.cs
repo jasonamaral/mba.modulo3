@@ -26,7 +26,6 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand>
         student.UpdateDetails(
             request.FirstName,
             request.LastName,
-            request.Email,
             request.DateOfBirth,
             request.PhoneNumber);
             

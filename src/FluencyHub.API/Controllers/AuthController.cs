@@ -27,22 +27,22 @@ public class AuthController : ControllerBase
         return Ok(new { token = result.Token });
     }
     
-    [HttpPost("register")]
-    public async Task<IActionResult> Register(RegisterRequest request)
-    {
-        var result = await _identityService.RegisterUserAsync(
-            request.Email, 
-            request.Password, 
-            request.FirstName, 
-            request.LastName);
+    //[HttpPost("register")]
+    //public async Task<IActionResult> Register(RegisterRequest request)
+    //{
+    //    var result = await _identityService.RegisterUserAsync(
+    //        request.Email, 
+    //        request.Password, 
+    //        request.FirstName, 
+    //        request.LastName);
         
-        if (!result.Succeeded)
-        {
-            return BadRequest(new { errors = result.Errors });
-        }
+    //    if (!result.Succeeded)
+    //    {
+    //        return BadRequest(new { errors = result.Errors });
+    //    }
         
-        return Ok(new { token = result.Token });
-    }
+    //    return Ok(new { token = result.Token });
+    //}
 }
 
 public record LoginRequest(string Email, string Password);

@@ -9,4 +9,5 @@ public record CreateStudentCommand : IRequest<Guid>
     public string Email { get; init; } = string.Empty;
     public DateTime DateOfBirth { get; init; }
     public string PhoneNumber { get; init; } = string.Empty;
+    public string Password { get; init; } = string.Empty;
 } 
