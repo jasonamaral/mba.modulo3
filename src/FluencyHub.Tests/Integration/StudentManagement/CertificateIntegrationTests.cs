@@ -267,6 +267,6 @@ public class CertificateIntegrationTests : IClassFixture<IntegrationTestFixture>
         
         // Verificar a mensagem de erro
         var errorContent = await completeCourseResponse.Content.ReadAsStringAsync();
-        Assert.Contains("Todas as aulas precisam ser concluídas antes de completar o curso", errorContent);
+        Assert.Contains("All classes must be completed before completing the course. Completed classes", errorContent);
     }
 } 

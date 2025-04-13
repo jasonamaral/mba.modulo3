@@ -4,6 +4,7 @@ using FluencyHub.Application.StudentManagement.Commands.UpdateStudent;
 using FluencyHub.Application.StudentManagement.Commands.ActivateStudent;
 using FluencyHub.Application.StudentManagement.Commands.DeactivateStudent;
 using FluencyHub.Application.StudentManagement.Queries.GetStudentById;
+using FluencyHub.Application.StudentManagement.Queries.GetAllStudents;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,23 @@ public class StudentsController : ControllerBase
         _mediator = mediator;
         _dbContext = dbContext;
         _userManager = userManager;
+    }
+    
+    [HttpGet]
+    [Authorize(Roles = "Administrator")]
+    [ProducesResponseType(typeof(IEnumerable<Application.StudentManagement.Queries.GetAllStudents.StudentDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    public async Task<IActionResult> GetAllStudents()
+    {
+        try
+        {
+            var students = await _mediator.Send(new GetAllStudentsQuery());
+            return Ok(students);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
     
     [HttpGet("me")]

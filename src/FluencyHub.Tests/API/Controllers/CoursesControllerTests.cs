@@ -2,6 +2,7 @@ using FluencyHub.API.Controllers;
 using FluencyHub.API.Models;
 using FluencyHub.Application.Common.Exceptions;
 using FluencyHub.Application.ContentManagement.Commands.CreateCourse;
+using FluencyHub.Application.ContentManagement.Commands.UpdateCourse;
 using FluencyHub.Application.ContentManagement.Queries.GetCourseById;
 using FluencyHub.Domain.ContentManagement;
 using MediatR;
@@ -135,5 +136,102 @@ public class CoursesControllerTests
         
         // Assert
         Assert.IsType<BadRequestObjectResult>(result);
+    }
+    
+    [Fact]
+    public async Task UpdateCourse_WithValidData_ReturnsOkResult()
+    {
+        // Arrange
+        var courseId = Guid.NewGuid();
+        var request = new CourseUpdateRequest
+        {
+            Id = courseId,
+            Name = "Updated Course",
+            Description = "Updated Description",
+            Syllabus = "Updated Syllabus",
+            LearningObjectives = "Updated Objectives",
+            PreRequisites = "Updated Prerequisites",
+            TargetAudience = "Advanced",
+            Language = "Portuguese",
+            Level = "C1",
+            Price = 149.99m
+        };
+        
+        _mediatorMock.Setup(m => m.Send(It.IsAny<UpdateCourseCommand>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(true);
+        
+        // Act
+        var result = await _controller.UpdateCourse(courseId, request);
+        
+        // Assert
+        Assert.IsType<OkResult>(result);
+        
+        _mediatorMock.Verify(m => m.Send(
+            It.Is<UpdateCourseCommand>(c => 
+                c.Id == courseId && 
+                c.Name == request.Name && 
+                c.Description == request.Description &&
+                c.Price == request.Price), 
+            It.IsAny<CancellationToken>()), 
+            Times.Once);
+    }
+    
+    [Fact]
+    public async Task UpdateCourse_WithMismatchingIds_ReturnsBadRequest()
+    {
+        // Arrange
+        var courseId = Guid.NewGuid();
+        var differentId = Guid.NewGuid();
+        var request = new CourseUpdateRequest
+        {
+            Id = differentId,
+            Name = "Updated Course",
+            Description = "Updated Description",
+            Syllabus = "Updated Syllabus",
+            LearningObjectives = "Updated Objectives",
+            PreRequisites = "Updated Prerequisites",
+            TargetAudience = "Advanced",
+            Language = "Portuguese",
+            Level = "C1",
+            Price = 149.99m
+        };
+        
+        // Act
+        var result = await _controller.UpdateCourse(courseId, request);
+        
+        // Assert
+        var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+        Assert.Contains("ID", badRequestResult.Value.ToString());
+        
+        _mediatorMock.Verify(m => m.Send(It.IsAny<UpdateCourseCommand>(), It.IsAny<CancellationToken>()), Times.Never);
+    }
+    
+    [Fact]
+    public async Task UpdateCourse_CourseNotFound_ReturnsNotFound()
+    {
+        // Arrange
+        var courseId = Guid.NewGuid();
+        var request = new CourseUpdateRequest
+        {
+            Id = courseId,
+            Name = "Updated Course",
+            Description = "Updated Description",
+            Syllabus = "Updated Syllabus",
+            LearningObjectives = "Updated Objectives",
+            PreRequisites = "Updated Prerequisites",
+            TargetAudience = "Advanced",
+            Language = "Portuguese",
+            Level = "C1",
+            Price = 149.99m
+        };
+        
+        _mediatorMock.Setup(m => m.Send(It.IsAny<UpdateCourseCommand>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new NotFoundException($"Curso com ID {courseId} não encontrado"));
+        
+        // Act
+        var result = await _controller.UpdateCourse(courseId, request);
+        
+        // Assert
+        Assert.IsType<NotFoundObjectResult>(result);
     }
 } 

@@ -1,5 +1,6 @@
 using FluencyHub.Application.Common.Exceptions;
 using FluencyHub.Application.ContentManagement.Commands.CreateCourse;
+using FluencyHub.Application.ContentManagement.Commands.UpdateCourse;
 using FluencyHub.Application.ContentManagement.Queries.GetCourseById;
 using FluencyHub.Application.ContentManagement.Queries.GetAllCourses;
 using FluencyHub.API.Models;
@@ -55,6 +56,51 @@ public class CoursesController : ControllerBase
             var command = request.ToCommand();
             var courseId = await _mediator.Send(command);
             return CreatedAtAction(nameof(GetCourseById), new { id = courseId }, new { id = courseId });
+        }
+        catch (ValidationException ex)
+        {
+            return BadRequest(ex.Errors);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    
+    [HttpPut("{id}")]
+    [Authorize(Roles = "Administrator")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UpdateCourse(Guid id, CourseUpdateRequest request)
+    {
+        try
+        {
+            if (id != request.Id)
+            {
+                return BadRequest("O ID na URL deve ser o mesmo que o ID no corpo da requisição");
+            }
+            
+            var command = new UpdateCourseCommand
+            {
+                Id = request.Id,
+                Name = request.Name,
+                Description = request.Description,
+                Syllabus = request.Syllabus,
+                LearningObjectives = request.LearningObjectives,
+                PreRequisites = request.PreRequisites,
+                TargetAudience = request.TargetAudience,
+                Language = request.Language,
+                Level = request.Level,
+                Price = request.Price
+            };
+            
+            var result = await _mediator.Send(command);
+            return Ok();
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
         }
         catch (ValidationException ex)
         {

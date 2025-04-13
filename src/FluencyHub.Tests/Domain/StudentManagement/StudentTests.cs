@@ -50,17 +50,15 @@ public class StudentTests
         var student = CreateValidStudent();
         string newFirstName = "Jane";
         string newLastName = "Smith";
-        string newEmail = "jane.smith@example.com";
         DateTime newDateOfBirth = new DateTime(1992, 2, 2);
         string newPhoneNumber = "987-654-3210";
 
         // Act
-        student.UpdateDetails(newFirstName, newLastName, newEmail, newDateOfBirth, newPhoneNumber);
+        student.UpdateDetails(newFirstName, newLastName, newDateOfBirth, newPhoneNumber);
 
         // Assert
         Assert.Equal(newFirstName, student.FirstName);
         Assert.Equal(newLastName, student.LastName);
-        Assert.Equal(newEmail, student.Email);
         Assert.Equal(newDateOfBirth, student.DateOfBirth);
         Assert.Equal(newPhoneNumber, student.PhoneNumber);
         Assert.Equal($"{newFirstName} {newLastName}", student.FullName);
