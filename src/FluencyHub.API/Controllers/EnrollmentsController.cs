@@ -94,161 +94,28 @@ public class EnrollmentsController : ControllerBase
     {
         try
         {
-            if (request == null || !request.Completed)
+            var command = new FluencyHub.Application.StudentManagement.Commands.CompleteLesson.CompleteLessonCommand
             {
-                return BadRequest("Request must contain 'completed: true' value");
-            }
+                EnrollmentId = enrollmentId,
+                LessonId = lessonId,
+                Completed = request.Completed
+            };
             
-            var enrollment = await _mediator.Send(new GetEnrollmentByIdQuery(enrollmentId));
+            var result = await _mediator.Send(command);
             
-            if (enrollment == null)
-                return NotFound("Enrollment not found");
-
-            if (enrollment.Status != EnrollmentStatus.Active.ToString())
-                return BadRequest("Only active enrollments can be completed.");
-            
-            var lesson = await _mediator.Send(new GetLessonByIdQuery(lessonId));
-            
-            if (lesson == null)
-                return NotFound("Lesson not found");
-                
-            if (lesson.CourseId != enrollment.CourseId)
-            {
-                return BadRequest(new { error = "The class does not belong to the course of enrollment" });
-            }
-
-            // Desativa o rastreamento automático de entidades para evitar conflitos
-            _dbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-
-            // Verifica se o LearningHistory já existe
-            var learningHistoryId = enrollment.StudentId;
-            var learningHistory = await _dbContext.LearningHistories.AsNoTracking()
-                .FirstOrDefaultAsync(lh => lh.Id == learningHistoryId);
-
-            if (learningHistory == null)
-            {
-                // Cria um novo com SQL direto para garantir
-                await _dbContext.Database.ExecuteSqlRawAsync(
-                    "INSERT INTO LearningHistories (Id, CreatedAt, UpdatedAt) VALUES ({0}, {1}, {2})",
-                    learningHistoryId, DateTime.UtcNow, DateTime.UtcNow);
-            }
-            else
-            {
-                // Atualiza a data de atualização
-                await _dbContext.Database.ExecuteSqlRawAsync(
-                    "UPDATE LearningHistories SET UpdatedAt = {0} WHERE Id = {1}",
-                    DateTime.UtcNow, learningHistoryId);
-            }
-
-            // Verifica se o CourseProgress já existe
-            var courseProgress = await _dbContext.CourseProgresses.AsNoTracking()
-                .FirstOrDefaultAsync(cp => cp.CourseId == enrollment.CourseId && cp.LearningHistoryId == learningHistoryId);
-
-            Guid courseProgressId;
-            
-            if (courseProgress == null)
-            {
-                // Cria um novo CourseProgress
-                courseProgressId = Guid.NewGuid();
-                await _dbContext.Database.ExecuteSqlRawAsync(
-                    "INSERT INTO CourseProgresses (Id, CourseId, LearningHistoryId, IsCompleted, LastUpdated) VALUES ({0}, {1}, {2}, {3}, {4})",
-                    courseProgressId, enrollment.CourseId, learningHistoryId, false, DateTime.UtcNow);
-            }
-            else
-            {
-                courseProgressId = courseProgress.Id;
-                
-                // Atualiza a data de atualização
-                await _dbContext.Database.ExecuteSqlRawAsync(
-                    "UPDATE CourseProgresses SET LastUpdated = {0} WHERE Id = {1}",
-                    DateTime.UtcNow, courseProgressId);
-            }
-
-            // Verifica se a lição já foi marcada como concluída
-            var completedLessonExists = await _dbContext.CompletedLessons.AsNoTracking()
-                .AnyAsync(cl => cl.LessonId == lessonId && cl.CourseProgressId == courseProgressId);
-
-            if (completedLessonExists)
-            {
-                return Ok(new { 
-                    enrollmentId, 
-                    lessonId, 
-                    completed = request.Completed,
-                    message = "Class was already completed"
-                });
-            }
-
-            // Adiciona a lição concluída diretamente com SQL para evitar problemas de rastreamento
-            var completedLessonId = Guid.NewGuid();
-            var completedAt = DateTime.UtcNow;
-            
-            try
-            {
-                await _dbContext.Database.ExecuteSqlRawAsync(
-                    "INSERT INTO CompletedLessons (Id, LessonId, CourseProgressId, CompletedAt) VALUES ({0}, {1}, {2}, {3})",
-                    completedLessonId, lessonId, courseProgressId, completedAt);
-            }
-            catch (DbUpdateException)
-            {
-                // Verifica se a inserção falhou por causa de um índice único (a lição já foi concluída)
-                var checkAgain = await _dbContext.CompletedLessons.AsNoTracking()
-                    .AnyAsync(cl => cl.LessonId == lessonId && cl.CourseProgressId == courseProgressId);
-                
-                if (checkAgain)
-                {
-                    return Ok(new { 
-                        enrollmentId, 
-                        lessonId, 
-                        completed = request.Completed,
-                        message = "Class was already completed (concurrent operation detected)"
-                    });
-                }
-                
-                throw;
-            }
-            
-            // Verifica se todas as lições do curso foram concluídas
-            var course = await _mediator.Send(new GetCourseByIdQuery(enrollment.CourseId));
-            if (course != null)
-            {
-                // Obtém todas as lições do curso
-                var allLessons = course.Lessons.ToList();
-                var allLessonIds = allLessons.Select(l => l.Id).ToList();
-                
-                // Obtém todas as lições concluídas deste curso
-                var completedLessons = await _dbContext.CompletedLessons
-                    .Where(cl => cl.CourseProgressId == courseProgressId)
-                    .Select(cl => cl.LessonId)
-                    .ToListAsync();
-                
-                // Verifica se todas as lições foram concluídas
-                var notCompletedLessonIds = allLessonIds.Except(completedLessons).ToList();
-                
-                // Se todas as lições do curso foram concluídas, chama o método de conclusão do curso
-                if (!notCompletedLessonIds.Any())
-                {
-                    // Completa o curso automaticamente
-                    await CompleteCourse(enrollmentId);
-                    
-                    return Ok(new { 
-                        enrollmentId, 
-                        lessonId, 
-                        completed = request.Completed,
-                        message = "Class completed successfully and course has been completed automatically"
-                    });
-                }
-            }
-            
-            return Ok(new { 
-                enrollmentId, 
-                lessonId, 
-                completed = request.Completed,
-                message = "Class completed successfully"
-            });
+            return Ok(result);
         }
         catch (NotFoundException ex)
         {
             return NotFound(ex.Message);
+        }
+        catch (ValidationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (BadRequestException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {

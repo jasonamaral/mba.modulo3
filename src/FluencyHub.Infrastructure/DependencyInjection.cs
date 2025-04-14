@@ -30,6 +30,7 @@ public static class DependencyInjection
         services.AddScoped<Application.Common.Interfaces.IEnrollmentRepository, EnrollmentRepository>();
         services.AddScoped<Application.Common.Interfaces.ICertificateRepository, CertificateRepository>();
         services.AddScoped<Application.Common.Interfaces.IPaymentRepository, PaymentRepository>();
+        services.AddScoped<Application.Common.Interfaces.ILearningRepository, LearningRepository>();
 
         // Add Identity
         var identityConnectionString = configuration.GetConnectionString("IdentityConnection");

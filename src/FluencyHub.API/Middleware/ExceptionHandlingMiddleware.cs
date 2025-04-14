@@ -49,6 +49,7 @@ public class ExceptionHandlingMiddleware
     private static int GetStatusCode(Exception exception) =>
         exception switch
         {
+            BadRequestException => StatusCodes.Status400BadRequest,
             ValidationException => StatusCodes.Status400BadRequest,
             NotFoundException => StatusCodes.Status404NotFound,
             UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
@@ -58,6 +59,7 @@ public class ExceptionHandlingMiddleware
     private static string GetTitle(Exception exception) =>
         exception switch
         {
+            BadRequestException => "Bad Request",
             ValidationException => "Bad Request",
             ApplicationException appEx => appEx.Message,
             _ => "Server Error"
