@@ -207,6 +207,38 @@ public class EnrollmentsController : ControllerBase
                 throw;
             }
             
+            // Verifica se todas as lições do curso foram concluídas
+            var course = await _mediator.Send(new GetCourseByIdQuery(enrollment.CourseId));
+            if (course != null)
+            {
+                // Obtém todas as lições do curso
+                var allLessons = course.Lessons.ToList();
+                var allLessonIds = allLessons.Select(l => l.Id).ToList();
+                
+                // Obtém todas as lições concluídas deste curso
+                var completedLessons = await _dbContext.CompletedLessons
+                    .Where(cl => cl.CourseProgressId == courseProgressId)
+                    .Select(cl => cl.LessonId)
+                    .ToListAsync();
+                
+                // Verifica se todas as lições foram concluídas
+                var notCompletedLessonIds = allLessonIds.Except(completedLessons).ToList();
+                
+                // Se todas as lições do curso foram concluídas, chama o método de conclusão do curso
+                if (!notCompletedLessonIds.Any())
+                {
+                    // Completa o curso automaticamente
+                    await CompleteCourse(enrollmentId);
+                    
+                    return Ok(new { 
+                        enrollmentId, 
+                        lessonId, 
+                        completed = request.Completed,
+                        message = "Class completed successfully and course has been completed automatically"
+                    });
+                }
+            }
+            
             return Ok(new { 
                 enrollmentId, 
                 lessonId, 
