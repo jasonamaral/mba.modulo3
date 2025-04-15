@@ -3,19 +3,19 @@ using FluencyHub.Application.StudentManagement.Commands.CreateStudent;
 using FluencyHub.Application.StudentManagement.Commands.UpdateStudent;
 using FluencyHub.Application.StudentManagement.Commands.ActivateStudent;
 using FluencyHub.Application.StudentManagement.Commands.DeactivateStudent;
+using FluencyHub.Application.StudentManagement.Commands.CompleteLessonForStudent;
+using FluencyHub.Application.StudentManagement.Commands.CompleteCourseForStudent;
 using FluencyHub.Application.StudentManagement.Queries.GetStudentById;
 using FluencyHub.Application.StudentManagement.Queries.GetAllStudents;
+using FluencyHub.Application.StudentManagement.Queries.GetStudentByEmail;
+using FluencyHub.Application.StudentManagement.Queries.GetStudentProgress;
+using FluencyHub.Application.StudentManagement.Queries.GetStudentDebugProgress;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using FluencyHub.Application.StudentManagement.Queries.GetStudentByEmail;
-using FluencyHub.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
-using FluencyHub.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
-using FluencyHub.Domain.StudentManagement;
-using Microsoft.Data.Sqlite;
+using FluencyHub.Infrastructure.Identity;
 
 namespace FluencyHub.API.Controllers;
 
@@ -25,13 +25,11 @@ namespace FluencyHub.API.Controllers;
 public class StudentsController : ControllerBase
 {
     private readonly IMediator _mediator;
-    private readonly FluencyHubDbContext _dbContext;
     private readonly UserManager<ApplicationUser> _userManager;
     
-    public StudentsController(IMediator mediator, FluencyHubDbContext dbContext, UserManager<ApplicationUser> userManager)
+    public StudentsController(IMediator mediator, UserManager<ApplicationUser> userManager)
     {
         _mediator = mediator;
-        _dbContext = dbContext;
         _userManager = userManager;
     }
     
@@ -93,7 +91,6 @@ public class StudentsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<IActionResult> GetStudentById(Guid id)
     {
-        
         try
         {
             var student = await _mediator.Send(new GetStudentByIdQuery(id));
@@ -136,6 +133,11 @@ public class StudentsController : ControllerBase
         if (!isAdmin)
         {
             // Buscar o usuário para verificar se ele está tentando atualizar seu próprio perfil de estudante
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Forbid();
+            }
+            
             var user = await _userManager.FindByIdAsync(userId);
             
             if (user == null || user.StudentId != id)
@@ -205,51 +207,8 @@ public class StudentsController : ControllerBase
     {
         try
         {
-            // Verificar se o estudante existe
-            var student = await _mediator.Send(new GetStudentByIdQuery(studentId));
-            
-            // Buscar todos os CourseProgresses do estudante com suas lições concluídas
-            var courseProgresses = await _dbContext.CourseProgresses
-                .AsNoTracking()
-                .Where(cp => cp.LearningHistoryId == studentId)
-                .Select(cp => new
-                {
-                    cp.CourseId,
-                    cp.IsCompleted,
-                    cp.LastUpdated,
-                    CompletedLessonsCount = cp.CompletedLessons.Count
-                })
-                .ToListAsync();
-                
-            if (courseProgresses == null || !courseProgresses.Any())
-            {
-                return Ok(new { progress = new Dictionary<Guid, object>() });
-            }
-            
-            // Buscar o total de lições para cada curso
-            var courseLessonCounts = await _dbContext.Courses
-                .AsNoTracking()
-                .Where(c => courseProgresses.Select(cp => cp.CourseId).Contains(c.Id))
-                .Select(c => new
-                {
-                    c.Id,
-                    TotalLessons = c.Lessons.Count
-                })
-                .ToDictionaryAsync(c => c.Id, c => c.TotalLessons);
-            
-            // Montar o dicionário de progresso
-            var progress = courseProgresses.ToDictionary(
-                cp => cp.CourseId,
-                cp => new
-                {
-                    completedLessons = cp.CompletedLessonsCount,
-                    totalLessons = courseLessonCounts.ContainsKey(cp.CourseId) ? courseLessonCounts[cp.CourseId] : 0,
-                    isCompleted = cp.IsCompleted,
-                    lastUpdated = cp.LastUpdated
-                }
-            );
-            
-            return Ok(new { progress });
+            var progress = await _mediator.Send(new GetStudentProgressQuery(studentId));
+            return Ok(progress);
         }
         catch (NotFoundException ex)
         {
@@ -257,8 +216,6 @@ public class StudentsController : ControllerBase
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Erro ao obter progresso: {ex.Message}");
-            Console.WriteLine($"Stack trace: {ex.StackTrace}");
             return BadRequest(new { error = ex.Message });
         }
     }
@@ -271,61 +228,16 @@ public class StudentsController : ControllerBase
     {
         try
         {
-            // Verificar se o estudante existe
-            var student = await _mediator.Send(new GetStudentByIdQuery(studentId));
-            
-            // Verificar se a lição existe
-            var course = await _dbContext.Courses
-                .Include(c => c.Lessons)
-                .FirstOrDefaultAsync(c => c.Id == courseId);
-                
-            if (course == null)
-            {
-                return NotFound($"Curso não encontrado: {courseId}");
-            }
-            
-            var lesson = course.Lessons.FirstOrDefault(l => l.Id == lessonId);
-            if (lesson == null)
-            {
-                return NotFound($"Lição não encontrada: {lessonId}");
-            }
-            
-            // Obter ou criar o histórico de aprendizado
-            var learningHistory = await _dbContext.LearningHistories
-                .Include(lh => lh.CourseProgress)
-                .FirstOrDefaultAsync(lh => lh.Id == studentId);
-                
-            if (learningHistory == null)
-            {
-                learningHistory = new LearningHistory(studentId);
-                _dbContext.LearningHistories.Add(learningHistory);
-                await _dbContext.SaveChangesAsync();
-                
-                // Recarregar o histórico
-                learningHistory = await _dbContext.LearningHistories
-                    .Include(lh => lh.CourseProgress)
-                    .FirstOrDefaultAsync(lh => lh.Id == studentId);
-                    
-                if (learningHistory == null)
-                {
-                    return BadRequest("Erro ao criar histórico de aprendizado");
-                }
-            }
-            
-            // Adicionar o progresso
-            learningHistory.AddProgress(courseId, lessonId);
-            await _dbContext.SaveChangesAsync();
-            
-            return Ok(new { 
-                message = "Lição marcada como concluída com sucesso",
-                studentId,
-                courseId,
-                lessonId 
-            });
+            var result = await _mediator.Send(new CompleteLessonForStudentCommand(studentId, courseId, lessonId));
+            return Ok(result);
         }
         catch (NotFoundException ex)
         {
             return NotFound(ex.Message);
+        }
+        catch (BadRequestException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {
@@ -341,80 +253,26 @@ public class StudentsController : ControllerBase
     {
         try
         {
-            // Verificar se o estudante existe
-            var student = await _mediator.Send(new GetStudentByIdQuery(studentId));
+            var result = await _mediator.Send(new CompleteCourseForStudentCommand(studentId, courseId));
             
-            // Verificar se o curso existe
-            var course = await _dbContext.Courses
-                .Include(c => c.Lessons)
-                .FirstOrDefaultAsync(c => c.Id == courseId);
-                
-            if (course == null)
+            if (!result.Success)
             {
-                return NotFound($"Curso não encontrado: {courseId}");
+                return BadRequest(result);
             }
             
-            // Obter ou criar o histórico de aprendizado
-            var learningHistory = await _dbContext.LearningHistories
-                .Include(lh => lh.CourseProgress)
-                .FirstOrDefaultAsync(lh => lh.Id == studentId);
-                
-            if (learningHistory == null)
-            {
-                learningHistory = new LearningHistory(studentId);
-                _dbContext.LearningHistories.Add(learningHistory);
-                await _dbContext.SaveChangesAsync();
-                
-                // Recarregar o histórico
-                learningHistory = await _dbContext.LearningHistories
-                    .Include(lh => lh.CourseProgress)
-                    .FirstOrDefaultAsync(lh => lh.Id == studentId);
-                    
-                if (learningHistory == null)
-                {
-                    return BadRequest("Erro ao criar histórico de aprendizado");
-                }
-            }
-            
-            // Verificar se todas as lições foram concluídas
-            var courseProgress = learningHistory.CourseProgress.FirstOrDefault(cp => cp.CourseId == courseId);
-            if (courseProgress != null)
-            {
-                var allLessonIds = course.Lessons.Select(l => l.Id).ToList();
-                var completedLessonIds = courseProgress.CompletedLessons.Select(cl => cl.LessonId).ToList();
-                int completedLessonsCount = completedLessonIds.Count;
-                int totalLessonsCount = allLessonIds.Count;
-                
-                // Verificar quais lições ainda não foram concluídas
-                var notCompletedLessonIds = allLessonIds.Where(id => !completedLessonIds.Contains(id)).ToList();
-                
-                if (notCompletedLessonIds.Any())
-                {
-                    return BadRequest($"All classes must be completed before completing the course. Completed classes: {completedLessonsCount}/{totalLessonsCount}. Missing: {notCompletedLessonIds.Count} lessons.");
-                }
-            }
-            else
-            {
-                return BadRequest("Nenhuma lição do curso foi concluída.");
-            }
-            
-            // Marcar o curso como concluído
-            learningHistory.CompleteCourse(courseId);
-            await _dbContext.SaveChangesAsync();
-            
-            return Ok(new { 
-                message = "Curso marcado como concluído com sucesso",
-                studentId,
-                courseId
-            });
+            return Ok(result);
         }
         catch (NotFoundException ex)
         {
             return NotFound(ex.Message);
         }
-        catch (Exception ex)
+        catch (BadRequestException ex)
         {
             return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { error = ex.Message });
         }
     }
 
@@ -424,38 +282,12 @@ public class StudentsController : ControllerBase
     {
         try
         {
-            // Obter os CourseProgresses diretamente do banco de dados
-            var debugInfo = new List<object>();
-            
-            // 1. Buscar os CourseProgresses
-            var courseProgresses = await _dbContext.CourseProgresses
-                .AsNoTracking()
-                .Where(cp => cp.LearningHistoryId == studentId)
-                .Select(cp => new { cp.Id, cp.CourseId, cp.IsCompleted, cp.LastUpdated })
-                .ToListAsync();
-                
-            foreach (var cp in courseProgresses)
-            {
-                // 2. Para cada CourseProgress, buscar o campo CompletedLessons diretamente do SQLite
-                var rawData = await _dbContext.Database
-                    .ExecuteSqlRawAsync("SELECT CompletedLessons FROM CourseProgresses WHERE Id = @p0", cp.Id);
-                    
-                // 3. Obter o valor do campo CompletedLessons como string
-                var jsonData = await _dbContext.Database
-                    .SqlQueryRaw<string>("SELECT CompletedLessons AS Value FROM CourseProgresses WHERE Id = @id", 
-                        new SqliteParameter("@id", cp.Id))
-                    .FirstOrDefaultAsync();
-                
-                debugInfo.Add(new {
-                    courseProgressId = cp.Id,
-                    courseId = cp.CourseId,
-                    isCompleted = cp.IsCompleted,
-                    lastUpdated = cp.LastUpdated,
-                    completedLessonsRaw = jsonData
-                });
-            }
-            
-            return Ok(new { debugInfo });
+            var debugInfo = await _mediator.Send(new GetStudentDebugProgressQuery(studentId));
+            return Ok(debugInfo);
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
         }
         catch (Exception ex)
         {

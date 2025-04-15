@@ -15,4 +15,6 @@ public interface ICourseRepository
     Task DeleteAsync(Guid id);
     Task<Lesson> GetLessonByIdAsync(Guid lessonId);
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
+    Task<IEnumerable<CourseProgressInfo>> GetCourseProgressesForStudent(Guid studentId, CancellationToken cancellationToken = default);
+    Task<int> GetLessonsCountByCourseId(Guid courseId, CancellationToken cancellationToken = default);
 } 

@@ -2,10 +2,12 @@ using FluencyHub.Domain.ContentManagement;
 using FluencyHub.Domain.PaymentProcessing;
 using FluencyHub.Domain.StudentManagement;
 using Microsoft.EntityFrameworkCore;
+using FluencyHub.Application.Common.Interfaces;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace FluencyHub.Infrastructure.Persistence;
 
-public class FluencyHubDbContext : DbContext
+public class FluencyHubDbContext : DbContext, IApplicationDbContext
 {
     public FluencyHubDbContext(DbContextOptions<FluencyHubDbContext> options) 
         : base(options)
@@ -21,6 +23,10 @@ public class FluencyHubDbContext : DbContext
     public DbSet<LearningHistory> LearningHistories { get; set; }
     public DbSet<CourseProgress> CourseProgresses { get; set; }
     public DbSet<CompletedLesson> CompletedLessons { get; set; }
+    
+    public DatabaseFacade Database => base.Database;
+    
+    public Task<int> SaveChangesAsync(CancellationToken cancellationToken) => base.SaveChangesAsync(cancellationToken);
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

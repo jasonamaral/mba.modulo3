@@ -111,4 +111,27 @@ public class CourseRepository : Application.Common.Interfaces.ICourseRepository
         
         return lesson;
     }
+
+    public async Task<IEnumerable<CourseProgressInfo>> GetCourseProgressesForStudent(Guid studentId, CancellationToken cancellationToken = default)
+    {
+        return await _context.CourseProgresses
+            .AsNoTracking()
+            .Where(cp => cp.LearningHistoryId == studentId)
+            .Select(cp => new CourseProgressInfo
+            {
+                CourseId = cp.CourseId,
+                IsCompleted = cp.IsCompleted,
+                LastUpdated = cp.LastUpdated
+            })
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<int> GetLessonsCountByCourseId(Guid courseId, CancellationToken cancellationToken = default)
+    {
+        return await _context.Courses
+            .AsNoTracking()
+            .Where(c => c.Id == courseId)
+            .Select(c => c.Lessons.Count)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
 } 

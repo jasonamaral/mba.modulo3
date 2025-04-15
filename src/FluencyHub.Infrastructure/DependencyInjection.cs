@@ -24,6 +24,7 @@ public static class DependencyInjection
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         services.AddDbContext<FluencyHubDbContext>(options =>
             options.UseSqlite(connectionString));
+        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<FluencyHubDbContext>());
 
         services.AddScoped<Application.Common.Interfaces.ICourseRepository, CourseRepository>();
         services.AddScoped<Application.Common.Interfaces.IStudentRepository, StudentRepository>();
