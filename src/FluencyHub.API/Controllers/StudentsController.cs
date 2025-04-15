@@ -226,12 +226,24 @@ public class StudentsController : ControllerBase
                 return Ok(new { progress = new Dictionary<Guid, object>() });
             }
             
+            // Buscar o total de lições para cada curso
+            var courseLessonCounts = await _dbContext.Courses
+                .AsNoTracking()
+                .Where(c => courseProgresses.Select(cp => cp.CourseId).Contains(c.Id))
+                .Select(c => new
+                {
+                    c.Id,
+                    TotalLessons = c.Lessons.Count
+                })
+                .ToDictionaryAsync(c => c.Id, c => c.TotalLessons);
+            
             // Montar o dicionário de progresso
             var progress = courseProgresses.ToDictionary(
                 cp => cp.CourseId,
                 cp => new
                 {
                     completedLessons = cp.CompletedLessonsCount,
+                    totalLessons = courseLessonCounts.ContainsKey(cp.CourseId) ? courseLessonCounts[cp.CourseId] : 0,
                     isCompleted = cp.IsCompleted,
                     lastUpdated = cp.LastUpdated
                 }
