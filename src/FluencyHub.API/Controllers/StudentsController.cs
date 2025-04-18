@@ -275,23 +275,4 @@ public class StudentsController : ControllerBase
             return BadRequest(new { error = ex.Message });
         }
     }
-
-    [HttpGet("{studentId}/debug-progress")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetDebugProgress(Guid studentId)
-    {
-        try
-        {
-            var debugInfo = await _mediator.Send(new GetStudentDebugProgressQuery(studentId));
-            return Ok(debugInfo);
-        }
-        catch (NotFoundException ex)
-        {
-            return NotFound(ex.Message);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { error = ex.Message, stackTrace = ex.StackTrace });
-        }
-    }
 } 

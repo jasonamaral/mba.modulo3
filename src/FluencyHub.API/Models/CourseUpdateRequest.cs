@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using FluencyHub.Application.ContentManagement.Commands.UpdateCourse;
 
 namespace FluencyHub.API.Models;
 
@@ -40,4 +41,21 @@ public class CourseUpdateRequest
     [Required]
     [Range(0, 10000)]
     public decimal Price { get; set; }
+    
+    public UpdateCourseCommand ToCommand()
+    {
+        return new UpdateCourseCommand
+        {
+            Id = Id,
+            Name = Name,
+            Description = Description,
+            Syllabus = Syllabus,
+            LearningObjectives = LearningObjectives,
+            PreRequisites = PreRequisites,
+            TargetAudience = TargetAudience,
+            Language = Language,
+            Level = Level,
+            Price = Price
+        };
+    }
 } 

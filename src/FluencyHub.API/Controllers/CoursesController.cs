@@ -81,20 +81,7 @@ public class CoursesController : ControllerBase
                 return BadRequest("O ID na URL deve ser o mesmo que o ID no corpo da requisição");
             }
             
-            var command = new UpdateCourseCommand
-            {
-                Id = request.Id,
-                Name = request.Name,
-                Description = request.Description,
-                Syllabus = request.Syllabus,
-                LearningObjectives = request.LearningObjectives,
-                PreRequisites = request.PreRequisites,
-                TargetAudience = request.TargetAudience,
-                Language = request.Language,
-                Level = request.Level,
-                Price = request.Price
-            };
-            
+            var command = request.ToCommand();
             var result = await _mediator.Send(command);
             return Ok();
         }
