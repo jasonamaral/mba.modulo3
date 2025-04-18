@@ -9,7 +9,6 @@ using FluencyHub.Application.StudentManagement.Queries.GetStudentById;
 using FluencyHub.Application.StudentManagement.Queries.GetAllStudents;
 using FluencyHub.Application.StudentManagement.Queries.GetStudentByEmail;
 using FluencyHub.Application.StudentManagement.Queries.GetStudentProgress;
-using FluencyHub.Application.StudentManagement.Queries.GetStudentDebugProgress;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
