@@ -1,6 +1,5 @@
-using System.Net;
-using System.Text.Json;
 using FluencyHub.Application.Common.Exceptions;
+using System.Text.Json;
 
 namespace FluencyHub.API.Middleware;
 
@@ -31,7 +30,7 @@ public class ExceptionHandlingMiddleware
     private static async Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
         var statusCode = GetStatusCode(exception);
-        
+
         var response = new
         {
             title = GetTitle(exception),
@@ -42,7 +41,7 @@ public class ExceptionHandlingMiddleware
 
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = statusCode;
-        
+
         await context.Response.WriteAsync(JsonSerializer.Serialize(response));
     }
 
@@ -55,7 +54,7 @@ public class ExceptionHandlingMiddleware
             UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
             _ => StatusCodes.Status500InternalServerError
         };
-        
+
     private static string GetTitle(Exception exception) =>
         exception switch
         {
@@ -64,21 +63,21 @@ public class ExceptionHandlingMiddleware
             ApplicationException appEx => appEx.Message,
             _ => "Server Error"
         };
-        
+
     private static string GetDetail(Exception exception) =>
         exception switch
         {
             NotFoundException notFoundEx => $"Entity not found: {notFoundEx.Message}",
             _ => exception.Message
         };
-        
+
     private static IReadOnlyDictionary<string, string[]>? GetErrors(Exception exception)
     {
         if (exception is ValidationException validationException)
         {
             return validationException.Errors;
         }
-        
+
         return null;
     }
-} 
+}

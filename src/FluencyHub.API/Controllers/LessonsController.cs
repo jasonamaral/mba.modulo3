@@ -1,7 +1,6 @@
-using FluencyHub.Application.ContentManagement.Commands.AddLesson;
+using FluencyHub.API.Models;
 using FluencyHub.Application.ContentManagement.Commands.UpdateLesson;
 using FluencyHub.Application.ContentManagement.Queries.GetLessonsByCourse;
-using FluencyHub.API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,12 +12,12 @@ namespace FluencyHub.API.Controllers;
 public class LessonsController : ControllerBase
 {
     private readonly IMediator _mediator;
-    
+
     public LessonsController(IMediator mediator)
     {
         _mediator = mediator;
     }
-    
+
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<LessonDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -34,7 +33,7 @@ public class LessonsController : ControllerBase
             return NotFound(ex.Message);
         }
     }
-    
+
     [HttpPost]
     [Authorize(Roles = "Administrator")]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -53,7 +52,7 @@ public class LessonsController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    
+
     [HttpPut("{lessonId}")]
     [Authorize(Roles = "Administrator")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -65,7 +64,7 @@ public class LessonsController : ControllerBase
         {
             return BadRequest("Course ID and Lesson ID in the route must match the IDs in the command");
         }
-        
+
         try
         {
             await _mediator.Send(command);
@@ -76,4 +75,4 @@ public class LessonsController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-} 
+}

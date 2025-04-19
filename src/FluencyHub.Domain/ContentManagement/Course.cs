@@ -6,7 +6,7 @@ namespace FluencyHub.Domain.ContentManagement;
 public class Course : BaseEntity
 {
     [JsonIgnore]
-    private readonly List<Lesson> _lessons = new();
+    private readonly List<Lesson> _lessons = [];
 
     public string Name { get; private set; }
     public string Description { get; private set; }
@@ -31,15 +31,12 @@ public class Course : BaseEntity
         if (string.IsNullOrWhiteSpace(description))
             throw new ArgumentException("Description cannot be empty", nameof(description));
 
-        if (content == null)
-            throw new ArgumentException("Course content cannot be null", nameof(content));
-
         if (price < 0)
             throw new ArgumentException("Price cannot be negative", nameof(price));
 
         Name = name;
         Description = description;
-        Content = content;
+        Content = content ?? throw new ArgumentException("Course content cannot be null", nameof(content));
         Price = price;
         IsActive = true;
         Status = CourseStatus.Draft;
@@ -54,15 +51,12 @@ public class Course : BaseEntity
         if (string.IsNullOrWhiteSpace(description))
             throw new ArgumentException("Description cannot be empty", nameof(description));
 
-        if (content == null)
-            throw new ArgumentException("Course content cannot be null", nameof(content));
-
         if (price < 0)
             throw new ArgumentException("Price cannot be negative", nameof(price));
 
         Name = name;
         Description = description;
-        Content = content;
+        Content = content ?? throw new ArgumentException("Course content cannot be null", nameof(content));
         Price = price;
         UpdatedAt = DateTime.UtcNow;
     }
@@ -85,25 +79,16 @@ public class Course : BaseEntity
 
     public void UpdateLesson(Guid lessonId, string title, string content, string materialUrl)
     {
-        var lesson = _lessons.FirstOrDefault(l => l.Id == lessonId);
-
-        if (lesson == null)
-            throw new ArgumentException($"Lesson with ID {lessonId} not found", nameof(lessonId));
-
+        var lesson = _lessons.FirstOrDefault(l => l.Id == lessonId) ?? throw new ArgumentException($"Lesson with ID {lessonId} not found", nameof(lessonId));
         lesson.Update(title, content, materialUrl);
         UpdatedAt = DateTime.UtcNow;
     }
 
     public void RemoveLesson(Guid lessonId)
     {
-        var lesson = _lessons.FirstOrDefault(l => l.Id == lessonId);
-
-        if (lesson == null)
-            throw new ArgumentException($"Lesson with ID {lessonId} not found", nameof(lessonId));
-
+        var lesson = _lessons.FirstOrDefault(l => l.Id == lessonId) ?? throw new ArgumentException($"Lesson with ID {lessonId} not found", nameof(lessonId));
         _lessons.Remove(lesson);
 
-        // Resequence remaining lessons to maintain continuous ordering
         var orderedLessons = _lessons.OrderBy(l => l.Order).ToList();
         for (int i = 0; i < orderedLessons.Count; i++)
         {
@@ -118,22 +103,16 @@ public class Course : BaseEntity
         if (newOrder <= 0)
             throw new ArgumentException("Order must be positive", nameof(newOrder));
 
-        var lesson = _lessons.FirstOrDefault(l => l.Id == lessonId);
-
-        if (lesson == null)
-            throw new ArgumentException($"Lesson with ID {lessonId} not found", nameof(lessonId));
-
+        var lesson = _lessons.FirstOrDefault(l => l.Id == lessonId) ?? throw new ArgumentException($"Lesson with ID {lessonId} not found", nameof(lessonId));
         var maxOrder = _lessons.Count;
         if (newOrder > maxOrder)
             newOrder = maxOrder;
 
         var currentOrder = lesson.Order;
 
-        // Skip if the lesson is already in the requested position
         if (currentOrder == newOrder)
             return;
 
-        // Shift lessons between old and new positions
         foreach (var otherLesson in _lessons.Where(l => l.Id != lessonId))
         {
             if (currentOrder < newOrder) // Moving down
@@ -148,7 +127,6 @@ public class Course : BaseEntity
             }
         }
 
-        // Update the target lesson order
         lesson.UpdateOrder(newOrder);
         UpdatedAt = DateTime.UtcNow;
     }

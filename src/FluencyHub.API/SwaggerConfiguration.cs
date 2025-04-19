@@ -13,7 +13,7 @@ public static class SwaggerConfiguration
             {
                 Title = "FluencyHub API",
                 Version = "v1",
-                Description = "API para o Sistema de Aprendizagem de Idiomas FluencyHub"
+                Description = "API for FluencyHub Language Learning System"
             });
 
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -60,7 +60,7 @@ public static class SwaggerConfiguration
     {
         app.UseSwagger(options =>
         {
-            options.SerializeAsV2 = false;
+            options.RouteTemplate = "swagger/{documentName}/swagger.json";
         });
 
         app.UseSwaggerUI(c =>

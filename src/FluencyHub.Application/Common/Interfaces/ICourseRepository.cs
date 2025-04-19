@@ -5,7 +5,7 @@ namespace FluencyHub.Application.Common.Interfaces;
 public interface ICourseRepository
 {
     Task<Course> GetByIdAsync(Guid id);
-    Task<Course> GetByIdWithLessonsAsync(Guid id);
+    Task<Course> GetByIdWithLessonsAsync(Guid id, CancellationToken cancellationToken = default);
     Task<IEnumerable<Course>> GetAllAsync();
     Task<IEnumerable<Course>> GetActiveCoursesAsync();
     Task<IEnumerable<Course>> GetByLanguageAsync(string language);

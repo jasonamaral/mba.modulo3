@@ -21,10 +21,8 @@ public class CompletedLessonConfiguration : IEntityTypeConfiguration<CompletedLe
         builder.Property(cl => cl.CompletedAt)
             .IsRequired();
             
-        // Índice para melhorar a performance de buscas por CourseProgressId
         builder.HasIndex(cl => cl.CourseProgressId);
         
-        // Índice para verificar rapidamente se uma lição específica foi concluída
         builder.HasIndex(cl => new { cl.CourseProgressId, cl.LessonId }).IsUnique();
     }
 } 

@@ -1,8 +1,4 @@
-using System.Text;
 using FluencyHub.Application.Common.Interfaces;
-using FluencyHub.Domain.ContentManagement;
-using FluencyHub.Domain.PaymentProcessing;
-using FluencyHub.Domain.StudentManagement;
 using FluencyHub.Infrastructure.Identity;
 using FluencyHub.Infrastructure.Persistence;
 using FluencyHub.Infrastructure.Persistence.Repositories;
@@ -13,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace FluencyHub.Infrastructure;
 
@@ -32,6 +29,7 @@ public static class DependencyInjection
         services.AddScoped<Application.Common.Interfaces.ICertificateRepository, CertificateRepository>();
         services.AddScoped<Application.Common.Interfaces.IPaymentRepository, PaymentRepository>();
         services.AddScoped<Application.Common.Interfaces.ILearningRepository, LearningRepository>();
+        services.AddScoped<Application.Common.Interfaces.ILessonRepository, LessonRepository>();
 
         // Add Identity
         var identityConnectionString = configuration.GetConnectionString("IdentityConnection");
@@ -84,17 +82,17 @@ public static class DependencyInjection
 
         // Add Identity Services
         services.AddScoped<Application.Common.Interfaces.IIdentityService, IdentityService>();
-        
+
         // Add Payment Services
         services.AddHttpClient<Application.Common.Interfaces.IPaymentService, CieloPaymentService>(client =>
         {
             string baseUrl = configuration["PaymentGateway:BaseUrl"] ?? "https://api.cieloecommerce.cielo.com.br/";
             client.BaseAddress = new Uri(baseUrl);
         });
-        
+
         // Add Payment Gateway
         services.AddScoped<Application.Common.Interfaces.IPaymentGateway, MockPaymentGateway>();
 
         return services;
     }
-} 
+}

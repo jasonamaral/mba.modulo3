@@ -1,7 +1,3 @@
-using FluencyHub.Application;
-using FluencyHub.Infrastructure;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -21,9 +17,6 @@ public static class DependencyInjection
                 options.SerializerSettings.Converters.Add(new StringEnumConverter());
             });
 
-        services.AddApplicationServices();
-        services.AddInfrastructureServices(configuration);
-
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
 
@@ -39,4 +32,4 @@ public static class DependencyInjection
 
         return services;
     }
-} 
+}

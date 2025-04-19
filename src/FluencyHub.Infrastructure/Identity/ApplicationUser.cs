@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Identity;
-using System;
 
 namespace FluencyHub.Infrastructure.Identity;
 
@@ -10,4 +9,4 @@ public class ApplicationUser : IdentityUser
     public Guid? StudentId { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? LastLogin { get; set; }
-} 
+}

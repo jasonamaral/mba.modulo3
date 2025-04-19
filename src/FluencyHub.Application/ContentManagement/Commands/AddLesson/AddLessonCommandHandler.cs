@@ -1,5 +1,4 @@
 using FluencyHub.Application.Common.Exceptions;
-using FluencyHub.Application.Common.Interfaces;
 using FluencyHub.Domain.ContentManagement;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -10,7 +9,7 @@ public class AddLessonCommandHandler : IRequestHandler<AddLessonCommand, Guid>
 {
     private readonly Application.Common.Interfaces.ICourseRepository _courseRepository;
     private readonly ILogger<AddLessonCommandHandler> _logger;
-    
+
     public AddLessonCommandHandler(
         Application.Common.Interfaces.ICourseRepository courseRepository,
         ILogger<AddLessonCommandHandler> logger)
@@ -18,34 +17,29 @@ public class AddLessonCommandHandler : IRequestHandler<AddLessonCommand, Guid>
         _courseRepository = courseRepository;
         _logger = logger;
     }
-    
+
     public async Task<Guid> Handle(AddLessonCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            _logger.LogInformation("Adding lesson to course {CourseId}: {LessonTitle}", 
-                request.CourseId, request.Title);
-                
-            // Get the course
+            _logger.LogInformation("Adding lesson to course {CourseId}: {LessonTitle}", request.CourseId, request.Title);
+
             var course = await _courseRepository.GetByIdAsync(request.CourseId);
             if (course == null)
             {
                 _logger.LogWarning("Course not found: {CourseId}", request.CourseId);
                 throw new NotFoundException(nameof(Course), request.CourseId);
             }
-            
-            // Add the lesson to the course
+
             var lesson = course.AddLesson(
                 request.Title,
                 request.Content,
                 request.MaterialUrl);
-                
-            // Save changes
+
             await _courseRepository.SaveChangesAsync(cancellationToken);
-            
-            _logger.LogInformation("Lesson added successfully to course {CourseId}, lesson ID: {LessonId}", 
-                request.CourseId, lesson.Id);
-                
+
+            _logger.LogInformation("Lesson added successfully to course {CourseId}, lesson ID: {LessonId}", request.CourseId, lesson.Id);
+
             return lesson.Id;
         }
         catch (Exception ex) when (ex is not NotFoundException)
@@ -54,4 +48,4 @@ public class AddLessonCommandHandler : IRequestHandler<AddLessonCommand, Guid>
             throw;
         }
     }
-} 
+}

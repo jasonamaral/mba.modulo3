@@ -2,11 +2,10 @@ using FluencyHub.Application.Common.Exceptions;
 using FluencyHub.Application.Common.Interfaces;
 using FluencyHub.Application.StudentManagement.Queries.GetStudentById;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace FluencyHub.Application.StudentManagement.Queries.GetStudentProgress;
 
-public class GetStudentProgressQueryHandler : IRequestHandler<GetStudentProgressQuery, StudentProgressViewModel>
+public class GetStudentProgressQueryHandler : IRequestHandler<GetStudentProgressQuery, Dictionary<Guid, Dictionary<Guid, bool>>>
 {
     private readonly IMediator _mediator;
     private readonly ILearningRepository _learningRepository;
@@ -22,45 +21,36 @@ public class GetStudentProgressQueryHandler : IRequestHandler<GetStudentProgress
         _courseRepository = courseRepository;
     }
 
-    public async Task<StudentProgressViewModel> Handle(GetStudentProgressQuery request, CancellationToken cancellationToken)
+    public async Task<Dictionary<Guid, Dictionary<Guid, bool>>> Handle(GetStudentProgressQuery request, CancellationToken cancellationToken)
     {
-        // Verificar se o estudante existe
-        var student = await _mediator.Send(new GetStudentByIdQuery(request.StudentId), cancellationToken);
-        if (student == null)
+        var student = await _mediator.Send(new GetStudentByIdQuery(request.StudentId), cancellationToken) ?? throw new NotFoundException("Student", request.StudentId);
+
+        var learningHistory = await _learningRepository.GetByStudentIdAsync(request.StudentId, cancellationToken);
+
+        if (learningHistory == null || learningHistory.CourseProgress.Count == 0)
         {
-            throw new NotFoundException("Student", request.StudentId);
+            return [];
         }
 
-        // Buscar os progressos do estudante
-        var courseProgressList = await _courseRepository.GetCourseProgressesForStudent(request.StudentId, cancellationToken);
-        
-        // Se não houver progressos, retornar um dicionário vazio
-        if (courseProgressList == null || !courseProgressList.Any())
+        var progressDict = new Dictionary<Guid, Dictionary<Guid, bool>>();
+
+        foreach (var courseProgress in learningHistory.CourseProgress)
         {
-            return new StudentProgressViewModel();
-        }
+            var course = await _courseRepository.GetByIdWithLessonsAsync(courseProgress.CourseId, cancellationToken);
+            if (course == null) continue;
 
-        var viewModel = new StudentProgressViewModel();
+            var lessonProgressDict = new Dictionary<Guid, bool>();
 
-        // Preencher o dicionário de progresso
-        foreach (var progress in courseProgressList)
-        {
-            // Obter a contagem de lições completadas
-            var completedLessonsCount = await _learningRepository.GetCompletedLessonsCountAsync(
-                request.StudentId, progress.CourseId, cancellationToken);
-
-            // Obter o total de lições do curso
-            var totalLessons = await _courseRepository.GetLessonsCountByCourseId(progress.CourseId, cancellationToken);
-
-            viewModel.Progress[progress.CourseId] = new CourseProgressDto
+            foreach (var lesson in course.Lessons)
             {
-                CompletedLessons = completedLessonsCount,
-                TotalLessons = totalLessons,
-                IsCompleted = progress.IsCompleted,
-                LastUpdated = progress.LastUpdated
-            };
+                bool isCompleted = courseProgress.CompletedLessons.Any(cl => cl.LessonId == lesson.Id);
+
+                lessonProgressDict[lesson.Id] = isCompleted;
+            }
+
+            progressDict[courseProgress.CourseId] = lessonProgressDict;
         }
 
-        return viewModel;
+        return progressDict;
     }
-} 
+}

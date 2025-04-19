@@ -26,33 +26,16 @@ public class CompleteLessonForStudentCommandHandler : IRequestHandler<CompleteLe
 
     public async Task<CompleteLessonForStudentResult> Handle(CompleteLessonForStudentCommand request, CancellationToken cancellationToken)
     {
-        // Verificar se o estudante existe
-        var student = await _mediator.Send(new GetStudentByIdQuery(request.StudentId), cancellationToken);
-        if (student == null)
-        {
-            throw new NotFoundException("Student", request.StudentId);
-        }
+        var student = await _mediator.Send(new GetStudentByIdQuery(request.StudentId), cancellationToken) ?? throw new NotFoundException("Student", request.StudentId);
 
-        // Verificar se o curso existe
-        var course = await _mediator.Send(new GetCourseByIdQuery(request.CourseId), cancellationToken);
-        if (course == null)
-        {
-            throw new NotFoundException("Course", request.CourseId);
-        }
+        var course = await _mediator.Send(new GetCourseByIdQuery(request.CourseId), cancellationToken) ?? throw new NotFoundException("Course", request.CourseId);
 
-        // Verificar se a lição existe e pertence ao curso
-        var lesson = await _mediator.Send(new GetLessonByIdQuery(request.LessonId), cancellationToken);
-        if (lesson == null)
-        {
-            throw new NotFoundException("Lesson", request.LessonId);
-        }
-
+        var lesson = await _mediator.Send(new GetLessonByIdQuery(request.LessonId), cancellationToken) ?? throw new NotFoundException("Lesson", request.LessonId);
         if (lesson.CourseId != request.CourseId)
         {
-            throw new BadRequestException("A lição não pertence ao curso especificado");
+            throw new BadRequestException("The lesson does not belong to the specified course");
         }
 
-        // Obter ou criar o histórico de aprendizado
         var learningHistory = await _learningRepository.GetByStudentIdAsync(request.StudentId, cancellationToken);
         if (learningHistory == null)
         {
@@ -60,7 +43,6 @@ public class CompleteLessonForStudentCommandHandler : IRequestHandler<CompleteLe
             await _learningRepository.AddAsync(learningHistory, cancellationToken);
         }
 
-        // Verificar se a lição já foi concluída
         if (learningHistory.HasCompletedLesson(request.CourseId, request.LessonId))
         {
             return new CompleteLessonForStudentResult
@@ -68,12 +50,11 @@ public class CompleteLessonForStudentCommandHandler : IRequestHandler<CompleteLe
                 StudentId = request.StudentId,
                 CourseId = request.CourseId,
                 LessonId = request.LessonId,
-                Message = "Lição já foi concluída anteriormente",
+                Message = "Lesson has already been completed previously",
                 Success = true
             };
         }
 
-        // Adicionar o progresso
         learningHistory.AddProgress(request.CourseId, request.LessonId);
         await _learningRepository.SaveChangesAsync(cancellationToken);
 
@@ -82,8 +63,8 @@ public class CompleteLessonForStudentCommandHandler : IRequestHandler<CompleteLe
             StudentId = request.StudentId,
             CourseId = request.CourseId,
             LessonId = request.LessonId,
-            Message = "Lição marcada como concluída com sucesso",
+            Message = "Lesson marked as completed successfully",
             Success = true
         };
     }
-} 
+}

@@ -20,7 +20,6 @@ public class LearningHistoryConfiguration : IEntityTypeConfiguration<LearningHis
             
         builder.Property(lh => lh.UpdatedAt);
             
-        // Configurar CourseProgress como uma entidade separada
         builder.HasMany(lh => lh.CourseProgress)
             .WithOne()
             .HasForeignKey("LearningHistoryId")

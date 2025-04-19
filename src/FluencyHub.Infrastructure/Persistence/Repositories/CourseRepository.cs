@@ -22,12 +22,12 @@ public class CourseRepository : Application.Common.Interfaces.ICourseRepository
             .FirstOrDefaultAsync(c => c.Id == id);
     }
     
-    public async Task<Course> GetByIdWithLessonsAsync(Guid id)
+    public async Task<Course> GetByIdWithLessonsAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var course = await _context.Courses
             .Include(c => c.Content)
             .Include(c => c.Lessons)
-            .FirstOrDefaultAsync(c => c.Id == id);
+            .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
             
         if (course == null)
         {

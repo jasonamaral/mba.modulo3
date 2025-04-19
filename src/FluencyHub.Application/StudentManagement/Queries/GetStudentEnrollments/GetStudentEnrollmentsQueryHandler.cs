@@ -1,5 +1,4 @@
 using FluencyHub.Application.Common.Exceptions;
-using FluencyHub.Application.Common.Interfaces;
 using FluencyHub.Application.StudentManagement.Queries.GetEnrollmentById;
 using FluencyHub.Domain.StudentManagement;
 using MediatR;
@@ -10,7 +9,7 @@ public class GetStudentEnrollmentsQueryHandler : IRequestHandler<GetStudentEnrol
 {
     private readonly FluencyHub.Application.Common.Interfaces.IStudentRepository _studentRepository;
     private readonly FluencyHub.Application.Common.Interfaces.ICourseRepository _courseRepository;
-    
+
     public GetStudentEnrollmentsQueryHandler(
         FluencyHub.Application.Common.Interfaces.IStudentRepository studentRepository,
         FluencyHub.Application.Common.Interfaces.ICourseRepository courseRepository)
@@ -18,28 +17,22 @@ public class GetStudentEnrollmentsQueryHandler : IRequestHandler<GetStudentEnrol
         _studentRepository = studentRepository;
         _courseRepository = courseRepository;
     }
-    
+
     public async Task<IEnumerable<EnrollmentDto>> Handle(GetStudentEnrollmentsQuery request, CancellationToken cancellationToken)
     {
-        var student = await _studentRepository.GetByIdAsync(request.StudentId);
-        
-        if (student == null)
-        {
-            throw new NotFoundException(nameof(Student), request.StudentId);
-        }
-        
+        var student = await _studentRepository.GetByIdAsync(request.StudentId) ?? throw new NotFoundException(nameof(Student), request.StudentId);
         var result = new List<EnrollmentDto>();
-        
+
         foreach (var enrollment in student.Enrollments)
         {
             var course = await _courseRepository.GetByIdAsync(enrollment.CourseId);
-            
+
             result.Add(new EnrollmentDto
             {
                 Id = enrollment.Id,
                 StudentId = enrollment.StudentId,
                 CourseId = enrollment.CourseId,
-                CourseName = course?.Name ?? "Unknown Course",
+                CourseName = course?.Name!,
                 Price = enrollment.Price,
                 Status = enrollment.Status.ToString(),
                 EnrollmentDate = enrollment.EnrollmentDate,
@@ -47,7 +40,7 @@ public class GetStudentEnrollmentsQueryHandler : IRequestHandler<GetStudentEnrol
                 CompletionDate = enrollment.CompletionDate
             });
         }
-        
+
         return result;
     }
-} 
+}

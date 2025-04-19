@@ -115,7 +115,7 @@ public class CoursesControllerTests
         // Arrange
         var request = new CourseCreateRequest
         {
-            Name = "", // Nome inválido
+            Name = "", // Invalid name
             Description = "Test Description",
             Price = 99.99m,
             Content = new CourseContentRequest 
@@ -226,7 +226,7 @@ public class CoursesControllerTests
         };
         
         _mediatorMock.Setup(m => m.Send(It.IsAny<UpdateCourseCommand>(), It.IsAny<CancellationToken>()))
-            .ThrowsAsync(new NotFoundException($"Curso com ID {courseId} não encontrado"));
+            .ThrowsAsync(new NotFoundException($"Course with ID {courseId} not found"));
         
         // Act
         var result = await _controller.UpdateCourse(courseId, request);

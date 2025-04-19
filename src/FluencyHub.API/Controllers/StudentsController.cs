@@ -1,20 +1,20 @@
 using FluencyHub.Application.Common.Exceptions;
-using FluencyHub.Application.StudentManagement.Commands.CreateStudent;
-using FluencyHub.Application.StudentManagement.Commands.UpdateStudent;
 using FluencyHub.Application.StudentManagement.Commands.ActivateStudent;
-using FluencyHub.Application.StudentManagement.Commands.DeactivateStudent;
-using FluencyHub.Application.StudentManagement.Commands.CompleteLessonForStudent;
 using FluencyHub.Application.StudentManagement.Commands.CompleteCourseForStudent;
-using FluencyHub.Application.StudentManagement.Queries.GetStudentById;
+using FluencyHub.Application.StudentManagement.Commands.CompleteLessonForStudent;
+using FluencyHub.Application.StudentManagement.Commands.CreateStudent;
+using FluencyHub.Application.StudentManagement.Commands.DeactivateStudent;
+using FluencyHub.Application.StudentManagement.Commands.UpdateStudent;
 using FluencyHub.Application.StudentManagement.Queries.GetAllStudents;
 using FluencyHub.Application.StudentManagement.Queries.GetStudentByEmail;
+using FluencyHub.Application.StudentManagement.Queries.GetStudentById;
 using FluencyHub.Application.StudentManagement.Queries.GetStudentProgress;
+using FluencyHub.Infrastructure.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
-using FluencyHub.Infrastructure.Identity;
 
 namespace FluencyHub.API.Controllers;
 
@@ -25,13 +25,13 @@ public class StudentsController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly UserManager<ApplicationUser> _userManager;
-    
+
     public StudentsController(IMediator mediator, UserManager<ApplicationUser> userManager)
     {
         _mediator = mediator;
         _userManager = userManager;
     }
-    
+
     [HttpGet]
     [Authorize(Roles = "Administrator")]
     [ProducesResponseType(typeof(IEnumerable<Application.StudentManagement.Queries.GetAllStudents.StudentDto>), StatusCodes.Status200OK)]
@@ -48,7 +48,7 @@ public class StudentsController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    
+
     [HttpGet("me")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -57,32 +57,32 @@ public class StudentsController : ControllerBase
     {
         var userEmail = User.FindFirstValue(ClaimTypes.Email);
         Console.WriteLine($"Student/me endpoint called. Email from token: {userEmail}");
-        
+
         foreach (var claim in User.Claims)
         {
             Console.WriteLine($"Claim: {claim.Type} = {claim.Value}");
         }
-        
+
         if (string.IsNullOrEmpty(userEmail))
         {
-            Console.WriteLine("Email não encontrado no token");
-            return BadRequest(new { error = "Email não encontrado no token" });
+            Console.WriteLine("Email not found in token");
+            return BadRequest(new { error = "Email not found in token" });
         }
-        
+
         try
         {
-            Console.WriteLine($"Buscando estudante com email: {userEmail}");
+            Console.WriteLine($"Looking for student with email: {userEmail}");
             var student = await _mediator.Send(new GetStudentByEmailQuery(userEmail));
-            Console.WriteLine($"Estudante encontrado: {student.Id}");
+            Console.WriteLine($"Student found: {student.Id}");
             return Ok(student);
         }
         catch (NotFoundException ex)
         {
-            Console.WriteLine($"Estudante não encontrado: {ex.Message}");
+            Console.WriteLine($"Student not found: {ex.Message}");
             return NotFound(ex.Message);
         }
     }
-    
+
     [HttpGet("{id}")]
     [Authorize(Roles = "Administrator")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -100,7 +100,7 @@ public class StudentsController : ControllerBase
             return NotFound(ex.Message);
         }
     }
-    
+
     [HttpPost]
     [Authorize(Roles = "Administrator")]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -117,7 +117,7 @@ public class StudentsController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    
+
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -125,31 +125,29 @@ public class StudentsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<IActionResult> UpdateStudent(Guid id, UpdateStudentCommand command)
     {
-        // Only allow administrators or the student themselves to update their profile
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var isAdmin = User.IsInRole("Administrator");
-        
+
         if (!isAdmin)
         {
-            // Buscar o usuário para verificar se ele está tentando atualizar seu próprio perfil de estudante
             if (string.IsNullOrEmpty(userId))
             {
                 return Forbid();
             }
-            
+
             var user = await _userManager.FindByIdAsync(userId);
-            
+
             if (user == null || user.StudentId != id)
             {
                 return Forbid();
             }
         }
-        
+
         if (id != command.Id)
         {
             return BadRequest("Student ID in the route must match the student ID in the command");
         }
-        
+
         try
         {
             await _mediator.Send(command);
@@ -164,7 +162,7 @@ public class StudentsController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    
+
     [HttpPut("{id}/deactivate")]
     [Authorize(Roles = "Administrator")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -181,7 +179,7 @@ public class StudentsController : ControllerBase
             return NotFound(ex.Message);
         }
     }
-    
+
     [HttpPut("{id}/activate")]
     [Authorize(Roles = "Administrator")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -218,7 +216,7 @@ public class StudentsController : ControllerBase
             return BadRequest(new { error = ex.Message });
         }
     }
-    
+
     [HttpPost("{studentId}/courses/{courseId}/lessons/{lessonId}/complete")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -243,7 +241,7 @@ public class StudentsController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    
+
     [HttpPost("{studentId}/courses/{courseId}/complete")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -253,12 +251,12 @@ public class StudentsController : ControllerBase
         try
         {
             var result = await _mediator.Send(new CompleteCourseForStudentCommand(studentId, courseId));
-            
+
             if (!result.Success)
             {
                 return BadRequest(result);
             }
-            
+
             return Ok(result);
         }
         catch (NotFoundException ex)
@@ -274,4 +272,4 @@ public class StudentsController : ControllerBase
             return BadRequest(new { error = ex.Message });
         }
     }
-} 
+}

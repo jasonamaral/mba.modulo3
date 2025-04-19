@@ -29,14 +29,14 @@ public class CourseIntegrationTests : IClassFixture<IntegrationTestFixture>
 
         var courseRequest = new
         {
-            Name = "Inglês para Iniciantes",
-            Description = "Curso básico de inglês para iniciantes",
+            Name = "English for Beginners",
+            Description = "Basic English course for beginners",
             Price = 199.90M,
             Content = new
             {
-                Description = "Neste curso você aprenderá o básico do inglês",
-                Goals = "Falar inglês básico em situações cotidianas",
-                Requirements = "Nenhum conhecimento prévio necessário"
+                Description = "In this course you will learn the basics of English",
+                Goals = "Speak basic English in everyday situations",
+                Requirements = "No prior knowledge required"
             }
         };
 
@@ -72,14 +72,14 @@ public class CourseIntegrationTests : IClassFixture<IntegrationTestFixture>
         using var courseDocument = JsonDocument.Parse(getCourseContent);
         var courseRoot = courseDocument.RootElement;
         
-        Assert.Equal("Inglês para Iniciantes", courseRoot.GetProperty("name").GetString());
-        Assert.Equal("Curso básico de inglês para iniciantes", courseRoot.GetProperty("description").GetString());
+        Assert.Equal("English for Beginners", courseRoot.GetProperty("name").GetString());
+        Assert.Equal("Basic English course for beginners", courseRoot.GetProperty("description").GetString());
 
         // Agora tenta adicionar uma aula ao curso
         var lessonRequest = new
         {
-            Title = "Introdução e Saudações",
-            Content = "Nesta aula você aprenderá as saudações mais comuns em inglês como: Hello, Hi, Good morning, etc.",
+            Title = "Introduction and Greetings",
+            Content = "In this lesson you will learn the most common greetings in English such as: Hello, Hi, Good morning, etc.",
             Order = 1
         };
 
@@ -100,7 +100,7 @@ public class CourseIntegrationTests : IClassFixture<IntegrationTestFixture>
         // Verificar se o curso tem a aula adicionada
         var lessons = updatedCourseRoot.GetProperty("lessons");
         Assert.Equal(1, lessons.GetArrayLength());
-        Assert.Equal("Introdução e Saudações", lessons[0].GetProperty("title").GetString());
+        Assert.Equal("Introduction and Greetings", lessons[0].GetProperty("title").GetString());
     }
 
     [Fact]
@@ -112,14 +112,14 @@ public class CourseIntegrationTests : IClassFixture<IntegrationTestFixture>
 
         var courseRequest = new
         {
-            Name = "Curso Não Autorizado",
-            Description = "Este curso não deve ser criado",
+            Name = "Unauthorized Course",
+            Description = "This course should not be created",
             Price = 99.90M,
             Content = new
             {
-                Description = "Conteúdo do curso",
-                Goals = "Objetivos do curso",
-                Requirements = "Requisitos do curso"
+                Description = "Course content",
+                Goals = "Course objectives",
+                Requirements = "Course requirements"
             }
         };
 
@@ -140,14 +140,14 @@ public class CourseIntegrationTests : IClassFixture<IntegrationTestFixture>
         // Cria um curso para garantir que temos dados
         var courseRequest = new
         {
-            Name = "Curso de Teste Para Listagem",
-            Description = "Descrição do curso de teste",
+            Name = "Test Course For Listing",
+            Description = "Test course description",
             Price = 149.90M,
             Content = new
             {
-                Description = "Conteúdo de teste",
-                Goals = "Objetivos de teste",
-                Requirements = "Requisitos de teste"
+                Description = "Test content",
+                Goals = "Test objectives",
+                Requirements = "Test requirements"
             }
         };
 
@@ -163,6 +163,6 @@ public class CourseIntegrationTests : IClassFixture<IntegrationTestFixture>
         using var document = JsonDocument.Parse(content);
         var root = document.RootElement;
         
-        Assert.True(root.GetArrayLength() > 0, "A lista de cursos não deve estar vazia");
+        Assert.True(root.GetArrayLength() > 0, "The course list should not be empty");
     }
 } 

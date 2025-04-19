@@ -13,10 +13,5 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        
-        // Customize the ASP.NET Identity model and override default column names if needed
-        // For example:
-        // builder.Entity<ApplicationUser>().ToTable("Users");
-        // builder.Entity<IdentityRole>().ToTable("Roles");
     }
-} 
+}

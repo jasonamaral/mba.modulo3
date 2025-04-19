@@ -15,7 +15,6 @@ namespace FluencyHub.Infrastructure.Identity
         {
             base.OnModelCreating(builder);
 
-            // Customize the ASP.NET Identity model and override table names
             builder.Entity<ApplicationUser>(entity =>
             {
                 entity.ToTable("Users");
@@ -52,4 +51,4 @@ namespace FluencyHub.Infrastructure.Identity
             });
         }
     }
-} 
+}

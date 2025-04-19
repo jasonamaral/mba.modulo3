@@ -18,22 +18,22 @@ public static class DatabaseSeeder
 
             if (context.Database.EnsureCreated())
             {
-                logger.LogInformation("Banco de dados principal criado com sucesso");
+                logger.LogInformation("Main database created successfully");
             }
             else
             {
-                logger.LogInformation("Banco de dados principal já existe");
+                logger.LogInformation("Main database already exists");
             }
 
             var identityContext = services.GetRequiredService<ApplicationDbContext>();
 
             if (identityContext.Database.EnsureCreated())
             {
-                logger.LogInformation("Banco de dados de identidade criado com sucesso");
+                logger.LogInformation("Identity database created successfully");
             }
             else
             {
-                logger.LogInformation("Banco de dados de identidade já existe");
+                logger.LogInformation("Identity database already exists");
             }
 
             await SeedRoles(services);
@@ -41,7 +41,7 @@ public static class DatabaseSeeder
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Ocorreu um erro durante o seed do banco de dados");
+            logger.LogError(ex, "An error occurred during database seeding");
             throw;
         }
     }

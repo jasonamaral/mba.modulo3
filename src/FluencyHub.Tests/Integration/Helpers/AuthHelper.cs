@@ -27,7 +27,7 @@ public static class AuthHelper
         var content = await response.Content.ReadAsStringAsync();
         using var document = JsonDocument.Parse(content);
         
-        return document.RootElement.GetProperty("token").GetString() ?? throw new InvalidOperationException("Token não encontrado na resposta");
+        return document.RootElement.GetProperty("token").GetString() ?? throw new InvalidOperationException("Token not found in response");
     }
     
     public static void AuthenticateClient(HttpClient client, string token)

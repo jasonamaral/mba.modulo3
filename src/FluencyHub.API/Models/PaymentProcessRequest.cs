@@ -5,14 +5,14 @@ namespace FluencyHub.API.Models;
 
 public class PaymentProcessRequest
 {
-    [Required(ErrorMessage = "O ID da matrícula é obrigatório.")]
+    [Required(ErrorMessage = "Enrollment ID is required.")]
     public Guid EnrollmentId { get; set; }
 
-    [Required(ErrorMessage = "Os dados do cartão são obrigatórios.")]
+    [Required(ErrorMessage = "Card details are required.")]
     public CardDetailsRequest CardDetails { get; set; } = null!;
 
-    [Required(ErrorMessage = "O valor é obrigatório.")]
-    [Range(0.01, double.MaxValue, ErrorMessage = "O valor deve ser maior que zero.")]
+    [Required(ErrorMessage = "Amount is required.")]
+    [Range(0.01, double.MaxValue, ErrorMessage = "Amount must be greater than zero.")]
     public decimal Amount { get; set; }
 
     public ProcessPaymentCommand ToCommand()

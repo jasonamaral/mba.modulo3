@@ -11,9 +11,11 @@ public record CompleteLessonCommand : IRequest<CompleteLessonResult>
 
 public class CompleteLessonResult
 {
-    public Guid EnrollmentId { get; init; }
-    public Guid LessonId { get; init; }
-    public bool Completed { get; init; }
-    public string Message { get; init; }
-    public bool CourseCompleted { get; init; }
+    public Guid EnrollmentId { get; set; }
+    public Guid LessonId { get; set; }
+    public bool Completed { get; set; }
+    public string Message { get; set; } = string.Empty;
+    public bool CourseCompleted { get; set; }
+    public bool IsCompleted { get; set; }
+    public bool AllLessonsCompleted { get; set; }
 } 

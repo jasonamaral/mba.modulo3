@@ -1,9 +1,7 @@
-using FluencyHub.Application.Common.Exceptions;
-using FluencyHub.Application.ContentManagement.Commands.CreateCourse;
-using FluencyHub.Application.ContentManagement.Commands.UpdateCourse;
-using FluencyHub.Application.ContentManagement.Queries.GetCourseById;
-using FluencyHub.Application.ContentManagement.Queries.GetAllCourses;
 using FluencyHub.API.Models;
+using FluencyHub.Application.Common.Exceptions;
+using FluencyHub.Application.ContentManagement.Queries.GetAllCourses;
+using FluencyHub.Application.ContentManagement.Queries.GetCourseById;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +13,12 @@ namespace FluencyHub.API.Controllers;
 public class CoursesController : ControllerBase
 {
     private readonly IMediator _mediator;
-    
+
     public CoursesController(IMediator mediator)
     {
         _mediator = mediator;
     }
-    
+
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<CourseDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllCourses()
@@ -28,7 +26,7 @@ public class CoursesController : ControllerBase
         var courses = await _mediator.Send(new GetAllCoursesQuery());
         return Ok(courses);
     }
-    
+
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(CourseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -44,7 +42,7 @@ public class CoursesController : ControllerBase
             return NotFound(ex.Message);
         }
     }
-    
+
     [HttpPost]
     [Authorize(Roles = "Administrator")]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -66,7 +64,7 @@ public class CoursesController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    
+
     [HttpPut("{id}")]
     [Authorize(Roles = "Administrator")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -78,12 +76,12 @@ public class CoursesController : ControllerBase
         {
             if (id != request.Id)
             {
-                return BadRequest("O ID na URL deve ser o mesmo que o ID no corpo da requisição");
+                return BadRequest("The ID in the URL must be the same as the ID in the request body");
             }
-            
+
             var command = request.ToCommand();
             await _mediator.Send(command);
-            return Ok(new { id = id });
+            return Ok(new { id });
         }
         catch (NotFoundException ex)
         {
@@ -98,4 +96,4 @@ public class CoursesController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-} 
+}

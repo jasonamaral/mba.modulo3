@@ -28,10 +28,10 @@ public class LearningRepository : ILearningRepository
             .FirstOrDefaultAsync(cp => cp.LearningHistoryId == studentId && cp.CourseId == courseId, cancellationToken);
     }
 
-    public async Task<bool> HasCompletedLessonAsync(Guid studentId, Guid courseId, Guid lessonId, CancellationToken cancellationToken = default)
+    public async Task<bool> HasCompletedLessonAsync(Guid studentId, Guid lessonId, CancellationToken cancellationToken = default)
     {
-        var courseProgress = await GetCourseProgressAsync(studentId, courseId, cancellationToken);
-        return courseProgress != null && courseProgress.CompletedLessons.Any(cl => cl.LessonId == lessonId);
+        return await _context.CompletedLessons
+            .AnyAsync(cl => cl.CourseProgress.LearningHistoryId == studentId && cl.LessonId == lessonId, cancellationToken);
     }
 
     public async Task<int> GetCompletedLessonsCountAsync(Guid studentId, Guid courseId, CancellationToken cancellationToken = default)
@@ -43,7 +43,7 @@ public class LearningRepository : ILearningRepository
     public async Task<IEnumerable<Guid>> GetCompletedLessonIdsAsync(Guid studentId, Guid courseId, CancellationToken cancellationToken = default)
     {
         var courseProgress = await GetCourseProgressAsync(studentId, courseId, cancellationToken);
-        return courseProgress?.CompletedLessons.Select(cl => cl.LessonId).ToList() ?? new List<Guid>();
+        return courseProgress?.CompletedLessons.Select(cl => cl.LessonId).ToList() ?? [];
     }
 
     public async Task AddAsync(LearningHistory learningHistory, CancellationToken cancellationToken = default)
@@ -52,43 +52,83 @@ public class LearningRepository : ILearningRepository
         await _context.SaveChangesAsync(cancellationToken);
     }
 
+    public async Task CompleteLessonAsync(Guid studentId, Guid courseId, Guid lessonId, CancellationToken cancellationToken = default)
+    {
+        var courseProgress = await GetCourseProgressAsync(studentId, courseId, cancellationToken);
+        if (courseProgress == null)
+        {
+            var learningHistory = await GetByStudentIdAsync(studentId, cancellationToken);
+            if (learningHistory == null)
+            {
+                learningHistory = new LearningHistory(studentId);
+                await _context.LearningHistories.AddAsync(learningHistory, cancellationToken);
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+
+            courseProgress = new CourseProgress(courseId)
+            {
+                LearningHistoryId = studentId
+            };
+            await _context.CourseProgresses.AddAsync(courseProgress, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        bool isCompleted = await _context.CompletedLessons
+            .AnyAsync(cl => cl.CourseProgressId == courseProgress.Id && cl.LessonId == lessonId, cancellationToken);
+
+        if (!isCompleted)
+        {
+            var completedLesson = new CompletedLesson
+            {
+                LessonId = lessonId,
+                CourseProgressId = courseProgress.Id,
+                CompletedAt = DateTime.UtcNow,
+                CourseProgress = courseProgress
+            };
+            await _context.CompletedLessons.AddAsync(completedLesson, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+    }
+
+    public async Task UncompleteLessonAsync(Guid studentId, Guid lessonId, CancellationToken cancellationToken = default)
+    {
+        var completedLesson = await _context.CompletedLessons
+            .FirstOrDefaultAsync(cl => cl.CourseProgress.LearningHistoryId == studentId && cl.LessonId == lessonId, cancellationToken);
+
+        if (completedLesson != null)
+        {
+            _context.CompletedLessons.Remove(completedLesson);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+    }
+
     public async Task UpdateAsync(LearningHistory learningHistory, CancellationToken cancellationToken = default)
     {
-        // Abordagem mais direta para garantir que a entidade seja rastreada corretamente
-        // e para evitar problemas de concorrência
         try
         {
-            // Desativa o rastreamento automático para evitar conflitos
             _context.ChangeTracker.Clear();
-            
-            // Busca ou cria a entidade LearningHistory
+
             var existingHistory = await _context.LearningHistories
                 .FirstOrDefaultAsync(lh => lh.Id == learningHistory.Id, cancellationToken);
 
             if (existingHistory == null)
             {
-                // Se não existir, adiciona como nova - isso nunca deve acontecer neste ponto,
-                // mas é uma medida defensiva
                 await _context.LearningHistories.AddAsync(learningHistory, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
                 return;
             }
-            
-            // Atualiza a data de modificação
+
             existingHistory.UpdatedAt = DateTime.UtcNow;
-            
-            // Percorre os CourseProgresses para adicionar/atualizar
+
             foreach (var progress in learningHistory.CourseProgress)
             {
-                // Busca ou cria o CourseProgress
                 var existingProgress = await _context.CourseProgresses
-                    .FirstOrDefaultAsync(cp => cp.CourseId == progress.CourseId && 
-                                               cp.LearningHistoryId == learningHistory.Id, 
+                    .FirstOrDefaultAsync(cp => cp.CourseId == progress.CourseId &&
+                                               cp.LearningHistoryId == learningHistory.Id,
                                          cancellationToken);
-                
+
                 if (existingProgress == null)
                 {
-                    // Se não existir, cria um novo
                     existingProgress = new CourseProgress(progress.CourseId)
                     {
                         LearningHistoryId = learningHistory.Id
@@ -96,68 +136,59 @@ public class LearningRepository : ILearningRepository
                     await _context.CourseProgresses.AddAsync(existingProgress, cancellationToken);
                     await _context.SaveChangesAsync(cancellationToken);
                 }
-                
-                // Marca como concluído se necessário
+
                 if (progress.IsCompleted && !existingProgress.IsCompleted)
                 {
                     existingProgress.CompleteCourse();
                 }
-                
-                // Adiciona as lições concluídas
+
                 foreach (var lessonToAdd in progress.CompletedLessons)
                 {
-                    // Verifica se a lição já foi concluída
                     bool lessonAlreadyCompleted = await _context.CompletedLessons
-                        .AnyAsync(cl => cl.CourseProgressId == existingProgress.Id && 
+                        .AnyAsync(cl => cl.CourseProgressId == existingProgress.Id &&
                                        cl.LessonId == lessonToAdd.LessonId,
                                  cancellationToken);
-                    
+
                     if (!lessonAlreadyCompleted)
                     {
-                        // Adiciona diretamente na tabela CompletedLessons
                         var completedLesson = new CompletedLesson
                         {
                             LessonId = lessonToAdd.LessonId,
                             CourseProgressId = existingProgress.Id,
-                            CompletedAt = DateTime.UtcNow
+                            CompletedAt = DateTime.UtcNow,
+                            CourseProgress = existingProgress
                         };
-                        
+
                         await _context.CompletedLessons.AddAsync(completedLesson, cancellationToken);
                     }
                 }
             }
-            
-            // Salva todas as mudanças
+
             await _context.SaveChangesAsync(cancellationToken);
         }
         catch (DbUpdateConcurrencyException)
         {
-            // Se ocorrer um erro de concorrência, tentamos novamente com uma abordagem direta
-            // Adicionamos cada lição concluída individualmente
             foreach (var progress in learningHistory.CourseProgress)
             {
                 foreach (var lesson in progress.CompletedLessons)
                 {
                     try
                     {
-                        // Verificar se a lição já existe
                         bool exists = await _context.CompletedLessons
                             .AnyAsync(cl => cl.LessonId == lesson.LessonId &&
                                          cl.CourseProgress.CourseId == progress.CourseId &&
                                          cl.CourseProgress.LearningHistoryId == learningHistory.Id,
                                   cancellationToken);
-                        
+
                         if (!exists)
                         {
-                            // Encontrar o CourseProgress correto
                             var courseProgress = await _context.CourseProgresses
                                 .FirstOrDefaultAsync(cp => cp.CourseId == progress.CourseId &&
                                                       cp.LearningHistoryId == learningHistory.Id,
                                                cancellationToken);
-                            
+
                             if (courseProgress != null)
                             {
-                                // Inserir diretamente na tabela
                                 await _context.Database.ExecuteSqlRawAsync(
                                     "INSERT INTO CompletedLessons (Id, LessonId, CourseProgressId, CompletedAt) VALUES ({0}, {1}, {2}, {3})",
                                     Guid.NewGuid(), lesson.LessonId, courseProgress.Id, DateTime.UtcNow);
@@ -166,7 +197,6 @@ public class LearningRepository : ILearningRepository
                     }
                     catch (Exception)
                     {
-                        // Ignora erros individuais para tentar processar o máximo possível
                         continue;
                     }
                 }
@@ -178,4 +208,4 @@ public class LearningRepository : ILearningRepository
     {
         await _context.SaveChangesAsync(cancellationToken);
     }
-} 
+}

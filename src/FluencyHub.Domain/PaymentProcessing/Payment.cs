@@ -1,6 +1,5 @@
 using FluencyHub.Domain.Common;
 using FluencyHub.Domain.StudentManagement;
-using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
 namespace FluencyHub.Domain.PaymentProcessing;
@@ -16,64 +15,60 @@ public class Payment : BaseEntity
     public string? RefundReason { get; private set; }
     public CardDetails CardDetails { get; private set; }
     public DateTime PaymentDate { get; private set; }
-    
-    // Navegação para EF Core
+
     [JsonIgnore]
     public Enrollment Enrollment { get; private set; }
-    
-    // EF Core constructor
-    private Payment() { }
-    
+
+    private Payment()
+    { }
+
     public Payment(Guid studentId, Guid enrollmentId, decimal amount, CardDetails cardDetails)
     {
         if (amount <= 0)
             throw new ArgumentException("Payment amount must be positive", nameof(amount));
-            
-        if (cardDetails == null)
-            throw new ArgumentException("Card details cannot be null", nameof(cardDetails));
-        
+
         StudentId = studentId;
         EnrollmentId = enrollmentId;
         Amount = amount;
-        CardDetails = cardDetails;
+        CardDetails = cardDetails ?? throw new ArgumentException("Card details cannot be null", nameof(cardDetails));
         Status = PaymentStatus.Pending;
         PaymentDate = DateTime.UtcNow;
         CreatedAt = DateTime.UtcNow;
     }
-    
+
     public void MarkAsSuccess(string transactionId)
     {
         if (string.IsNullOrWhiteSpace(transactionId))
             throw new ArgumentException("Transaction ID cannot be empty", nameof(transactionId));
-            
+
         if (Status != PaymentStatus.Pending)
             throw new InvalidOperationException($"Cannot mark as success a payment with status {Status}");
-        
+
         Status = PaymentStatus.Successful;
         TransactionId = transactionId;
         UpdatedAt = DateTime.UtcNow;
     }
-    
+
     public void MarkAsFailed(string reason)
     {
         if (Status != PaymentStatus.Pending)
             throw new InvalidOperationException($"Cannot mark as failed a payment with status {Status}");
-        
+
         Status = PaymentStatus.Failed;
         FailureReason = reason;
         UpdatedAt = DateTime.UtcNow;
     }
-    
+
     public void MarkAsRefunded(string reason)
     {
         if (Status != PaymentStatus.Successful)
             throw new InvalidOperationException("Only successful payments can be refunded");
-        
+
         Status = PaymentStatus.Refunded;
         RefundReason = reason;
         UpdatedAt = DateTime.UtcNow;
     }
-    
+
     public bool IsSuccessful => Status == PaymentStatus.Successful;
     public bool IsFailed => Status == PaymentStatus.Failed;
     public bool IsPending => Status == PaymentStatus.Pending;
@@ -86,4 +81,4 @@ public enum PaymentStatus
     Successful,
     Failed,
     Refunded
-} 
+}

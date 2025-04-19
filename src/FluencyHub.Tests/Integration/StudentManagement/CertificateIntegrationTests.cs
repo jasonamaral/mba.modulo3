@@ -24,21 +24,21 @@ public class CertificateIntegrationTests : IClassFixture<IntegrationTestFixture>
     //[Fact]
     //public async Task CompleteCourseAndGetCertificate_ShouldSucceed()
     //{
-    //    // Arrange - Configuração inicial com curso, matrícula e pagamento
+    //    // Arrange - Initial setup with course, enrollment and payment
     //    var adminToken = await AuthHelper.GetAdminToken(_client);
     //    AuthHelper.AuthenticateClient(_client, adminToken);
 
-    //    // 1. Criar um curso com duas aulas
+    //    // 1. Create a course with two lessons
     //    var courseRequest = new
     //    {
-    //        Name = "Curso Básico de Espanhol",
-    //        Description = "Aprenda o básico do espanhol",
+    //        Name = "Basic Spanish Course",
+    //        Description = "Learn the basics of Spanish",
     //        Price = 149.90M,
     //        Content = new
     //        {
-    //            Description = "Curso introdutório ao espanhol",
-    //            Goals = "Aprender vocabulário básico e frases simples",
-    //            Requirements = "Nenhum conhecimento prévio necessário"
+    //            Description = "Introductory course to Spanish",
+    //            Goals = "Learn basic vocabulary and simple phrases",
+    //            Requirements = "No prior knowledge required"
     //        }
     //    };
 
@@ -49,20 +49,20 @@ public class CertificateIntegrationTests : IClassFixture<IntegrationTestFixture>
     //    using var courseDocument = JsonDocument.Parse(courseContent);
     //    var courseId = courseDocument.RootElement.GetProperty("id").GetString();
 
-    //    // 2. Adicionar duas aulas ao curso
+    //    // 2. Add two lessons to the course
     //    var lesson1Request = new
     //    {
-    //        Title = "Introdução ao Espanhol",
-    //        Description = "Primeiros conceitos e vocabulário básico",
-    //        Content = "Conteúdo da primeira aula de espanhol",
+    //        Title = "Introduction to Spanish",
+    //        Description = "First concepts and basic vocabulary",
+    //        Content = "Content of the first Spanish lesson",
     //        Order = 1
     //    };
 
     //    var lesson2Request = new
     //    {
-    //        Title = "Conversação Básica",
-    //        Description = "Aprenda a formar frases simples",
-    //        Content = "Conteúdo da segunda aula de espanhol",
+    //        Title = "Basic Conversation",
+    //        Description = "Learn to form simple sentences",
+    //        Content = "Content of the second Spanish lesson",
     //        Order = 2
     //    };
 
@@ -80,11 +80,11 @@ public class CertificateIntegrationTests : IClassFixture<IntegrationTestFixture>
     //    using var lesson2Document = JsonDocument.Parse(lesson2Content);
     //    var lesson2Id = lesson2Document.RootElement.GetProperty("id").GetString();
 
-    //    // 3. Alternar para o aluno para se matricular
+    //    // 3. Switch to student to enroll
     //    var studentToken = await AuthHelper.GetStudentToken(_client);
     //    AuthHelper.AuthenticateClient(_client, studentToken);
 
-    //    // 4. Obter o ID do aluno logado
+    //    // 4. Get the ID of the logged in student
     //    var studentResponse = await _client.GetAsync("/api/students/me");
     //    studentResponse.EnsureSuccessStatusCode();
         
@@ -92,7 +92,7 @@ public class CertificateIntegrationTests : IClassFixture<IntegrationTestFixture>
     //    using var studentDocument = JsonDocument.Parse(studentContent);
     //    var studentId = studentDocument.RootElement.GetProperty("id").GetString();
 
-    //    // 5. Realizar matrícula
+    //    // 5. Perform enrollment
     //    var enrollmentRequest = new
     //    {
     //        CourseId = courseId,
@@ -106,7 +106,7 @@ public class CertificateIntegrationTests : IClassFixture<IntegrationTestFixture>
     //    using var enrollmentDocument = JsonDocument.Parse(enrollmentContent);
     //    var enrollmentId = enrollmentDocument.RootElement.GetProperty("id").GetString();
 
-    //    // 6. Realizar pagamento
+    //    // 6. Process payment
     //    var paymentRequest = new
     //    {
     //        EnrollmentId = enrollmentId,
@@ -124,7 +124,7 @@ public class CertificateIntegrationTests : IClassFixture<IntegrationTestFixture>
     //    var paymentResponse = await _client.PostAsJsonAsync("/api/payments", paymentRequest);
     //    paymentResponse.EnsureSuccessStatusCode();
         
-    //    // 7. Simular a conclusão das aulas do curso
+    //    // 7. Simulate completing the course lessons
     //    var completeLesson1Request = new { Completed = true };
     //    var completeLesson1Response = await _client.PostAsJsonAsync($"/api/enrollments/{enrollmentId}/lessons/{lesson1Id}/complete", completeLesson1Request);
     //    completeLesson1Response.EnsureSuccessStatusCode();
@@ -133,13 +133,13 @@ public class CertificateIntegrationTests : IClassFixture<IntegrationTestFixture>
     //    var completeLesson2Response = await _client.PostAsJsonAsync($"/api/enrollments/{enrollmentId}/lessons/{lesson2Id}/complete", completeLesson2Request);
     //    completeLesson2Response.EnsureSuccessStatusCode();
         
-    //    // 8. Finalizar o curso
+    //    // 8. Complete the course
     //    var completeCourseRequest = new HttpRequestMessage(HttpMethod.Post, $"/api/enrollments/{enrollmentId}/complete");
     //    completeCourseRequest.Headers.Add("X-Test-Name", "CompleteCourseAndGetCertificate_ShouldSucceed");
     //    var completeCourseResponse = await _client.SendAsync(completeCourseRequest);
     //    completeCourseResponse.EnsureSuccessStatusCode();
         
-    //    // 9. Verificar se a matrícula foi atualizada para concluída
+    //    // 9. Verify that the enrollment was updated to completed
     //    var updatedEnrollmentResponse = await _client.GetAsync($"/api/enrollments/{enrollmentId}");
     //    updatedEnrollmentResponse.EnsureSuccessStatusCode();
         
@@ -147,42 +147,42 @@ public class CertificateIntegrationTests : IClassFixture<IntegrationTestFixture>
     //    using var updatedEnrollmentDocument = JsonDocument.Parse(updatedEnrollmentContent);
     //    var updatedStatus = updatedEnrollmentDocument.RootElement.GetProperty("status").GetString();
         
-    //    // A matrícula deve estar concluída
+    //    // The enrollment should be completed
     //    Assert.Equal(EnrollmentStatus.Completed.ToString(), updatedStatus);
         
-    //    // 10. Verificar se o certificado foi gerado
+    //    // 10. Verify that the certificate was generated
     //    var certificatesResponse = await _client.GetAsync($"/api/certificates/student/{studentId}");
     //    certificatesResponse.EnsureSuccessStatusCode();
         
     //    var certificatesContent = await certificatesResponse.Content.ReadAsStringAsync();
     //    using var certificatesDocument = JsonDocument.Parse(certificatesContent);
         
-    //    // Deve haver pelo menos um certificado
+    //    // There should be at least one certificate
     //    Assert.True(certificatesDocument.RootElement.GetArrayLength() > 0);
         
-    //    // Confirmar que o certificado é para o curso correto
+    //    // Confirm that the certificate is for the correct course
     //    var certificateCourseId = certificatesDocument.RootElement[0].GetProperty("courseId").GetString();
     //    Assert.Equal(courseId, certificateCourseId);
     //}
 
     [Fact]
-    public async Task CompleteCourse_WithIncompleteAulas_ShouldReturnBadRequest()
+    public async Task CompleteCourse_WithIncompleteLessons_ShouldReturnBadRequest()
     {
-        // Arrange - Configuração inicial com curso, matrícula e pagamento sem completar todas as aulas
+        // Arrange - Initial setup with course, enrollment and payment without completing all lessons
         var adminToken = await AuthHelper.GetAdminToken(_client);
         AuthHelper.AuthenticateClient(_client, adminToken);
 
-        // 1. Criar um curso com duas aulas
+        // 1. Create a course with two lessons
         var courseRequest = new
         {
-            Name = "Curso Básico de Francês",
-            Description = "Aprenda o básico do francês",
+            Name = "Basic French Course",
+            Description = "Learn the basics of French",
             Price = 149.90M,
             Content = new
             {
-                Description = "Curso introdutório ao francês",
-                Goals = "Aprender vocabulário básico e frases simples",
-                Requirements = "Nenhum conhecimento prévio necessário"
+                Description = "Introductory course to French",
+                Goals = "Learn basic vocabulary and simple phrases",
+                Requirements = "No prior knowledge required"
             }
         };
 
@@ -193,31 +193,31 @@ public class CertificateIntegrationTests : IClassFixture<IntegrationTestFixture>
         using var courseDocument = JsonDocument.Parse(courseContent);
         var courseId = courseDocument.RootElement.GetProperty("id").GetString();
 
-        // 2. Adicionar duas aulas ao curso
+        // 2. Add two lessons to the course
         var lesson1Request = new
         {
-            Title = "Introdução ao Francês",
-            Description = "Primeiros conceitos e vocabulário básico",
-            Content = "Conteúdo da primeira aula de francês",
+            Title = "Introduction to French",
+            Description = "First concepts and basic vocabulary",
+            Content = "Content of the first French lesson",
             Order = 1
         };
 
         var lesson2Request = new
         {
-            Title = "Conversação Básica em Francês",
-            Description = "Aprenda a formar frases simples",
-            Content = "Conteúdo da segunda aula de francês",
+            Title = "Basic Conversation in French",
+            Description = "Learn to form simple sentences",
+            Content = "Content of the second French lesson",
             Order = 2
         };
 
         await _client.PostAsJsonAsync($"/api/courses/{courseId}/lessons", lesson1Request);
         await _client.PostAsJsonAsync($"/api/courses/{courseId}/lessons", lesson2Request);
 
-        // 3. Alternar para o aluno para se matricular
+        // 3. Switch to student to enroll
         var studentToken = await AuthHelper.GetStudentToken(_client);
         AuthHelper.AuthenticateClient(_client, studentToken);
 
-        // 4. Obter o ID do aluno logado
+        // 4. Get the ID of the logged in student
         var studentResponse = await _client.GetAsync("/api/students/me");
         studentResponse.EnsureSuccessStatusCode();
         
@@ -225,7 +225,7 @@ public class CertificateIntegrationTests : IClassFixture<IntegrationTestFixture>
         using var studentDocument = JsonDocument.Parse(studentContent);
         var studentId = studentDocument.RootElement.GetProperty("id").GetString();
 
-        // 5. Realizar matrícula
+        // 5. Perform enrollment
         var enrollmentRequest = new
         {
             CourseId = courseId,
@@ -239,7 +239,7 @@ public class CertificateIntegrationTests : IClassFixture<IntegrationTestFixture>
         using var enrollmentDocument = JsonDocument.Parse(enrollmentContent);
         var enrollmentId = enrollmentDocument.RootElement.GetProperty("id").GetString();
 
-        // 6. Realizar pagamento
+        // 6. Process payment
         var paymentRequest = new
         {
             EnrollmentId = enrollmentId,
@@ -257,15 +257,15 @@ public class CertificateIntegrationTests : IClassFixture<IntegrationTestFixture>
         var paymentResponse = await _client.PostAsJsonAsync("/api/payments", paymentRequest);
         paymentResponse.EnsureSuccessStatusCode();
 
-        // 7. Tentar completar o curso sem completar todas as aulas
+        // 7. Try to complete the course without completing all lessons
         var completeCourseRequest = new HttpRequestMessage(HttpMethod.Post, $"/api/enrollments/{enrollmentId}/complete");
-        completeCourseRequest.Headers.Add("X-Test-Name", "CompleteCourse_WithIncompleteAulas_ShouldReturnBadRequest");
+        completeCourseRequest.Headers.Add("X-Test-Name", "CompleteCourse_WithIncompleteLessons_ShouldReturnBadRequest");
         var completeCourseResponse = await _client.SendAsync(completeCourseRequest);
         
-        // Verificar se o status code é BadRequest
+        // Check if the status code is BadRequest
         Assert.Equal(HttpStatusCode.BadRequest, completeCourseResponse.StatusCode);
         
-        // Verificar a mensagem de erro
+        // Check the error message
         var errorContent = await completeCourseResponse.Content.ReadAsStringAsync();
         Assert.Contains("All classes must be completed before completing the course. Completed classes", errorContent);
     }

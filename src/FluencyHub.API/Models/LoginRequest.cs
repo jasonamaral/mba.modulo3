@@ -4,12 +4,12 @@ namespace FluencyHub.API.Models;
 
 public class LoginRequest
 {
-    [Required(ErrorMessage = "O e-mail é obrigatório.")]
-    [EmailAddress(ErrorMessage = "O e-mail informado não é válido.")]
-    [StringLength(200, MinimumLength = 5, ErrorMessage = "O e-mail deve ter entre 5 e 200 caracteres.")]
+    [Required(ErrorMessage = "Email is required.")]
+    [EmailAddress(ErrorMessage = "The provided email is not valid.")]
+    [StringLength(200, MinimumLength = 5, ErrorMessage = "Email must be between 5 and 200 characters.")]
     public required string Email { get; set; }
 
-    [Required(ErrorMessage = "A senha é obrigatória.")]
-    [StringLength(50, MinimumLength = 8, ErrorMessage = "A senha deve ter entre 8 e 50 caracteres.")]
+    [Required(ErrorMessage = "Password is required.")]
+    [StringLength(50, MinimumLength = 8, ErrorMessage = "Password must be between 8 and 50 characters.")]
     public required string Password { get; set; }
 }

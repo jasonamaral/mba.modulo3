@@ -20,13 +20,7 @@ public class GetEnrollmentByIdQueryHandler : IRequestHandler<GetEnrollmentByIdQu
     
     public async Task<EnrollmentDto> Handle(GetEnrollmentByIdQuery request, CancellationToken cancellationToken)
     {
-        var enrollment = await _enrollmentRepository.GetByIdAsync(request.Id);
-        
-        if (enrollment == null)
-        {
-            throw new NotFoundException(nameof(Enrollment), request.Id);
-        }
-        
+        var enrollment = await _enrollmentRepository.GetByIdAsync(request.Id) ?? throw new NotFoundException(nameof(Enrollment), request.Id);
         var course = await _courseRepository.GetByIdAsync(enrollment.CourseId);
         
         return new EnrollmentDto

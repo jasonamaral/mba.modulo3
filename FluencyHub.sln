@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluencyHub.Infrastructure",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluencyHub.Application", "src\FluencyHub.Application\FluencyHub.Application.csproj", "{41D83D00-1DCD-4EBD-872B-94547B555AF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluencyHub.Tests", "src\FluencyHub.Tests\FluencyHub.Tests.csproj", "{8D26EBCA-725F-453B-9CC4-D3475774A15A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,18 +69,6 @@ Global
 		{41D83D00-1DCD-4EBD-872B-94547B555AF3}.Release|x64.Build.0 = Release|Any CPU
 		{41D83D00-1DCD-4EBD-872B-94547B555AF3}.Release|x86.ActiveCfg = Release|Any CPU
 		{41D83D00-1DCD-4EBD-872B-94547B555AF3}.Release|x86.Build.0 = Release|Any CPU
-		{8D26EBCA-725F-453B-9CC4-D3475774A15A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8D26EBCA-725F-453B-9CC4-D3475774A15A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8D26EBCA-725F-453B-9CC4-D3475774A15A}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{8D26EBCA-725F-453B-9CC4-D3475774A15A}.Debug|x64.Build.0 = Debug|Any CPU
-		{8D26EBCA-725F-453B-9CC4-D3475774A15A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{8D26EBCA-725F-453B-9CC4-D3475774A15A}.Debug|x86.Build.0 = Debug|Any CPU
-		{8D26EBCA-725F-453B-9CC4-D3475774A15A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8D26EBCA-725F-453B-9CC4-D3475774A15A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8D26EBCA-725F-453B-9CC4-D3475774A15A}.Release|x64.ActiveCfg = Release|Any CPU
-		{8D26EBCA-725F-453B-9CC4-D3475774A15A}.Release|x64.Build.0 = Release|Any CPU
-		{8D26EBCA-725F-453B-9CC4-D3475774A15A}.Release|x86.ActiveCfg = Release|Any CPU
-		{8D26EBCA-725F-453B-9CC4-D3475774A15A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

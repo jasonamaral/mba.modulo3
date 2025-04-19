@@ -2,7 +2,7 @@ using MediatR;
 
 namespace FluencyHub.Application.StudentManagement.Queries.GetStudentProgress;
 
-public record GetStudentProgressQuery : IRequest<StudentProgressViewModel>
+public record GetStudentProgressQuery : IRequest<Dictionary<Guid, Dictionary<Guid, bool>>>
 {
     public Guid StudentId { get; init; }
 
@@ -14,7 +14,7 @@ public record GetStudentProgressQuery : IRequest<StudentProgressViewModel>
 
 public class StudentProgressViewModel
 {
-    public Dictionary<Guid, CourseProgressDto> Progress { get; set; } = new Dictionary<Guid, CourseProgressDto>();
+    public Dictionary<Guid, CourseProgressDto> Progress { get; set; } = [];
 }
 
 public class CourseProgressDto

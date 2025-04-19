@@ -1,5 +1,4 @@
 using FluencyHub.Application.Common.Exceptions;
-using FluencyHub.Application.Common.Interfaces;
 using MediatR;
 
 namespace FluencyHub.Application.StudentManagement.Commands.EnrollStudent;
@@ -19,18 +18,12 @@ public class EnrollStudentCommandHandler : IRequestHandler<EnrollStudentCommand,
 
     public async Task<Guid> Handle(EnrollStudentCommand request, CancellationToken cancellationToken)
     {
-        var student = await _studentRepository.GetByIdAsync(request.StudentId);
-        if (student == null)
-            throw new NotFoundException("Student", request.StudentId);
-
-        var course = await _courseRepository.GetByIdAsync(request.CourseId);
-        if (course == null)
-            throw new NotFoundException("Course", request.CourseId);
-
+        var student = await _studentRepository.GetByIdAsync(request.StudentId) ?? throw new NotFoundException("Student", request.StudentId);
+        var course = await _courseRepository.GetByIdAsync(request.CourseId) ?? throw new NotFoundException("Course", request.CourseId);
         var enrollment = student.EnrollInCourse(course.Id, course.Price);
-        
+
         await _studentRepository.SaveChangesAsync(cancellationToken);
-        
+
         return enrollment.Id;
     }
-} 
+}

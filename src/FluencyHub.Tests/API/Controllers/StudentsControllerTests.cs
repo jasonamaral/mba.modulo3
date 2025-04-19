@@ -73,13 +73,13 @@ public class StudentsControllerTests
     {
         // Arrange
         _mediatorMock.Setup(m => m.Send(It.IsAny<GetAllStudentsQuery>(), It.IsAny<CancellationToken>()))
-            .ThrowsAsync(new Exception("Erro ao buscar estudantes"));
+            .ThrowsAsync(new Exception("Error fetching students"));
         
         // Act
         var result = await _controller.GetAllStudents();
         
         // Assert
         var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-        Assert.Equal("Erro ao buscar estudantes", badRequestResult.Value);
+        Assert.Equal("Error fetching students", badRequestResult.Value);
     }
 } 

@@ -1,6 +1,5 @@
 using FluencyHub.Domain.Common;
 using FluencyHub.Domain.ContentManagement;
-using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
 namespace FluencyHub.Domain.StudentManagement;
@@ -14,22 +13,21 @@ public class Enrollment : BaseEntity
     public DateTime EnrollmentDate { get; private set; }
     public DateTime? ActivationDate { get; private set; }
     public DateTime? CompletionDate { get; private set; }
-    
-    // Navegações para EF Core
+
     [JsonIgnore]
     public Student Student { get; private set; }
-    
+
     [JsonIgnore]
     public Course Course { get; private set; }
-    
-    // EF Core constructor
-    private Enrollment() { }
-    
+
+    private Enrollment()
+    { }
+
     public Enrollment(Guid studentId, Guid courseId, decimal price)
     {
         if (price < 0)
             throw new ArgumentException("Price cannot be negative", nameof(price));
-            
+
         StudentId = studentId;
         CourseId = courseId;
         Price = price;
@@ -37,36 +35,36 @@ public class Enrollment : BaseEntity
         EnrollmentDate = DateTime.UtcNow;
         CreatedAt = DateTime.UtcNow;
     }
-    
+
     public void ActivateEnrollment()
     {
         if (Status != EnrollmentStatus.PendingPayment)
             throw new InvalidOperationException($"Cannot activate enrollment with status {Status}");
-            
+
         Status = EnrollmentStatus.Active;
         ActivationDate = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
     }
-    
+
     public void CompleteEnrollment()
     {
         if (Status != EnrollmentStatus.Active)
-            throw new InvalidOperationException($"Não é possível concluir uma matrícula com status {Status}. A matrícula precisa estar ativa.");
-            
+            throw new InvalidOperationException($"Cannot complete an enrollment with status {Status}. The enrollment must be active.");
+
         Status = EnrollmentStatus.Completed;
         CompletionDate = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
     }
-    
+
     public void CancelEnrollment()
     {
         if (Status == EnrollmentStatus.Completed)
             throw new InvalidOperationException("Cannot cancel a completed enrollment");
-            
+
         Status = EnrollmentStatus.Cancelled;
         UpdatedAt = DateTime.UtcNow;
     }
-    
+
     public bool IsActive => Status == EnrollmentStatus.Active;
     public bool IsPendingPayment => Status == EnrollmentStatus.PendingPayment;
     public bool IsCompleted => Status == EnrollmentStatus.Completed;
@@ -79,4 +77,4 @@ public enum EnrollmentStatus
     Active,
     Completed,
     Cancelled
-} 
+}

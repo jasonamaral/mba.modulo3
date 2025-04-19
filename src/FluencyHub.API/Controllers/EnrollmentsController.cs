@@ -1,18 +1,15 @@
+using FluencyHub.API.Models;
 using FluencyHub.Application.Common.Exceptions;
-using FluencyHub.Application.StudentManagement.Commands.EnrollStudent;
+using FluencyHub.Application.ContentManagement.Commands.CompleteEnrollment;
+using FluencyHub.Application.ContentManagement.Queries.GetCourseById;
 using FluencyHub.Application.StudentManagement.Queries.GetEnrollmentById;
 using FluencyHub.Application.StudentManagement.Queries.GetStudentEnrollments;
-using FluencyHub.Application.ContentManagement.Queries.GetLessonById;
-using FluencyHub.Application.ContentManagement.Queries.GetCourseById;
-using FluencyHub.API.Models;
+using FluencyHub.Domain.StudentManagement;
+using FluencyHub.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using FluencyHub.Domain.StudentManagement;
-using FluencyHub.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
-using FluencyHub.Application.ContentManagement.Commands.CompleteEnrollment;
 
 namespace FluencyHub.API.Controllers;
 
@@ -23,13 +20,13 @@ public class EnrollmentsController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly FluencyHubDbContext _dbContext;
-    
+
     public EnrollmentsController(IMediator mediator, FluencyHubDbContext dbContext)
     {
         _mediator = mediator;
         _dbContext = dbContext;
     }
-    
+
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -40,7 +37,7 @@ public class EnrollmentsController : ControllerBase
         {
             var command = request.ToCommand();
             var enrollmentId = await _mediator.Send(command);
-            
+
             var enrollment = await _mediator.Send(new GetEnrollmentByIdQuery(enrollmentId));
             return CreatedAtAction(nameof(GetEnrollment), new { id = enrollmentId }, enrollment);
         }
@@ -53,7 +50,7 @@ public class EnrollmentsController : ControllerBase
             return BadRequest(new { error = ex.Message });
         }
     }
-    
+
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -69,7 +66,7 @@ public class EnrollmentsController : ControllerBase
             return NotFound(ex.Message);
         }
     }
-    
+
     [HttpGet("student/{studentId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -100,32 +97,8 @@ public class EnrollmentsController : ControllerBase
                 LessonId = lessonId,
                 Completed = request.Completed
             };
-            
-            // Implementa tratamento de concorrência para a conclusão da lição
-            int maxRetries = 3;
-            int currentRetry = 0;
-            bool operationComplete = false;
-            object result = null;
-            
-            while (!operationComplete && currentRetry < maxRetries)
-            {
-                try
-                {
-                    result = await _mediator.Send(command);
-                    operationComplete = true;
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    currentRetry++;
-                    
-                    if (currentRetry >= maxRetries)
-                        throw;
-                        
-                    // Aguarda um pouco antes de tentar novamente
-                    await Task.Delay(100);
-                }
-            }
-            
+
+            var result = await _mediator.Send(command);
             return Ok(result);
         }
         catch (NotFoundException ex)
@@ -139,10 +112,6 @@ public class EnrollmentsController : ControllerBase
         catch (BadRequestException ex)
         {
             return BadRequest(ex.Message);
-        }
-        catch (DbUpdateConcurrencyException ex)
-        {
-            return BadRequest(new { error = "Não foi possível concluir a lição devido a uma alteração concorrente. Tente novamente." });
         }
         catch (Exception ex)
         {
@@ -165,7 +134,7 @@ public class EnrollmentsController : ControllerBase
             if (enrollment.Status != EnrollmentStatus.Active.ToString())
                 return BadRequest("Only active enrollments can be completed.");
 
-            // Obter o histórico de aprendizado
+            // Get learning history
             var learningHistory = await _dbContext.LearningHistories
                 .Include(lh => lh.CourseProgress)
                 .FirstOrDefaultAsync(lh => lh.Id == enrollment.StudentId);
@@ -175,18 +144,18 @@ public class EnrollmentsController : ControllerBase
                 learningHistory = new LearningHistory(enrollment.StudentId);
                 _dbContext.LearningHistories.Add(learningHistory);
                 await _dbContext.SaveChangesAsync();
-                
-                // Recarrega o histórico recém-criado
+
+                // Reloads the newly created history
                 learningHistory = await _dbContext.LearningHistories
                     .FirstOrDefaultAsync(lh => lh.Id == enrollment.StudentId);
-                    
+
                 if (learningHistory == null)
                 {
                     return BadRequest("Failed to create learning history record");
                 }
             }
 
-            // Verifica se o CourseProgress já existe
+            // Checks if CourseProgress already exists
             var courseProgress = await _dbContext.CourseProgresses
                 .Include(cp => cp.CompletedLessons)
                 .FirstOrDefaultAsync(cp => cp.CourseId == enrollment.CourseId && cp.LearningHistoryId == learningHistory.Id);
@@ -204,27 +173,23 @@ public class EnrollmentsController : ControllerBase
             var course = await _mediator.Send(new GetCourseByIdQuery(enrollment.CourseId));
             if (course == null)
                 return NotFound("Course not found");
-                
-            // Obtém todas as aulas do curso
+
             var allLessons = course.Lessons.ToList();
-            
-            // Obtendo as lições do curso
+
             var allLessonIds = allLessons.Select(l => l.Id).ToList();
-            
-            // Verifica se todas as aulas foram completadas
+
+            // Check if all classes have been completed
             var completedLessonIds = courseProgress.CompletedLessons.Select(cl => cl.LessonId).ToList();
             int completedLessonsCount = completedLessonIds.Count;
             int totalLessonsCount = allLessonIds.Count;
-            
-            // Verificar quais lições ainda não foram concluídas
+
             var notCompletedLessonIds = allLessonIds.Except(completedLessonIds).ToList();
-            
-            if (notCompletedLessonIds.Any())
+
+            if (notCompletedLessonIds.Count != 0)
             {
                 return BadRequest($"All classes must be completed before completing the course. Completed classes: {completedLessonsCount}/{totalLessonsCount}. Missing: {notCompletedLessonIds.Count} lessons.");
             }
-            
-            // Marca o CourseProgress como concluído
+
             courseProgress.CompleteCourse();
             await _dbContext.SaveChangesAsync();
 
@@ -232,7 +197,7 @@ public class EnrollmentsController : ControllerBase
             int maxRetries = 3;
             int currentRetry = 0;
             bool operationComplete = false;
-            
+
             while (!operationComplete && currentRetry < maxRetries)
             {
                 try
@@ -243,10 +208,10 @@ public class EnrollmentsController : ControllerBase
                 catch (DbUpdateConcurrencyException)
                 {
                     currentRetry++;
-                    
+
                     if (currentRetry >= maxRetries)
                         throw;
-                        
+
                     // Aguarda um pouco antes de tentar novamente
                     await Task.Delay(100);
                 }
@@ -255,7 +220,7 @@ public class EnrollmentsController : ControllerBase
                     return BadRequest(ex.Message);
                 }
             }
-            
+
             return Ok("Course completed successfully");
         }
         catch (NotFoundException ex)
@@ -267,4 +232,4 @@ public class EnrollmentsController : ControllerBase
             return BadRequest(new { error = ex.Message });
         }
     }
-} 
+}
