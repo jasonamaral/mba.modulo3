@@ -101,7 +101,30 @@ public class EnrollmentsController : ControllerBase
                 Completed = request.Completed
             };
             
-            var result = await _mediator.Send(command);
+            // Implementa tratamento de concorrência para a conclusão da lição
+            int maxRetries = 3;
+            int currentRetry = 0;
+            bool operationComplete = false;
+            object result = null;
+            
+            while (!operationComplete && currentRetry < maxRetries)
+            {
+                try
+                {
+                    result = await _mediator.Send(command);
+                    operationComplete = true;
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    currentRetry++;
+                    
+                    if (currentRetry >= maxRetries)
+                        throw;
+                        
+                    // Aguarda um pouco antes de tentar novamente
+                    await Task.Delay(100);
+                }
+            }
             
             return Ok(result);
         }
@@ -116,6 +139,10 @@ public class EnrollmentsController : ControllerBase
         catch (BadRequestException ex)
         {
             return BadRequest(ex.Message);
+        }
+        catch (DbUpdateConcurrencyException ex)
+        {
+            return BadRequest(new { error = "Não foi possível concluir a lição devido a uma alteração concorrente. Tente novamente." });
         }
         catch (Exception ex)
         {

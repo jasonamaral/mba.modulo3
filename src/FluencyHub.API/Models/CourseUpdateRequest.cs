@@ -13,15 +13,15 @@ public class CourseUpdateRequest
     public string Name { get; set; } = string.Empty;
 
     [Required]
-    [StringLength(500, MinimumLength = 10)]
+    [StringLength(2000, MinimumLength = 10)]
     public string Description { get; set; } = string.Empty;
 
     [Required]
-    [StringLength(1000)]
+    [StringLength(5000)]
     public string Syllabus { get; set; } = string.Empty;
 
     [Required]
-    [StringLength(1000)]
+    [StringLength(2000)]
     public string LearningObjectives { get; set; } = string.Empty;
 
     [StringLength(1000)]

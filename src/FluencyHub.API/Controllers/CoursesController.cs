@@ -82,8 +82,8 @@ public class CoursesController : ControllerBase
             }
             
             var command = request.ToCommand();
-            var result = await _mediator.Send(command);
-            return Ok();
+            await _mediator.Send(command);
+            return Ok(new { id = id });
         }
         catch (NotFoundException ex)
         {
