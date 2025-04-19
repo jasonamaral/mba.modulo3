@@ -59,74 +59,95 @@ public class CompleteLessonCommandHandler : IRequestHandler<CompleteLessonComman
             throw new BadRequestException("The lesson does not belong to the course of enrollment");
         }
 
-        // Buscar ou criar o histórico de aprendizado
-        var learningHistory = await _learningRepository.GetByStudentIdAsync(enrollment.StudentId, cancellationToken);
-        if (learningHistory == null)
+        try
         {
-            learningHistory = new LearningHistory(enrollment.StudentId);
-            await _learningRepository.AddAsync(learningHistory, cancellationToken);
-        }
-
-        // Verificar se a lição já foi concluída
-        if (learningHistory.HasCompletedLesson(enrollment.CourseId, request.LessonId))
-        {
-            return new CompleteLessonResult
+            // Buscar ou criar o histórico de aprendizado
+            var learningHistory = await _learningRepository.GetByStudentIdAsync(enrollment.StudentId, cancellationToken);
+            
+            // Se não existir, cria um novo
+            if (learningHistory == null)
             {
-                EnrollmentId = request.EnrollmentId,
-                LessonId = request.LessonId,
-                Completed = request.Completed,
-                Message = "Lesson was already completed",
-                CourseCompleted = learningHistory.HasCompletedCourse(enrollment.CourseId)
-            };
-        }
-
-        // Adicionar a lição concluída
-        learningHistory.AddProgress(enrollment.CourseId, request.LessonId);
-        await _learningRepository.SaveChangesAsync(cancellationToken);
-
-        // Verificar se todas as lições do curso foram concluídas
-        var course = await _mediator.Send(new GetCourseByIdQuery(enrollment.CourseId), cancellationToken);
-        if (course != null)
-        {
-            // Obter todas as lições do curso
-            var allLessonIds = course.Lessons.Select(l => l.Id).ToList();
-
-            // Verificar se todas as lições foram concluídas
-            bool allLessonsCompleted = allLessonIds.All(id => 
-                learningHistory.HasCompletedLesson(enrollment.CourseId, id));
-
-            // Se todas as lições estiverem concluídas, concluir o curso
-            if (allLessonsCompleted && !learningHistory.HasCompletedCourse(enrollment.CourseId))
+                learningHistory = new LearningHistory(enrollment.StudentId);
+            }
+            
+            // Verificar se a lição já foi concluída
+            bool lessonAlreadyCompleted = learningHistory.HasCompletedLesson(enrollment.CourseId, request.LessonId);
+            if (lessonAlreadyCompleted)
             {
-                learningHistory.CompleteCourse(enrollment.CourseId);
-                
-                // Atualizar o status da matrícula
-                var enrollmentEntity = await _enrollmentRepository.GetByIdAsync(request.EnrollmentId);
-                if (enrollmentEntity != null)
-                {
-                    enrollmentEntity.CompleteEnrollment();
-                    await _enrollmentRepository.SaveChangesAsync(cancellationToken);
-                }
-
                 return new CompleteLessonResult
                 {
                     EnrollmentId = request.EnrollmentId,
                     LessonId = request.LessonId,
                     Completed = request.Completed,
-                    Message = "Lesson completed successfully and course has been completed automatically",
-                    CourseCompleted = true
+                    Message = "Lesson was already completed",
+                    CourseCompleted = learningHistory.HasCompletedCourse(enrollment.CourseId)
                 };
             }
-        }
 
-        // Retornar o resultado
-        return new CompleteLessonResult
+            // Adicionar a lição concluída
+            learningHistory.AddProgress(enrollment.CourseId, request.LessonId);
+            
+            // Salvar as alterações
+            await _learningRepository.UpdateAsync(learningHistory, cancellationToken);
+
+            // Verificar se todas as lições do curso foram concluídas
+            var course = await _mediator.Send(new GetCourseByIdQuery(enrollment.CourseId), cancellationToken);
+            
+            // Recarregar o histórico para ter certeza que temos a versão mais atualizada
+            learningHistory = await _learningRepository.GetByStudentIdAsync(enrollment.StudentId, cancellationToken);
+            
+            if (course != null && learningHistory != null)
+            {
+                // Obter todas as lições do curso
+                var allLessonIds = course.Lessons.Select(l => l.Id).ToList();
+
+                // Verificar se todas as lições foram concluídas
+                bool allLessonsCompleted = allLessonIds.All(id => 
+                    learningHistory.HasCompletedLesson(enrollment.CourseId, id));
+
+                // Se todas as lições estiverem concluídas, concluir o curso
+                if (allLessonsCompleted && !learningHistory.HasCompletedCourse(enrollment.CourseId))
+                {
+                    learningHistory.CompleteCourse(enrollment.CourseId);
+                    await _learningRepository.UpdateAsync(learningHistory, cancellationToken);
+                    
+                    // Atualizar o status da matrícula
+                    var enrollmentEntity = await _enrollmentRepository.GetByIdAsync(request.EnrollmentId);
+                    if (enrollmentEntity != null)
+                    {
+                        enrollmentEntity.CompleteEnrollment();
+                        await _enrollmentRepository.SaveChangesAsync(cancellationToken);
+                    }
+
+                    return new CompleteLessonResult
+                    {
+                        EnrollmentId = request.EnrollmentId,
+                        LessonId = request.LessonId,
+                        Completed = request.Completed,
+                        Message = "Lesson completed successfully and course has been completed automatically",
+                        CourseCompleted = true
+                    };
+                }
+            }
+
+            // Retornar o resultado
+            return new CompleteLessonResult
+            {
+                EnrollmentId = request.EnrollmentId,
+                LessonId = request.LessonId,
+                Completed = request.Completed,
+                Message = "Lesson completed successfully",
+                CourseCompleted = false
+            };
+        }
+        catch (DbUpdateConcurrencyException ex)
         {
-            EnrollmentId = request.EnrollmentId,
-            LessonId = request.LessonId,
-            Completed = request.Completed,
-            Message = "Lesson completed successfully",
-            CourseCompleted = false
-        };
+            // Propaga a exceção para que o controlador possa tratá-la
+            throw new BadRequestException("Erro de concorrência ao salvar o progresso da lição. Por favor, tente novamente.", ex);
+        }
+        catch (Exception ex)
+        {
+            throw new BadRequestException($"Erro ao completar lição: {ex.Message}", ex);
+        }
     }
 } 
