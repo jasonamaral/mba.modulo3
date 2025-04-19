@@ -1,6 +1,5 @@
 using FluencyHub.Application.Common.Exceptions;
 using FluencyHub.Application.Common.Interfaces;
-using FluencyHub.Application.ContentManagement.Queries.GetCourseById;
 using FluencyHub.Application.ContentManagement.Queries.GetLessonById;
 using FluencyHub.Application.StudentManagement.Queries.GetEnrollmentById;
 using FluencyHub.Domain.StudentManagement;
@@ -15,9 +14,6 @@ public class CompleteLessonCommandHandler : IRequestHandler<CompleteLessonComman
     private readonly IMediator _mediator;
     private readonly ILearningRepository _learningRepository;
     private readonly ICourseRepository _courseRepository;
-    private readonly IEnrollmentRepository _enrollmentRepository;
-    private readonly ILessonRepository _lessonRepository;
-    private readonly ILogger<CompleteLessonCommandHandler> _logger;
 
     public CompleteLessonCommandHandler(
         IMediator mediator,
@@ -30,9 +26,6 @@ public class CompleteLessonCommandHandler : IRequestHandler<CompleteLessonComman
         _mediator = mediator;
         _learningRepository = learningRepository;
         _courseRepository = courseRepository;
-        _enrollmentRepository = enrollmentRepository;
-        _lessonRepository = lessonRepository;
-        _logger = logger;
     }
 
     public async Task<CompleteLessonResult> Handle(CompleteLessonCommand request, CancellationToken cancellationToken)
@@ -42,25 +35,13 @@ public class CompleteLessonCommandHandler : IRequestHandler<CompleteLessonComman
             throw new BadRequestException("Request must contain 'completed: true' value");
         }
 
-        // Check if the enrollment exists and is active
-        var enrollment = await _mediator.Send(new GetEnrollmentByIdQuery(request.EnrollmentId), cancellationToken);
-        if (enrollment == null)
-        {
-            throw new NotFoundException("Enrollment", request.EnrollmentId);
-        }
-
+        var enrollment = await _mediator.Send(new GetEnrollmentByIdQuery(request.EnrollmentId), cancellationToken) ?? throw new NotFoundException("Enrollment", request.EnrollmentId);
         if (enrollment.Status != EnrollmentStatus.Active.ToString())
         {
             throw new BadRequestException("Only active enrollments can be completed");
         }
 
-        // Check if the lesson exists and belongs to the enrollment course
-        var lesson = await _mediator.Send(new GetLessonByIdQuery(request.LessonId), cancellationToken);
-        if (lesson == null)
-        {
-            throw new NotFoundException("Lesson", request.LessonId);
-        }
-
+        var lesson = await _mediator.Send(new GetLessonByIdQuery(request.LessonId), cancellationToken) ?? throw new NotFoundException("Lesson", request.LessonId);
         if (lesson.CourseId != enrollment.CourseId)
         {
             throw new BadRequestException("The lesson does not belong to the course of enrollment");
@@ -68,7 +49,6 @@ public class CompleteLessonCommandHandler : IRequestHandler<CompleteLessonComman
 
         try
         {
-            // Create or get the learning history
             var learningHistory = await _learningRepository.GetByStudentIdAsync(enrollment.StudentId, cancellationToken);
             if (learningHistory == null)
             {
@@ -76,10 +56,9 @@ public class CompleteLessonCommandHandler : IRequestHandler<CompleteLessonComman
                 await _learningRepository.AddAsync(learningHistory, cancellationToken);
             }
 
-            // Check if the lesson has already been completed
             if (await _learningRepository.HasCompletedLessonAsync(enrollment.StudentId, lesson.Id, cancellationToken))
             {
-                if (!request.Completed) // Uncomplete the lesson
+                if (!request.Completed)
                 {
                     await _learningRepository.UncompleteLessonAsync(enrollment.StudentId, lesson.Id, cancellationToken);
                     return new CompleteLessonResult
@@ -96,7 +75,7 @@ public class CompleteLessonCommandHandler : IRequestHandler<CompleteLessonComman
                 };
             }
 
-            if (!request.Completed) // No need to uncomplete a lesson that wasn't completed
+            if (!request.Completed)
             {
                 return new CompleteLessonResult
                 {
@@ -105,10 +84,8 @@ public class CompleteLessonCommandHandler : IRequestHandler<CompleteLessonComman
                 };
             }
 
-            // Complete the lesson
             await _learningRepository.CompleteLessonAsync(enrollment.StudentId, enrollment.CourseId, lesson.Id, cancellationToken);
 
-            // Check if all the lessons in the course have been completed
             bool allLessonsCompleted = await IsAllLessonsCompletedAsync(enrollment.StudentId, enrollment.CourseId, cancellationToken);
 
             return new CompleteLessonResult
@@ -120,7 +97,6 @@ public class CompleteLessonCommandHandler : IRequestHandler<CompleteLessonComman
         }
         catch (DbUpdateConcurrencyException ex)
         {
-            // Propagate the exception so that the controller can handle it
             throw new BadRequestException("Concurrency error when saving lesson progress. Please try again.", ex);
         }
         catch (Exception ex)
@@ -142,4 +118,4 @@ public class CompleteLessonCommandHandler : IRequestHandler<CompleteLessonComman
 
         return !allLessonIds.Except(completedLessonIds).Any();
     }
-} 
+}

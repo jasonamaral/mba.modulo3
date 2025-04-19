@@ -1,4 +1,5 @@
 using FluencyHub.Application.Common.Interfaces;
+using FluencyHub.Application.Common.Models;
 using FluencyHub.Domain.PaymentProcessing;
 using Microsoft.Extensions.Logging;
 
@@ -14,7 +15,7 @@ public class MockPaymentGateway : IPaymentGateway
         _logger = logger;
     }
 
-    public Task<Application.Common.Interfaces.PaymentResult> ProcessPaymentAsync(string orderId, decimal amount, CardDetails cardDetails)
+    public Task<FluencyHub.Application.Common.Models.PaymentResult> ProcessPaymentAsync(string orderId, decimal amount, CardDetails cardDetails)
     {
         _logger.LogInformation("MockPaymentGateway: Processing payment for order {OrderId}, amount {Amount}", orderId, amount);
 
@@ -25,16 +26,16 @@ public class MockPaymentGateway : IPaymentGateway
             _transactions[transactionId] = orderId;
 
             _logger.LogInformation("MockPaymentGateway: Payment successful, transaction ID: {TransactionId}", transactionId);
-            return Task.FromResult(Application.Common.Interfaces.PaymentResult.Success(transactionId));
+            return Task.FromResult(FluencyHub.Application.Common.Models.PaymentResult.Success(transactionId));
         }
         else
         {
             _logger.LogWarning("MockPaymentGateway: Payment failed, invalid card number");
-            return Task.FromResult(Application.Common.Interfaces.PaymentResult.Failure("Card was declined"));
+            return Task.FromResult(FluencyHub.Application.Common.Models.PaymentResult.Failure("Card was declined"));
         }
     }
 
-    public Task<Application.Common.Interfaces.RefundResult> ProcessRefundAsync(string transactionId, decimal amount, string reason)
+    public Task<FluencyHub.Application.Common.Models.RefundResult> ProcessRefundAsync(string transactionId, decimal amount, string reason)
     {
         _logger.LogInformation("MockPaymentGateway: Processing refund for transaction {TransactionId}, amount {Amount}, reason: {Reason}", 
             transactionId, amount, reason);
@@ -44,7 +45,7 @@ public class MockPaymentGateway : IPaymentGateway
             var refundTransactionId = $"mock_refund_{Guid.NewGuid():N}";
             
             _logger.LogInformation("MockPaymentGateway: Refund successful, refund ID: {RefundId}", refundTransactionId);
-            return Task.FromResult(Application.Common.Interfaces.RefundResult.Success(
+            return Task.FromResult(FluencyHub.Application.Common.Models.RefundResult.Success(
                 transactionId, 
                 refundTransactionId, 
                 amount));
@@ -52,7 +53,7 @@ public class MockPaymentGateway : IPaymentGateway
         else
         {
             _logger.LogWarning("MockPaymentGateway: Refund failed, transaction not found");
-            return Task.FromResult(Application.Common.Interfaces.RefundResult.Failure(
+            return Task.FromResult(FluencyHub.Application.Common.Models.RefundResult.Failure(
                 transactionId, 
                 "Transaction not found"));
         }

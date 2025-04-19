@@ -2,15 +2,19 @@ namespace FluencyHub.Application.Common.Models;
 
 public class RefundResult
 {
-    public bool Succeeded { get; private set; }
+    public bool IsSuccessful { get; private set; }
     public string OriginalTransactionId { get; private set; }
     public string? RefundTransactionId { get; private set; }
     public decimal RefundAmount { get; private set; }
     public string? ErrorMessage { get; private set; }
     
-    private RefundResult() 
-    { 
-        OriginalTransactionId = string.Empty;
+    private RefundResult(bool isSuccessful, string originalTransactionId, string? refundTransactionId, decimal refundAmount, string? errorMessage)
+    {
+        IsSuccessful = isSuccessful;
+        OriginalTransactionId = originalTransactionId;
+        RefundTransactionId = refundTransactionId;
+        RefundAmount = refundAmount;
+        ErrorMessage = errorMessage;
     }
     
     public static RefundResult Success(string originalTransactionId, string refundTransactionId, decimal refundAmount)
@@ -22,16 +26,9 @@ public class RefundResult
             throw new ArgumentException("Refund transaction ID cannot be empty", nameof(refundTransactionId));
             
         if (refundAmount <= 0)
-            throw new ArgumentException("Refund amount must be positive", nameof(refundAmount));
-        
-        return new RefundResult
-        {
-            Succeeded = true,
-            OriginalTransactionId = originalTransactionId,
-            RefundTransactionId = refundTransactionId,
-            RefundAmount = refundAmount,
-            ErrorMessage = null
-        };
+            throw new ArgumentException("Refund amount must be greater than zero", nameof(refundAmount));
+            
+        return new RefundResult(true, originalTransactionId, refundTransactionId, refundAmount, null);
     }
     
     public static RefundResult Failure(string originalTransactionId, string errorMessage)
@@ -42,13 +39,6 @@ public class RefundResult
         if (string.IsNullOrWhiteSpace(errorMessage))
             throw new ArgumentException("Error message cannot be empty", nameof(errorMessage));
             
-        return new RefundResult
-        {
-            Succeeded = false,
-            OriginalTransactionId = originalTransactionId,
-            RefundTransactionId = null,
-            RefundAmount = 0,
-            ErrorMessage = errorMessage
-        };
+        return new RefundResult(false, originalTransactionId, null, 0, errorMessage);
     }
 } 

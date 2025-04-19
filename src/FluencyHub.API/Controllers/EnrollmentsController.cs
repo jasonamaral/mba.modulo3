@@ -134,7 +134,6 @@ public class EnrollmentsController : ControllerBase
             if (enrollment.Status != EnrollmentStatus.Active.ToString())
                 return BadRequest("Only active enrollments can be completed.");
 
-            // Get learning history
             var learningHistory = await _dbContext.LearningHistories
                 .Include(lh => lh.CourseProgress)
                 .FirstOrDefaultAsync(lh => lh.Id == enrollment.StudentId);
@@ -145,7 +144,6 @@ public class EnrollmentsController : ControllerBase
                 _dbContext.LearningHistories.Add(learningHistory);
                 await _dbContext.SaveChangesAsync();
 
-                // Reloads the newly created history
                 learningHistory = await _dbContext.LearningHistories
                     .FirstOrDefaultAsync(lh => lh.Id == enrollment.StudentId);
 
@@ -155,7 +153,6 @@ public class EnrollmentsController : ControllerBase
                 }
             }
 
-            // Checks if CourseProgress already exists
             var courseProgress = await _dbContext.CourseProgresses
                 .Include(cp => cp.CompletedLessons)
                 .FirstOrDefaultAsync(cp => cp.CourseId == enrollment.CourseId && cp.LearningHistoryId == learningHistory.Id);
@@ -178,7 +175,6 @@ public class EnrollmentsController : ControllerBase
 
             var allLessonIds = allLessons.Select(l => l.Id).ToList();
 
-            // Check if all classes have been completed
             var completedLessonIds = courseProgress.CompletedLessons.Select(cl => cl.LessonId).ToList();
             int completedLessonsCount = completedLessonIds.Count;
             int totalLessonsCount = allLessonIds.Count;
@@ -193,32 +189,13 @@ public class EnrollmentsController : ControllerBase
             courseProgress.CompleteCourse();
             await _dbContext.SaveChangesAsync();
 
-            // Implementa tratamento de concorrência para a conclusão da matrícula
-            int maxRetries = 3;
-            int currentRetry = 0;
-            bool operationComplete = false;
-
-            while (!operationComplete && currentRetry < maxRetries)
+            try
             {
-                try
-                {
-                    await _mediator.Send(new CompleteEnrollmentCommand(id));
-                    operationComplete = true;
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    currentRetry++;
-
-                    if (currentRetry >= maxRetries)
-                        throw;
-
-                    // Aguarda um pouco antes de tentar novamente
-                    await Task.Delay(100);
-                }
-                catch (InvalidOperationException ex)
-                {
-                    return BadRequest(ex.Message);
-                }
+                await _mediator.Send(new CompleteEnrollmentCommand(id));
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
             }
 
             return Ok("Course completed successfully");
