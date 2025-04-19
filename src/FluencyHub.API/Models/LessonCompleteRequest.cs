@@ -4,6 +4,6 @@ namespace FluencyHub.API.Models;
 
 public class LessonCompleteRequest
 {
-    [Required]
+    [Required(ErrorMessage = "O campo 'Completed' é obrigatório.")]
     public bool Completed { get; set; }
 } 

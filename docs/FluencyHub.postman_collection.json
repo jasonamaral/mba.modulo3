@@ -316,7 +316,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": \"{{studentId}}\",\n    \"firstName\": \"Updated 4\",\n    \"lastName\": \"Name 4\",\n    \"phoneNumber\": \"11987654321\",\n    \"dateOfBirth\": \"1995-01-01T00:00:00Z\"\n}"
+							"raw": "{\n    \"id\": \"{{studentId}}\",\n    \"firstName\": \"Jack\",\n    \"lastName\": \"Amaral\",\n    \"phoneNumber\": \"11987654321\",\n    \"dateOfBirth\": \"2016-05-01T00:00:00Z\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/api/students/{{studentId}}",
@@ -509,8 +509,11 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"packages": {},
-								"type": "text/javascript"
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -534,7 +537,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Curso de Inglês Avançado I\",\n    \"description\": \"Curso perfeito para iniciantes que desejam aprender inglês de forma eficiente.\",\n    \"price\": 299.90,\n    \"content\": {\n        \"description\": \"Este curso abrange vocabulário básico, gramática fundamental e exercícios práticos.\",\n        \"goals\": \"Ao final do curso, o aluno será capaz de se comunicar em situações cotidianas em inglês.\",\n        \"requirements\": \"Não há pré-requisitos para este curso.\"\n    }\n}"
+							"raw": "{\n    \"name\": \"Curso de Inglês Avançado III\",\n    \"description\": \"Curso perfeito para iniciantes que desejam aprender inglês de forma eficiente.\",\n    \"price\": 499.90,\n    \"syllabus\":\"Este curso abrange vocabulário básico, gramática fundamental e exercícios práticos.\",\n    \"learningObjectives\": \"Ao final do curso, o aluno será capaz de se comunicar em situações cotidianas em inglês.\",\n    \"preRequisites\": \"Não há pré-requisitos para este curso.\",\n    \"targetAudience\":\"Todos\",\n    \"language\":\"Inglês\",\n    \"level\":\"Iniciante\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/api/courses",
@@ -544,6 +547,74 @@
 							"path": [
 								"api",
 								"courses"
+							]
+						},
+						"description": "Cria um novo curso (apenas administradores)."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Course",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"if (jsonData && jsonData.id) {\r",
+									"    pm.collectionVariables.set(\"courseId\", jsonData.id);\r",
+									"    console.log(\"ID armazenado:\", jsonData.id); // Confirmação opcional\r",
+									"} else {\r",
+									"    console.error(\"Resposta não contém um ID válido\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"{{courseId}}\",\n    \"name\": \"Curso de Inglês Basico I.\",\n    \"description\": \"Curso perfeito para iniciantes que desejam aprender inglês de forma eficiente.\",\n    \"price\": 149.90,\n    \"syllabus\":\"Este curso abrange vocabulário básico, gramática fundamental e exercícios práticos.\",\n    \"learningObjectives\": \"Ao final do curso, o aluno será capaz de se comunicar em situações cotidianas em inglês.\",\n    \"preRequisites\": \"Não há pré-requisitos para este curso.\",\n    \"targetAudience\":\"Todos\",\n    \"language\":\"Inglês\",\n    \"level\":\"Iniciante\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/courses/{{courseId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"courses",
+								"{{courseId}}"
 							]
 						},
 						"description": "Cria um novo curso (apenas administradores)."
@@ -633,7 +704,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Introdução ao Vocabulário Básico II\",\n    \"content\": \"Nesta aula, aprenderemos o vocabulário básico necessário para apresentações e conversas simples em inglês.\",\n    \"materialUrl\": \"https://example.com/materials/basic-vocabulary.pdf\",\n    \"order\": 1\n}"
+							"raw": "{\n    \"title\": \"Introdução ao Vocabulário Básico I\",\n    \"content\": \"Nesta aula, aprenderemos o vocabulário básico necessário para apresentações e conversas simples em inglês.\",\n    \"materialUrl\": \"https://example.com/materials/basic-vocabulary.pdf\",\n    \"order\": 1\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/api/courses/{{courseId}}/lessons",
@@ -930,7 +1001,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"enrollmentId\": \"{{enrollmentId}}\",\n    \"amount\": 299.90,\n    \"cardDetails\": {\n        \"cardholderName\": \"Test User\",\n        \"cardNumber\": \"4111111111111111\",\n        \"expiryMonth\": 12,\n        \"expiryYear\": 2028,\n        \"cvv\": \"123\"\n    }\n}"
+							"raw": "{\n    \"enrollmentId\": \"{{enrollmentId}}\",\n    \"amount\": 149.90,\n    \"cardDetails\": {\n        \"cardholderName\": \"Test User\",\n        \"cardNumber\": \"4111111111111111\",\n        \"expiryMonth\": 12,\n        \"expiryYear\": 2028,\n        \"cvv\": \"123\"\n    }\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/api/payments",
