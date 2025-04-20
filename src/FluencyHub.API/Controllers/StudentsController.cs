@@ -102,7 +102,7 @@ public class StudentsController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Administrator")]
+    [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateStudent(CreateStudentCommand command)

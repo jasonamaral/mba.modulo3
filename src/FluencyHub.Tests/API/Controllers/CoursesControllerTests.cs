@@ -87,12 +87,12 @@ public class CoursesControllerTests
             Name = "Test Course",
             Description = "Test Description",
             Price = 99.99m,
-            Content = new CourseContentRequest 
-            {
-                Description = "Test Syllabus",
-                Goals = "Test Objectives",
-                Requirements = "Test Prerequisites"
-            }
+            Syllabus = "Test Syllabus",
+            LearningObjectives = "Test Objectives",
+            PreRequisites = "Test Prerequisites",
+            TargetAudience = "Test Audience",
+            Language = "English",
+            Level = "Beginner"
         };
         
         var command = request.ToCommand();
@@ -118,12 +118,12 @@ public class CoursesControllerTests
             Name = "", // Invalid name
             Description = "Test Description",
             Price = 99.99m,
-            Content = new CourseContentRequest 
-            {
-                Description = "Test Syllabus",
-                Goals = "Test Objectives",
-                Requirements = "Test Prerequisites"
-            }
+            Syllabus = "Test Syllabus",
+            LearningObjectives = "Test Objectives",
+            PreRequisites = "Test Prerequisites",
+            TargetAudience = "Test Audience",
+            Language = "English",
+            Level = "Beginner"
         };
         
         var command = request.ToCommand();
@@ -164,7 +164,7 @@ public class CoursesControllerTests
         var result = await _controller.UpdateCourse(courseId, request);
         
         // Assert
-        Assert.IsType<OkResult>(result);
+        Assert.IsType<OkObjectResult>(result);
         
         _mediatorMock.Verify(m => m.Send(
             It.Is<UpdateCourseCommand>(c => 

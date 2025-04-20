@@ -17,16 +17,7 @@ public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,
     
     public async Task<Guid> Handle(CreateStudentCommand request, CancellationToken cancellationToken)
     {
-        var student = new Student(
-            request.FirstName,
-            request.LastName,
-            request.Email,
-            request.DateOfBirth,
-            request.PhoneNumber);
-            
-        await _studentRepository.AddAsync(student);
-        await _studentRepository.SaveChangesAsync(cancellationToken);
-
+        // Primeiro registra o usuário no Identity
         var authResult = await _identityService.RegisterUserAsync(
             request.Email,
             request.Password,
@@ -37,9 +28,30 @@ public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,
         {
             throw new ApplicationException($"Failed to create user for student: {string.Join(", ", authResult.Errors)}");
         }
-        
-        await _identityService.UpdateUserStudentIdAsync(request.Email, student.Id);
-        
-        return student.Id;
+
+        try
+        {
+            // Depois cria o estudante
+            var student = new Student(
+                request.FirstName,
+                request.LastName,
+                request.Email,
+                request.DateOfBirth,
+                request.PhoneNumber);
+                
+            await _studentRepository.AddAsync(student);
+            await _studentRepository.SaveChangesAsync(cancellationToken);
+
+            // Atualiza o ID do estudante no usuário
+            await _identityService.UpdateUserStudentIdAsync(request.Email, student.Id);
+            
+            return student.Id;
+        }
+        catch (Exception)
+        {
+            // Se algo der errado na criação do estudante, remove o usuário criado
+            await _identityService.DeleteUserAsync(request.Email);
+            throw;
+        }
     }
 } 

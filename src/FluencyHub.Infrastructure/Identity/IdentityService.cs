@@ -125,4 +125,17 @@ public class IdentityService : IIdentityService
         var result = await _userManager.UpdateAsync(user);
         return result.Succeeded;
     }
+
+    public async Task<bool> DeleteUserAsync(string email)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+        
+        if (user == null)
+        {
+            return false;
+        }
+
+        var result = await _userManager.DeleteAsync(user);
+        return result.Succeeded;
+    }
 }

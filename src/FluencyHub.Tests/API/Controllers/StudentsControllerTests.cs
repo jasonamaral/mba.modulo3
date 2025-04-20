@@ -38,17 +38,19 @@ public class StudentsControllerTests
             new StudentDto
             {
                 Id = Guid.NewGuid(),
-                Name = "Student 1",
+                FirstName = "Student",
+                LastName = "Silva",
                 Email = "student1@example.com",
-                PhoneNumber = "+1234567890",
+                Phone = "+1234567890",
                 IsActive = true,
                 CreatedAt = DateTime.UtcNow
             },
             new() {
                 Id = Guid.NewGuid(),
-                Name = "Student 2",
+                FirstName = "Student",
+                LastName = "Pereira",
                 Email = "student2@example.com",
-                PhoneNumber = "+1234567891",
+                Phone = "+1234567891",
                 IsActive = true,
                 CreatedAt = DateTime.UtcNow
             }
@@ -64,8 +66,8 @@ public class StudentsControllerTests
         var okResult = Assert.IsType<OkObjectResult>(result);
         var returnedStudents = Assert.IsAssignableFrom<IEnumerable<StudentDto>>(okResult.Value);
         Assert.Equal(2, returnedStudents.Count());
-        Assert.Equal("Student 1", returnedStudents.First().Name);
-        Assert.Equal("Student 2", returnedStudents.Last().Name);
+        Assert.Equal("Silva", returnedStudents.First().LastName);
+        Assert.Equal("Pereira", returnedStudents.Last().LastName);
     }
     
     [Fact]
