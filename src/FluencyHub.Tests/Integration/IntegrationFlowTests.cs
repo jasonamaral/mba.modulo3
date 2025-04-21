@@ -10,11 +10,8 @@ namespace FluencyHub.Tests.Integration;
 
 [TestCaseOrderer("FluencyHub.Tests.Integration.Config.PriorityOrderer", "FluencyHub.Tests")]
 [Collection(nameof(IntegrationWebTestsFixtureCollection))]
-public class IntegrationFlowTests
+public class IntegrationFlowTests : IntegrationTestsBase<Program>
 {
-    private readonly IntegrationTestsFixture<Program> _testsFixture;
-    private static string _adminToken = string.Empty;
-    private static string _studentToken = string.Empty;
     private static Guid _courseId;
     private static Guid _lessonId;
     private static Guid _studentId;
@@ -22,9 +19,9 @@ public class IntegrationFlowTests
     private static Guid _paymentId;
     private static Guid _certificateId;
 
-    public IntegrationFlowTests(IntegrationTestsFixture<Program> testsFixture)
+    public IntegrationFlowTests(IntegrationTestsFixture<Program> testsFixture) 
+        : base(testsFixture.Factory)
     {
-        _testsFixture = testsFixture;
     }
 
     [Fact(DisplayName = "01 - Login as administrator"), TestPriority(1)]
@@ -34,26 +31,15 @@ public class IntegrationFlowTests
         try
         {
             // Arrange
-            _testsFixture.Client.JsonMediaType();
-
-            var request = new LoginRequest
-            {
-                Email = "admin@fluencyhub.com",
-                Password = "Test@123"
-            };
+            Client.JsonMediaType();
 
             // Act
-            var response = await _testsFixture.Client.PostAsJsonAsync("api/auth/login", request);
+            await GetTokenAsync("admin@fluencyhub.com", "Test@123");
+            SetBearerToken();
 
             // Assert
-            response.EnsureSuccessStatusCode();
-
-            var content = await response.Content.ReadAsStringAsync();
-            var tokenResponse = JsonDocument.Parse(content).RootElement;
-
-            Assert.True(tokenResponse.TryGetProperty("token", out var tokenProperty));
-            _adminToken = tokenProperty.GetString() ?? string.Empty;
-            Assert.NotEmpty(_adminToken);
+            Assert.NotNull(CurrentToken);
+            Assert.NotEmpty(CurrentToken);
         }
         catch (Exception ex)
         {
@@ -66,8 +52,7 @@ public class IntegrationFlowTests
     public async Task CreateCourse_ShouldReturnCourseId()
     {
         // Arrange
-        _testsFixture.Client.JsonMediaType();
-        _testsFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _adminToken);
+        Client.JsonMediaType();
 
         var command = new CreateCourseCommand
         {
@@ -85,7 +70,7 @@ public class IntegrationFlowTests
         try
         {
             // Act
-            var response = await _testsFixture.Client.PostAsJsonAsync("api/courses", command);
+            var response = await Client.PostAsJsonAsync("api/courses", command);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -94,15 +79,8 @@ public class IntegrationFlowTests
             }
 
             var content = await response.Content.ReadAsStringAsync();
-            
-            if (string.IsNullOrWhiteSpace(content))
-            {
-                _courseId = Guid.NewGuid();
-                return;
-            }
-            
             var result = JsonDocument.Parse(content).RootElement;
-            
+
             if (result.TryGetProperty("id", out var idProperty))
             {
                 var courseIdStr = idProperty.GetString() ?? string.Empty;
@@ -113,12 +91,26 @@ public class IntegrationFlowTests
                 }
             }
 
-            _courseId = Guid.NewGuid();
-        }
-        catch (Exception)
-        {
+            var location = response.Headers.Location;
+            if (location != null)
+            {
+                var locationParts = location.ToString().Split('/');
+                if (locationParts.Length > 0)
+                {
+                    var idPart = locationParts[^1];
+                    if (Guid.TryParse(idPart, out _courseId))
+                    {
+                        Assert.NotEqual(Guid.Empty, _courseId);
+                        return;
+                    }
+                }
+            }
 
             _courseId = Guid.NewGuid();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Test failed. Full error details: {ex}", ex);
         }
     }
 
@@ -127,8 +119,8 @@ public class IntegrationFlowTests
     public async Task AddLesson_ShouldReturnLessonId()
     {
         // Arrange
-        _testsFixture.Client.JsonMediaType();
-        _testsFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _adminToken);
+        Client.JsonMediaType();
+        Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", CurrentToken);
 
         var request = new LessonCreateRequest
         {
@@ -137,56 +129,51 @@ public class IntegrationFlowTests
             MaterialUrl = "https://fluencyhub.com/material/aula1"
         };
 
+        // Act
+        var response = await Client.PostAsJsonAsync($"api/courses/{_courseId}/lessons", request);
 
-            // Act
-            var response = await _testsFixture.Client.PostAsJsonAsync($"api/courses/{_courseId}/lessons", request);
-
-            if (!response.IsSuccessStatusCode)
-            {
-
-                _lessonId = Guid.NewGuid();
-                return;
-            }
-
-            var content = await response.Content.ReadAsStringAsync();
-            
-            if (string.IsNullOrWhiteSpace(content))
-            {
-                _lessonId = Guid.NewGuid();
-                return;
-            }
-            
-
-                var result = JsonDocument.Parse(content).RootElement;
-                
-                if (result.TryGetProperty("id", out var idProperty))
-                {
-                    var lessonIdStr = idProperty.GetString() ?? string.Empty;
-                    if (Guid.TryParse(lessonIdStr, out _lessonId))
-                    {
-                        Assert.NotEqual(Guid.Empty, _lessonId);
-                        return;
-                    }
-                }
-
-            
-            var location = response.Headers.Location;
-            if (location != null)
-            {
-                var locationParts = location.ToString().Split('/');
-                if (locationParts.Length > 0)
-                {
-                    var idPart = locationParts[^1];
-                    if (Guid.TryParse(idPart, out _lessonId))
-                    {
-                        Assert.NotEqual(Guid.Empty, _lessonId);
-                        return;
-                    }
-                }
-            }
-            
+        if (!response.IsSuccessStatusCode)
+        {
             _lessonId = Guid.NewGuid();
+            return;
+        }
 
+        var content = await response.Content.ReadAsStringAsync();
+        
+        if (string.IsNullOrWhiteSpace(content))
+        {
+            _lessonId = Guid.NewGuid();
+            return;
+        }
+        
+        var result = JsonDocument.Parse(content).RootElement;
+        
+        if (result.TryGetProperty("id", out var idProperty))
+        {
+            var lessonIdStr = idProperty.GetString() ?? string.Empty;
+            if (Guid.TryParse(lessonIdStr, out _lessonId))
+            {
+                Assert.NotEqual(Guid.Empty, _lessonId);
+                return;
+            }
+        }
+
+        var location = response.Headers.Location;
+        if (location != null)
+        {
+            var locationParts = location.ToString().Split('/');
+            if (locationParts.Length > 0)
+            {
+                var idPart = locationParts[^1];
+                if (Guid.TryParse(idPart, out _lessonId))
+                {
+                    Assert.NotEqual(Guid.Empty, _lessonId);
+                    return;
+                }
+            }
+        }
+        
+        _lessonId = Guid.NewGuid();
     }
 
     [Fact(DisplayName = "04 - Create student"), TestPriority(4)]
@@ -196,7 +183,7 @@ public class IntegrationFlowTests
         try
         {
             // Arrange
-            _testsFixture.Client.JsonMediaType();
+            Client.JsonMediaType();
 
             var command = new CreateStudentCommand
             {
@@ -209,7 +196,7 @@ public class IntegrationFlowTests
             };
 
             // Act
-            var response = await _testsFixture.Client.PostAsJsonAsync("api/students", command);
+            var response = await Client.PostAsJsonAsync("api/students", command);
 
             // Assert
             response.EnsureSuccessStatusCode();
@@ -222,19 +209,17 @@ public class IntegrationFlowTests
                 return;
             }
 
+            var result = JsonDocument.Parse(content).RootElement;
 
-                var result = JsonDocument.Parse(content).RootElement;
-
-                if (result.TryGetProperty("id", out var idProperty))
+            if (result.TryGetProperty("id", out var idProperty))
+            {
+                var studentIdStr = idProperty.GetString() ?? string.Empty;
+                if (Guid.TryParse(studentIdStr, out _studentId))
                 {
-                    var studentIdStr = idProperty.GetString() ?? string.Empty;
-                    if (Guid.TryParse(studentIdStr, out _studentId))
-                    {
-                        Assert.NotEqual(Guid.Empty, _studentId);
-                        return;
-                    }
+                    Assert.NotEqual(Guid.Empty, _studentId);
+                    return;
                 }
-
+            }
         }
         catch (Exception ex)
         {
@@ -249,7 +234,7 @@ public class IntegrationFlowTests
         try
         {
             // Arrange
-            _testsFixture.Client.JsonMediaType();
+            Client.JsonMediaType();
 
             var request = new LoginRequest
             {
@@ -258,10 +243,11 @@ public class IntegrationFlowTests
             };
 
             // Act
-            var response = await _testsFixture.Client.PostAsJsonAsync("api/auth/login", request);
+            var response = await Client.PostAsJsonAsync("api/auth/login", request);
 
             if (!response.IsSuccessStatusCode)
             {
+                // Handle the case where the student token is not returned
                 _studentToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
                 return;
             }
@@ -286,8 +272,8 @@ public class IntegrationFlowTests
         try
         {
             // Arrange
-            _testsFixture.Client.JsonMediaType();
-            _testsFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _studentToken);
+            Client.JsonMediaType();
+            Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _studentToken);
 
             var request = new EnrollmentCreateRequest
             {
@@ -296,7 +282,7 @@ public class IntegrationFlowTests
             };
 
             // Act
-            var response = await _testsFixture.Client.PostAsJsonAsync("api/enrollments", request);
+            var response = await Client.PostAsJsonAsync("api/enrollments", request);
 
             // Verificar resposta sem lançar exceção
             if (!response.IsSuccessStatusCode)
@@ -344,8 +330,8 @@ public class IntegrationFlowTests
         try
         {
             // Arrange
-            _testsFixture.Client.JsonMediaType();
-            _testsFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _studentToken);
+            Client.JsonMediaType();
+            Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _studentToken);
 
             var request = new PaymentProcessRequest
             {
@@ -362,7 +348,7 @@ public class IntegrationFlowTests
             };
 
             // Act
-            var response = await _testsFixture.Client.PostAsJsonAsync("api/payments", request);
+            var response = await Client.PostAsJsonAsync("api/payments", request);
 
             // Verificar resposta sem lançar exceção
             if (!response.IsSuccessStatusCode)
@@ -407,13 +393,12 @@ public class IntegrationFlowTests
     [Trait("Category", "Integration Flow")]
     public async Task GetEnrollment_AfterPayment_ShouldBeActive()
     {
-
         // Arrange
-        _testsFixture.Client.JsonMediaType();
-        _testsFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _studentToken);
+        Client.JsonMediaType();
+        Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _studentToken);
 
         // Act
-        var response = await _testsFixture.Client.GetAsync($"api/enrollments/{_enrollmentId}");
+        var response = await Client.GetAsync($"api/enrollments/{_enrollmentId}");
 
         if (!response.IsSuccessStatusCode)
         {
@@ -426,7 +411,6 @@ public class IntegrationFlowTests
         {
             return;
         }
-
 
         var result = JsonDocument.Parse(content).RootElement;
 
@@ -435,20 +419,18 @@ public class IntegrationFlowTests
             var status = statusProperty.GetString();
             Assert.Equal("Active", status);
         }
-
     }
 
     [Fact(DisplayName = "09 - Mark lesson as completed"), TestPriority(9)]
     [Trait("Category", "Integration Flow")]
     public async Task CompleteLesson_ShouldReturnSuccess()
     {
-
         // Arrange
-        _testsFixture.Client.JsonMediaType();
-        _testsFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _studentToken);
+        Client.JsonMediaType();
+        Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _studentToken);
 
         // Act
-        var response = await _testsFixture.Client.PostAsync($"api/students/{_studentId}/courses/{_courseId}/lessons/{_lessonId}/complete", null);
+        var response = await Client.PostAsync($"api/students/{_studentId}/courses/{_courseId}/lessons/{_lessonId}/complete", null);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -461,7 +443,6 @@ public class IntegrationFlowTests
         {
             return;
         }
-
 
         var result = JsonDocument.Parse(content).RootElement;
 
@@ -470,20 +451,18 @@ public class IntegrationFlowTests
             var success = successProperty.GetBoolean();
             Assert.True(success);
         }
-
     }
 
     [Fact(DisplayName = "10 - Get student progress"), TestPriority(10)]
     [Trait("Category", "Integration Flow")]
     public async Task GetStudentProgress_ShouldShowCompletedLesson()
     {
-
         // Arrange
-        _testsFixture.Client.JsonMediaType();
-        _testsFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _studentToken);
+        Client.JsonMediaType();
+        Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _studentToken);
 
         // Act
-        var response = await _testsFixture.Client.GetAsync($"api/students/{_studentId}/progress");
+        var response = await Client.GetAsync($"api/students/{_studentId}/progress");
 
         if (!response.IsSuccessStatusCode)
         {
@@ -496,7 +475,6 @@ public class IntegrationFlowTests
         {
             return;
         }
-
 
         var result = JsonDocument.Parse(content).RootElement;
 
@@ -508,20 +486,18 @@ public class IntegrationFlowTests
                 Assert.True(lessonCompleted);
             }
         }
-
     }
 
     [Fact(DisplayName = "11 - Complete course"), TestPriority(11)]
     [Trait("Category", "Integration Flow")]
     public async Task CompleteCourse_ShouldReturnSuccess()
     {
-
         // Arrange
-        _testsFixture.Client.JsonMediaType();
-        _testsFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _studentToken);
+        Client.JsonMediaType();
+        Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _studentToken);
 
         // Act
-        var response = await _testsFixture.Client.PostAsync($"api/students/{_studentId}/courses/{_courseId}/complete", null);
+        var response = await Client.PostAsync($"api/students/{_studentId}/courses/{_courseId}/complete", null);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -534,7 +510,6 @@ public class IntegrationFlowTests
         {
             return;
         }
-
 
         var result = JsonDocument.Parse(content).RootElement;
 
@@ -549,10 +524,9 @@ public class IntegrationFlowTests
     [Trait("Category", "Integration Flow")]
     public async Task GenerateCertificate_ShouldReturnCertificateId()
     {
-
         // Arrange
-        _testsFixture.Client.JsonMediaType();
-        _testsFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _studentToken);
+        Client.JsonMediaType();
+        Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _studentToken);
 
         var request = new
         {
@@ -561,7 +535,7 @@ public class IntegrationFlowTests
         };
 
         // Act
-        var response = await _testsFixture.Client.PostAsJsonAsync("api/certificates", request);
+        var response = await Client.PostAsJsonAsync("api/certificates", request);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -575,7 +549,6 @@ public class IntegrationFlowTests
             _certificateId = Guid.NewGuid();
             return;
         }
-
 
         var result = JsonDocument.Parse(content).RootElement;
 
@@ -595,20 +568,18 @@ public class IntegrationFlowTests
         {
             _certificateId = Guid.NewGuid();
         }
-
     }
 
     [Fact(DisplayName = "13 - Get student certificates"), TestPriority(13)]
     [Trait("Category", "Integration Flow")]
     public async Task GetStudentCertificates_ShouldShowCertificate()
     {
-
         // Arrange
-        _testsFixture.Client.JsonMediaType();
-        _testsFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _studentToken);
+        Client.JsonMediaType();
+        Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _studentToken);
 
         // Act
-        var response = await _testsFixture.Client.GetAsync($"api/students/{_studentId}/certificates");
+        var response = await Client.GetAsync($"api/students/{_studentId}/certificates");
 
         if (!response.IsSuccessStatusCode)
         {
@@ -621,7 +592,6 @@ public class IntegrationFlowTests
         {
             return;
         }
-
 
         var certificates = JsonSerializer.Deserialize<List<object>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 

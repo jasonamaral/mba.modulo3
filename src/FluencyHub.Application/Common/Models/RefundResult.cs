@@ -2,16 +2,16 @@ namespace FluencyHub.Application.Common.Models;
 
 public class RefundResult
 {
-    public bool IsSuccessful { get; private set; }
-    public string OriginalTransactionId { get; private set; }
-    public string? RefundTransactionId { get; private set; }
-    public decimal RefundAmount { get; private set; }
-    public string? ErrorMessage { get; private set; }
+    public bool IsSuccessful { get; init; }
+    public string OriginalTransactionId { get; init; }
+    public string? RefundTransactionId { get; init; }
+    public decimal RefundAmount { get; init; }
+    public string? ErrorMessage { get; init; }
     
     private RefundResult(bool isSuccessful, string originalTransactionId, string? refundTransactionId, decimal refundAmount, string? errorMessage)
     {
         IsSuccessful = isSuccessful;
-        OriginalTransactionId = originalTransactionId;
+        OriginalTransactionId = originalTransactionId ?? throw new ArgumentNullException(nameof(originalTransactionId));
         RefundTransactionId = refundTransactionId;
         RefundAmount = refundAmount;
         ErrorMessage = errorMessage;
@@ -19,25 +19,17 @@ public class RefundResult
     
     public static RefundResult Success(string originalTransactionId, string refundTransactionId, decimal refundAmount)
     {
-        if (string.IsNullOrWhiteSpace(originalTransactionId))
-            throw new ArgumentException("Original transaction ID cannot be empty", nameof(originalTransactionId));
-            
-        if (string.IsNullOrWhiteSpace(refundTransactionId))
-            throw new ArgumentException("Refund transaction ID cannot be empty", nameof(refundTransactionId));
-            
-        if (refundAmount <= 0)
-            throw new ArgumentException("Refund amount must be greater than zero", nameof(refundAmount));
+        ArgumentException.ThrowIfNullOrWhiteSpace(originalTransactionId, nameof(originalTransactionId));
+        ArgumentException.ThrowIfNullOrWhiteSpace(refundTransactionId, nameof(refundTransactionId));
+        ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(refundAmount, 0, nameof(refundAmount));
             
         return new RefundResult(true, originalTransactionId, refundTransactionId, refundAmount, null);
     }
     
     public static RefundResult Failure(string originalTransactionId, string errorMessage)
     {
-        if (string.IsNullOrWhiteSpace(originalTransactionId))
-            throw new ArgumentException("Original transaction ID cannot be empty", nameof(originalTransactionId));
-            
-        if (string.IsNullOrWhiteSpace(errorMessage))
-            throw new ArgumentException("Error message cannot be empty", nameof(errorMessage));
+        ArgumentException.ThrowIfNullOrWhiteSpace(originalTransactionId, nameof(originalTransactionId));
+        ArgumentException.ThrowIfNullOrWhiteSpace(errorMessage, nameof(errorMessage));
             
         return new RefundResult(false, originalTransactionId, null, 0, errorMessage);
     }

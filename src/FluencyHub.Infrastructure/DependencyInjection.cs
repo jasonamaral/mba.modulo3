@@ -66,16 +66,23 @@ public static class DependencyInjection
             {
                 options.SaveToken = true;
                 options.RequireHttpsMetadata = false;
+                
+                var jwtSecret = configuration["JwtSettings:Secret"] 
+                    ?? throw new InvalidOperationException("JWT Secret is not configured");
+                var jwtIssuer = configuration["JwtSettings:Issuer"] 
+                    ?? throw new InvalidOperationException("JWT Issuer is not configured");
+                var jwtAudience = configuration["JwtSettings:Audience"] 
+                    ?? throw new InvalidOperationException("JWT Audience is not configured");
+                
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = configuration["JwtSettings:Issuer"],
-                    ValidAudience = configuration["JwtSettings:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(configuration["JwtSettings:Secret"] ?? "")),
+                    ValidIssuer = jwtIssuer,
+                    ValidAudience = jwtAudience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
                     ClockSkew = TimeSpan.Zero
                 };
             });
