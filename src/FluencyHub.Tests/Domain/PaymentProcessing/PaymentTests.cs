@@ -1,177 +1,240 @@
 using FluencyHub.Domain.PaymentProcessing;
+using System;
+using Xunit;
 
 namespace FluencyHub.Tests.Domain.PaymentProcessing;
 
 public class PaymentTests
 {
     [Fact]
-    public void Create_Payment_WithValidData_ShouldSucceed()
+    public void Constructor_WithValidParameters_CreatesInstance()
     {
         // Arrange
-        Guid studentId = Guid.NewGuid();
-        Guid enrollmentId = Guid.NewGuid();
-        decimal amount = 99.99m;
-        var cardDetails = CreateValidCardDetails();
-
+        var studentId = Guid.NewGuid();
+        var enrollmentId = Guid.NewGuid();
+        var cardDetails = new CardDetails("John Doe", "4111111111111111", "12", "2030");
+        var amount = 99.99m;
+        
         // Act
         var payment = new Payment(studentId, enrollmentId, amount, cardDetails);
-
+        
         // Assert
         Assert.Equal(studentId, payment.StudentId);
         Assert.Equal(enrollmentId, payment.EnrollmentId);
         Assert.Equal(amount, payment.Amount);
         Assert.Equal(cardDetails, payment.CardDetails);
         Assert.Equal(PaymentStatus.Pending, payment.Status);
-        Assert.True(payment.IsPending);
-        Assert.False(payment.IsSuccessful);
-        Assert.False(payment.IsFailed);
-        Assert.False(payment.IsRefunded);
+        Assert.Null(payment.TransactionId);
     }
-
+    
     [Theory]
     [InlineData(0)]
-    [InlineData(-10)]
-    public void Create_Payment_WithInvalidAmount_ShouldThrowException(decimal amount)
+    [InlineData(-1)]
+    public void Constructor_WithInvalidAmount_ThrowsArgumentException(decimal amount)
     {
         // Arrange
-        Guid studentId = Guid.NewGuid();
-        Guid enrollmentId = Guid.NewGuid();
-        var cardDetails = CreateValidCardDetails();
-
+        var studentId = Guid.NewGuid();
+        var enrollmentId = Guid.NewGuid();
+        var cardDetails = new CardDetails("John Doe", "4111111111111111", "12", "2030");
+        
         // Act & Assert
-        var exception = Assert.Throws<ArgumentException>(() => 
-            new Payment(studentId, enrollmentId, amount, cardDetails));
-        Assert.Contains("amount", exception.Message.ToLower());
+        var exception = Assert.Throws<ArgumentException>(
+            () => new Payment(studentId, enrollmentId, amount, cardDetails));
+        Assert.Contains("Payment amount must be positive", exception.Message);
     }
-
+    
     [Fact]
-    public void Create_Payment_WithNullCardDetails_ShouldThrowException()
+    public void Constructor_WithNullCardDetails_ThrowsArgumentException()
     {
         // Arrange
-        Guid studentId = Guid.NewGuid();
-        Guid enrollmentId = Guid.NewGuid();
-        decimal amount = 99.99m;
-
+        var studentId = Guid.NewGuid();
+        var enrollmentId = Guid.NewGuid();
+        var amount = 99.99m;
+        
         // Act & Assert
-        var exception = Assert.Throws<ArgumentException>(() => 
-            new Payment(studentId, enrollmentId, amount, null));
-        Assert.Contains("card details", exception.Message.ToLower());
+        var exception = Assert.Throws<ArgumentException>(
+            () => new Payment(studentId, enrollmentId, amount, null));
+        Assert.Contains("Card details cannot be null", exception.Message);
     }
-
+    
     [Fact]
-    public void MarkAsSuccess_PendingPayment_ShouldUpdateStatusAndTransactionId()
+    public void MarkAsSuccess_WithValidTransaction_UpdatesStatusAndTransactionId()
     {
         // Arrange
-        var payment = CreateValidPayment();
-        string transactionId = "txn_123456789";
-
+        var studentId = Guid.NewGuid();
+        var enrollmentId = Guid.NewGuid();
+        var cardDetails = new CardDetails("John Doe", "4111111111111111", "12", "2030");
+        var amount = 99.99m;
+        var payment = new Payment(studentId, enrollmentId, amount, cardDetails);
+        var transactionId = "TXN-123456";
+        
         // Act
         payment.MarkAsSuccess(transactionId);
-
+        
         // Assert
         Assert.Equal(PaymentStatus.Successful, payment.Status);
         Assert.Equal(transactionId, payment.TransactionId);
-        Assert.True(payment.IsSuccessful);
-        Assert.False(payment.IsPending);
     }
-
-    [Fact]
-    public void MarkAsSuccess_NonPendingPayment_ShouldThrowException()
+    
+    [Theory]
+    [InlineData("")]
+    [InlineData("  ")]
+    public void MarkAsSuccess_WithInvalidTransactionId_ThrowsArgumentException(string transactionId)
     {
         // Arrange
-        var payment = CreateValidPayment();
-        payment.MarkAsSuccess("txn_123456789");
-
+        var studentId = Guid.NewGuid();
+        var enrollmentId = Guid.NewGuid();
+        var cardDetails = new CardDetails("John Doe", "4111111111111111", "12", "2030");
+        var amount = 99.99m;
+        var payment = new Payment(studentId, enrollmentId, amount, cardDetails);
+        
         // Act & Assert
-        Assert.Throws<InvalidOperationException>(() => 
-            payment.MarkAsSuccess("txn_987654321"));
+        var exception = Assert.Throws<ArgumentException>(
+            () => payment.MarkAsSuccess(transactionId));
+        Assert.Contains("Transaction ID cannot be empty", exception.Message);
     }
-
+    
     [Fact]
-    public void MarkAsSuccess_WithEmptyTransactionId_ShouldThrowException()
+    public void MarkAsSuccess_WhenAlreadyCompleted_ThrowsInvalidOperationException()
     {
         // Arrange
-        var payment = CreateValidPayment();
-
+        var studentId = Guid.NewGuid();
+        var enrollmentId = Guid.NewGuid();
+        var cardDetails = new CardDetails("John Doe", "4111111111111111", "12", "2030");
+        var amount = 99.99m;
+        var payment = new Payment(studentId, enrollmentId, amount, cardDetails);
+        payment.MarkAsSuccess("TXN-123456");
+        
         // Act & Assert
-        var exception = Assert.Throws<ArgumentException>(() => 
-            payment.MarkAsSuccess(""));
-        Assert.Contains("transaction id", exception.Message.ToLower());
+        var exception = Assert.Throws<InvalidOperationException>(
+            () => payment.MarkAsSuccess("TXN-789012"));
+        Assert.Contains("Cannot mark as success a payment with status", exception.Message);
     }
-
+    
     [Fact]
-    public void MarkAsFailed_PendingPayment_ShouldUpdateStatus()
+    public void MarkAsFailed_UpdatesStatusAndReason()
     {
         // Arrange
-        var payment = CreateValidPayment();
-        string reason = "Payment rejected by issuer";
-
+        var studentId = Guid.NewGuid();
+        var enrollmentId = Guid.NewGuid();
+        var cardDetails = new CardDetails("John Doe", "4111111111111111", "12", "2030");
+        var amount = 99.99m;
+        var payment = new Payment(studentId, enrollmentId, amount, cardDetails);
+        var reason = "Insufficient funds";
+        
         // Act
         payment.MarkAsFailed(reason);
-
+        
         // Assert
         Assert.Equal(PaymentStatus.Failed, payment.Status);
-        Assert.True(payment.IsFailed);
-        Assert.False(payment.IsPending);
+        Assert.Equal(reason, payment.FailureReason);
     }
-
+    
     [Fact]
-    public void MarkAsFailed_NonPendingPayment_ShouldThrowException()
+    public void MarkAsFailed_WhenAlreadyCompleted_ThrowsInvalidOperationException()
     {
         // Arrange
-        var payment = CreateValidPayment();
-        payment.MarkAsSuccess("txn_123456789");
-
+        var studentId = Guid.NewGuid();
+        var enrollmentId = Guid.NewGuid();
+        var cardDetails = new CardDetails("John Doe", "4111111111111111", "12", "2030");
+        var amount = 99.99m;
+        var payment = new Payment(studentId, enrollmentId, amount, cardDetails);
+        payment.MarkAsSuccess("TXN-123456");
+        
         // Act & Assert
-        Assert.Throws<InvalidOperationException>(() => 
-            payment.MarkAsFailed("Failed after success"));
+        var exception = Assert.Throws<InvalidOperationException>(
+            () => payment.MarkAsFailed("Insufficient funds"));
+        Assert.Contains("Cannot mark as failed a payment with status", exception.Message);
     }
-
+    
     [Fact]
-    public void MarkAsRefunded_SuccessfulPayment_ShouldUpdateStatus()
+    public void MarkAsRefunded_WhenSuccessful_UpdatesStatusAndRefundReason()
     {
         // Arrange
-        var payment = CreateValidPayment();
-        payment.MarkAsSuccess("txn_123456789");
-        string reason = "Customer requested refund";
-
+        var studentId = Guid.NewGuid();
+        var enrollmentId = Guid.NewGuid();
+        var cardDetails = new CardDetails("John Doe", "4111111111111111", "12", "2030");
+        var amount = 99.99m;
+        var payment = new Payment(studentId, enrollmentId, amount, cardDetails);
+        payment.MarkAsSuccess("TXN-123456");
+        var refundReason = "Customer request";
+        
         // Act
-        payment.MarkAsRefunded(reason);
-
+        payment.MarkAsRefunded(refundReason);
+        
         // Assert
         Assert.Equal(PaymentStatus.Refunded, payment.Status);
-        Assert.True(payment.IsRefunded);
-        Assert.False(payment.IsSuccessful);
+        Assert.Equal(refundReason, payment.RefundReason);
     }
-
+    
     [Fact]
-    public void MarkAsRefunded_NonSuccessfulPayment_ShouldThrowException()
+    public void MarkAsRefunded_WhenNotSuccessful_ThrowsInvalidOperationException()
     {
         // Arrange
-        var payment = CreateValidPayment();
-
+        var studentId = Guid.NewGuid();
+        var enrollmentId = Guid.NewGuid();
+        var cardDetails = new CardDetails("John Doe", "4111111111111111", "12", "2030");
+        var amount = 99.99m;
+        var payment = new Payment(studentId, enrollmentId, amount, cardDetails);
+        
         // Act & Assert
-        Assert.Throws<InvalidOperationException>(() => 
-            payment.MarkAsRefunded("Refund without success"));
+        var exception = Assert.Throws<InvalidOperationException>(
+            () => payment.MarkAsRefunded("Customer request"));
+        Assert.Contains("Only successful payments can be refunded", exception.Message);
     }
-
-    private CardDetails CreateValidCardDetails()
+    
+    [Fact]
+    public void IsSuccessful_ReturnsTrueForSuccessfulPayment()
     {
-        return new CardDetails(
-            "John Doe",
-            "4111111111111111",
-            "12",
-            "2030"
-        );
+        // Arrange
+        var studentId = Guid.NewGuid();
+        var enrollmentId = Guid.NewGuid();
+        var cardDetails = new CardDetails("John Doe", "4111111111111111", "12", "2030");
+        var amount = 99.99m;
+        var payment = new Payment(studentId, enrollmentId, amount, cardDetails);
+        payment.MarkAsSuccess("TXN-123456");
+        
+        // Assert
+        Assert.True(payment.IsSuccessful);
+        Assert.False(payment.IsFailed);
+        Assert.False(payment.IsPending);
+        Assert.False(payment.IsRefunded);
     }
-
-    private Payment CreateValidPayment()
+    
+    [Fact]
+    public void IsFailed_ReturnsTrueForFailedPayment()
     {
-        return new Payment(
-            Guid.NewGuid(),
-            Guid.NewGuid(),
-            99.99m,
-            CreateValidCardDetails()
-        );
+        // Arrange
+        var studentId = Guid.NewGuid();
+        var enrollmentId = Guid.NewGuid();
+        var cardDetails = new CardDetails("John Doe", "4111111111111111", "12", "2030");
+        var amount = 99.99m;
+        var payment = new Payment(studentId, enrollmentId, amount, cardDetails);
+        payment.MarkAsFailed("Insufficient funds");
+        
+        // Assert
+        Assert.False(payment.IsSuccessful);
+        Assert.True(payment.IsFailed);
+        Assert.False(payment.IsPending);
+        Assert.False(payment.IsRefunded);
+    }
+    
+    [Fact]
+    public void IsRefunded_ReturnsTrueForRefundedPayment()
+    {
+        // Arrange
+        var studentId = Guid.NewGuid();
+        var enrollmentId = Guid.NewGuid();
+        var cardDetails = new CardDetails("John Doe", "4111111111111111", "12", "2030");
+        var amount = 99.99m;
+        var payment = new Payment(studentId, enrollmentId, amount, cardDetails);
+        payment.MarkAsSuccess("TXN-123456");
+        payment.MarkAsRefunded("Customer request");
+        
+        // Assert
+        Assert.False(payment.IsSuccessful);
+        Assert.False(payment.IsFailed);
+        Assert.False(payment.IsPending);
+        Assert.True(payment.IsRefunded);
     }
 } 
