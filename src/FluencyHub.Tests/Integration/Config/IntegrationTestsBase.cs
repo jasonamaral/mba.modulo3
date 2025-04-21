@@ -6,17 +6,18 @@ using FluencyHub.Infrastructure.Persistence;
 using FluencyHub.Infrastructure.Identity;
 using System.Transactions;
 using System.Collections.Concurrent;
+using System.Net.Http.Json;
 
 namespace FluencyHub.Tests.Integration.Config;
 
 public abstract class IntegrationTestsBase<TProgram> : IDisposable where TProgram : class
 {
-    protected readonly WebApplicationFactory<TProgram> Factory;
-    protected readonly HttpClient Client;
+    public readonly WebApplicationFactory<TProgram> Factory;
+    public HttpClient Client;
     protected readonly SqliteConnection Connection;
     protected readonly TransactionScope TransactionScope;
     private readonly ConcurrentDictionary<string, string> _tokens = new();
-    protected string? CurrentToken { get; private set; }
+    public string? CurrentToken { get; set; }
 
     protected IntegrationTestsBase(WebApplicationFactory<TProgram> factory)
     {

@@ -10,6 +10,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using FluencyHub.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
+using FluencyHub.Infrastructure.Identity;
 
 namespace FluencyHub.Tests.Integration.Config;
 
@@ -21,9 +24,9 @@ public class IntegrationApiTestsFixtureCollection : ICollectionFixture<Integrati
 
 public class IntegrationTestsFixture<TProgram> : IntegrationTestsBase<TProgram> where TProgram : class
 {
-    public string AntiForgeryFieldName = "__RequestVerificationToken";
-    public string UsuarioEmail;
-    public string UsuarioSenha;
+    public readonly string AntiForgeryFieldName = "__RequestVerificationToken";
+    public string UsuarioEmail { get; set; } = string.Empty;
+    public string UsuarioSenha { get; set; } = string.Empty;
 
     public IntegrationTestsFixture() : base(new FluencyHubAppFactory<TProgram>())
     {
