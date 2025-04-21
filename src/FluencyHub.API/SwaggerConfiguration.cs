@@ -1,4 +1,5 @@
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
 
 namespace FluencyHub.API;
@@ -13,7 +14,11 @@ public static class SwaggerConfiguration
             {
                 Title = "FluencyHub API",
                 Version = "v1",
-                Description = "API for FluencyHub Language Learning System"
+                Description = "API for FluencyHub Language Learning System",
+                Contact = new OpenApiContact
+                {
+                    Name = "Jason Santos do Amaral"
+                }
             });
 
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -48,10 +53,15 @@ public static class SwaggerConfiguration
                 c.IncludeXmlComments(xmlPath);
             }
 
+            c.ExampleFilters();
+
+            c.EnableAnnotations();
             c.CustomSchemaIds(type => type.FullName);
             c.UseAllOfForInheritance();
             c.UseOneOfForPolymorphism();
         });
+
+        services.AddSwaggerExamplesFromAssemblyOf<Program>();
 
         return services;
     }
