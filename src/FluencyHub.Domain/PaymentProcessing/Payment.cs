@@ -1,4 +1,5 @@
 using FluencyHub.Domain.Common;
+using FluencyHub.Domain.PaymentProcessing.Events;
 using FluencyHub.Domain.StudentManagement;
 using System.Text.Json.Serialization;
 
@@ -47,6 +48,8 @@ public class Payment : BaseEntity
         Status = PaymentStatus.Successful;
         TransactionId = transactionId;
         UpdatedAt = DateTime.UtcNow;
+        
+        AddDomainEvent(new PaymentConfirmedDomainEvent(Id, EnrollmentId, transactionId));
     }
 
     public void MarkAsFailed(string reason)
@@ -57,6 +60,8 @@ public class Payment : BaseEntity
         Status = PaymentStatus.Failed;
         FailureReason = reason;
         UpdatedAt = DateTime.UtcNow;
+        
+        AddDomainEvent(new PaymentRejectedDomainEvent(Id, EnrollmentId, reason));
     }
 
     public void MarkAsRefunded(string reason)

@@ -4,14 +4,21 @@ using FluencyHub.Domain.StudentManagement;
 using Microsoft.EntityFrameworkCore;
 using FluencyHub.Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using FluencyHub.Domain.Common;
+using System.Reflection;
 
 namespace FluencyHub.Infrastructure.Persistence;
 
 public class FluencyHubDbContext : DbContext, IApplicationDbContext
 {
-    public FluencyHubDbContext(DbContextOptions<FluencyHubDbContext> options) 
+    private readonly IDomainEventService _domainEventService;
+
+    public FluencyHubDbContext(
+        DbContextOptions<FluencyHubDbContext> options,
+        IDomainEventService domainEventService = null) 
         : base(options)
     {
+        _domainEventService = domainEventService;
     }
     
     public DbSet<Course> Courses => Set<Course>();
@@ -26,11 +33,41 @@ public class FluencyHubDbContext : DbContext, IApplicationDbContext
     
     public DatabaseFacade Database => base.Database;
     
-    public Task<int> SaveChangesAsync(CancellationToken cancellationToken) => base.SaveChangesAsync(cancellationToken);
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        await DispatchDomainEvents(cancellationToken);
+        return await base.SaveChangesAsync(cancellationToken);
+    }
+    
+    private async Task DispatchDomainEvents(CancellationToken cancellationToken)
+    {
+        if (_domainEventService == null)
+            return;
+            
+        var entities = ChangeTracker
+            .Entries<BaseEntity>()
+            .Where(e => e.Entity.DomainEvents.Any())
+            .Select(e => e.Entity)
+            .ToList();
+            
+        var domainEvents = entities
+            .SelectMany(e => e.DomainEvents)
+            .ToList();
+            
+        entities.ForEach(e => e.ClearDomainEvents());
+        
+        foreach (var domainEvent in domainEvents)
+        {
+            await _domainEventService.PublishAsync(domainEvent);
+        }
+    }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        
+        // Ignorar DomainEvent e classes derivadas para evitar o mapeamento pelo EF Core
+        modelBuilder.Ignore<DomainEvent>();
         
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(FluencyHubDbContext).Assembly);
 

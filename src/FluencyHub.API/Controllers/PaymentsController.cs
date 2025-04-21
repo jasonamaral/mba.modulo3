@@ -1,6 +1,6 @@
 using FluencyHub.API.Models;
 using FluencyHub.Application.Common.Exceptions;
-using FluencyHub.Application.PaymentProcessing.Queries.GetPaymentById;
+using FluencyHub.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +12,11 @@ namespace FluencyHub.API.Controllers;
 [Authorize]
 public class PaymentsController : ControllerBase
 {
-    private readonly IMediator _mediator;
+    private readonly IPaymentApplicationService _paymentService;
 
-    public PaymentsController(IMediator mediator)
+    public PaymentsController(IPaymentApplicationService paymentService)
     {
-        _mediator = mediator;
+        _paymentService = paymentService;
     }
 
     [HttpPost]
@@ -28,10 +28,14 @@ public class PaymentsController : ControllerBase
     {
         try
         {
-            var command = request.ToCommand();
-            var paymentId = await _mediator.Send(command);
+            var paymentId = await _paymentService.ProcessPaymentAsync(
+                request.EnrollmentId,
+                request.CardDetails.CardholderName,
+                request.CardDetails.CardNumber,
+                request.CardDetails.ExpiryMonth.ToString(),
+                request.CardDetails.ExpiryYear.ToString());
 
-            var payment = await _mediator.Send(new GetPaymentByIdQuery(paymentId));
+            var payment = await _paymentService.GetPaymentByIdAsync(paymentId);
             return CreatedAtAction(nameof(GetPayment), new { id = paymentId }, payment);
         }
         catch (NotFoundException ex)
@@ -55,7 +59,7 @@ public class PaymentsController : ControllerBase
     {
         try
         {
-            var payment = await _mediator.Send(new GetPaymentByIdQuery(id));
+            var payment = await _paymentService.GetPaymentByIdAsync(id);
             return Ok(payment);
         }
         catch (NotFoundException ex)
@@ -74,10 +78,8 @@ public class PaymentsController : ControllerBase
     {
         try
         {
-            var command = request.ToCommand(id);
-            await _mediator.Send(command);
-
-            var payment = await _mediator.Send(new GetPaymentByIdQuery(id));
+            await _paymentService.RefundPaymentAsync(id, request.Reason);
+            var payment = await _paymentService.GetPaymentByIdAsync(id);
             return Ok(payment);
         }
         catch (NotFoundException ex)

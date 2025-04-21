@@ -5,8 +5,10 @@ namespace FluencyHub.Domain.StudentManagement;
 public class LearningHistory : BaseEntity
 {
     private readonly List<CourseProgress> _courseProgress = [];
+    private readonly List<LearningRecord> _records = [];
 
     public IReadOnlyCollection<CourseProgress> CourseProgress => _courseProgress;
+    public IReadOnlyCollection<LearningRecord> Records => _records.AsReadOnly();
 
     public Guid StudentId => Id;
 
@@ -38,7 +40,27 @@ public class LearningHistory : BaseEntity
         }
 
         courseProgress.AddCompletedLesson(lessonId);
+        
+        // Adiciona também um registro ao histórico de aprendizado
+        AddLearningRecord(lessonId);
+        
         UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void AddLearningRecord(Guid lessonId, float? grade = null)
+    {
+        // Verifica se o registro já existe para evitar duplicidade
+        if (_records.Any(r => r.LessonId == lessonId))
+            return;
+            
+        var record = new LearningRecord(lessonId, DateTime.UtcNow, grade);
+        _records.Add(record);
+        UpdatedAt = DateTime.UtcNow;
+    }
+    
+    public LearningRecord GetRecord(Guid lessonId)
+    {
+        return _records.FirstOrDefault(r => r.LessonId == lessonId);
     }
 
     public void CompleteCourse(Guid courseId)

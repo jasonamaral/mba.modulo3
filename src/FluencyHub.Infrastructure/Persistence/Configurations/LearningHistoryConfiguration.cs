@@ -24,5 +24,24 @@ public class LearningHistoryConfiguration : IEntityTypeConfiguration<LearningHis
             .WithOne()
             .HasForeignKey("LearningHistoryId")
             .OnDelete(DeleteBehavior.Cascade);
+            
+        // Configure LearningRecord as a value object
+        builder.OwnsMany(lh => lh.Records, recordBuilder =>
+        {
+            recordBuilder.ToTable("LearningRecords");
+            
+            recordBuilder.WithOwner().HasForeignKey("LearningHistoryId");
+            
+            recordBuilder.Property<int>("Id").ValueGeneratedOnAdd();
+            recordBuilder.HasKey("Id");
+            
+            recordBuilder.Property(lr => lr.LessonId)
+                .IsRequired();
+                
+            recordBuilder.Property(lr => lr.CompletedAt)
+                .IsRequired();
+                
+            recordBuilder.Property(lr => lr.Grade);
+        });
     }
 } 
