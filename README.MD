@@ -97,26 +97,20 @@ A estrutura do projeto é organizada da seguinte forma:
 	FluencyHub/
 	├── src/
 	│   ├── API/
-	│   │   ├── FluencyHub.API/          - API RESTful
-	│   │   ├── FluencyHub.Application/  - Models, Services, Extensions
-	│   │   ├── FluencyHub.Infrastructure/ - Repositories, Migrations, config EF Core
-	│   │   ├── FluencyHub.Domain/       - Domain Models, Aggregates, Value Objects
-	│   ├── FRONT/
-	│   │   ├── node_modules/            - Bibliotecas do projeto
-	│   │   ├── src/                     
-	│   │   │   ├── app/                 - Pasta principal, contém código da aplicação 
-	│   │   │   ├── assets/              - Armazena arquivos extras, como imagens
-	│   │   │   ├── environments/        - Contém arquivos relacionados ao ambiente
+	│   │   ├── FluencyHub.API/             - API RESTful
+	│   │   ├── FluencyHub.Application/     - Models, Services, Extensions
+	│   │   ├── FluencyHub.Infrastructure/  - Repositórios, Migrations, Configurações do EF Core
+	│   │   ├── FluencyHub.Domain/          - Modelos de Domínio, Agregados, Objetos de Valor
 	├── tests/
-	│   ├── FluencyHub.Tests/            - Testes de Unidade e Integração
-	│   │   ├── Integration/             - Testes de Integração
-	│   │   │   ├── ContentManagement/   - Testes para Gestão de Conteúdo
-	│   │   │   ├── StudentManagement/   - Testes para Gestão de Alunos
-	│   │   │   ├── PaymentProcessing/   - Testes para Pagamento e Faturamento
-	│   │   ├── Unit/                    - Testes de Unidade
-	├── README.md                        - Arquivo de Documentação do Projeto
-	├── FEEDBACK.md                      - Arquivo para Consolidação dos Feedbacks
-	├── .gitignore                       - Arquivo de Ignoração do Git
+	│   ├── FluencyHub.Tests/               - Testes de Unidade e Integração
+	│   │   ├── Integration/                - Testes de Integração
+	│   │   ├── Unit/                       - Testes de Unidade
+	├── docs/                               - Documentação do Projeto
+	├── FluencyHub.sln                      - Solução do Visual Studio
+	├── README.md                           - Arquivo de Documentação do Projeto
+	├── feedback.md                         - Arquivo para Consolidação dos Feedbacks
+	├── .gitignore                          - Arquivo de Ignoração do Git
+
 ```
 
 ## **5. Funcionalidades Implementadas**
