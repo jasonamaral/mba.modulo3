@@ -1,4 +1,5 @@
 using FluencyHub.API.Models;
+using FluencyHub.API.SwaggerExamples;
 using FluencyHub.Application.Common.Exceptions;
 using FluencyHub.Application.ContentManagement.Commands.CompleteEnrollment;
 using FluencyHub.Application.ContentManagement.Queries.GetCourseById;
@@ -10,12 +11,17 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.Annotations;
+using Swashbuckle.AspNetCore.Filters;
+using System.Net.Mime;
 
 namespace FluencyHub.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
+[Produces(MediaTypeNames.Application.Json)]
+[Consumes(MediaTypeNames.Application.Json)]
 public class EnrollmentsController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -27,10 +33,27 @@ public class EnrollmentsController : ControllerBase
         _dbContext = dbContext;
     }
 
+    /// <summary>
+    /// Enroll a student in a course
+    /// </summary>
+    /// <param name="request">Enrollment request data</param>
+    /// <returns>The newly created enrollment details</returns>
+    /// <response code="201">Returns the newly created enrollment</response>
+    /// <response code="400">If the request is invalid</response>
+    /// <response code="404">If the student or course is not found</response>
     [HttpPost]
+    [Authorize(Roles = "Student,Administrator")]
+    [SwaggerOperation(
+        Summary = "Enroll a student in a course",
+        Description = "Creates a new enrollment for a student in a specific course",
+        OperationId = "EnrollStudent",
+        Tags = new[] { "Enrollments" }
+    )]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [SwaggerRequestExample(typeof(EnrollmentCreateRequest), typeof(EnrollmentCreateRequestExample))]
+    [SwaggerResponseExample(StatusCodes.Status201Created, typeof(EnrollmentDtoExample))]
     public async Task<IActionResult> EnrollStudent([FromBody] EnrollmentCreateRequest request)
     {
         try
@@ -51,9 +74,23 @@ public class EnrollmentsController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Get enrollment details by ID
+    /// </summary>
+    /// <param name="id">The unique identifier of the enrollment</param>
+    /// <returns>The enrollment details</returns>
+    /// <response code="200">Returns the enrollment details</response>
+    /// <response code="404">If the enrollment is not found</response>
     [HttpGet("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [SwaggerOperation(
+        Summary = "Get enrollment by ID",
+        Description = "Retrieves a specific enrollment by its unique identifier",
+        OperationId = "GetEnrollment",
+        Tags = new[] { "Enrollments" }
+    )]
+    [ProducesResponseType(typeof(EnrollmentDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(EnrollmentDtoExample))]
     public async Task<IActionResult> GetEnrollment(Guid id)
     {
         try
@@ -67,9 +104,23 @@ public class EnrollmentsController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Get all enrollments for a specific student
+    /// </summary>
+    /// <param name="studentId">The unique identifier of the student</param>
+    /// <returns>A list of enrollments for the student</returns>
+    /// <response code="200">Returns the list of enrollments</response>
+    /// <response code="404">If the student is not found</response>
     [HttpGet("student/{studentId}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [SwaggerOperation(
+        Summary = "Get student enrollments",
+        Description = "Retrieves all enrollments associated with a specific student",
+        OperationId = "GetStudentEnrollments",
+        Tags = new[] { "Enrollments" }
+    )]
+    [ProducesResponseType(typeof(IEnumerable<EnrollmentDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(EnrollmentDtoExample))]
     public async Task<IActionResult> GetStudentEnrollments(Guid studentId)
     {
         try
@@ -83,10 +134,27 @@ public class EnrollmentsController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Mark a lesson as completed for an enrollment
+    /// </summary>
+    /// <param name="enrollmentId">The unique identifier of the enrollment</param>
+    /// <param name="lessonId">The unique identifier of the lesson</param>
+    /// <param name="request">The completion request data</param>
+    /// <returns>Success message</returns>
+    /// <response code="200">If the lesson was marked as completed successfully</response>
+    /// <response code="400">If the request is invalid</response>
+    /// <response code="404">If the enrollment or lesson is not found</response>
     [HttpPost("{enrollmentId}/lessons/{lessonId}/complete")]
+    [SwaggerOperation(
+        Summary = "Complete a lesson",
+        Description = "Marks a specific lesson as completed for a given enrollment",
+        OperationId = "CompleteLesson",
+        Tags = new[] { "Enrollments" }
+    )]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [SwaggerRequestExample(typeof(LessonCompleteRequest), typeof(LessonCompleteRequestExample))]
     public async Task<IActionResult> CompleteLesson(Guid enrollmentId, Guid lessonId, [FromBody] LessonCompleteRequest request)
     {
         try
@@ -119,7 +187,21 @@ public class EnrollmentsController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Mark a course as completed for an enrollment
+    /// </summary>
+    /// <param name="id">The unique identifier of the enrollment</param>
+    /// <returns>Success message</returns>
+    /// <response code="200">If the course was marked as completed successfully</response>
+    /// <response code="400">If the request is invalid or not all lessons are completed</response>
+    /// <response code="404">If the enrollment or course is not found</response>
     [HttpPost("{id}/complete")]
+    [SwaggerOperation(
+        Summary = "Complete a course",
+        Description = "Marks an enrollment as completed. All lessons must be completed first.",
+        OperationId = "CompleteCourse",
+        Tags = new[] { "Enrollments" }
+    )]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

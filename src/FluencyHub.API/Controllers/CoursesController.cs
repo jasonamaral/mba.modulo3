@@ -101,6 +101,7 @@ public class CoursesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [Consumes(MediaTypeNames.Application.Json)]
     [SwaggerRequestExample(typeof(CourseCreateRequest), typeof(CourseCreateRequestExample))]
     public async Task<IActionResult> CreateCourse([FromBody] CourseCreateRequest request)
     {

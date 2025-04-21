@@ -1,3 +1,4 @@
+using FluencyHub.API.SwaggerExamples;
 using FluencyHub.Application.Common.Exceptions;
 using FluencyHub.Application.StudentManagement.Commands.ActivateStudent;
 using FluencyHub.Application.StudentManagement.Commands.CompleteCourseForStudent;
@@ -14,6 +15,9 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+using Swashbuckle.AspNetCore.Filters;
+using System.Net.Mime;
 using System.Security.Claims;
 
 namespace FluencyHub.API.Controllers;
@@ -21,6 +25,8 @@ namespace FluencyHub.API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
+[Produces(MediaTypeNames.Application.Json)]
+[Consumes(MediaTypeNames.Application.Json)]
 public class StudentsController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -32,10 +38,23 @@ public class StudentsController : ControllerBase
         _userManager = userManager;
     }
 
+    /// <summary>
+    /// Get all students
+    /// </summary>
+    /// <returns>List of all students</returns>
+    /// <response code="200">Returns the list of students</response>
+    /// <response code="403">If the user is not authorized</response>
     [HttpGet]
     [Authorize(Roles = "Administrator")]
-    [ProducesResponseType(typeof(IEnumerable<Application.StudentManagement.Queries.GetAllStudents.StudentDto>), StatusCodes.Status200OK)]
+    [SwaggerOperation(
+        Summary = "Get all students",
+        Description = "Retrieves a list of all students in the system. Requires Administrator role.",
+        OperationId = "GetAllStudents",
+        Tags = new[] { "Students" }
+    )]
+    [ProducesResponseType(typeof(IEnumerable<FluencyHub.Application.StudentManagement.Queries.GetAllStudents.StudentDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(StudentListDtoExample))]
     public async Task<IActionResult> GetAllStudents()
     {
         try
@@ -49,10 +68,24 @@ public class StudentsController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Get the currently authenticated student
+    /// </summary>
+    /// <returns>Current student details</returns>
+    /// <response code="200">Returns the current student details</response>
+    /// <response code="404">If the student is not found</response>
+    /// <response code="400">If the email is not found in token</response>
     [HttpGet("me")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [SwaggerOperation(
+        Summary = "Get current student",
+        Description = "Retrieves the details of the currently authenticated student based on the JWT token",
+        OperationId = "GetCurrentStudent",
+        Tags = new[] { "Students" }
+    )]
+    [ProducesResponseType(typeof(FluencyHub.Application.StudentManagement.Queries.GetStudentById.StudentDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(StudentDtoExample))]
     public async Task<IActionResult> GetCurrentStudent()
     {
         var userEmail = User.FindFirstValue(ClaimTypes.Email);
@@ -83,11 +116,26 @@ public class StudentsController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Get a student by ID
+    /// </summary>
+    /// <param name="id">ID of the student to retrieve</param>
+    /// <returns>Student details</returns>
+    /// <response code="200">Returns the student details</response>
+    /// <response code="404">If the student is not found</response>
+    /// <response code="403">If the user is not authorized</response>
     [HttpGet("{id}")]
     [Authorize(Roles = "Administrator")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [SwaggerOperation(
+        Summary = "Get student by ID",
+        Description = "Retrieves a specific student by their unique identifier. Requires Administrator role.",
+        OperationId = "GetStudentById",
+        Tags = new[] { "Students" }
+    )]
+    [ProducesResponseType(typeof(FluencyHub.Application.StudentManagement.Queries.GetStudentById.StudentDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(StudentDtoExample))]
     public async Task<IActionResult> GetStudentById(Guid id)
     {
         try
@@ -101,10 +149,24 @@ public class StudentsController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Create a new student
+    /// </summary>
+    /// <param name="command">Student details</param>
+    /// <returns>ID of the newly created student</returns>
+    /// <response code="201">Returns the ID of the newly created student</response>
+    /// <response code="400">If the request is invalid</response>
     [HttpPost]
     [AllowAnonymous]
+    [SwaggerOperation(
+        Summary = "Create a new student",
+        Description = "Registers a new student in the system with the provided details",
+        OperationId = "CreateStudent",
+        Tags = new[] { "Students" }
+    )]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [SwaggerRequestExample(typeof(CreateStudentCommand), typeof(CreateStudentCommandExample))]
     public async Task<IActionResult> CreateStudent(CreateStudentCommand command)
     {
         try
@@ -118,11 +180,28 @@ public class StudentsController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Update an existing student
+    /// </summary>
+    /// <param name="id">ID of the student to update</param>
+    /// <param name="command">Updated student details</param>
+    /// <returns>Success message</returns>
+    /// <response code="200">If the student was updated successfully</response>
+    /// <response code="400">If the request is invalid</response>
+    /// <response code="404">If the student is not found</response>
+    /// <response code="403">If the user is not authorized</response>
     [HttpPut("{id}")]
+    [SwaggerOperation(
+        Summary = "Update a student",
+        Description = "Updates an existing student's details. The student can only update their own profile, unless they are an Administrator.",
+        OperationId = "UpdateStudent",
+        Tags = new[] { "Students" }
+    )]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [SwaggerRequestExample(typeof(UpdateStudentCommand), typeof(UpdateStudentCommandExample))]
     public async Task<IActionResult> UpdateStudent(Guid id, UpdateStudentCommand command)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -165,8 +244,16 @@ public class StudentsController : ControllerBase
 
     [HttpPut("{id}/deactivate")]
     [Authorize(Roles = "Administrator")]
+    [SwaggerOperation(
+        Summary = "Deactivate a student",
+        Description = "Deactivates a student account, preventing them from accessing the system. Requires Administrator role.",
+        OperationId = "DeactivateStudent",
+        Tags = new[] { "Students" }
+    )]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [SwaggerRequestExample(typeof(DeactivateStudentCommand), typeof(DeactivateStudentCommandExample))]
     public async Task<IActionResult> DeactivateStudent(Guid id)
     {
         try
@@ -182,8 +269,16 @@ public class StudentsController : ControllerBase
 
     [HttpPut("{id}/activate")]
     [Authorize(Roles = "Administrator")]
+    [SwaggerOperation(
+        Summary = "Activate a student",
+        Description = "Activates a previously deactivated student account, allowing them to access the system again. Requires Administrator role.",
+        OperationId = "ActivateStudent",
+        Tags = new[] { "Students" }
+    )]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [SwaggerRequestExample(typeof(ActivateStudentCommand), typeof(ActivateStudentCommandExample))]
     public async Task<IActionResult> ActivateStudent(Guid id)
     {
         try
@@ -197,9 +292,23 @@ public class StudentsController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Get the learning progress for a specific student
+    /// </summary>
+    /// <param name="studentId">The unique identifier of the student</param>
+    /// <returns>The student's progress across all courses</returns>
+    /// <response code="200">Returns the student's progress</response>
+    /// <response code="404">If the student is not found</response>
     [HttpGet("{studentId}/progress")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [SwaggerOperation(
+        Summary = "Get student progress",
+        Description = "Retrieves the learning progress of a student across all courses",
+        OperationId = "GetStudentProgress",
+        Tags = new[] { "Students" }
+    )]
+    [ProducesResponseType(typeof(StudentProgressViewModel), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(StudentProgressViewModelExample))]
     public async Task<IActionResult> GetStudentProgress(Guid studentId)
     {
         try
@@ -217,10 +326,27 @@ public class StudentsController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Mark a lesson as completed for a student
+    /// </summary>
+    /// <param name="studentId">The unique identifier of the student</param>
+    /// <param name="courseId">The unique identifier of the course</param>
+    /// <param name="lessonId">The unique identifier of the lesson to mark as completed</param>
+    /// <returns>Success message and completion details</returns>
+    /// <response code="200">If the lesson was marked as completed successfully</response>
+    /// <response code="400">If the request is invalid</response>
+    /// <response code="404">If the student, course, or lesson is not found</response>
     [HttpPost("{studentId}/courses/{courseId}/lessons/{lessonId}/complete")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [SwaggerOperation(
+        Summary = "Complete a lesson for a student",
+        Description = "Marks a specific lesson as completed for a student in a particular course",
+        OperationId = "CompleteLessonForStudent",
+        Tags = new[] { "Students" }
+    )]
+    [ProducesResponseType(typeof(CompleteLessonForStudentResult), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(CompleteLessonForStudentResultExample))]
     public async Task<IActionResult> MarkLessonAsCompleted(Guid studentId, Guid courseId, Guid lessonId)
     {
         try
@@ -242,10 +368,26 @@ public class StudentsController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Mark a course as completed for a student
+    /// </summary>
+    /// <param name="studentId">The unique identifier of the student</param>
+    /// <param name="courseId">The unique identifier of the course to mark as completed</param>
+    /// <returns>Success message and completion details</returns>
+    /// <response code="200">If the course was marked as completed successfully</response>
+    /// <response code="400">If the request is invalid or not all lessons are completed</response>
+    /// <response code="404">If the student or course is not found</response>
     [HttpPost("{studentId}/courses/{courseId}/complete")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [SwaggerOperation(
+        Summary = "Complete a course for a student",
+        Description = "Marks a course as completed for a student. All lessons must be completed first.",
+        OperationId = "CompleteCourseForStudent",
+        Tags = new[] { "Students" }
+    )]
+    [ProducesResponseType(typeof(CompleteCourseForStudentResult), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(CompleteCourseForStudentResultExample))]
     public async Task<IActionResult> CompleteCourse(Guid studentId, Guid courseId)
     {
         try
