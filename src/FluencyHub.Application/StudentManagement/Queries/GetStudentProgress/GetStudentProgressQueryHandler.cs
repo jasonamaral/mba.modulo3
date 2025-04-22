@@ -5,7 +5,7 @@ using MediatR;
 
 namespace FluencyHub.Application.StudentManagement.Queries.GetStudentProgress;
 
-public class GetStudentProgressQueryHandler : IRequestHandler<GetStudentProgressQuery, Dictionary<Guid, Dictionary<Guid, bool>>>
+public class GetStudentProgressQueryHandler : IRequestHandler<GetStudentProgressQuery, StudentProgressViewModel>
 {
     private readonly IMediator _mediator;
     private readonly ILearningRepository _learningRepository;
@@ -21,36 +21,40 @@ public class GetStudentProgressQueryHandler : IRequestHandler<GetStudentProgress
         _courseRepository = courseRepository;
     }
 
-    public async Task<Dictionary<Guid, Dictionary<Guid, bool>>> Handle(GetStudentProgressQuery request, CancellationToken cancellationToken)
+    public async Task<StudentProgressViewModel> Handle(GetStudentProgressQuery request, CancellationToken cancellationToken)
     {
         var student = await _mediator.Send(new GetStudentByIdQuery(request.StudentId), cancellationToken) ?? throw new NotFoundException("Student", request.StudentId);
 
         var learningHistory = await _learningRepository.GetByStudentIdAsync(request.StudentId, cancellationToken);
 
+        var viewModel = new StudentProgressViewModel
+        {
+            Progress = new Dictionary<Guid, CourseProgressDto>()
+        };
+
         if (learningHistory == null || learningHistory.CourseProgress.Count == 0)
         {
-            return [];
+            return viewModel;
         }
-
-        var progressDict = new Dictionary<Guid, Dictionary<Guid, bool>>();
 
         foreach (var courseProgress in learningHistory.CourseProgress)
         {
             var course = await _courseRepository.GetByIdWithLessonsAsync(courseProgress.CourseId, cancellationToken);
             if (course == null) continue;
 
-            var lessonProgressDict = new Dictionary<Guid, bool>();
+            int totalLessons = course.Lessons.Count;
+            int completedLessons = courseProgress.CompletedLessons.Count;
+            bool isCompleted = courseProgress.IsCompleted;
 
-            foreach (var lesson in course.Lessons)
+            viewModel.Progress[courseProgress.CourseId] = new CourseProgressDto
             {
-                bool isCompleted = courseProgress.CompletedLessons.Any(cl => cl.LessonId == lesson.Id);
-
-                lessonProgressDict[lesson.Id] = isCompleted;
-            }
-
-            progressDict[courseProgress.CourseId] = lessonProgressDict;
+                CompletedLessons = completedLessons,
+                TotalLessons = totalLessons,
+                IsCompleted = isCompleted,
+                LastUpdated = courseProgress.LastUpdated
+            };
         }
 
-        return progressDict;
+        return viewModel;
     }
 }

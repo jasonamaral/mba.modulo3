@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -19,8 +20,31 @@ public static class DependencyInjection
     {
         // Add Persistence
         var connectionString = configuration.GetConnectionString("DefaultConnection");
-        services.AddDbContext<FluencyHubDbContext>(options =>
-            options.UseSqlite(connectionString));
+        var identityConnectionString = configuration.GetConnectionString("IdentityConnection");
+
+        // Check environment to decide which database provider to use
+        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+        var usesSqlite = environment == "Development" || environment == "Testing";
+
+        if (usesSqlite)
+        {
+            // Configure SQLite for Development and Testing environments
+            services.AddDbContext<FluencyHubDbContext>(options =>
+                options.UseSqlite(connectionString));
+            
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlite(identityConnectionString));
+        }
+        else
+        {
+            // Configure SQL Server for Production environment
+            services.AddDbContext<FluencyHubDbContext>(options =>
+                options.UseSqlServer(connectionString));
+            
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(identityConnectionString));
+        }
+
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<FluencyHubDbContext>());
 
         services.AddScoped<Application.Common.Interfaces.ICourseRepository, CourseRepository>();
@@ -33,10 +57,6 @@ public static class DependencyInjection
         services.AddScoped<Application.Common.Interfaces.IDomainEventService, DomainEventService>();
 
         // Add Identity
-        var identityConnectionString = configuration.GetConnectionString("IdentityConnection");
-        services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlite(identityConnectionString));
-
         services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 // Password settings
