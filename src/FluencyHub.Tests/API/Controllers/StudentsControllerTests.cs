@@ -1,5 +1,6 @@
 using FluencyHub.API.Controllers;
 using FluencyHub.Application.Common.Exceptions;
+using FluencyHub.Application.StudentManagement.Commands.CompleteLessonForStudent;
 using FluencyHub.Application.StudentManagement.Queries.GetAllStudents;
 using FluencyHub.Domain.ContentManagement;
 using FluencyHub.Domain.StudentManagement;
@@ -83,5 +84,97 @@ public class StudentsControllerTests
         // Assert
         var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
         Assert.Equal("Error fetching students", badRequestResult.Value);
+    }
+    
+    [Fact]
+    public async Task MarkLessonAsCompleted_WithValidData_ReturnsOkWithResult()
+    {
+        // Arrange
+        var studentId = Guid.NewGuid();
+        var courseId = Guid.NewGuid();
+        var lessonId = Guid.NewGuid();
+        
+        var commandResult = new CompleteLessonForStudentResult
+        {
+            Success = true,
+            Message = "Lesson marked as completed successfully"
+        };
+        
+        _mediatorMock.Setup(m => m.Send(It.IsAny<CompleteLessonForStudentCommand>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(commandResult);
+        
+        // Act
+        var result = await _controller.MarkLessonAsCompleted(studentId, courseId, lessonId);
+        
+        // Assert
+        var okResult = Assert.IsType<OkObjectResult>(result);
+        var returnedResult = Assert.IsType<CompleteLessonForStudentResult>(okResult.Value);
+        Assert.True(returnedResult.Success);
+        Assert.Equal("Lesson marked as completed successfully", returnedResult.Message);
+        
+        _mediatorMock.Verify(m => m.Send(
+            It.Is<CompleteLessonForStudentCommand>(c => 
+                c.StudentId == studentId && 
+                c.CourseId == courseId && 
+                c.LessonId == lessonId),
+            It.IsAny<CancellationToken>()),
+            Times.Once);
+    }
+    
+    [Fact]
+    public async Task MarkLessonAsCompleted_WithNotFoundEntity_ReturnsNotFound()
+    {
+        // Arrange
+        var studentId = Guid.NewGuid();
+        var courseId = Guid.NewGuid();
+        var lessonId = Guid.NewGuid();
+        
+        _mediatorMock.Setup(m => m.Send(It.IsAny<CompleteLessonForStudentCommand>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new NotFoundException("Student", studentId));
+        
+        // Act
+        var result = await _controller.MarkLessonAsCompleted(studentId, courseId, lessonId);
+        
+        // Assert
+        var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
+        Assert.Equal($"Entity \"Student\" ({studentId}) was not found.", notFoundResult.Value);
+    }
+    
+    [Fact]
+    public async Task MarkLessonAsCompleted_WithBadRequest_ReturnsBadRequest()
+    {
+        // Arrange
+        var studentId = Guid.NewGuid();
+        var courseId = Guid.NewGuid();
+        var lessonId = Guid.NewGuid();
+        
+        _mediatorMock.Setup(m => m.Send(It.IsAny<CompleteLessonForStudentCommand>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new BadRequestException("Student is not enrolled in this course"));
+        
+        // Act
+        var result = await _controller.MarkLessonAsCompleted(studentId, courseId, lessonId);
+        
+        // Assert
+        var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+        Assert.Equal("Student is not enrolled in this course", badRequestResult.Value);
+    }
+    
+    [Fact]
+    public async Task MarkLessonAsCompleted_WithGenericException_ReturnsBadRequest()
+    {
+        // Arrange
+        var studentId = Guid.NewGuid();
+        var courseId = Guid.NewGuid();
+        var lessonId = Guid.NewGuid();
+        
+        _mediatorMock.Setup(m => m.Send(It.IsAny<CompleteLessonForStudentCommand>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new Exception("An unexpected error occurred"));
+        
+        // Act
+        var result = await _controller.MarkLessonAsCompleted(studentId, courseId, lessonId);
+        
+        // Assert
+        var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+        Assert.Equal("An unexpected error occurred", badRequestResult.Value);
     }
 } 
