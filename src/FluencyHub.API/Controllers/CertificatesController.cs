@@ -50,7 +50,7 @@ public class CertificatesController : ControllerBase
         try
         {
             var certificateId = await _mediator.Send(command);
-            return CreatedAtAction(nameof(GetCertificate), new { id = certificateId }, null);
+            return CreatedAtAction(nameof(GetCertificate), new { id = certificateId }, new { Id = certificateId });
         }
         catch (NotFoundException ex)
         {

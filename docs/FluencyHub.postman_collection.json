@@ -260,14 +260,7 @@
 					],
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "POST",
 						"header": [
@@ -537,7 +530,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Curso de Inglês Avançado III\",\n    \"description\": \"Curso perfeito para iniciantes que desejam aprender inglês de forma eficiente.\",\n    \"price\": 499.90,\n    \"syllabus\":\"Este curso abrange vocabulário básico, gramática fundamental e exercícios práticos.\",\n    \"learningObjectives\": \"Ao final do curso, o aluno será capaz de se comunicar em situações cotidianas em inglês.\",\n    \"preRequisites\": \"Não há pré-requisitos para este curso.\",\n    \"targetAudience\":\"Todos\",\n    \"language\":\"Inglês\",\n    \"level\":\"Iniciante\"\n}"
+							"raw": "{\n    \"name\": \"Curso de Inglês Iniciante I\",\n    \"description\": \"Curso perfeito para iniciantes que desejam aprender inglês de forma eficiente.\",\n    \"price\": 199.90,\n    \"syllabus\":\"Este curso abrange vocabulário básico, gramática fundamental e exercícios práticos.\",\n    \"learningObjectives\": \"Ao final do curso, o aluno será capaz de se comunicar em situações cotidianas em inglês.\",\n    \"preRequisites\": \"Não há pré-requisitos para este curso.\",\n    \"targetAudience\":\"Todos\",\n    \"language\":\"Inglês\",\n    \"level\":\"Iniciante\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/api/courses",
@@ -1001,7 +994,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"enrollmentId\": \"{{enrollmentId}}\",\n    \"amount\": 149.90,\n    \"cardDetails\": {\n        \"cardholderName\": \"Test User\",\n        \"cardNumber\": \"4111111111111111\",\n        \"expiryMonth\": 12,\n        \"expiryYear\": 2028,\n        \"cvv\": \"123\"\n    }\n}"
+							"raw": "{\n    \"enrollmentId\": \"{{enrollmentId}}\",\n    \"amount\": 199.90,\n    \"cardDetails\": {\n        \"cardholderName\": \"Test User\",\n        \"cardNumber\": \"4111111111111111\",\n        \"expiryMonth\": 12,\n        \"expiryYear\": 2028,\n        \"cvv\": \"123\"\n    }\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/api/payments",
@@ -1108,6 +1101,13 @@
 								],
 								"type": "text/javascript",
 								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"packages": {},
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -1259,6 +1259,10 @@
 		},
 		{
 			"key": "paymentId",
+			"value": ""
+		},
+		{
+			"key": "certificateId",
 			"value": ""
 		}
 	]

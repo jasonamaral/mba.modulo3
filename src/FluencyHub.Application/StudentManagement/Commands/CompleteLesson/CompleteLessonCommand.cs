@@ -13,9 +13,7 @@ public class CompleteLessonResult
 {
     public Guid EnrollmentId { get; set; }
     public Guid LessonId { get; set; }
-    public bool Completed { get; set; }
     public string Message { get; set; } = string.Empty;
     public bool CourseCompleted { get; set; }
     public bool IsCompleted { get; set; }
-    public bool AllLessonsCompleted { get; set; }
 } 

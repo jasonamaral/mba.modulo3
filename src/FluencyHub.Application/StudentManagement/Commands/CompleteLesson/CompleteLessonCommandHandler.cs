@@ -14,6 +14,7 @@ public class CompleteLessonCommandHandler : IRequestHandler<CompleteLessonComman
     private readonly IMediator _mediator;
     private readonly ILearningRepository _learningRepository;
     private readonly ICourseRepository _courseRepository;
+    private readonly IEnrollmentRepository _enrollmentRepository;
 
     public CompleteLessonCommandHandler(
         IMediator mediator,
@@ -26,6 +27,7 @@ public class CompleteLessonCommandHandler : IRequestHandler<CompleteLessonComman
         _mediator = mediator;
         _learningRepository = learningRepository;
         _courseRepository = courseRepository;
+        _enrollmentRepository = enrollmentRepository;
     }
 
     public async Task<CompleteLessonResult> Handle(CompleteLessonCommand request, CancellationToken cancellationToken)
@@ -88,11 +90,34 @@ public class CompleteLessonCommandHandler : IRequestHandler<CompleteLessonComman
 
             bool allLessonsCompleted = await IsAllLessonsCompletedAsync(enrollment.StudentId, enrollment.CourseId, cancellationToken);
 
+            if (allLessonsCompleted)
+            {
+                learningHistory.CompleteCourse(enrollment.CourseId);
+
+                var enrollmentEntity = await _enrollmentRepository.GetByIdAsync(request.EnrollmentId);
+                if (enrollmentEntity != null)
+                {
+                    enrollmentEntity.CompleteEnrollment();
+                    await _enrollmentRepository.SaveChangesAsync(cancellationToken);
+                }
+
+                return new CompleteLessonResult
+                {
+                    EnrollmentId = request.EnrollmentId,
+                    LessonId = request.LessonId,
+                    Message = "Lesson completed successfully and course has been completed automatically",
+                    CourseCompleted = true,
+                    IsCompleted = true
+                };
+            }
+
             return new CompleteLessonResult
             {
-                IsCompleted = true,
-                Message = "Lesson marked as completed successfully",
-                AllLessonsCompleted = allLessonsCompleted
+                EnrollmentId = request.EnrollmentId,
+                LessonId = request.LessonId,
+                Message = "Lesson completed successfully",
+                CourseCompleted = false,
+                IsCompleted = true
             };
         }
         catch (DbUpdateConcurrencyException ex)
