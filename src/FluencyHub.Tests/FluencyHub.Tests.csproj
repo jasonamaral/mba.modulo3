@@ -44,7 +44,6 @@
     <ProjectReference Include="..\FluencyHub.StudentManagement.Domain\FluencyHub.StudentManagement.Domain.csproj" />
     <ProjectReference Include="..\FluencyHub.ContentManagement.Domain\FluencyHub.ContentManagement.Domain.csproj" />
     <ProjectReference Include="..\FluencyHub.PaymentProcessing.Domain\FluencyHub.PaymentProcessing.Domain.csproj" />
-    <ProjectReference Include="..\FluencyHub.Common.Domain\FluencyHub.Common.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

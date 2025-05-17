@@ -1,4 +1,4 @@
-using FluencyHub.Common.Domain;
+using FluencyHub.Domain.Common;
 using FluencyHub.PaymentProcessing.Domain.Events;
 using System.Text.Json.Serialization;
 

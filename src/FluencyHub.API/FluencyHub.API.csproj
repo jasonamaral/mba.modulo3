@@ -34,10 +34,10 @@
   <ItemGroup>
     <ProjectReference Include="..\FluencyHub.Application\FluencyHub.Application.csproj" />
     <ProjectReference Include="..\FluencyHub.Infrastructure\FluencyHub.Infrastructure.csproj" />
+    <ProjectReference Include="..\FluencyHub.Domain\FluencyHub.Domain.csproj" />
     <ProjectReference Include="..\FluencyHub.StudentManagement.Domain\FluencyHub.StudentManagement.Domain.csproj" />
     <ProjectReference Include="..\FluencyHub.ContentManagement.Domain\FluencyHub.ContentManagement.Domain.csproj" />
     <ProjectReference Include="..\FluencyHub.PaymentProcessing.Domain\FluencyHub.PaymentProcessing.Domain.csproj" />
-    <ProjectReference Include="..\FluencyHub.Common.Domain\FluencyHub.Common.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

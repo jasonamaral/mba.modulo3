@@ -1,4 +1,4 @@
-using FluencyHub.Common.Domain;
+using FluencyHub.Domain.Common;
 using Xunit;
 
 namespace FluencyHub.Tests.Domain.Common
