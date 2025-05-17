@@ -4,214 +4,185 @@
       "Program/<<Main>$>d__0": {
         "System.Void Program/<<Main>$>d__0::MoveNext()": {
           "Lines": {
-            "9": 1,
             "12": 1,
-            "13": 1,
-            "14": 1,
+            "15": 1,
+            "16": 1,
             "17": 1,
             "18": 1,
+            "19": 1,
             "20": 1,
             "23": 1,
-            "25": 1,
+            "24": 1,
             "26": 1,
-            "27": 1,
-            "28": 1,
+            "29": 1,
             "31": 1,
             "32": 1,
+            "33": 1,
             "34": 1,
-            "35": 1,
-            "36": 1,
             "37": 1,
-            "39": 1,
+            "38": 1,
             "40": 1,
+            "41": 1,
+            "42": 1,
             "43": 1,
-            "44": 1,
+            "45": 1,
             "46": 1,
-            "48": 1,
             "49": 1,
             "50": 1,
-            "51": 1,
+            "52": 1,
             "54": 1,
             "55": 1,
-            "56": 0,
-            "57": 0,
-            "58": 0,
+            "56": 1,
+            "57": 1,
+            "60": 1,
             "61": 1,
-            "62": 1,
-            "64": 1,
-            "66": 1,
-            "67": 0,
-            "68": 0,
-            "69": 0,
-            "71": 0,
+            "62": 0,
+            "63": 0,
+            "64": 0,
+            "67": 1,
+            "68": 1,
+            "70": 1,
+            "72": 1,
             "73": 0,
             "74": 0,
             "75": 0,
-            "76": 0,
-            "78": 0,
+            "77": 0,
             "79": 0,
             "80": 0,
             "81": 0,
-            "83": 0,
+            "82": 0,
             "84": 0,
             "85": 0,
             "86": 0,
-            "88": 0,
+            "87": 0,
             "89": 0,
-            "90": 1,
-            "91": 1,
-            "92": 1,
-            "93": 1,
-            "94": 1,
+            "90": 0,
+            "91": 0,
+            "92": 0,
+            "94": 0,
+            "95": 0,
             "96": 1,
             "97": 1,
             "98": 1,
             "99": 1,
-            "101": 1
+            "100": 1,
+            "102": 1,
+            "103": 1,
+            "104": 1,
+            "105": 1,
+            "107": 1
           },
           "Branches": [
             {
-              "Line": 25,
-              "Offset": 192,
-              "EndOffset": 194,
+              "Line": 31,
+              "Offset": 243,
+              "EndOffset": 245,
               "Path": 0,
               "Ordinal": 0,
               "Hits": 0
             },
             {
-              "Line": 25,
-              "Offset": 192,
-              "EndOffset": 222,
+              "Line": 31,
+              "Offset": 243,
+              "EndOffset": 273,
               "Path": 1,
               "Ordinal": 1,
               "Hits": 1
             },
             {
-              "Line": 25,
-              "Offset": 225,
-              "EndOffset": 227,
+              "Line": 31,
+              "Offset": 276,
+              "EndOffset": 278,
               "Path": 0,
               "Ordinal": 2,
               "Hits": 1
             },
             {
-              "Line": 25,
-              "Offset": 225,
-              "EndOffset": 241,
+              "Line": 31,
+              "Offset": 276,
+              "EndOffset": 292,
               "Path": 1,
               "Ordinal": 3,
               "Hits": 1
             },
             {
-              "Line": 39,
-              "Offset": 384,
-              "EndOffset": 386,
+              "Line": 45,
+              "Offset": 435,
+              "EndOffset": 437,
               "Path": 0,
               "Ordinal": 4,
               "Hits": 0
             },
             {
-              "Line": 39,
-              "Offset": 384,
-              "EndOffset": 414,
+              "Line": 45,
+              "Offset": 435,
+              "EndOffset": 465,
               "Path": 1,
               "Ordinal": 5,
               "Hits": 1
             },
             {
-              "Line": 39,
-              "Offset": 417,
-              "EndOffset": 422,
+              "Line": 45,
+              "Offset": 468,
+              "EndOffset": 473,
               "Path": 0,
               "Ordinal": 6,
               "Hits": 1
             },
             {
-              "Line": 43,
-              "Offset": 446,
-              "EndOffset": 448,
+              "Line": 49,
+              "Offset": 497,
+              "EndOffset": 499,
               "Path": 0,
               "Ordinal": 8,
               "Hits": 0
             },
             {
-              "Line": 43,
-              "Offset": 446,
-              "EndOffset": 454,
+              "Line": 49,
+              "Offset": 497,
+              "EndOffset": 505,
               "Path": 1,
               "Ordinal": 9,
               "Hits": 1
             },
             {
-              "Line": 44,
-              "Offset": 482,
-              "EndOffset": 484,
+              "Line": 50,
+              "Offset": 533,
+              "EndOffset": 535,
               "Path": 0,
               "Ordinal": 10,
               "Hits": 0
             },
             {
-              "Line": 44,
-              "Offset": 482,
-              "EndOffset": 490,
+              "Line": 50,
+              "Offset": 533,
+              "EndOffset": 541,
               "Path": 1,
               "Ordinal": 11,
               "Hits": 1
             },
             {
-              "Line": 46,
-              "Offset": 512,
-              "EndOffset": 514,
+              "Line": 52,
+              "Offset": 563,
+              "EndOffset": 565,
               "Path": 0,
               "Ordinal": 12,
               "Hits": 1
             },
             {
-              "Line": 46,
-              "Offset": 512,
-              "EndOffset": 532,
+              "Line": 52,
+              "Offset": 563,
+              "EndOffset": 583,
               "Path": 1,
               "Ordinal": 13,
               "Hits": 0
             },
             {
-              "Line": 48,
-              "Offset": 549,
-              "EndOffset": 554,
+              "Line": 54,
+              "Offset": 600,
+              "EndOffset": 605,
               "Path": 0,
               "Ordinal": 14,
-              "Hits": 1
-            },
-            {
-              "Line": 55,
-              "Offset": 647,
-              "EndOffset": 649,
-              "Path": 0,
-              "Ordinal": 16,
-              "Hits": 1
-            },
-            {
-              "Line": 55,
-              "Offset": 647,
-              "EndOffset": 665,
-              "Path": 1,
-              "Ordinal": 17,
-              "Hits": 0
-            },
-            {
-              "Line": 55,
-              "Offset": 670,
-              "EndOffset": 672,
-              "Path": 0,
-              "Ordinal": 18,
-              "Hits": 0
-            },
-            {
-              "Line": 55,
-              "Offset": 670,
-              "EndOffset": 686,
-              "Path": 1,
-              "Ordinal": 19,
               "Hits": 1
             },
             {
@@ -219,93 +190,125 @@
               "Offset": 698,
               "EndOffset": 700,
               "Path": 0,
-              "Ordinal": 20,
+              "Ordinal": 16,
               "Hits": 1
             },
             {
               "Line": 61,
               "Offset": 698,
-              "EndOffset": 713,
+              "EndOffset": 716,
+              "Path": 1,
+              "Ordinal": 17,
+              "Hits": 0
+            },
+            {
+              "Line": 61,
+              "Offset": 721,
+              "EndOffset": 723,
+              "Path": 0,
+              "Ordinal": 18,
+              "Hits": 0
+            },
+            {
+              "Line": 61,
+              "Offset": 721,
+              "EndOffset": 737,
+              "Path": 1,
+              "Ordinal": 19,
+              "Hits": 1
+            },
+            {
+              "Line": 67,
+              "Offset": 749,
+              "EndOffset": 751,
+              "Path": 0,
+              "Ordinal": 20,
+              "Hits": 1
+            },
+            {
+              "Line": 67,
+              "Offset": 749,
+              "EndOffset": 764,
               "Path": 1,
               "Ordinal": 21,
               "Hits": 0
             },
             {
-              "Line": 62,
-              "Offset": 731,
-              "EndOffset": 733,
+              "Line": 68,
+              "Offset": 782,
+              "EndOffset": 784,
               "Path": 0,
               "Ordinal": 22,
               "Hits": 1
             },
             {
-              "Line": 62,
-              "Offset": 731,
-              "EndOffset": 746,
+              "Line": 68,
+              "Offset": 782,
+              "EndOffset": 797,
               "Path": 1,
               "Ordinal": 23,
               "Hits": 0
             },
             {
-              "Line": 48,
-              "Offset": 549,
-              "EndOffset": 774,
+              "Line": 54,
+              "Offset": 600,
+              "EndOffset": 825,
               "Path": 1,
               "Ordinal": 15,
               "Hits": 1
             },
             {
-              "Line": 39,
-              "Offset": 417,
-              "EndOffset": 933,
+              "Line": 45,
+              "Offset": 468,
+              "EndOffset": 984,
               "Path": 1,
               "Ordinal": 7,
               "Hits": 0
             },
             {
-              "Line": 73,
-              "Offset": 959,
-              "EndOffset": 961,
+              "Line": 79,
+              "Offset": 1010,
+              "EndOffset": 1012,
               "Path": 0,
               "Ordinal": 24,
               "Hits": 0
             },
             {
-              "Line": 73,
-              "Offset": 959,
-              "EndOffset": 980,
+              "Line": 79,
+              "Offset": 1010,
+              "EndOffset": 1031,
               "Path": 1,
               "Ordinal": 25,
               "Hits": 0
             },
             {
-              "Line": 78,
-              "Offset": 1005,
-              "EndOffset": 1007,
+              "Line": 84,
+              "Offset": 1056,
+              "EndOffset": 1058,
               "Path": 0,
               "Ordinal": 26,
               "Hits": 0
             },
             {
-              "Line": 78,
-              "Offset": 1005,
-              "EndOffset": 1026,
+              "Line": 84,
+              "Offset": 1056,
+              "EndOffset": 1077,
               "Path": 1,
               "Ordinal": 27,
               "Hits": 0
             },
             {
-              "Line": 83,
-              "Offset": 1049,
-              "EndOffset": 1051,
+              "Line": 89,
+              "Offset": 1100,
+              "EndOffset": 1102,
               "Path": 0,
               "Ordinal": 28,
               "Hits": 0
             },
             {
-              "Line": 83,
-              "Offset": 1049,
-              "EndOffset": 1158,
+              "Line": 89,
+              "Offset": 1100,
+              "EndOffset": 1209,
               "Path": 1,
               "Ordinal": 29,
               "Hits": 0
@@ -8242,6 +8245,194 @@
               "Hits": 1
             }
           ]
+        }
+      }
+    }
+  },
+  "FluencyHub.ContentManagement.Application.dll": {
+    "/mnt/modulo3/src/FluencyHub.ContentManagement.Application/DependencyInjection.cs": {
+      "FluencyHub.ContentManagement.Application.DependencyInjection": {
+        "Microsoft.Extensions.DependencyInjection.IServiceCollection FluencyHub.ContentManagement.Application.DependencyInjection::AddContentManagementApplication(Microsoft.Extensions.DependencyInjection.IServiceCollection)": {
+          "Lines": {
+            "11": 1,
+            "12": 1,
+            "13": 1,
+            "14": 1,
+            "15": 2,
+            "17": 1,
+            "19": 1,
+            "21": 1,
+            "22": 1
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.ContentManagement.Application/Common/Models/AuthResult.cs": {
+      "FluencyHub.ContentManagement.Application.Common.Models.AuthResult": {
+        "System.Boolean FluencyHub.ContentManagement.Application.Common.Models.AuthResult::get_Succeeded()": {
+          "Lines": {
+            "5": 0
+          },
+          "Branches": []
+        },
+        "System.String FluencyHub.ContentManagement.Application.Common.Models.AuthResult::get_Token()": {
+          "Lines": {
+            "6": 0
+          },
+          "Branches": []
+        },
+        "System.String[] FluencyHub.ContentManagement.Application.Common.Models.AuthResult::get_Errors()": {
+          "Lines": {
+            "7": 0
+          },
+          "Branches": []
+        },
+        "FluencyHub.ContentManagement.Application.Common.Models.AuthResult FluencyHub.ContentManagement.Application.Common.Models.AuthResult::Success(System.String)": {
+          "Lines": {
+            "12": 0,
+            "13": 0,
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0
+          },
+          "Branches": []
+        },
+        "FluencyHub.ContentManagement.Application.Common.Models.AuthResult FluencyHub.ContentManagement.Application.Common.Models.AuthResult::Failure(System.String[])": {
+          "Lines": {
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0,
+            "27": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.ContentManagement.Application.Common.Models.AuthResult::.ctor()": {
+          "Lines": {
+            "9": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.ContentManagement.Application/Common/Models/CourseProgressInfo.cs": {
+      "FluencyHub.ContentManagement.Application.Common.Models.CourseProgressInfo": {
+        "System.Guid FluencyHub.ContentManagement.Application.Common.Models.CourseProgressInfo::get_CourseId()": {
+          "Lines": {
+            "5": 0
+          },
+          "Branches": []
+        },
+        "System.Boolean FluencyHub.ContentManagement.Application.Common.Models.CourseProgressInfo::get_IsCompleted()": {
+          "Lines": {
+            "6": 0
+          },
+          "Branches": []
+        },
+        "System.DateTime FluencyHub.ContentManagement.Application.Common.Models.CourseProgressInfo::get_LastUpdated()": {
+          "Lines": {
+            "7": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.ContentManagement.Application/Common/Exceptions/BadRequestException.cs": {
+      "FluencyHub.ContentManagement.Application.Common.Exceptions.BadRequestException": {
+        "System.Void FluencyHub.ContentManagement.Application.Common.Exceptions.BadRequestException::.ctor()": {
+          "Lines": {
+            "6": 0,
+            "7": 0,
+            "8": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.ContentManagement.Application.Common.Exceptions.BadRequestException::.ctor(System.String)": {
+          "Lines": {
+            "11": 0,
+            "12": 0,
+            "13": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.ContentManagement.Application.Common.Exceptions.BadRequestException::.ctor(System.String,System.Exception)": {
+          "Lines": {
+            "16": 0,
+            "17": 0,
+            "18": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.ContentManagement.Application/Common/Exceptions/NotFoundException.cs": {
+      "FluencyHub.ContentManagement.Application.Common.Exceptions.NotFoundException": {
+        "System.Void FluencyHub.ContentManagement.Application.Common.Exceptions.NotFoundException::.ctor()": {
+          "Lines": {
+            "6": 0,
+            "7": 0,
+            "8": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.ContentManagement.Application.Common.Exceptions.NotFoundException::.ctor(System.String)": {
+          "Lines": {
+            "11": 0,
+            "12": 0,
+            "13": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.ContentManagement.Application.Common.Exceptions.NotFoundException::.ctor(System.String,System.Exception)": {
+          "Lines": {
+            "16": 0,
+            "17": 0,
+            "18": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.ContentManagement.Application.Common.Exceptions.NotFoundException::.ctor(System.String,System.Object)": {
+          "Lines": {
+            "21": 0,
+            "22": 0,
+            "23": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.ContentManagement.Application/Common/Exceptions/ValidationException.cs": {
+      "FluencyHub.ContentManagement.Application.Common.Exceptions.ValidationException": {
+        "System.Collections.Generic.IReadOnlyDictionary`2<System.String,System.String[]> FluencyHub.ContentManagement.Application.Common.Exceptions.ValidationException::get_Errors()": {
+          "Lines": {
+            "21": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.ContentManagement.Application.Common.Exceptions.ValidationException::.ctor()": {
+          "Lines": {
+            "8": 0,
+            "9": 0,
+            "10": 0,
+            "11": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.ContentManagement.Application.Common.Exceptions.ValidationException::.ctor(System.Collections.Generic.IEnumerable`1<FluentValidation.Results.ValidationFailure>)": {
+          "Lines": {
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0,
+            "19": 0
+          },
+          "Branches": []
         }
       }
     }
@@ -19305,6 +19496,407 @@
       }
     }
   },
+  "FluencyHub.PaymentProcessing.Application.dll": {
+    "/mnt/modulo3/src/FluencyHub.PaymentProcessing.Application/DependencyInjection.cs": {
+      "FluencyHub.PaymentProcessing.Application.DependencyInjection": {
+        "Microsoft.Extensions.DependencyInjection.IServiceCollection FluencyHub.PaymentProcessing.Application.DependencyInjection::AddPaymentProcessingApplication(Microsoft.Extensions.DependencyInjection.IServiceCollection)": {
+          "Lines": {
+            "11": 1,
+            "12": 1,
+            "13": 1,
+            "14": 1,
+            "15": 2,
+            "17": 1,
+            "19": 1,
+            "21": 1,
+            "22": 1
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.PaymentProcessing.Application/Common/Models/AuthResult.cs": {
+      "FluencyHub.PaymentProcessing.Application.Common.Models.AuthResult": {
+        "System.Boolean FluencyHub.PaymentProcessing.Application.Common.Models.AuthResult::get_Succeeded()": {
+          "Lines": {
+            "5": 0
+          },
+          "Branches": []
+        },
+        "System.String FluencyHub.PaymentProcessing.Application.Common.Models.AuthResult::get_Token()": {
+          "Lines": {
+            "6": 0
+          },
+          "Branches": []
+        },
+        "System.String[] FluencyHub.PaymentProcessing.Application.Common.Models.AuthResult::get_Errors()": {
+          "Lines": {
+            "7": 0
+          },
+          "Branches": []
+        },
+        "FluencyHub.PaymentProcessing.Application.Common.Models.AuthResult FluencyHub.PaymentProcessing.Application.Common.Models.AuthResult::Success(System.String)": {
+          "Lines": {
+            "12": 0,
+            "13": 0,
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0
+          },
+          "Branches": []
+        },
+        "FluencyHub.PaymentProcessing.Application.Common.Models.AuthResult FluencyHub.PaymentProcessing.Application.Common.Models.AuthResult::Failure(System.String[])": {
+          "Lines": {
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0,
+            "27": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.PaymentProcessing.Application.Common.Models.AuthResult::.ctor()": {
+          "Lines": {
+            "9": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.PaymentProcessing.Application/Common/Models/PaymentResult.cs": {
+      "FluencyHub.PaymentProcessing.Application.Common.Models.PaymentResult": {
+        "System.Boolean FluencyHub.PaymentProcessing.Application.Common.Models.PaymentResult::get_IsSuccessful()": {
+          "Lines": {
+            "5": 0
+          },
+          "Branches": []
+        },
+        "System.String FluencyHub.PaymentProcessing.Application.Common.Models.PaymentResult::get_TransactionId()": {
+          "Lines": {
+            "6": 0
+          },
+          "Branches": []
+        },
+        "System.String FluencyHub.PaymentProcessing.Application.Common.Models.PaymentResult::get_ErrorMessage()": {
+          "Lines": {
+            "7": 0
+          },
+          "Branches": []
+        },
+        "FluencyHub.PaymentProcessing.Application.Common.Models.PaymentResult FluencyHub.PaymentProcessing.Application.Common.Models.PaymentResult::Success(System.String)": {
+          "Lines": {
+            "17": 0,
+            "18": 0,
+            "19": 0,
+            "21": 0,
+            "22": 0
+          },
+          "Branches": [
+            {
+              "Line": 18,
+              "Offset": 9,
+              "EndOffset": 11,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 18,
+              "Offset": 9,
+              "EndOffset": 27,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        },
+        "FluencyHub.PaymentProcessing.Application.Common.Models.PaymentResult FluencyHub.PaymentProcessing.Application.Common.Models.PaymentResult::Failure(System.String)": {
+          "Lines": {
+            "25": 0,
+            "26": 0,
+            "27": 0,
+            "29": 0,
+            "30": 0
+          },
+          "Branches": [
+            {
+              "Line": 26,
+              "Offset": 9,
+              "EndOffset": 11,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 26,
+              "Offset": 9,
+              "EndOffset": 27,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        },
+        "System.Void FluencyHub.PaymentProcessing.Application.Common.Models.PaymentResult::.ctor(System.Boolean,System.String,System.String)": {
+          "Lines": {
+            "9": 0,
+            "10": 0,
+            "11": 0,
+            "12": 0,
+            "13": 0,
+            "14": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.PaymentProcessing.Application/Common/Models/PaymentStatusResult.cs": {
+      "FluencyHub.PaymentProcessing.Application.Common.Models.PaymentStatusResult": {
+        "System.String FluencyHub.PaymentProcessing.Application.Common.Models.PaymentStatusResult::get_TransactionId()": {
+          "Lines": {
+            "5": 0
+          },
+          "Branches": []
+        },
+        "FluencyHub.PaymentProcessing.Application.Common.Models.PaymentStatus FluencyHub.PaymentProcessing.Application.Common.Models.PaymentStatusResult::get_Status()": {
+          "Lines": {
+            "6": 0
+          },
+          "Branches": []
+        },
+        "System.String FluencyHub.PaymentProcessing.Application.Common.Models.PaymentStatusResult::get_StatusMessage()": {
+          "Lines": {
+            "7": 0
+          },
+          "Branches": []
+        },
+        "FluencyHub.PaymentProcessing.Application.Common.Models.PaymentStatusResult FluencyHub.PaymentProcessing.Application.Common.Models.PaymentStatusResult::Create(System.String,FluencyHub.PaymentProcessing.Application.Common.Models.PaymentStatus,System.String)": {
+          "Lines": {
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "19": 0,
+            "20": 0,
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0
+          },
+          "Branches": [
+            {
+              "Line": 16,
+              "Offset": 9,
+              "EndOffset": 11,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 16,
+              "Offset": 9,
+              "EndOffset": 27,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        },
+        "System.Void FluencyHub.PaymentProcessing.Application.Common.Models.PaymentStatusResult::.ctor()": {
+          "Lines": {
+            "9": 0,
+            "10": 0,
+            "11": 0,
+            "12": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.PaymentProcessing.Application/Common/Models/RefundResult.cs": {
+      "FluencyHub.PaymentProcessing.Application.Common.Models.RefundResult": {
+        "System.Boolean FluencyHub.PaymentProcessing.Application.Common.Models.RefundResult::get_IsSuccessful()": {
+          "Lines": {
+            "5": 0
+          },
+          "Branches": []
+        },
+        "System.String FluencyHub.PaymentProcessing.Application.Common.Models.RefundResult::get_OriginalTransactionId()": {
+          "Lines": {
+            "6": 0
+          },
+          "Branches": []
+        },
+        "System.String FluencyHub.PaymentProcessing.Application.Common.Models.RefundResult::get_RefundTransactionId()": {
+          "Lines": {
+            "7": 0
+          },
+          "Branches": []
+        },
+        "System.Decimal FluencyHub.PaymentProcessing.Application.Common.Models.RefundResult::get_RefundAmount()": {
+          "Lines": {
+            "8": 0
+          },
+          "Branches": []
+        },
+        "System.String FluencyHub.PaymentProcessing.Application.Common.Models.RefundResult::get_ErrorMessage()": {
+          "Lines": {
+            "9": 0
+          },
+          "Branches": []
+        },
+        "FluencyHub.PaymentProcessing.Application.Common.Models.RefundResult FluencyHub.PaymentProcessing.Application.Common.Models.RefundResult::Success(System.String,System.String,System.Decimal)": {
+          "Lines": {
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "26": 0,
+            "27": 0
+          },
+          "Branches": []
+        },
+        "FluencyHub.PaymentProcessing.Application.Common.Models.RefundResult FluencyHub.PaymentProcessing.Application.Common.Models.RefundResult::Failure(System.String,System.String)": {
+          "Lines": {
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "34": 0,
+            "35": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.PaymentProcessing.Application.Common.Models.RefundResult::.ctor(System.Boolean,System.String,System.String,System.Decimal,System.String)": {
+          "Lines": {
+            "11": 0,
+            "12": 0,
+            "13": 0,
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0
+          },
+          "Branches": [
+            {
+              "Line": 14,
+              "Offset": 19,
+              "EndOffset": 21,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 14,
+              "Offset": 19,
+              "EndOffset": 33,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.PaymentProcessing.Application/Common/Exceptions/BadRequestException.cs": {
+      "FluencyHub.PaymentProcessing.Application.Common.Exceptions.BadRequestException": {
+        "System.Void FluencyHub.PaymentProcessing.Application.Common.Exceptions.BadRequestException::.ctor()": {
+          "Lines": {
+            "6": 0,
+            "7": 0,
+            "8": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.PaymentProcessing.Application.Common.Exceptions.BadRequestException::.ctor(System.String)": {
+          "Lines": {
+            "11": 0,
+            "12": 0,
+            "13": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.PaymentProcessing.Application.Common.Exceptions.BadRequestException::.ctor(System.String,System.Exception)": {
+          "Lines": {
+            "16": 0,
+            "17": 0,
+            "18": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.PaymentProcessing.Application/Common/Exceptions/NotFoundException.cs": {
+      "FluencyHub.PaymentProcessing.Application.Common.Exceptions.NotFoundException": {
+        "System.Void FluencyHub.PaymentProcessing.Application.Common.Exceptions.NotFoundException::.ctor()": {
+          "Lines": {
+            "6": 0,
+            "7": 0,
+            "8": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.PaymentProcessing.Application.Common.Exceptions.NotFoundException::.ctor(System.String)": {
+          "Lines": {
+            "11": 0,
+            "12": 0,
+            "13": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.PaymentProcessing.Application.Common.Exceptions.NotFoundException::.ctor(System.String,System.Exception)": {
+          "Lines": {
+            "16": 0,
+            "17": 0,
+            "18": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.PaymentProcessing.Application.Common.Exceptions.NotFoundException::.ctor(System.String,System.Object)": {
+          "Lines": {
+            "21": 0,
+            "22": 0,
+            "23": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.PaymentProcessing.Application/Common/Exceptions/ValidationException.cs": {
+      "FluencyHub.PaymentProcessing.Application.Common.Exceptions.ValidationException": {
+        "System.Collections.Generic.IReadOnlyDictionary`2<System.String,System.String[]> FluencyHub.PaymentProcessing.Application.Common.Exceptions.ValidationException::get_Errors()": {
+          "Lines": {
+            "21": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.PaymentProcessing.Application.Common.Exceptions.ValidationException::.ctor()": {
+          "Lines": {
+            "8": 0,
+            "9": 0,
+            "10": 0,
+            "11": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.PaymentProcessing.Application.Common.Exceptions.ValidationException::.ctor(System.Collections.Generic.IEnumerable`1<FluentValidation.Results.ValidationFailure>)": {
+          "Lines": {
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0,
+            "19": 0
+          },
+          "Branches": []
+        }
+      }
+    }
+  },
   "FluencyHub.PaymentProcessing.Domain.dll": {
     "/mnt/modulo3/src/FluencyHub.PaymentProcessing.Domain/CardDetails.cs": {
       "FluencyHub.PaymentProcessing.Domain.CardDetails": {
@@ -20090,6 +20682,172 @@
             "14": 1,
             "15": 1,
             "16": 1
+          },
+          "Branches": []
+        }
+      }
+    }
+  },
+  "FluencyHub.StudentManagement.Application.dll": {
+    "/mnt/modulo3/src/FluencyHub.StudentManagement.Application/DependencyInjection.cs": {
+      "FluencyHub.StudentManagement.Application.DependencyInjection": {
+        "Microsoft.Extensions.DependencyInjection.IServiceCollection FluencyHub.StudentManagement.Application.DependencyInjection::AddStudentManagementApplication(Microsoft.Extensions.DependencyInjection.IServiceCollection)": {
+          "Lines": {
+            "11": 1,
+            "12": 1,
+            "13": 1,
+            "14": 1,
+            "15": 2,
+            "17": 1,
+            "19": 1,
+            "21": 1,
+            "22": 1
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.StudentManagement.Application/Common/Models/AuthResult.cs": {
+      "FluencyHub.StudentManagement.Application.Common.Models.AuthResult": {
+        "System.Boolean FluencyHub.StudentManagement.Application.Common.Models.AuthResult::get_Succeeded()": {
+          "Lines": {
+            "5": 0
+          },
+          "Branches": []
+        },
+        "System.String FluencyHub.StudentManagement.Application.Common.Models.AuthResult::get_Token()": {
+          "Lines": {
+            "6": 0
+          },
+          "Branches": []
+        },
+        "System.String[] FluencyHub.StudentManagement.Application.Common.Models.AuthResult::get_Errors()": {
+          "Lines": {
+            "7": 0
+          },
+          "Branches": []
+        },
+        "FluencyHub.StudentManagement.Application.Common.Models.AuthResult FluencyHub.StudentManagement.Application.Common.Models.AuthResult::Success(System.String)": {
+          "Lines": {
+            "12": 0,
+            "13": 0,
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0
+          },
+          "Branches": []
+        },
+        "FluencyHub.StudentManagement.Application.Common.Models.AuthResult FluencyHub.StudentManagement.Application.Common.Models.AuthResult::Failure(System.String[])": {
+          "Lines": {
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0,
+            "27": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.StudentManagement.Application.Common.Models.AuthResult::.ctor()": {
+          "Lines": {
+            "9": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.StudentManagement.Application/Common/Exceptions/BadRequestException.cs": {
+      "FluencyHub.StudentManagement.Application.Common.Exceptions.BadRequestException": {
+        "System.Void FluencyHub.StudentManagement.Application.Common.Exceptions.BadRequestException::.ctor()": {
+          "Lines": {
+            "6": 0,
+            "7": 0,
+            "8": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.StudentManagement.Application.Common.Exceptions.BadRequestException::.ctor(System.String)": {
+          "Lines": {
+            "11": 0,
+            "12": 0,
+            "13": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.StudentManagement.Application.Common.Exceptions.BadRequestException::.ctor(System.String,System.Exception)": {
+          "Lines": {
+            "16": 0,
+            "17": 0,
+            "18": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.StudentManagement.Application/Common/Exceptions/NotFoundException.cs": {
+      "FluencyHub.StudentManagement.Application.Common.Exceptions.NotFoundException": {
+        "System.Void FluencyHub.StudentManagement.Application.Common.Exceptions.NotFoundException::.ctor()": {
+          "Lines": {
+            "6": 0,
+            "7": 0,
+            "8": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.StudentManagement.Application.Common.Exceptions.NotFoundException::.ctor(System.String)": {
+          "Lines": {
+            "11": 0,
+            "12": 0,
+            "13": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.StudentManagement.Application.Common.Exceptions.NotFoundException::.ctor(System.String,System.Exception)": {
+          "Lines": {
+            "16": 0,
+            "17": 0,
+            "18": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.StudentManagement.Application.Common.Exceptions.NotFoundException::.ctor(System.String,System.Object)": {
+          "Lines": {
+            "21": 0,
+            "22": 0,
+            "23": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.StudentManagement.Application/Common/Exceptions/ValidationException.cs": {
+      "FluencyHub.StudentManagement.Application.Common.Exceptions.ValidationException": {
+        "System.Collections.Generic.IReadOnlyDictionary`2<System.String,System.String[]> FluencyHub.StudentManagement.Application.Common.Exceptions.ValidationException::get_Errors()": {
+          "Lines": {
+            "21": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.StudentManagement.Application.Common.Exceptions.ValidationException::.ctor()": {
+          "Lines": {
+            "8": 0,
+            "9": 0,
+            "10": 0,
+            "11": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.StudentManagement.Application.Common.Exceptions.ValidationException::.ctor(System.Collections.Generic.IEnumerable`1<FluentValidation.Results.ValidationFailure>)": {
+          "Lines": {
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0,
+            "19": 0
           },
           "Branches": []
         }

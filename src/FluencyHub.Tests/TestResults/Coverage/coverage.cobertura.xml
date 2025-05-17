@@ -1,249 +1,255 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<coverage line-rate="0.3296" branch-rate="0.3907" version="1.9" timestamp="1747486748" lines-covered="2821" lines-valid="8557" branches-covered="329" branches-valid="842">
+<coverage line-rate="0.3239" branch-rate="0.387" version="1.9" timestamp="1747489281" lines-covered="2851" lines-valid="8800" branches-covered="329" branches-valid="850">
   <sources>
     <source>/mnt/modulo3/src/</source>
   </sources>
   <packages>
-    <package name="FluencyHub.API" line-rate="0.4728" branch-rate="0.5178" complexity="221">
+    <package name="FluencyHub.API" line-rate="0.47409999999999997" branch-rate="0.5178" complexity="221">
       <classes>
-        <class name="Program/&lt;&lt;Main&gt;$&gt;d__0" filename="FluencyHub.API/Program.cs" line-rate="0.6718000000000001" branch-rate="0.46659999999999996" complexity="30">
+        <class name="Program/&lt;&lt;Main&gt;$&gt;d__0" filename="FluencyHub.API/Program.cs" line-rate="0.6865000000000001" branch-rate="0.46659999999999996" complexity="30">
           <methods>
-            <method name="MoveNext" signature="()" line-rate="0.6718000000000001" branch-rate="0.46659999999999996" complexity="30">
+            <method name="MoveNext" signature="()" line-rate="0.6865000000000001" branch-rate="0.46659999999999996" complexity="30">
               <lines>
-                <line number="9" hits="1" branch="False" />
                 <line number="12" hits="1" branch="False" />
-                <line number="13" hits="1" branch="False" />
-                <line number="14" hits="1" branch="False" />
+                <line number="15" hits="1" branch="False" />
+                <line number="16" hits="1" branch="False" />
                 <line number="17" hits="1" branch="False" />
                 <line number="18" hits="1" branch="False" />
+                <line number="19" hits="1" branch="False" />
                 <line number="20" hits="1" branch="False" />
                 <line number="23" hits="1" branch="False" />
-                <line number="25" hits="1" branch="True" condition-coverage="75% (3/4)">
-                  <conditions>
-                    <condition number="192" type="jump" coverage="50%" />
-                    <condition number="225" type="jump" coverage="100%" />
-                  </conditions>
-                </line>
+                <line number="24" hits="1" branch="False" />
                 <line number="26" hits="1" branch="False" />
-                <line number="27" hits="1" branch="False" />
-                <line number="28" hits="1" branch="False" />
-                <line number="31" hits="1" branch="False" />
+                <line number="29" hits="1" branch="False" />
+                <line number="31" hits="1" branch="True" condition-coverage="75% (3/4)">
+                  <conditions>
+                    <condition number="243" type="jump" coverage="50%" />
+                    <condition number="276" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
                 <line number="32" hits="1" branch="False" />
+                <line number="33" hits="1" branch="False" />
                 <line number="34" hits="1" branch="False" />
-                <line number="35" hits="1" branch="False" />
-                <line number="36" hits="1" branch="False" />
                 <line number="37" hits="1" branch="False" />
-                <line number="39" hits="1" branch="True" condition-coverage="50% (2/4)">
-                  <conditions>
-                    <condition number="384" type="jump" coverage="50%" />
-                    <condition number="417" type="jump" coverage="50%" />
-                  </conditions>
-                </line>
+                <line number="38" hits="1" branch="False" />
                 <line number="40" hits="1" branch="False" />
-                <line number="43" hits="1" branch="True" condition-coverage="50% (1/2)">
+                <line number="41" hits="1" branch="False" />
+                <line number="42" hits="1" branch="False" />
+                <line number="43" hits="1" branch="False" />
+                <line number="45" hits="1" branch="True" condition-coverage="50% (2/4)">
                   <conditions>
-                    <condition number="446" type="jump" coverage="50%" />
+                    <condition number="435" type="jump" coverage="50%" />
+                    <condition number="468" type="jump" coverage="50%" />
                   </conditions>
                 </line>
-                <line number="44" hits="1" branch="True" condition-coverage="50% (1/2)">
+                <line number="46" hits="1" branch="False" />
+                <line number="49" hits="1" branch="True" condition-coverage="50% (1/2)">
                   <conditions>
-                    <condition number="482" type="jump" coverage="50%" />
+                    <condition number="497" type="jump" coverage="50%" />
                   </conditions>
                 </line>
-                <line number="46" hits="1" branch="True" condition-coverage="50% (1/2)">
+                <line number="50" hits="1" branch="True" condition-coverage="50% (1/2)">
                   <conditions>
-                    <condition number="512" type="jump" coverage="50%" />
+                    <condition number="533" type="jump" coverage="50%" />
                   </conditions>
                 </line>
-                <line number="48" hits="1" branch="True" condition-coverage="100% (2/2)">
+                <line number="52" hits="1" branch="True" condition-coverage="50% (1/2)">
                   <conditions>
-                    <condition number="549" type="jump" coverage="100%" />
+                    <condition number="563" type="jump" coverage="50%" />
                   </conditions>
                 </line>
-                <line number="49" hits="1" branch="False" />
-                <line number="50" hits="1" branch="False" />
-                <line number="51" hits="1" branch="False" />
-                <line number="54" hits="1" branch="False" />
-                <line number="55" hits="1" branch="True" condition-coverage="50% (2/4)">
+                <line number="54" hits="1" branch="True" condition-coverage="100% (2/2)">
                   <conditions>
-                    <condition number="647" type="jump" coverage="50%" />
-                    <condition number="670" type="jump" coverage="50%" />
+                    <condition number="600" type="jump" coverage="100%" />
                   </conditions>
                 </line>
-                <line number="56" hits="0" branch="False" />
-                <line number="57" hits="0" branch="False" />
-                <line number="58" hits="0" branch="False" />
-                <line number="61" hits="1" branch="True" condition-coverage="50% (1/2)">
+                <line number="55" hits="1" branch="False" />
+                <line number="56" hits="1" branch="False" />
+                <line number="57" hits="1" branch="False" />
+                <line number="60" hits="1" branch="False" />
+                <line number="61" hits="1" branch="True" condition-coverage="50% (2/4)">
                   <conditions>
                     <condition number="698" type="jump" coverage="50%" />
+                    <condition number="721" type="jump" coverage="50%" />
                   </conditions>
                 </line>
-                <line number="62" hits="1" branch="True" condition-coverage="50% (1/2)">
+                <line number="62" hits="0" branch="False" />
+                <line number="63" hits="0" branch="False" />
+                <line number="64" hits="0" branch="False" />
+                <line number="67" hits="1" branch="True" condition-coverage="50% (1/2)">
                   <conditions>
-                    <condition number="731" type="jump" coverage="50%" />
+                    <condition number="749" type="jump" coverage="50%" />
                   </conditions>
                 </line>
-                <line number="64" hits="1" branch="False" />
-                <line number="66" hits="1" branch="False" />
-                <line number="67" hits="0" branch="False" />
-                <line number="68" hits="0" branch="False" />
-                <line number="69" hits="0" branch="False" />
-                <line number="71" hits="0" branch="False" />
-                <line number="73" hits="0" branch="True" condition-coverage="0% (0/2)">
+                <line number="68" hits="1" branch="True" condition-coverage="50% (1/2)">
                   <conditions>
-                    <condition number="959" type="jump" coverage="0%" />
+                    <condition number="782" type="jump" coverage="50%" />
                   </conditions>
                 </line>
+                <line number="70" hits="1" branch="False" />
+                <line number="72" hits="1" branch="False" />
+                <line number="73" hits="0" branch="False" />
                 <line number="74" hits="0" branch="False" />
                 <line number="75" hits="0" branch="False" />
-                <line number="76" hits="0" branch="False" />
-                <line number="78" hits="0" branch="True" condition-coverage="0% (0/2)">
+                <line number="77" hits="0" branch="False" />
+                <line number="79" hits="0" branch="True" condition-coverage="0% (0/2)">
                   <conditions>
-                    <condition number="1005" type="jump" coverage="0%" />
+                    <condition number="1010" type="jump" coverage="0%" />
                   </conditions>
                 </line>
-                <line number="79" hits="0" branch="False" />
                 <line number="80" hits="0" branch="False" />
                 <line number="81" hits="0" branch="False" />
-                <line number="83" hits="0" branch="True" condition-coverage="0% (0/2)">
+                <line number="82" hits="0" branch="False" />
+                <line number="84" hits="0" branch="True" condition-coverage="0% (0/2)">
                   <conditions>
-                    <condition number="1049" type="jump" coverage="0%" />
+                    <condition number="1056" type="jump" coverage="0%" />
                   </conditions>
                 </line>
-                <line number="84" hits="0" branch="False" />
                 <line number="85" hits="0" branch="False" />
                 <line number="86" hits="0" branch="False" />
-                <line number="88" hits="0" branch="False" />
-                <line number="89" hits="0" branch="False" />
-                <line number="90" hits="1" branch="False" />
-                <line number="91" hits="1" branch="False" />
-                <line number="92" hits="1" branch="False" />
-                <line number="93" hits="1" branch="False" />
-                <line number="94" hits="1" branch="False" />
+                <line number="87" hits="0" branch="False" />
+                <line number="89" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="1100" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="90" hits="0" branch="False" />
+                <line number="91" hits="0" branch="False" />
+                <line number="92" hits="0" branch="False" />
+                <line number="94" hits="0" branch="False" />
+                <line number="95" hits="0" branch="False" />
                 <line number="96" hits="1" branch="False" />
                 <line number="97" hits="1" branch="False" />
                 <line number="98" hits="1" branch="False" />
                 <line number="99" hits="1" branch="False" />
-                <line number="101" hits="1" branch="False" />
+                <line number="100" hits="1" branch="False" />
+                <line number="102" hits="1" branch="False" />
+                <line number="103" hits="1" branch="False" />
+                <line number="104" hits="1" branch="False" />
+                <line number="105" hits="1" branch="False" />
+                <line number="107" hits="1" branch="False" />
               </lines>
             </method>
           </methods>
           <lines>
-            <line number="9" hits="1" branch="False" />
             <line number="12" hits="1" branch="False" />
-            <line number="13" hits="1" branch="False" />
-            <line number="14" hits="1" branch="False" />
+            <line number="15" hits="1" branch="False" />
+            <line number="16" hits="1" branch="False" />
             <line number="17" hits="1" branch="False" />
             <line number="18" hits="1" branch="False" />
+            <line number="19" hits="1" branch="False" />
             <line number="20" hits="1" branch="False" />
             <line number="23" hits="1" branch="False" />
-            <line number="25" hits="1" branch="True" condition-coverage="75% (3/4)">
-              <conditions>
-                <condition number="192" type="jump" coverage="50%" />
-                <condition number="225" type="jump" coverage="100%" />
-              </conditions>
-            </line>
+            <line number="24" hits="1" branch="False" />
             <line number="26" hits="1" branch="False" />
-            <line number="27" hits="1" branch="False" />
-            <line number="28" hits="1" branch="False" />
-            <line number="31" hits="1" branch="False" />
+            <line number="29" hits="1" branch="False" />
+            <line number="31" hits="1" branch="True" condition-coverage="75% (3/4)">
+              <conditions>
+                <condition number="243" type="jump" coverage="50%" />
+                <condition number="276" type="jump" coverage="100%" />
+              </conditions>
+            </line>
             <line number="32" hits="1" branch="False" />
+            <line number="33" hits="1" branch="False" />
             <line number="34" hits="1" branch="False" />
-            <line number="35" hits="1" branch="False" />
-            <line number="36" hits="1" branch="False" />
             <line number="37" hits="1" branch="False" />
-            <line number="39" hits="1" branch="True" condition-coverage="50% (2/4)">
-              <conditions>
-                <condition number="384" type="jump" coverage="50%" />
-                <condition number="417" type="jump" coverage="50%" />
-              </conditions>
-            </line>
+            <line number="38" hits="1" branch="False" />
             <line number="40" hits="1" branch="False" />
-            <line number="43" hits="1" branch="True" condition-coverage="50% (1/2)">
+            <line number="41" hits="1" branch="False" />
+            <line number="42" hits="1" branch="False" />
+            <line number="43" hits="1" branch="False" />
+            <line number="45" hits="1" branch="True" condition-coverage="50% (2/4)">
               <conditions>
-                <condition number="446" type="jump" coverage="50%" />
+                <condition number="435" type="jump" coverage="50%" />
+                <condition number="468" type="jump" coverage="50%" />
               </conditions>
             </line>
-            <line number="44" hits="1" branch="True" condition-coverage="50% (1/2)">
+            <line number="46" hits="1" branch="False" />
+            <line number="49" hits="1" branch="True" condition-coverage="50% (1/2)">
               <conditions>
-                <condition number="482" type="jump" coverage="50%" />
+                <condition number="497" type="jump" coverage="50%" />
               </conditions>
             </line>
-            <line number="46" hits="1" branch="True" condition-coverage="50% (1/2)">
+            <line number="50" hits="1" branch="True" condition-coverage="50% (1/2)">
               <conditions>
-                <condition number="512" type="jump" coverage="50%" />
+                <condition number="533" type="jump" coverage="50%" />
               </conditions>
             </line>
-            <line number="48" hits="1" branch="True" condition-coverage="100% (2/2)">
+            <line number="52" hits="1" branch="True" condition-coverage="50% (1/2)">
               <conditions>
-                <condition number="549" type="jump" coverage="100%" />
+                <condition number="563" type="jump" coverage="50%" />
               </conditions>
             </line>
-            <line number="49" hits="1" branch="False" />
-            <line number="50" hits="1" branch="False" />
-            <line number="51" hits="1" branch="False" />
-            <line number="54" hits="1" branch="False" />
-            <line number="55" hits="1" branch="True" condition-coverage="50% (2/4)">
+            <line number="54" hits="1" branch="True" condition-coverage="100% (2/2)">
               <conditions>
-                <condition number="647" type="jump" coverage="50%" />
-                <condition number="670" type="jump" coverage="50%" />
+                <condition number="600" type="jump" coverage="100%" />
               </conditions>
             </line>
-            <line number="56" hits="0" branch="False" />
-            <line number="57" hits="0" branch="False" />
-            <line number="58" hits="0" branch="False" />
-            <line number="61" hits="1" branch="True" condition-coverage="50% (1/2)">
+            <line number="55" hits="1" branch="False" />
+            <line number="56" hits="1" branch="False" />
+            <line number="57" hits="1" branch="False" />
+            <line number="60" hits="1" branch="False" />
+            <line number="61" hits="1" branch="True" condition-coverage="50% (2/4)">
               <conditions>
                 <condition number="698" type="jump" coverage="50%" />
+                <condition number="721" type="jump" coverage="50%" />
               </conditions>
             </line>
-            <line number="62" hits="1" branch="True" condition-coverage="50% (1/2)">
+            <line number="62" hits="0" branch="False" />
+            <line number="63" hits="0" branch="False" />
+            <line number="64" hits="0" branch="False" />
+            <line number="67" hits="1" branch="True" condition-coverage="50% (1/2)">
               <conditions>
-                <condition number="731" type="jump" coverage="50%" />
+                <condition number="749" type="jump" coverage="50%" />
               </conditions>
             </line>
-            <line number="64" hits="1" branch="False" />
-            <line number="66" hits="1" branch="False" />
-            <line number="67" hits="0" branch="False" />
-            <line number="68" hits="0" branch="False" />
-            <line number="69" hits="0" branch="False" />
-            <line number="71" hits="0" branch="False" />
-            <line number="73" hits="0" branch="True" condition-coverage="0% (0/2)">
+            <line number="68" hits="1" branch="True" condition-coverage="50% (1/2)">
               <conditions>
-                <condition number="959" type="jump" coverage="0%" />
+                <condition number="782" type="jump" coverage="50%" />
               </conditions>
             </line>
+            <line number="70" hits="1" branch="False" />
+            <line number="72" hits="1" branch="False" />
+            <line number="73" hits="0" branch="False" />
             <line number="74" hits="0" branch="False" />
             <line number="75" hits="0" branch="False" />
-            <line number="76" hits="0" branch="False" />
-            <line number="78" hits="0" branch="True" condition-coverage="0% (0/2)">
+            <line number="77" hits="0" branch="False" />
+            <line number="79" hits="0" branch="True" condition-coverage="0% (0/2)">
               <conditions>
-                <condition number="1005" type="jump" coverage="0%" />
+                <condition number="1010" type="jump" coverage="0%" />
               </conditions>
             </line>
-            <line number="79" hits="0" branch="False" />
             <line number="80" hits="0" branch="False" />
             <line number="81" hits="0" branch="False" />
-            <line number="83" hits="0" branch="True" condition-coverage="0% (0/2)">
+            <line number="82" hits="0" branch="False" />
+            <line number="84" hits="0" branch="True" condition-coverage="0% (0/2)">
               <conditions>
-                <condition number="1049" type="jump" coverage="0%" />
+                <condition number="1056" type="jump" coverage="0%" />
               </conditions>
             </line>
-            <line number="84" hits="0" branch="False" />
             <line number="85" hits="0" branch="False" />
             <line number="86" hits="0" branch="False" />
-            <line number="88" hits="0" branch="False" />
-            <line number="89" hits="0" branch="False" />
-            <line number="90" hits="1" branch="False" />
-            <line number="91" hits="1" branch="False" />
-            <line number="92" hits="1" branch="False" />
-            <line number="93" hits="1" branch="False" />
-            <line number="94" hits="1" branch="False" />
+            <line number="87" hits="0" branch="False" />
+            <line number="89" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="1100" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="90" hits="0" branch="False" />
+            <line number="91" hits="0" branch="False" />
+            <line number="92" hits="0" branch="False" />
+            <line number="94" hits="0" branch="False" />
+            <line number="95" hits="0" branch="False" />
             <line number="96" hits="1" branch="False" />
             <line number="97" hits="1" branch="False" />
             <line number="98" hits="1" branch="False" />
             <line number="99" hits="1" branch="False" />
-            <line number="101" hits="1" branch="False" />
+            <line number="100" hits="1" branch="False" />
+            <line number="102" hits="1" branch="False" />
+            <line number="103" hits="1" branch="False" />
+            <line number="104" hits="1" branch="False" />
+            <line number="105" hits="1" branch="False" />
+            <line number="107" hits="1" branch="False" />
           </lines>
         </class>
         <class name="FluencyHub.API.DatabaseSeeder/&lt;SeedData&gt;d__0" filename="FluencyHub.API/DatabaseSeeder.cs" line-rate="0" branch-rate="0" complexity="4">
@@ -9676,6 +9682,250 @@
             <line number="34" hits="1" branch="False" />
             <line number="35" hits="1" branch="False" />
             <line number="36" hits="1" branch="False" />
+          </lines>
+        </class>
+      </classes>
+    </package>
+    <package name="FluencyHub.ContentManagement.Application" line-rate="0.1451" branch-rate="1" complexity="20">
+      <classes>
+        <class name="FluencyHub.ContentManagement.Application.DependencyInjection" filename="FluencyHub.ContentManagement.Application/DependencyInjection.cs" line-rate="1" branch-rate="1" complexity="1">
+          <methods>
+            <method name="AddContentManagementApplication" signature="(Microsoft.Extensions.DependencyInjection.IServiceCollection)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="11" hits="1" branch="False" />
+                <line number="12" hits="1" branch="False" />
+                <line number="13" hits="1" branch="False" />
+                <line number="14" hits="1" branch="False" />
+                <line number="15" hits="2" branch="False" />
+                <line number="17" hits="1" branch="False" />
+                <line number="19" hits="1" branch="False" />
+                <line number="21" hits="1" branch="False" />
+                <line number="22" hits="1" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="11" hits="1" branch="False" />
+            <line number="12" hits="1" branch="False" />
+            <line number="13" hits="1" branch="False" />
+            <line number="14" hits="1" branch="False" />
+            <line number="15" hits="2" branch="False" />
+            <line number="17" hits="1" branch="False" />
+            <line number="19" hits="1" branch="False" />
+            <line number="21" hits="1" branch="False" />
+            <line number="22" hits="1" branch="False" />
+          </lines>
+        </class>
+        <class name="FluencyHub.ContentManagement.Application.Common.Models.AuthResult" filename="FluencyHub.ContentManagement.Application/Common/Models/AuthResult.cs" line-rate="0" branch-rate="1" complexity="6">
+          <methods>
+            <method name="get_Succeeded" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="5" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_Token" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="6" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_Errors" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="7" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="Success" signature="(System.String)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="12" hits="0" branch="False" />
+                <line number="13" hits="0" branch="False" />
+                <line number="14" hits="0" branch="False" />
+                <line number="15" hits="0" branch="False" />
+                <line number="16" hits="0" branch="False" />
+                <line number="17" hits="0" branch="False" />
+                <line number="18" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="Failure" signature="(System.String[])" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="21" hits="0" branch="False" />
+                <line number="22" hits="0" branch="False" />
+                <line number="23" hits="0" branch="False" />
+                <line number="24" hits="0" branch="False" />
+                <line number="25" hits="0" branch="False" />
+                <line number="26" hits="0" branch="False" />
+                <line number="27" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="9" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="5" hits="0" branch="False" />
+            <line number="6" hits="0" branch="False" />
+            <line number="7" hits="0" branch="False" />
+            <line number="12" hits="0" branch="False" />
+            <line number="13" hits="0" branch="False" />
+            <line number="14" hits="0" branch="False" />
+            <line number="15" hits="0" branch="False" />
+            <line number="16" hits="0" branch="False" />
+            <line number="17" hits="0" branch="False" />
+            <line number="18" hits="0" branch="False" />
+            <line number="21" hits="0" branch="False" />
+            <line number="22" hits="0" branch="False" />
+            <line number="23" hits="0" branch="False" />
+            <line number="24" hits="0" branch="False" />
+            <line number="25" hits="0" branch="False" />
+            <line number="26" hits="0" branch="False" />
+            <line number="27" hits="0" branch="False" />
+            <line number="9" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="FluencyHub.ContentManagement.Application.Common.Models.CourseProgressInfo" filename="FluencyHub.ContentManagement.Application/Common/Models/CourseProgressInfo.cs" line-rate="0" branch-rate="1" complexity="3">
+          <methods>
+            <method name="get_CourseId" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="5" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_IsCompleted" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="6" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_LastUpdated" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="7" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="5" hits="0" branch="False" />
+            <line number="6" hits="0" branch="False" />
+            <line number="7" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="FluencyHub.ContentManagement.Application.Common.Exceptions.BadRequestException" filename="FluencyHub.ContentManagement.Application/Common/Exceptions/BadRequestException.cs" line-rate="0" branch-rate="1" complexity="3">
+          <methods>
+            <method name=".ctor" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="6" hits="0" branch="False" />
+                <line number="7" hits="0" branch="False" />
+                <line number="8" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(System.String)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="11" hits="0" branch="False" />
+                <line number="12" hits="0" branch="False" />
+                <line number="13" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(System.String,System.Exception)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="16" hits="0" branch="False" />
+                <line number="17" hits="0" branch="False" />
+                <line number="18" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="6" hits="0" branch="False" />
+            <line number="7" hits="0" branch="False" />
+            <line number="8" hits="0" branch="False" />
+            <line number="11" hits="0" branch="False" />
+            <line number="12" hits="0" branch="False" />
+            <line number="13" hits="0" branch="False" />
+            <line number="16" hits="0" branch="False" />
+            <line number="17" hits="0" branch="False" />
+            <line number="18" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="FluencyHub.ContentManagement.Application.Common.Exceptions.NotFoundException" filename="FluencyHub.ContentManagement.Application/Common/Exceptions/NotFoundException.cs" line-rate="0" branch-rate="1" complexity="4">
+          <methods>
+            <method name=".ctor" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="6" hits="0" branch="False" />
+                <line number="7" hits="0" branch="False" />
+                <line number="8" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(System.String)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="11" hits="0" branch="False" />
+                <line number="12" hits="0" branch="False" />
+                <line number="13" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(System.String,System.Exception)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="16" hits="0" branch="False" />
+                <line number="17" hits="0" branch="False" />
+                <line number="18" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(System.String,System.Object)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="21" hits="0" branch="False" />
+                <line number="22" hits="0" branch="False" />
+                <line number="23" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="6" hits="0" branch="False" />
+            <line number="7" hits="0" branch="False" />
+            <line number="8" hits="0" branch="False" />
+            <line number="11" hits="0" branch="False" />
+            <line number="12" hits="0" branch="False" />
+            <line number="13" hits="0" branch="False" />
+            <line number="16" hits="0" branch="False" />
+            <line number="17" hits="0" branch="False" />
+            <line number="18" hits="0" branch="False" />
+            <line number="21" hits="0" branch="False" />
+            <line number="22" hits="0" branch="False" />
+            <line number="23" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="FluencyHub.ContentManagement.Application.Common.Exceptions.ValidationException" filename="FluencyHub.ContentManagement.Application/Common/Exceptions/ValidationException.cs" line-rate="0" branch-rate="1" complexity="3">
+          <methods>
+            <method name="get_Errors" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="21" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="8" hits="0" branch="False" />
+                <line number="9" hits="0" branch="False" />
+                <line number="10" hits="0" branch="False" />
+                <line number="11" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(System.Collections.Generic.IEnumerable`1&lt;FluentValidation.Results.ValidationFailure&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="14" hits="0" branch="False" />
+                <line number="15" hits="0" branch="False" />
+                <line number="16" hits="0" branch="False" />
+                <line number="17" hits="0" branch="False" />
+                <line number="18" hits="0" branch="False" />
+                <line number="19" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="21" hits="0" branch="False" />
+            <line number="8" hits="0" branch="False" />
+            <line number="9" hits="0" branch="False" />
+            <line number="10" hits="0" branch="False" />
+            <line number="11" hits="0" branch="False" />
+            <line number="14" hits="0" branch="False" />
+            <line number="15" hits="0" branch="False" />
+            <line number="16" hits="0" branch="False" />
+            <line number="17" hits="0" branch="False" />
+            <line number="18" hits="0" branch="False" />
+            <line number="19" hits="0" branch="False" />
           </lines>
         </class>
       </classes>
@@ -24354,6 +24604,472 @@
         </class>
       </classes>
     </package>
+    <package name="FluencyHub.PaymentProcessing.Application" line-rate="0.0756" branch-rate="0" complexity="40">
+      <classes>
+        <class name="FluencyHub.PaymentProcessing.Application.DependencyInjection" filename="FluencyHub.PaymentProcessing.Application/DependencyInjection.cs" line-rate="1" branch-rate="1" complexity="1">
+          <methods>
+            <method name="AddPaymentProcessingApplication" signature="(Microsoft.Extensions.DependencyInjection.IServiceCollection)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="11" hits="1" branch="False" />
+                <line number="12" hits="1" branch="False" />
+                <line number="13" hits="1" branch="False" />
+                <line number="14" hits="1" branch="False" />
+                <line number="15" hits="2" branch="False" />
+                <line number="17" hits="1" branch="False" />
+                <line number="19" hits="1" branch="False" />
+                <line number="21" hits="1" branch="False" />
+                <line number="22" hits="1" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="11" hits="1" branch="False" />
+            <line number="12" hits="1" branch="False" />
+            <line number="13" hits="1" branch="False" />
+            <line number="14" hits="1" branch="False" />
+            <line number="15" hits="2" branch="False" />
+            <line number="17" hits="1" branch="False" />
+            <line number="19" hits="1" branch="False" />
+            <line number="21" hits="1" branch="False" />
+            <line number="22" hits="1" branch="False" />
+          </lines>
+        </class>
+        <class name="FluencyHub.PaymentProcessing.Application.Common.Models.AuthResult" filename="FluencyHub.PaymentProcessing.Application/Common/Models/AuthResult.cs" line-rate="0" branch-rate="1" complexity="6">
+          <methods>
+            <method name="get_Succeeded" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="5" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_Token" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="6" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_Errors" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="7" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="Success" signature="(System.String)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="12" hits="0" branch="False" />
+                <line number="13" hits="0" branch="False" />
+                <line number="14" hits="0" branch="False" />
+                <line number="15" hits="0" branch="False" />
+                <line number="16" hits="0" branch="False" />
+                <line number="17" hits="0" branch="False" />
+                <line number="18" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="Failure" signature="(System.String[])" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="21" hits="0" branch="False" />
+                <line number="22" hits="0" branch="False" />
+                <line number="23" hits="0" branch="False" />
+                <line number="24" hits="0" branch="False" />
+                <line number="25" hits="0" branch="False" />
+                <line number="26" hits="0" branch="False" />
+                <line number="27" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="9" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="5" hits="0" branch="False" />
+            <line number="6" hits="0" branch="False" />
+            <line number="7" hits="0" branch="False" />
+            <line number="12" hits="0" branch="False" />
+            <line number="13" hits="0" branch="False" />
+            <line number="14" hits="0" branch="False" />
+            <line number="15" hits="0" branch="False" />
+            <line number="16" hits="0" branch="False" />
+            <line number="17" hits="0" branch="False" />
+            <line number="18" hits="0" branch="False" />
+            <line number="21" hits="0" branch="False" />
+            <line number="22" hits="0" branch="False" />
+            <line number="23" hits="0" branch="False" />
+            <line number="24" hits="0" branch="False" />
+            <line number="25" hits="0" branch="False" />
+            <line number="26" hits="0" branch="False" />
+            <line number="27" hits="0" branch="False" />
+            <line number="9" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="FluencyHub.PaymentProcessing.Application.Common.Models.PaymentResult" filename="FluencyHub.PaymentProcessing.Application/Common/Models/PaymentResult.cs" line-rate="0" branch-rate="0" complexity="8">
+          <methods>
+            <method name="get_IsSuccessful" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="5" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_TransactionId" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="6" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_ErrorMessage" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="7" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="Success" signature="(System.String)" line-rate="0" branch-rate="0" complexity="2">
+              <lines>
+                <line number="17" hits="0" branch="False" />
+                <line number="18" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="9" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="19" hits="0" branch="False" />
+                <line number="21" hits="0" branch="False" />
+                <line number="22" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="Failure" signature="(System.String)" line-rate="0" branch-rate="0" complexity="2">
+              <lines>
+                <line number="25" hits="0" branch="False" />
+                <line number="26" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="9" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="27" hits="0" branch="False" />
+                <line number="29" hits="0" branch="False" />
+                <line number="30" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(System.Boolean,System.String,System.String)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="9" hits="0" branch="False" />
+                <line number="10" hits="0" branch="False" />
+                <line number="11" hits="0" branch="False" />
+                <line number="12" hits="0" branch="False" />
+                <line number="13" hits="0" branch="False" />
+                <line number="14" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="5" hits="0" branch="False" />
+            <line number="6" hits="0" branch="False" />
+            <line number="7" hits="0" branch="False" />
+            <line number="17" hits="0" branch="False" />
+            <line number="18" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="9" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="19" hits="0" branch="False" />
+            <line number="21" hits="0" branch="False" />
+            <line number="22" hits="0" branch="False" />
+            <line number="25" hits="0" branch="False" />
+            <line number="26" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="9" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="27" hits="0" branch="False" />
+            <line number="29" hits="0" branch="False" />
+            <line number="30" hits="0" branch="False" />
+            <line number="9" hits="0" branch="False" />
+            <line number="10" hits="0" branch="False" />
+            <line number="11" hits="0" branch="False" />
+            <line number="12" hits="0" branch="False" />
+            <line number="13" hits="0" branch="False" />
+            <line number="14" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="FluencyHub.PaymentProcessing.Application.Common.Models.PaymentStatusResult" filename="FluencyHub.PaymentProcessing.Application/Common/Models/PaymentStatusResult.cs" line-rate="0" branch-rate="0" complexity="6">
+          <methods>
+            <method name="get_TransactionId" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="5" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_Status" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="6" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_StatusMessage" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="7" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="Create" signature="(System.String,FluencyHub.PaymentProcessing.Application.Common.Models.PaymentStatus,System.String)" line-rate="0" branch-rate="0" complexity="2">
+              <lines>
+                <line number="15" hits="0" branch="False" />
+                <line number="16" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="9" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="17" hits="0" branch="False" />
+                <line number="19" hits="0" branch="False" />
+                <line number="20" hits="0" branch="False" />
+                <line number="21" hits="0" branch="False" />
+                <line number="22" hits="0" branch="False" />
+                <line number="23" hits="0" branch="False" />
+                <line number="24" hits="0" branch="False" />
+                <line number="25" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="9" hits="0" branch="False" />
+                <line number="10" hits="0" branch="False" />
+                <line number="11" hits="0" branch="False" />
+                <line number="12" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="5" hits="0" branch="False" />
+            <line number="6" hits="0" branch="False" />
+            <line number="7" hits="0" branch="False" />
+            <line number="15" hits="0" branch="False" />
+            <line number="16" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="9" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="17" hits="0" branch="False" />
+            <line number="19" hits="0" branch="False" />
+            <line number="20" hits="0" branch="False" />
+            <line number="21" hits="0" branch="False" />
+            <line number="22" hits="0" branch="False" />
+            <line number="23" hits="0" branch="False" />
+            <line number="24" hits="0" branch="False" />
+            <line number="25" hits="0" branch="False" />
+            <line number="9" hits="0" branch="False" />
+            <line number="10" hits="0" branch="False" />
+            <line number="11" hits="0" branch="False" />
+            <line number="12" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="FluencyHub.PaymentProcessing.Application.Common.Models.RefundResult" filename="FluencyHub.PaymentProcessing.Application/Common/Models/RefundResult.cs" line-rate="0" branch-rate="0" complexity="9">
+          <methods>
+            <method name="get_IsSuccessful" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="5" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_OriginalTransactionId" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="6" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_RefundTransactionId" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="7" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_RefundAmount" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="8" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_ErrorMessage" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="9" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="Success" signature="(System.String,System.String,System.Decimal)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="21" hits="0" branch="False" />
+                <line number="22" hits="0" branch="False" />
+                <line number="23" hits="0" branch="False" />
+                <line number="24" hits="0" branch="False" />
+                <line number="26" hits="0" branch="False" />
+                <line number="27" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="Failure" signature="(System.String,System.String)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="30" hits="0" branch="False" />
+                <line number="31" hits="0" branch="False" />
+                <line number="32" hits="0" branch="False" />
+                <line number="34" hits="0" branch="False" />
+                <line number="35" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(System.Boolean,System.String,System.String,System.Decimal,System.String)" line-rate="0" branch-rate="0" complexity="2">
+              <lines>
+                <line number="11" hits="0" branch="False" />
+                <line number="12" hits="0" branch="False" />
+                <line number="13" hits="0" branch="False" />
+                <line number="14" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="19" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="15" hits="0" branch="False" />
+                <line number="16" hits="0" branch="False" />
+                <line number="17" hits="0" branch="False" />
+                <line number="18" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="5" hits="0" branch="False" />
+            <line number="6" hits="0" branch="False" />
+            <line number="7" hits="0" branch="False" />
+            <line number="8" hits="0" branch="False" />
+            <line number="9" hits="0" branch="False" />
+            <line number="21" hits="0" branch="False" />
+            <line number="22" hits="0" branch="False" />
+            <line number="23" hits="0" branch="False" />
+            <line number="24" hits="0" branch="False" />
+            <line number="26" hits="0" branch="False" />
+            <line number="27" hits="0" branch="False" />
+            <line number="30" hits="0" branch="False" />
+            <line number="31" hits="0" branch="False" />
+            <line number="32" hits="0" branch="False" />
+            <line number="34" hits="0" branch="False" />
+            <line number="35" hits="0" branch="False" />
+            <line number="11" hits="0" branch="False" />
+            <line number="12" hits="0" branch="False" />
+            <line number="13" hits="0" branch="False" />
+            <line number="14" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="19" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="15" hits="0" branch="False" />
+            <line number="16" hits="0" branch="False" />
+            <line number="17" hits="0" branch="False" />
+            <line number="18" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="FluencyHub.PaymentProcessing.Application.Common.Exceptions.BadRequestException" filename="FluencyHub.PaymentProcessing.Application/Common/Exceptions/BadRequestException.cs" line-rate="0" branch-rate="1" complexity="3">
+          <methods>
+            <method name=".ctor" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="6" hits="0" branch="False" />
+                <line number="7" hits="0" branch="False" />
+                <line number="8" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(System.String)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="11" hits="0" branch="False" />
+                <line number="12" hits="0" branch="False" />
+                <line number="13" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(System.String,System.Exception)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="16" hits="0" branch="False" />
+                <line number="17" hits="0" branch="False" />
+                <line number="18" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="6" hits="0" branch="False" />
+            <line number="7" hits="0" branch="False" />
+            <line number="8" hits="0" branch="False" />
+            <line number="11" hits="0" branch="False" />
+            <line number="12" hits="0" branch="False" />
+            <line number="13" hits="0" branch="False" />
+            <line number="16" hits="0" branch="False" />
+            <line number="17" hits="0" branch="False" />
+            <line number="18" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="FluencyHub.PaymentProcessing.Application.Common.Exceptions.NotFoundException" filename="FluencyHub.PaymentProcessing.Application/Common/Exceptions/NotFoundException.cs" line-rate="0" branch-rate="1" complexity="4">
+          <methods>
+            <method name=".ctor" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="6" hits="0" branch="False" />
+                <line number="7" hits="0" branch="False" />
+                <line number="8" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(System.String)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="11" hits="0" branch="False" />
+                <line number="12" hits="0" branch="False" />
+                <line number="13" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(System.String,System.Exception)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="16" hits="0" branch="False" />
+                <line number="17" hits="0" branch="False" />
+                <line number="18" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(System.String,System.Object)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="21" hits="0" branch="False" />
+                <line number="22" hits="0" branch="False" />
+                <line number="23" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="6" hits="0" branch="False" />
+            <line number="7" hits="0" branch="False" />
+            <line number="8" hits="0" branch="False" />
+            <line number="11" hits="0" branch="False" />
+            <line number="12" hits="0" branch="False" />
+            <line number="13" hits="0" branch="False" />
+            <line number="16" hits="0" branch="False" />
+            <line number="17" hits="0" branch="False" />
+            <line number="18" hits="0" branch="False" />
+            <line number="21" hits="0" branch="False" />
+            <line number="22" hits="0" branch="False" />
+            <line number="23" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="FluencyHub.PaymentProcessing.Application.Common.Exceptions.ValidationException" filename="FluencyHub.PaymentProcessing.Application/Common/Exceptions/ValidationException.cs" line-rate="0" branch-rate="1" complexity="3">
+          <methods>
+            <method name="get_Errors" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="21" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="8" hits="0" branch="False" />
+                <line number="9" hits="0" branch="False" />
+                <line number="10" hits="0" branch="False" />
+                <line number="11" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(System.Collections.Generic.IEnumerable`1&lt;FluentValidation.Results.ValidationFailure&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="14" hits="0" branch="False" />
+                <line number="15" hits="0" branch="False" />
+                <line number="16" hits="0" branch="False" />
+                <line number="17" hits="0" branch="False" />
+                <line number="18" hits="0" branch="False" />
+                <line number="19" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="21" hits="0" branch="False" />
+            <line number="8" hits="0" branch="False" />
+            <line number="9" hits="0" branch="False" />
+            <line number="10" hits="0" branch="False" />
+            <line number="11" hits="0" branch="False" />
+            <line number="14" hits="0" branch="False" />
+            <line number="15" hits="0" branch="False" />
+            <line number="16" hits="0" branch="False" />
+            <line number="17" hits="0" branch="False" />
+            <line number="18" hits="0" branch="False" />
+            <line number="19" hits="0" branch="False" />
+          </lines>
+        </class>
+      </classes>
+    </package>
     <package name="FluencyHub.PaymentProcessing.Domain" line-rate="0.9351999999999999" branch-rate="0.8887999999999999" complexity="84">
       <classes>
         <class name="FluencyHub.PaymentProcessing.Domain.CardDetails" filename="FluencyHub.PaymentProcessing.Domain/CardDetails.cs" line-rate="0.9393" branch-rate="0.8571" complexity="47">
@@ -25006,6 +25722,226 @@
             <line number="14" hits="1" branch="False" />
             <line number="15" hits="1" branch="False" />
             <line number="16" hits="1" branch="False" />
+          </lines>
+        </class>
+      </classes>
+    </package>
+    <package name="FluencyHub.StudentManagement.Application" line-rate="0.1525" branch-rate="1" complexity="17">
+      <classes>
+        <class name="FluencyHub.StudentManagement.Application.DependencyInjection" filename="FluencyHub.StudentManagement.Application/DependencyInjection.cs" line-rate="1" branch-rate="1" complexity="1">
+          <methods>
+            <method name="AddStudentManagementApplication" signature="(Microsoft.Extensions.DependencyInjection.IServiceCollection)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="11" hits="1" branch="False" />
+                <line number="12" hits="1" branch="False" />
+                <line number="13" hits="1" branch="False" />
+                <line number="14" hits="1" branch="False" />
+                <line number="15" hits="2" branch="False" />
+                <line number="17" hits="1" branch="False" />
+                <line number="19" hits="1" branch="False" />
+                <line number="21" hits="1" branch="False" />
+                <line number="22" hits="1" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="11" hits="1" branch="False" />
+            <line number="12" hits="1" branch="False" />
+            <line number="13" hits="1" branch="False" />
+            <line number="14" hits="1" branch="False" />
+            <line number="15" hits="2" branch="False" />
+            <line number="17" hits="1" branch="False" />
+            <line number="19" hits="1" branch="False" />
+            <line number="21" hits="1" branch="False" />
+            <line number="22" hits="1" branch="False" />
+          </lines>
+        </class>
+        <class name="FluencyHub.StudentManagement.Application.Common.Models.AuthResult" filename="FluencyHub.StudentManagement.Application/Common/Models/AuthResult.cs" line-rate="0" branch-rate="1" complexity="6">
+          <methods>
+            <method name="get_Succeeded" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="5" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_Token" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="6" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_Errors" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="7" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="Success" signature="(System.String)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="12" hits="0" branch="False" />
+                <line number="13" hits="0" branch="False" />
+                <line number="14" hits="0" branch="False" />
+                <line number="15" hits="0" branch="False" />
+                <line number="16" hits="0" branch="False" />
+                <line number="17" hits="0" branch="False" />
+                <line number="18" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="Failure" signature="(System.String[])" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="21" hits="0" branch="False" />
+                <line number="22" hits="0" branch="False" />
+                <line number="23" hits="0" branch="False" />
+                <line number="24" hits="0" branch="False" />
+                <line number="25" hits="0" branch="False" />
+                <line number="26" hits="0" branch="False" />
+                <line number="27" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="9" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="5" hits="0" branch="False" />
+            <line number="6" hits="0" branch="False" />
+            <line number="7" hits="0" branch="False" />
+            <line number="12" hits="0" branch="False" />
+            <line number="13" hits="0" branch="False" />
+            <line number="14" hits="0" branch="False" />
+            <line number="15" hits="0" branch="False" />
+            <line number="16" hits="0" branch="False" />
+            <line number="17" hits="0" branch="False" />
+            <line number="18" hits="0" branch="False" />
+            <line number="21" hits="0" branch="False" />
+            <line number="22" hits="0" branch="False" />
+            <line number="23" hits="0" branch="False" />
+            <line number="24" hits="0" branch="False" />
+            <line number="25" hits="0" branch="False" />
+            <line number="26" hits="0" branch="False" />
+            <line number="27" hits="0" branch="False" />
+            <line number="9" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="FluencyHub.StudentManagement.Application.Common.Exceptions.BadRequestException" filename="FluencyHub.StudentManagement.Application/Common/Exceptions/BadRequestException.cs" line-rate="0" branch-rate="1" complexity="3">
+          <methods>
+            <method name=".ctor" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="6" hits="0" branch="False" />
+                <line number="7" hits="0" branch="False" />
+                <line number="8" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(System.String)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="11" hits="0" branch="False" />
+                <line number="12" hits="0" branch="False" />
+                <line number="13" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(System.String,System.Exception)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="16" hits="0" branch="False" />
+                <line number="17" hits="0" branch="False" />
+                <line number="18" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="6" hits="0" branch="False" />
+            <line number="7" hits="0" branch="False" />
+            <line number="8" hits="0" branch="False" />
+            <line number="11" hits="0" branch="False" />
+            <line number="12" hits="0" branch="False" />
+            <line number="13" hits="0" branch="False" />
+            <line number="16" hits="0" branch="False" />
+            <line number="17" hits="0" branch="False" />
+            <line number="18" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="FluencyHub.StudentManagement.Application.Common.Exceptions.NotFoundException" filename="FluencyHub.StudentManagement.Application/Common/Exceptions/NotFoundException.cs" line-rate="0" branch-rate="1" complexity="4">
+          <methods>
+            <method name=".ctor" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="6" hits="0" branch="False" />
+                <line number="7" hits="0" branch="False" />
+                <line number="8" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(System.String)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="11" hits="0" branch="False" />
+                <line number="12" hits="0" branch="False" />
+                <line number="13" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(System.String,System.Exception)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="16" hits="0" branch="False" />
+                <line number="17" hits="0" branch="False" />
+                <line number="18" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(System.String,System.Object)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="21" hits="0" branch="False" />
+                <line number="22" hits="0" branch="False" />
+                <line number="23" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="6" hits="0" branch="False" />
+            <line number="7" hits="0" branch="False" />
+            <line number="8" hits="0" branch="False" />
+            <line number="11" hits="0" branch="False" />
+            <line number="12" hits="0" branch="False" />
+            <line number="13" hits="0" branch="False" />
+            <line number="16" hits="0" branch="False" />
+            <line number="17" hits="0" branch="False" />
+            <line number="18" hits="0" branch="False" />
+            <line number="21" hits="0" branch="False" />
+            <line number="22" hits="0" branch="False" />
+            <line number="23" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="FluencyHub.StudentManagement.Application.Common.Exceptions.ValidationException" filename="FluencyHub.StudentManagement.Application/Common/Exceptions/ValidationException.cs" line-rate="0" branch-rate="1" complexity="3">
+          <methods>
+            <method name="get_Errors" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="21" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="8" hits="0" branch="False" />
+                <line number="9" hits="0" branch="False" />
+                <line number="10" hits="0" branch="False" />
+                <line number="11" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(System.Collections.Generic.IEnumerable`1&lt;FluentValidation.Results.ValidationFailure&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="14" hits="0" branch="False" />
+                <line number="15" hits="0" branch="False" />
+                <line number="16" hits="0" branch="False" />
+                <line number="17" hits="0" branch="False" />
+                <line number="18" hits="0" branch="False" />
+                <line number="19" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="21" hits="0" branch="False" />
+            <line number="8" hits="0" branch="False" />
+            <line number="9" hits="0" branch="False" />
+            <line number="10" hits="0" branch="False" />
+            <line number="11" hits="0" branch="False" />
+            <line number="14" hits="0" branch="False" />
+            <line number="15" hits="0" branch="False" />
+            <line number="16" hits="0" branch="False" />
+            <line number="17" hits="0" branch="False" />
+            <line number="18" hits="0" branch="False" />
+            <line number="19" hits="0" branch="False" />
           </lines>
         </class>
       </classes>

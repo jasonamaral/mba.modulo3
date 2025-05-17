@@ -1,6 +1,9 @@
 using FluencyHub.API;
 using FluencyHub.API.Middleware;
 using FluencyHub.Application;
+using FluencyHub.ContentManagement.Application;
+using FluencyHub.StudentManagement.Application;
+using FluencyHub.PaymentProcessing.Application;
 using FluencyHub.Infrastructure;
 using FluencyHub.Infrastructure.Identity;
 using FluencyHub.Infrastructure.Persistence;
@@ -10,6 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
 builder.Services.AddApplicationServices();
+builder.Services.AddContentManagementApplication();
+builder.Services.AddStudentManagementApplication();
+builder.Services.AddPaymentProcessingApplication();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApiServices(builder.Configuration);
 

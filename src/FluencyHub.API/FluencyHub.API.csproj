@@ -38,6 +38,9 @@
     <ProjectReference Include="..\FluencyHub.StudentManagement.Domain\FluencyHub.StudentManagement.Domain.csproj" />
     <ProjectReference Include="..\FluencyHub.ContentManagement.Domain\FluencyHub.ContentManagement.Domain.csproj" />
     <ProjectReference Include="..\FluencyHub.PaymentProcessing.Domain\FluencyHub.PaymentProcessing.Domain.csproj" />
+    <ProjectReference Include="..\FluencyHub.ContentManagement.Application\FluencyHub.ContentManagement.Application.csproj" />
+    <ProjectReference Include="..\FluencyHub.StudentManagement.Application\FluencyHub.StudentManagement.Application.csproj" />
+    <ProjectReference Include="..\FluencyHub.PaymentProcessing.Application\FluencyHub.PaymentProcessing.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
