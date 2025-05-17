@@ -1,4 +1,6 @@
-using FluencyHub.Domain.StudentManagement;
+using FluencyHub.StudentManagement.Domain;
+using System;
+using Xunit;
 
 namespace FluencyHub.Tests.Domain.StudentManagement;
 
@@ -62,6 +64,28 @@ public class StudentTests
         Assert.Equal(newDateOfBirth, student.DateOfBirth);
         Assert.Equal(newPhoneNumber, student.PhoneNumber);
         Assert.Equal($"{newFirstName} {newLastName}", student.FullName);
+    }
+
+    [Theory]
+    [InlineData("", "Smith")]
+    [InlineData("Jane", "")]
+    public void UpdateDetails_WithInvalidParameters_ShouldThrowArgumentException(
+        string firstName,
+        string lastName)
+    {
+        // Arrange
+        var student = new Student(
+            "John",
+            "Doe",
+            "john.doe@example.com",
+            new DateTime(1990, 1, 1));
+
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => student.UpdateDetails(
+            firstName,
+            lastName,
+            new DateTime(1992, 2, 2),
+            "987654321"));
     }
 
     [Fact]
@@ -190,6 +214,202 @@ public class StudentTests
         Assert.True(completedEnrollment.CompletionDate <= afterUpdate);
         Assert.True(completedEnrollment.UpdatedAt >= beforeUpdate);
         Assert.True(completedEnrollment.UpdatedAt <= afterUpdate);
+    }
+
+    [Fact]
+    public void RecordProgress_WithValidParameters_ShouldAddProgressToHistory()
+    {
+        // Arrange
+        var student = new Student(
+            "John",
+            "Doe",
+            "john.doe@example.com",
+            new DateTime(1990, 1, 1));
+
+        var courseId = Guid.NewGuid();
+        var lessonId = Guid.NewGuid();
+        
+        // Enroll student in the course first
+        var enrollment = student.EnrollInCourse(courseId, 99.99m);
+        
+        // Precisamos ativar a matrícula primeiro
+        enrollment.ActivateEnrollment();
+
+        // Act
+        student.RecordProgress(courseId, lessonId);
+
+        // Assert
+        Assert.NotNull(student.UpdatedAt);
+        // Verificar se existe uma lição completa para o curso
+        Assert.True(student.LearningHistory.HasCompletedLesson(courseId, lessonId));
+    }
+
+    [Fact]
+    public void RecordProgress_WhenNotEnrolled_ShouldThrowInvalidOperationException()
+    {
+        // Arrange
+        var student = new Student(
+            "John",
+            "Doe",
+            "john.doe@example.com",
+            new DateTime(1990, 1, 1));
+
+        var courseId = Guid.NewGuid();
+        var lessonId = Guid.NewGuid();
+
+        // Act & Assert
+        Assert.Throws<InvalidOperationException>(() => student.RecordProgress(courseId, lessonId));
+    }
+
+    [Fact]
+    public void Activate_WhenInactive_ShouldActivateStudent()
+    {
+        // Arrange
+        var student = new Student(
+            "John",
+            "Doe",
+            "john.doe@example.com",
+            new DateTime(1990, 1, 1));
+        
+        student.Deactivate();
+        Assert.False(student.IsActive);
+        
+        // Act
+        student.Activate();
+
+        // Assert
+        Assert.True(student.IsActive);
+        Assert.NotNull(student.UpdatedAt);
+    }
+
+    [Fact]
+    public void Activate_WhenAlreadyActive_ShouldNotChangeState()
+    {
+        // Arrange
+        var student = new Student(
+            "John",
+            "Doe",
+            "john.doe@example.com",
+            new DateTime(1990, 1, 1));
+        
+        var originalUpdatedAt = student.UpdatedAt;
+        Assert.True(student.IsActive);
+        
+        // Wait to ensure timestamps would be different
+        System.Threading.Thread.Sleep(10);
+        
+        // Act
+        student.Activate();
+
+        // Assert
+        Assert.True(student.IsActive);
+        Assert.Equal(originalUpdatedAt, student.UpdatedAt);
+    }
+
+    [Fact]
+    public void Deactivate_WhenActive_ShouldDeactivateStudent()
+    {
+        // Arrange
+        var student = new Student(
+            "John",
+            "Doe",
+            "john.doe@example.com",
+            new DateTime(1990, 1, 1));
+        
+        Assert.True(student.IsActive);
+        
+        // Act
+        student.Deactivate();
+
+        // Assert
+        Assert.False(student.IsActive);
+        Assert.NotNull(student.UpdatedAt);
+    }
+
+    [Fact]
+    public void Deactivate_WhenAlreadyInactive_ShouldNotChangeState()
+    {
+        // Arrange
+        var student = new Student(
+            "John",
+            "Doe",
+            "john.doe@example.com",
+            new DateTime(1990, 1, 1));
+        
+        student.Deactivate();
+        var originalUpdatedAt = student.UpdatedAt;
+        Assert.False(student.IsActive);
+        
+        // Wait to ensure timestamps would be different
+        System.Threading.Thread.Sleep(10);
+        
+        // Act
+        student.Deactivate();
+
+        // Assert
+        Assert.False(student.IsActive);
+        Assert.Equal(originalUpdatedAt, student.UpdatedAt);
+    }
+
+    [Fact]
+    public void FullName_ShouldReturnCombinedFirstAndLastName()
+    {
+        // Arrange
+        var firstName = "John";
+        var lastName = "Doe";
+        var student = new Student(
+            firstName,
+            lastName,
+            "john.doe@example.com",
+            new DateTime(1990, 1, 1));
+
+        // Act & Assert
+        Assert.Equal($"{firstName} {lastName}", student.FullName);
+    }
+
+    [Fact]
+    public void Constructor_WithValidParameters_ShouldCreateStudent()
+    {
+        // Arrange
+        var firstName = "John";
+        var lastName = "Doe";
+        var email = "john.doe@example.com";
+        var dateOfBirth = new DateTime(1990, 1, 1);
+        var phoneNumber = "123456789";
+
+        // Act
+        var student = new Student(firstName, lastName, email, dateOfBirth, phoneNumber);
+
+        // Assert
+        Assert.Equal(firstName, student.FirstName);
+        Assert.Equal(lastName, student.LastName);
+        Assert.Equal(email, student.Email);
+        Assert.Equal(dateOfBirth, student.DateOfBirth);
+        Assert.Equal(phoneNumber, student.PhoneNumber);
+        Assert.True(student.IsActive);
+        Assert.NotNull(student.LearningHistory);
+        Assert.Empty(student.Enrollments);
+        Assert.Empty(student.Certificates);
+        Assert.NotEqual(Guid.Empty, student.Id);
+        Assert.NotNull(student.CreatedAt);
+        Assert.NotNull(student.UpdatedAt);
+    }
+
+    [Theory]
+    [InlineData("", "Doe", "john.doe@example.com")]
+    [InlineData("John", "", "john.doe@example.com")]
+    [InlineData("John", "Doe", "")]
+    public void Constructor_WithInvalidParameters_ShouldThrowArgumentException(
+        string firstName,
+        string lastName,
+        string email)
+    {
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => new Student(
+            firstName,
+            lastName,
+            email,
+            new DateTime(1990, 1, 1)));
     }
 
     private Student CreateValidStudent()
