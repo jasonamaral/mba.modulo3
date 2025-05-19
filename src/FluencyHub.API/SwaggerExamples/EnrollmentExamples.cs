@@ -30,7 +30,7 @@ public class EnrollmentDtoExample : IExamplesProvider<EnrollmentDto>
             CourseId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
             CourseName = "English for Beginners",
             Price = 99.99m,
-            Status = EnrollmentStatus.PendingPayment.ToString(),
+            Status = StatusMatricula.AguardandoPagamento.ToString(),
             EnrollmentDate = DateTime.Now.AddDays(-7),
             ActivationDate = null,
             CompletionDate = null

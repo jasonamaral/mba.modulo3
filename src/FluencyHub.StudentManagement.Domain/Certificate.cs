@@ -23,7 +23,7 @@ public class Certificate : BaseEntity
     public Certificate(Guid studentId, Guid courseId, string title)
     {
         if (string.IsNullOrWhiteSpace(title))
-            throw new ArgumentException("Certificate title cannot be empty", nameof(title));
+            throw new ArgumentException("O título do certificado não pode estar vazio", nameof(title));
 
         StudentId = studentId;
         CourseId = courseId;
@@ -35,7 +35,7 @@ public class Certificate : BaseEntity
     public void UpdateTitle(string title)
     {
         if (string.IsNullOrWhiteSpace(title))
-            throw new ArgumentException("Certificate title cannot be empty", nameof(title));
+            throw new ArgumentException("O título do certificado não pode estar vazio", nameof(title));
 
         Title = title;
         UpdatedAt = DateTime.UtcNow;

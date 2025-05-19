@@ -104,7 +104,7 @@ public class StudentTests
         Assert.Equal(courseId, enrollment.CourseId);
         Assert.Equal(student.Id, enrollment.StudentId);
         Assert.Equal(price, enrollment.Price);
-        Assert.Equal(EnrollmentStatus.PendingPayment, enrollment.Status);
+        Assert.Equal(StatusMatricula.AguardandoPagamento, enrollment.Status);
     }
 
     [Fact]

@@ -3,7 +3,7 @@ namespace FluencyHub.PaymentProcessing.Application.Common.Models;
 public class PaymentStatusResult
 {
     public string TransactionId { get; private set; }
-    public PaymentStatus Status { get; private set; }
+    public StatusPagamento Status { get; private set; }
     public string? StatusMessage { get; private set; }
     
     private PaymentStatusResult() 
@@ -11,7 +11,7 @@ public class PaymentStatusResult
         TransactionId = string.Empty;
     }
     
-    public static PaymentStatusResult Create(string transactionId, PaymentStatus status, string? statusMessage = null)
+    public static PaymentStatusResult Create(string transactionId, StatusPagamento status, string? statusMessage = null)
     {
         if (string.IsNullOrWhiteSpace(transactionId))
             throw new ArgumentException("Transaction ID cannot be empty", nameof(transactionId));
@@ -25,13 +25,13 @@ public class PaymentStatusResult
     }
 }
 
-public enum PaymentStatus
+public enum StatusPagamento
 {
-    Pending,
-    Authorized,
-    Completed,
-    Failed,
-    Refunded,
-    Cancelled,
-    Unknown
+    Pendente,
+    Autorizado,
+    Concluido,
+    Falha,
+    Reembolsado,
+    Cancelado,
+    Desconhecido
 } 

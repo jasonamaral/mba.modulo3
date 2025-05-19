@@ -5,6 +5,7 @@ using FluencyHub.Application.Common.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Moq;
+using FluentValidation.Results;
 
 namespace FluencyHub.Tests.API.Middleware;
 
@@ -50,7 +51,11 @@ public class ExceptionHandlingMiddlewareTests
     public async Task InvokeAsync_ValidationException_Returns400BadRequest()
     {
         // Arrange
-        var validationException = new ValidationException();
+        var validationFailures = new List<ValidationFailure>
+        {
+            new ValidationFailure("Name", "O nome é obrigatório")
+        };
+        var validationException = new ValidationException(validationFailures);
         _requestDelegate.SetException(validationException);
         
         // Act
@@ -63,7 +68,7 @@ public class ExceptionHandlingMiddlewareTests
         var responseBody = await new StreamReader(_httpContext.Response.Body).ReadToEndAsync();
         var response = JsonSerializer.Deserialize<JsonElement>(responseBody);
         
-        Assert.Equal("Bad Request", response.GetProperty("title").GetString());
+        Assert.Equal("Requisição Inválida", response.GetProperty("title").GetString());
         Assert.Equal(400, response.GetProperty("status").GetInt32());
     }
     
@@ -84,16 +89,16 @@ public class ExceptionHandlingMiddlewareTests
         var responseBody = await new StreamReader(_httpContext.Response.Body).ReadToEndAsync();
         var response = JsonSerializer.Deserialize<JsonElement>(responseBody);
         
-        Assert.Equal("Server Error", response.GetProperty("title").GetString());
+        Assert.Equal("Erro no Servidor", response.GetProperty("title").GetString());
         Assert.Equal(404, response.GetProperty("status").GetInt32());
-        Assert.Contains("Entity not found", response.GetProperty("detail").GetString());
+        Assert.Contains("Entidade não encontrada", response.GetProperty("detail").GetString());
     }
     
     [Fact]
     public async Task InvokeAsync_UnauthorizedAccessException_Returns401Unauthorized()
     {
         // Arrange
-        var unauthorizedException = new UnauthorizedAccessException("Not authorized");
+        var unauthorizedException = new UnauthorizedAccessException("Acesso não autorizado");
         _requestDelegate.SetException(unauthorizedException);
         
         // Act
@@ -106,16 +111,16 @@ public class ExceptionHandlingMiddlewareTests
         var responseBody = await new StreamReader(_httpContext.Response.Body).ReadToEndAsync();
         var response = JsonSerializer.Deserialize<JsonElement>(responseBody);
         
-        Assert.Equal("Server Error", response.GetProperty("title").GetString());
+        Assert.Equal("Erro no Servidor", response.GetProperty("title").GetString());
         Assert.Equal(401, response.GetProperty("status").GetInt32());
-        Assert.Equal("Not authorized", response.GetProperty("detail").GetString());
+        Assert.Equal("Acesso não autorizado", response.GetProperty("detail").GetString());
     }
     
     [Fact]
     public async Task InvokeAsync_GenericException_Returns500InternalServerError()
     {
         // Arrange
-        var genericException = new Exception("Something went wrong");
+        var genericException = new Exception("Um erro inesperado ocorreu");
         _requestDelegate.SetException(genericException);
         
         // Act
@@ -128,9 +133,9 @@ public class ExceptionHandlingMiddlewareTests
         var responseBody = await new StreamReader(_httpContext.Response.Body).ReadToEndAsync();
         var response = JsonSerializer.Deserialize<JsonElement>(responseBody);
         
-        Assert.Equal("Server Error", response.GetProperty("title").GetString());
+        Assert.Equal("Erro no Servidor", response.GetProperty("title").GetString());
         Assert.Equal(500, response.GetProperty("status").GetInt32());
-        Assert.Equal("Something went wrong", response.GetProperty("detail").GetString());
+        Assert.Equal("Um erro inesperado ocorreu", response.GetProperty("detail").GetString());
     }
     
     [Fact]

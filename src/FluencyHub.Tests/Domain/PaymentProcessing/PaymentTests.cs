@@ -33,7 +33,7 @@ public class PaymentTests
         Assert.Equal(_enrollmentId, payment.EnrollmentId);
         Assert.Equal(_amount, payment.Amount);
         Assert.Equal(_validCardDetails, payment.CardDetails);
-        Assert.Equal(PaymentStatus.Pending, payment.Status);
+        Assert.Equal(StatusPagamento.Pendente, payment.Status);
         Assert.True(DateTime.UtcNow.Subtract(payment.PaymentDate).TotalSeconds < 1);
         Assert.True(DateTime.UtcNow.Subtract(payment.CreatedAt).TotalSeconds < 1);
     }
@@ -73,7 +73,7 @@ public class PaymentTests
         payment.MarkAsSuccess(transactionId);
 
         // Assert
-        Assert.Equal(PaymentStatus.Successful, payment.Status);
+        Assert.Equal(StatusPagamento.Aprovado, payment.Status);
         Assert.Equal(transactionId, payment.TransactionId);
         Assert.NotNull(payment.UpdatedAt);
         Assert.True(payment.IsSuccessful);
@@ -121,7 +121,7 @@ public class PaymentTests
         payment.MarkAsFailed(failureReason);
 
         // Assert
-        Assert.Equal(PaymentStatus.Failed, payment.Status);
+        Assert.Equal(StatusPagamento.Falha, payment.Status);
         Assert.Equal(failureReason, payment.FailureReason);
         Assert.NotNull(payment.UpdatedAt);
         Assert.False(payment.IsSuccessful);
@@ -160,7 +160,7 @@ public class PaymentTests
         payment.MarkAsRefunded(refundReason);
 
         // Assert
-        Assert.Equal(PaymentStatus.Refunded, payment.Status);
+        Assert.Equal(StatusPagamento.Reembolsado, payment.Status);
         Assert.Equal(refundReason, payment.RefundReason);
         Assert.NotNull(payment.UpdatedAt);
         Assert.False(payment.IsSuccessful);

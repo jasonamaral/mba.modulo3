@@ -39,16 +39,16 @@ public class StudentsController : ControllerBase
     }
 
     /// <summary>
-    /// Get all students
+    /// Obter todos os estudantes
     /// </summary>
-    /// <returns>List of all students</returns>
-    /// <response code="200">Returns the list of students</response>
-    /// <response code="403">If the user is not authorized</response>
+    /// <returns>Lista de todos os estudantes</returns>
+    /// <response code="200">Retorna a lista de estudantes</response>
+    /// <response code="403">Se o usuário não estiver autorizado</response>
     [HttpGet]
     [Authorize(Roles = "Administrator")]
     [SwaggerOperation(
-        Summary = "Get all students",
-        Description = "Retrieves a list of all students in the system. Requires Administrator role.",
+        Summary = "Obter todos os estudantes",
+        Description = "Recupera uma lista de todos os estudantes no sistema. Requer função de Administrador.",
         OperationId = "GetAllStudents",
         Tags = new[] { "Students" }
     )]
@@ -69,16 +69,16 @@ public class StudentsController : ControllerBase
     }
 
     /// <summary>
-    /// Get the currently authenticated student
+    /// Obter o estudante atualmente autenticado
     /// </summary>
-    /// <returns>Current student details</returns>
-    /// <response code="200">Returns the current student details</response>
-    /// <response code="404">If the student is not found</response>
-    /// <response code="400">If the email is not found in token</response>
+    /// <returns>Detalhes do estudante atual</returns>
+    /// <response code="200">Retorna os detalhes do estudante atual</response>
+    /// <response code="404">Se o estudante não for encontrado</response>
+    /// <response code="400">Se o e-mail não for encontrado no token</response>
     [HttpGet("me")]
     [SwaggerOperation(
-        Summary = "Get current student",
-        Description = "Retrieves the details of the currently authenticated student based on the JWT token",
+        Summary = "Obter estudante atual",
+        Description = "Recupera os detalhes do estudante atualmente autenticado com base no token JWT",
         OperationId = "GetCurrentStudent",
         Tags = new[] { "Students" }
     )]
@@ -99,7 +99,7 @@ public class StudentsController : ControllerBase
         if (string.IsNullOrEmpty(userEmail))
         {
             Console.WriteLine("Email not found in token");
-            return BadRequest(new { error = "Email not found in token" });
+            return BadRequest(new { error = "E-mail não encontrado no token" });
         }
 
         try
@@ -117,18 +117,18 @@ public class StudentsController : ControllerBase
     }
 
     /// <summary>
-    /// Get a student by ID
+    /// Obter um estudante pelo ID
     /// </summary>
-    /// <param name="id">ID of the student to retrieve</param>
-    /// <returns>Student details</returns>
-    /// <response code="200">Returns the student details</response>
-    /// <response code="404">If the student is not found</response>
-    /// <response code="403">If the user is not authorized</response>
+    /// <param name="id">ID do estudante a ser recuperado</param>
+    /// <returns>Detalhes do estudante</returns>
+    /// <response code="200">Retorna os detalhes do estudante</response>
+    /// <response code="404">Se o estudante não for encontrado</response>
+    /// <response code="403">Se o usuário não estiver autorizado</response>
     [HttpGet("{id}")]
     [Authorize(Roles = "Administrator")]
     [SwaggerOperation(
-        Summary = "Get student by ID",
-        Description = "Retrieves a specific student by their unique identifier. Requires Administrator role.",
+        Summary = "Obter estudante por ID",
+        Description = "Recupera um estudante específico pelo seu identificador único. Requer função de Administrador.",
         OperationId = "GetStudentById",
         Tags = new[] { "Students" }
     )]
@@ -150,17 +150,17 @@ public class StudentsController : ControllerBase
     }
 
     /// <summary>
-    /// Create a new student
+    /// Criar um novo estudante
     /// </summary>
-    /// <param name="command">Student details</param>
-    /// <returns>ID of the newly created student</returns>
-    /// <response code="201">Returns the ID of the newly created student</response>
-    /// <response code="400">If the request is invalid</response>
+    /// <param name="command">Detalhes do estudante</param>
+    /// <returns>ID do estudante recém-criado</returns>
+    /// <response code="201">Retorna o ID do estudante recém-criado</response>
+    /// <response code="400">Se a requisição for inválida</response>
     [HttpPost]
     [AllowAnonymous]
     [SwaggerOperation(
-        Summary = "Create a new student",
-        Description = "Registers a new student in the system with the provided details",
+        Summary = "Criar um novo estudante",
+        Description = "Registra um novo estudante no sistema com os detalhes fornecidos",
         OperationId = "CreateStudent",
         Tags = new[] { "Students" }
     )]

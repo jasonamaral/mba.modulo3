@@ -3,7 +3,7 @@ namespace FluencyHub.StudentManagement.Application.Common.Exceptions;
 public class BadRequestException : Exception
 {
     public BadRequestException() 
-        : base("A bad request occurred.")
+        : base("Uma requisição inválida ocorreu.")
     {
     }
 

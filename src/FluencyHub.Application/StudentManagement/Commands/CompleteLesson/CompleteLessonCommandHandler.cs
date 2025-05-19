@@ -38,7 +38,7 @@ public class CompleteLessonCommandHandler : IRequestHandler<CompleteLessonComman
         }
 
         var enrollment = await _mediator.Send(new GetEnrollmentByIdQuery(request.EnrollmentId), cancellationToken) ?? throw new NotFoundException("Enrollment", request.EnrollmentId);
-        if (enrollment.Status != EnrollmentStatus.Active.ToString())
+        if (enrollment.Status != StatusMatricula.Ativa.ToString())
         {
             throw new BadRequestException("Only active enrollments can be completed");
         }

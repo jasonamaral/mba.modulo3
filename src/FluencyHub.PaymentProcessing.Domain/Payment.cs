@@ -10,7 +10,7 @@ public class Payment : BaseEntity
     public Guid StudentId { get; private set; }
     public Guid EnrollmentId { get; private set; }
     public decimal Amount { get; private set; }
-    public PaymentStatus Status { get; private set; }
+    public StatusPagamento Status { get; private set; }
     public string? TransactionId { get; private set; }
     public string? FailureReason { get; private set; }
     public string? RefundReason { get; private set; }
@@ -26,13 +26,13 @@ public class Payment : BaseEntity
     public Payment(Guid studentId, Guid enrollmentId, decimal amount, CardDetails cardDetails)
     {
         if (amount <= 0)
-            throw new ArgumentException("Payment amount must be positive", nameof(amount));
+            throw new ArgumentException("O valor do pagamento deve ser positivo", nameof(amount));
 
         StudentId = studentId;
         EnrollmentId = enrollmentId;
         Amount = amount;
-        CardDetails = cardDetails ?? throw new ArgumentException("Card details cannot be null", nameof(cardDetails));
-        Status = PaymentStatus.Pending;
+        CardDetails = cardDetails ?? throw new ArgumentException("Os detalhes do cartão não podem ser nulos", nameof(cardDetails));
+        Status = StatusPagamento.Pendente;
         PaymentDate = DateTime.UtcNow;
         CreatedAt = DateTime.UtcNow;
     }
@@ -40,12 +40,12 @@ public class Payment : BaseEntity
     public void MarkAsSuccess(string transactionId)
     {
         if (string.IsNullOrWhiteSpace(transactionId))
-            throw new ArgumentException("Transaction ID cannot be empty", nameof(transactionId));
+            throw new ArgumentException("O ID da transação não pode estar vazio", nameof(transactionId));
 
-        if (Status != PaymentStatus.Pending)
-            throw new InvalidOperationException($"Cannot mark as success a payment with status {Status}");
+        if (Status != StatusPagamento.Pendente)
+            throw new InvalidOperationException($"Não é possível marcar como bem-sucedido um pagamento com status {Status}");
 
-        Status = PaymentStatus.Successful;
+        Status = StatusPagamento.Aprovado;
         TransactionId = transactionId;
         UpdatedAt = DateTime.UtcNow;
         
@@ -54,10 +54,10 @@ public class Payment : BaseEntity
 
     public void MarkAsFailed(string reason)
     {
-        if (Status != PaymentStatus.Pending)
-            throw new InvalidOperationException($"Cannot mark as failed a payment with status {Status}");
+        if (Status != StatusPagamento.Pendente)
+            throw new InvalidOperationException($"Não é possível marcar como falha um pagamento com status {Status}");
 
-        Status = PaymentStatus.Failed;
+        Status = StatusPagamento.Falha;
         FailureReason = reason;
         UpdatedAt = DateTime.UtcNow;
         
@@ -66,24 +66,24 @@ public class Payment : BaseEntity
 
     public void MarkAsRefunded(string reason)
     {
-        if (Status != PaymentStatus.Successful)
-            throw new InvalidOperationException("Only successful payments can be refunded");
+        if (Status != StatusPagamento.Aprovado)
+            throw new InvalidOperationException("Apenas pagamentos bem-sucedidos podem ser reembolsados");
 
-        Status = PaymentStatus.Refunded;
+        Status = StatusPagamento.Reembolsado;
         RefundReason = reason;
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public bool IsSuccessful => Status == PaymentStatus.Successful;
-    public bool IsFailed => Status == PaymentStatus.Failed;
-    public bool IsPending => Status == PaymentStatus.Pending;
-    public bool IsRefunded => Status == PaymentStatus.Refunded;
+    public bool IsSuccessful => Status == StatusPagamento.Aprovado;
+    public bool IsFailed => Status == StatusPagamento.Falha;
+    public bool IsPending => Status == StatusPagamento.Pendente;
+    public bool IsRefunded => Status == StatusPagamento.Reembolsado;
 }
 
-public enum PaymentStatus
+public enum StatusPagamento
 {
-    Pending,
-    Successful,
-    Failed,
-    Refunded
+    Pendente,
+    Aprovado,
+    Falha,
+    Reembolsado
 } 

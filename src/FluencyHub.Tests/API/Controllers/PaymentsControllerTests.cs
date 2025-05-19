@@ -120,7 +120,7 @@ public class PaymentsControllerTests
         var returnValue = Assert.IsType<Payment>(okResult.Value);
         Assert.Equal(paymentId, returnValue.Id);
         Assert.Equal(99.99m, returnValue.Amount);
-        Assert.Equal(PaymentStatus.Successful, returnValue.Status);
+        Assert.Equal(StatusPagamento.Aprovado, returnValue.Status);
         Assert.Equal("TXN-123456", returnValue.TransactionId);
     }
 
@@ -184,7 +184,7 @@ public class PaymentsControllerTests
         var okResult = Assert.IsType<OkObjectResult>(result);
         var returnValue = Assert.IsType<Payment>(okResult.Value);
         Assert.Equal(paymentId, returnValue.Id);
-        Assert.Equal(PaymentStatus.Refunded, returnValue.Status);
+        Assert.Equal(StatusPagamento.Reembolsado, returnValue.Status);
         Assert.Equal(request.Reason, returnValue.RefundReason);
     }
 

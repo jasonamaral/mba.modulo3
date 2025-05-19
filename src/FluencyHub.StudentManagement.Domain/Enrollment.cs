@@ -9,7 +9,7 @@ public class Enrollment : BaseEntity
     public Guid StudentId { get; private set; }
     public Guid CourseId { get; private set; }
     public decimal Price { get; private set; }
-    public EnrollmentStatus Status { get; private set; }
+    public StatusMatricula Status { get; private set; }
     public DateTime EnrollmentDate { get; private set; }
     public DateTime? ActivationDate { get; private set; }
     public DateTime? CompletionDate { get; private set; }
@@ -26,55 +26,55 @@ public class Enrollment : BaseEntity
     public Enrollment(Guid studentId, Guid courseId, decimal price)
     {
         if (price < 0)
-            throw new ArgumentException("Price cannot be negative", nameof(price));
+            throw new ArgumentException("O preço não pode ser negativo", nameof(price));
 
         StudentId = studentId;
         CourseId = courseId;
         Price = price;
-        Status = EnrollmentStatus.PendingPayment;
+        Status = StatusMatricula.AguardandoPagamento;
         EnrollmentDate = DateTime.UtcNow;
         CreatedAt = DateTime.UtcNow;
     }
 
     public void ActivateEnrollment()
     {
-        if (Status != EnrollmentStatus.PendingPayment)
-            throw new InvalidOperationException($"Cannot activate enrollment with status {Status}");
+        if (Status != StatusMatricula.AguardandoPagamento)
+            throw new InvalidOperationException($"Não é possível ativar uma matrícula com status {Status}");
 
-        Status = EnrollmentStatus.Active;
+        Status = StatusMatricula.Ativa;
         ActivationDate = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
     }
 
     public void CompleteEnrollment()
     {
-        if (Status != EnrollmentStatus.Active)
-            throw new InvalidOperationException($"Cannot complete an enrollment with status {Status}. The enrollment must be active.");
+        if (Status != StatusMatricula.Ativa)
+            throw new InvalidOperationException($"Não é possível completar uma matrícula com status {Status}. A matrícula deve estar ativa.");
 
-        Status = EnrollmentStatus.Completed;
+        Status = StatusMatricula.Concluida;
         CompletionDate = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
     }
 
     public void CancelEnrollment()
     {
-        if (Status == EnrollmentStatus.Completed)
-            throw new InvalidOperationException("Cannot cancel a completed enrollment");
+        if (Status == StatusMatricula.Concluida)
+            throw new InvalidOperationException("Não é possível cancelar uma matrícula concluída");
 
-        Status = EnrollmentStatus.Cancelled;
+        Status = StatusMatricula.Cancelada;
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public bool IsActive => Status == EnrollmentStatus.Active;
-    public bool IsPendingPayment => Status == EnrollmentStatus.PendingPayment;
-    public bool IsCompleted => Status == EnrollmentStatus.Completed;
-    public bool IsCancelled => Status == EnrollmentStatus.Cancelled;
+    public bool IsActive => Status == StatusMatricula.Ativa;
+    public bool IsPendingPayment => Status == StatusMatricula.AguardandoPagamento;
+    public bool IsCompleted => Status == StatusMatricula.Concluida;
+    public bool IsCancelled => Status == StatusMatricula.Cancelada;
 }
 
-public enum EnrollmentStatus
+public enum StatusMatricula
 {
-    PendingPayment,
-    Active,
-    Completed,
-    Cancelled
+    AguardandoPagamento,
+    Ativa,
+    Concluida,
+    Cancelada
 } 

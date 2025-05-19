@@ -3,10 +3,11 @@ using FluencyHub.API.SwaggerExamples;
 using FluencyHub.Application.Common.Exceptions;
 using FluencyHub.Application.ContentManagement.Commands.CompleteEnrollment;
 using FluencyHub.Application.ContentManagement.Queries.GetCourseById;
+using FluencyHub.Application.StudentManagement.Commands.EnrollStudent;
 using FluencyHub.Application.StudentManagement.Queries.GetEnrollmentById;
 using FluencyHub.Application.StudentManagement.Queries.GetStudentEnrollments;
-using FluencyHub.StudentManagement.Domain;
 using FluencyHub.Infrastructure.Persistence;
+using FluencyHub.StudentManagement.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -34,18 +35,18 @@ public class EnrollmentsController : ControllerBase
     }
 
     /// <summary>
-    /// Enroll a student in a course
+    /// Matricular um aluno em um curso
     /// </summary>
-    /// <param name="request">Enrollment request data</param>
-    /// <returns>The newly created enrollment details</returns>
+    /// <param name="request">The enrollment request data</param>
+    /// <returns>The newly created enrollment</returns>
     /// <response code="201">Returns the newly created enrollment</response>
-    /// <response code="400">If the request is invalid</response>
+    /// <response code="400">If the enrollment is invalid</response>
     /// <response code="404">If the student or course is not found</response>
     [HttpPost]
     [Authorize(Roles = "Student,Administrator")]
     [SwaggerOperation(
-        Summary = "Enroll a student in a course",
-        Description = "Creates a new enrollment for a student in a specific course",
+        Summary = "Matricular um aluno em um curso",
+        Description = "Cria uma nova matrícula para um aluno em um curso específico",
         OperationId = "EnrollStudent",
         Tags = new[] { "Enrollments" }
     )]
@@ -58,11 +59,12 @@ public class EnrollmentsController : ControllerBase
     {
         try
         {
-            var command = request.ToCommand();
-            var enrollmentId = await _mediator.Send(command);
+            var command = new EnrollStudentCommand(
+                request.StudentId,
+                request.CourseId);
 
-            var enrollment = await _mediator.Send(new GetEnrollmentByIdQuery(enrollmentId));
-            return CreatedAtAction(nameof(GetEnrollment), new { id = enrollmentId }, enrollment);
+            var enrollmentId = await _mediator.Send(command);
+            return CreatedAtAction(nameof(GetEnrollment), new { id = enrollmentId }, null);
         }
         catch (NotFoundException ex)
         {
@@ -75,16 +77,16 @@ public class EnrollmentsController : ControllerBase
     }
 
     /// <summary>
-    /// Get enrollment details by ID
+    /// Obter uma matrícula específica pelo ID
     /// </summary>
-    /// <param name="id">The unique identifier of the enrollment</param>
-    /// <returns>The enrollment details</returns>
-    /// <response code="200">Returns the enrollment details</response>
-    /// <response code="404">If the enrollment is not found</response>
+    /// <param name="id">O identificador único da matrícula</param>
+    /// <returns>Os detalhes da matrícula</returns>
+    /// <response code="200">Retorna a matrícula</response>
+    /// <response code="404">Se a matrícula não for encontrada</response>
     [HttpGet("{id}")]
     [SwaggerOperation(
-        Summary = "Get enrollment by ID",
-        Description = "Retrieves a specific enrollment by its unique identifier",
+        Summary = "Obter matrícula por ID",
+        Description = "Recupera uma matrícula específica pelo seu identificador único",
         OperationId = "GetEnrollment",
         Tags = new[] { "Enrollments" }
     )]
@@ -105,16 +107,16 @@ public class EnrollmentsController : ControllerBase
     }
 
     /// <summary>
-    /// Get all enrollments for a specific student
+    /// Obter todas as matrículas para um aluno específico
     /// </summary>
-    /// <param name="studentId">The unique identifier of the student</param>
-    /// <returns>A list of enrollments for the student</returns>
-    /// <response code="200">Returns the list of enrollments</response>
-    /// <response code="404">If the student is not found</response>
+    /// <param name="studentId">O identificador único do aluno</param>
+    /// <returns>Uma lista de matrículas do aluno</returns>
+    /// <response code="200">Retorna a lista de matrículas</response>
+    /// <response code="404">Se o aluno não for encontrado</response>
     [HttpGet("student/{studentId}")]
     [SwaggerOperation(
-        Summary = "Get student enrollments",
-        Description = "Retrieves all enrollments associated with a specific student",
+        Summary = "Obter matrículas do aluno",
+        Description = "Recupera todas as matrículas associadas a um aluno específico",
         OperationId = "GetStudentEnrollments",
         Tags = new[] { "Enrollments" }
     )]
@@ -139,19 +141,19 @@ public class EnrollmentsController : ControllerBase
     }
 
     /// <summary>
-    /// Mark a lesson as completed for an enrollment
+    /// Marcar uma lição como concluída para uma matrícula
     /// </summary>
-    /// <param name="enrollmentId">The unique identifier of the enrollment</param>
-    /// <param name="lessonId">The unique identifier of the lesson</param>
-    /// <param name="request">The completion request data</param>
-    /// <returns>Success message</returns>
-    /// <response code="200">If the lesson was marked as completed successfully</response>
-    /// <response code="400">If the request is invalid</response>
-    /// <response code="404">If the enrollment or lesson is not found</response>
+    /// <param name="enrollmentId">O identificador único da matrícula</param>
+    /// <param name="lessonId">O identificador único da lição</param>
+    /// <param name="request">Os dados de requisição de conclusão</param>
+    /// <returns>Mensagem de sucesso</returns>
+    /// <response code="200">Se a lição foi marcada como concluída com sucesso</response>
+    /// <response code="400">Se a requisição é inválida</response>
+    /// <response code="404">Se a matrícula ou lição não for encontrada</response>
     [HttpPost("{enrollmentId}/lessons/{lessonId}/complete")]
     [SwaggerOperation(
-        Summary = "Complete a lesson",
-        Description = "Marks a specific lesson as completed for a given enrollment",
+        Summary = "Concluir uma lição",
+        Description = "Marca uma lição específica como concluída para uma determinada matrícula",
         OperationId = "CompleteLesson",
         Tags = new[] { "Enrollments" }
     )]
@@ -192,17 +194,17 @@ public class EnrollmentsController : ControllerBase
     }
 
     /// <summary>
-    /// Mark a course as completed for an enrollment
+    /// Marcar um curso como concluído para uma matrícula
     /// </summary>
-    /// <param name="id">The unique identifier of the enrollment</param>
-    /// <returns>Success message</returns>
-    /// <response code="200">If the course was marked as completed successfully</response>
-    /// <response code="400">If the request is invalid or not all lessons are completed</response>
-    /// <response code="404">If the enrollment or course is not found</response>
+    /// <param name="id">O identificador único da matrícula</param>
+    /// <returns>Mensagem de sucesso</returns>
+    /// <response code="200">Se o curso foi marcado como concluído com sucesso</response>
+    /// <response code="400">Se a requisição é inválida ou nem todas as lições foram concluídas</response>
+    /// <response code="404">Se a matrícula ou curso não for encontrado</response>
     [HttpPost("{id}/complete")]
     [SwaggerOperation(
-        Summary = "Complete a course",
-        Description = "Marks an enrollment as completed. All lessons must be completed first.",
+        Summary = "Concluir um curso",
+        Description = "Marca uma matrícula como concluída. Todas as lições devem ser concluídas primeiro.",
         OperationId = "CompleteCourse",
         Tags = new[] { "Enrollments" }
     )]
@@ -215,10 +217,10 @@ public class EnrollmentsController : ControllerBase
         {
             var enrollment = await _mediator.Send(new GetEnrollmentByIdQuery(id));
             if (enrollment == null)
-                return NotFound("Enrollment not found");
+                return NotFound("Matrícula não encontrada");
 
-            if (enrollment.Status != EnrollmentStatus.Active.ToString())
-                return BadRequest("Only active enrollments can be completed.");
+            if (enrollment.Status != StatusMatricula.Ativa.ToString())
+                return BadRequest("Apenas matrículas ativas podem ser concluídas.");
 
             var learningHistory = await _dbContext.LearningHistories
                 .Include(lh => lh.CourseProgress)
@@ -255,7 +257,7 @@ public class EnrollmentsController : ControllerBase
 
             var course = await _mediator.Send(new GetCourseByIdQuery(enrollment.CourseId));
             if (course == null)
-                return NotFound("Course not found");
+                return NotFound("Curso não encontrado");
 
             var allLessons = course.Lessons.ToList();
 
@@ -269,7 +271,7 @@ public class EnrollmentsController : ControllerBase
 
             if (notCompletedLessonIds.Count != 0)
             {
-                return BadRequest($"All classes must be completed before completing the course. Completed classes: {completedLessonsCount}/{totalLessonsCount}. Missing: {notCompletedLessonIds.Count} lessons.");
+                return BadRequest($"Todas as aulas devem ser concluídas antes de completar o curso. Aulas concluídas: {completedLessonsCount}/{totalLessonsCount}. Faltando: {notCompletedLessonIds.Count} lições.");
             }
 
             courseProgress.CompleteCourse();
@@ -284,7 +286,7 @@ public class EnrollmentsController : ControllerBase
                 return BadRequest(ex.Message);
             }
 
-            return Ok("Course completed successfully");
+            return Ok("Curso concluído com sucesso");
         }
         catch (NotFoundException ex)
         {

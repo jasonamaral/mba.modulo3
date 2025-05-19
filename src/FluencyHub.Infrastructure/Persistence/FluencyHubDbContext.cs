@@ -90,28 +90,28 @@ public class FluencyHubDbContext : DbContext, IApplicationDbContext
         
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(FluencyHubDbContext).Assembly);
 
-        // Configure CourseContent as owned entity
+        // Configurar CourseContent como entidade possuída
         modelBuilder.Entity<Course>()
             .OwnsOne(c => c.Content, content =>
             {
                 content.ToTable("CourseContents");
             });
             
-        // Configure CardDetails as owned entity
+        // Configurar CardDetails como entidade possuída
         modelBuilder.Entity<Payment>()
             .OwnsOne(p => p.CardDetails, details =>
             {
                 details.ToTable("CardDetails");
             });
 
-        // Course
+        // Curso
         modelBuilder.Entity<Course>()
             .HasMany(c => c.Lessons)
             .WithOne(l => l.Course)
             .HasForeignKey(l => l.CourseId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        // Student
+        // Estudante
         modelBuilder.Entity<Student>()
             .HasMany(s => s.Enrollments)
             .WithOne(e => e.Student)
@@ -124,21 +124,21 @@ public class FluencyHubDbContext : DbContext, IApplicationDbContext
             .HasForeignKey(c => c.StudentId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        // Enrollment
+        // Matrícula
         modelBuilder.Entity<Enrollment>()
             .HasOne(e => e.Course)
             .WithMany()
             .HasForeignKey(e => e.CourseId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        // Certificate
+        // Certificado
         modelBuilder.Entity<Certificate>()
             .HasOne(c => c.Course)
             .WithMany()
             .HasForeignKey(c => c.CourseId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        // Payment
+        // Pagamento
         modelBuilder.Entity<Payment>()
             .HasOne(p => p.Enrollment)
             .WithMany()

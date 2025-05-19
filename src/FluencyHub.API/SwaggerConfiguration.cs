@@ -14,7 +14,7 @@ public static class SwaggerConfiguration
             {
                 Title = "FluencyHub API",
                 Version = "v1",
-                Description = "API for FluencyHub Language Learning System",
+                Description = "API para o Sistema de Aprendizado de Idiomas FluencyHub",
                 Contact = new OpenApiContact
                 {
                     Name = "Jason Santos do Amaral"
@@ -28,7 +28,7 @@ public static class SwaggerConfiguration
                 Scheme = "Bearer",
                 BearerFormat = "JWT",
                 In = ParameterLocation.Header,
-                Description = "JWT Authorization header using the Bearer scheme."
+                Description = "Cabeçalho de autorização JWT usando o esquema Bearer."
             });
 
             c.AddSecurityRequirement(new OpenApiSecurityRequirement

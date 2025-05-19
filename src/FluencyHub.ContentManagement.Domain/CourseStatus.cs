@@ -2,7 +2,7 @@ namespace FluencyHub.ContentManagement.Domain;
 
 public enum CourseStatus
 {
-    Draft,
-    Published,
-    Archived
+    Draft,      // Rascunho
+    Published,  // Publicado
+    Archived    // Arquivado
 } 

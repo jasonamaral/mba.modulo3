@@ -44,7 +44,7 @@ public class PaymentRepository : Application.Common.Interfaces.IPaymentRepositor
     {
         return await _context.Payments
             .Include(p => p.Enrollment)
-            .Where(p => p.Status == PaymentStatus.Successful)
+            .Where(p => p.Status == StatusPagamento.Aprovado)
             .ToListAsync();
     }
 

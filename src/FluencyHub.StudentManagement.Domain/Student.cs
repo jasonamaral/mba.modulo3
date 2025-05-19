@@ -34,13 +34,13 @@ public class Student : BaseEntity
     public Student(string firstName, string lastName, string email, DateTime dateOfBirth, string? phoneNumber = null)
     {
         if (string.IsNullOrWhiteSpace(firstName))
-            throw new ArgumentException("First name cannot be empty", nameof(firstName));
+            throw new ArgumentException("O nome não pode estar vazio", nameof(firstName));
 
         if (string.IsNullOrWhiteSpace(lastName))
-            throw new ArgumentException("Last name cannot be empty", nameof(lastName));
+            throw new ArgumentException("O sobrenome não pode estar vazio", nameof(lastName));
 
         if (string.IsNullOrWhiteSpace(email))
-            throw new ArgumentException("Email cannot be empty", nameof(email));
+            throw new ArgumentException("O email não pode estar vazio", nameof(email));
 
         Id = Guid.NewGuid();
         FirstName = firstName;
@@ -57,10 +57,10 @@ public class Student : BaseEntity
     public void UpdateDetails(string firstName, string lastName, DateTime dateOfBirth, string? phoneNumber)
     {
         if (string.IsNullOrWhiteSpace(firstName))
-            throw new ArgumentException("First name cannot be empty", nameof(firstName));
+            throw new ArgumentException("O nome não pode estar vazio", nameof(firstName));
 
         if (string.IsNullOrWhiteSpace(lastName))
-            throw new ArgumentException("Last name cannot be empty", nameof(lastName));
+            throw new ArgumentException("O sobrenome não pode estar vazio", nameof(lastName));
 
         FirstName = firstName;
         LastName = lastName;
@@ -72,10 +72,10 @@ public class Student : BaseEntity
     public Enrollment EnrollInCourse(Guid courseId, decimal price)
     {
         if (!IsActive)
-            throw new InvalidOperationException("Cannot enroll an inactive student");
+            throw new InvalidOperationException("Não é possível matricular um estudante inativo");
 
-        if (_enrollments.Any(e => e.CourseId == courseId && e.Status != EnrollmentStatus.Cancelled))
-            throw new InvalidOperationException("Student is already enrolled in this course");
+        if (_enrollments.Any(e => e.CourseId == courseId && e.Status != StatusMatricula.Cancelada))
+            throw new InvalidOperationException("O estudante já está matriculado neste curso");
 
         var enrollment = new Enrollment(this.Id, courseId, price);
         _enrollments.Add(enrollment);
@@ -85,10 +85,10 @@ public class Student : BaseEntity
 
     public void AddCertificate(Guid courseId, string title)
     {
-        var enrollment = _enrollments.FirstOrDefault(e => e.CourseId == courseId && e.Status == EnrollmentStatus.Completed) ?? throw new InvalidOperationException("Student has not completed this course");
+        var enrollment = _enrollments.FirstOrDefault(e => e.CourseId == courseId && e.Status == StatusMatricula.Concluida) ?? throw new InvalidOperationException("O estudante não concluiu este curso");
 
         if (_certificates.Any(c => c.CourseId == courseId))
-            throw new InvalidOperationException("Certificate for this course already exists");
+            throw new InvalidOperationException("O certificado para este curso já existe");
 
         var certificate = new Certificate(this.Id, courseId, title);
         _certificates.Add(certificate);
@@ -97,9 +97,9 @@ public class Student : BaseEntity
 
     public void RecordProgress(Guid courseId, Guid lessonId)
     {
-        var enrollment = _enrollments.FirstOrDefault(e => e.CourseId == courseId && e.Status == EnrollmentStatus.Active);
+        var enrollment = _enrollments.FirstOrDefault(e => e.CourseId == courseId && e.Status == StatusMatricula.Ativa);
         if (enrollment == null)
-            throw new InvalidOperationException("Student is not actively enrolled in this course");
+            throw new InvalidOperationException("O estudante não está ativamente matriculado neste curso");
 
         LearningHistory.AddProgress(courseId, lessonId);
         UpdatedAt = DateTime.UtcNow;
@@ -107,7 +107,7 @@ public class Student : BaseEntity
 
     public void CompleteCourse(Guid courseId)
     {
-        var enrollment = _enrollments.FirstOrDefault(e => e.CourseId == courseId && e.Status == EnrollmentStatus.Active) ?? throw new InvalidOperationException("Student is not actively enrolled in this course");
+        var enrollment = _enrollments.FirstOrDefault(e => e.CourseId == courseId && e.Status == StatusMatricula.Ativa) ?? throw new InvalidOperationException("O estudante não está ativamente matriculado neste curso");
         enrollment.CompleteEnrollment();
         LearningHistory.CompleteCourse(courseId);
         UpdatedAt = DateTime.UtcNow;

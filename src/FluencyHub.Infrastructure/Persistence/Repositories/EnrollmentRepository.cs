@@ -50,7 +50,7 @@ public class EnrollmentRepository : IEnrollmentRepository
         return await _context.Enrollments
             .Include(e => e.Student)
             .Include(e => e.Course)
-            .Where(e => e.Status == EnrollmentStatus.Active)
+            .Where(e => e.Status == StatusMatricula.Ativa)
             .ToListAsync();
     }
 

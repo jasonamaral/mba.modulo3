@@ -7,29 +7,29 @@ public class CardDetails
     public string ExpiryMonth { get; private set; }
     public string ExpiryYear { get; private set; }
 
-    // EF Core constructor
+    // Construtor para EF Core
     private CardDetails()
     { }
 
     public CardDetails(string cardHolderName, string cardNumber, string expiryMonth, string expiryYear)
     {
         if (string.IsNullOrWhiteSpace(cardHolderName))
-            throw new ArgumentException("Card holder name cannot be empty", nameof(cardHolderName));
+            throw new ArgumentException("O nome do titular do cartão não pode estar vazio", nameof(cardHolderName));
 
         if (string.IsNullOrWhiteSpace(cardNumber))
-            throw new ArgumentException("Card number cannot be empty", nameof(cardNumber));
+            throw new ArgumentException("O número do cartão não pode estar vazio", nameof(cardNumber));
 
         if (string.IsNullOrWhiteSpace(expiryMonth))
-            throw new ArgumentException("Expiry month cannot be empty", nameof(expiryMonth));
+            throw new ArgumentException("O mês de validade não pode estar vazio", nameof(expiryMonth));
 
         if (string.IsNullOrWhiteSpace(expiryYear))
-            throw new ArgumentException("Expiry year cannot be empty", nameof(expiryYear));
+            throw new ArgumentException("O ano de validade não pode estar vazio", nameof(expiryYear));
 
         if (!ValidateCardNumber(cardNumber))
-            throw new ArgumentException("Invalid card number", nameof(cardNumber));
+            throw new ArgumentException("Número de cartão inválido", nameof(cardNumber));
 
         if (!ValidateExpiryDate(expiryMonth, expiryYear))
-            throw new ArgumentException("Invalid expiry date");
+            throw new ArgumentException("Data de validade inválida");
 
         CardHolderName = cardHolderName;
         MaskedCardNumber = MaskCardNumber(cardNumber);
@@ -39,14 +39,14 @@ public class CardDetails
 
     private static bool ValidateCardNumber(string cardNumber)
     {
-        // Remove any non-digit characters
+        // Remove quaisquer caracteres não numéricos
         var digitsOnly = new string(cardNumber.Where(char.IsDigit).ToArray());
 
-        // Check length
+        // Verifica o comprimento
         if (digitsOnly.Length < 13 || digitsOnly.Length > 19)
             return false;
 
-        // Basic Luhn algorithm check
+        // Verificação básica do algoritmo de Luhn
         int sum = 0;
         bool alternate = false;
         for (int i = digitsOnly.Length - 1; i >= 0; i--)
@@ -73,7 +73,7 @@ public class CardDetails
         if (expiryMonth < 1 || expiryMonth > 12)
             return false;
 
-        // Handle 2-digit year format
+        // Trata o formato de ano com 2 dígitos
         if (expiryYear < 100)
             expiryYear += 2000;
 
@@ -86,12 +86,12 @@ public class CardDetails
 
     private static string MaskCardNumber(string cardNumber)
     {
-        // Strip non-digit characters
+        // Remove caracteres não numéricos
         var digitsOnly = new string(cardNumber.Where(char.IsDigit).ToArray());
 
-        // Keep only first 6 and last 4 digits visible
+        // Mantém visíveis apenas os primeiros 6 e os últimos 4 dígitos
         if (digitsOnly.Length <= 10)
-            return digitsOnly; // Too short to mask effectively
+            return digitsOnly; // Muito curto para mascarar efetivamente
 
         string firstSix = digitsOnly.Substring(0, 6);
         string lastFour = digitsOnly.Substring(digitsOnly.Length - 4, 4);

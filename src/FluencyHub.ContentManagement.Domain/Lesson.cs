@@ -15,20 +15,20 @@ public class Lesson : BaseEntity
     [JsonIgnore]
     public Course Course { get; private set; }
 
-    // EF Core constructor
+    // Construtor para EF Core
     private Lesson()
     { }
 
     public Lesson(string title, string content, string? materialUrl, int order)
     {
         if (string.IsNullOrWhiteSpace(title))
-            throw new ArgumentException("Lesson title cannot be empty", nameof(title));
+            throw new ArgumentException("O título da aula não pode estar vazio", nameof(title));
 
         if (string.IsNullOrWhiteSpace(content))
-            throw new ArgumentException("Lesson content cannot be empty", nameof(content));
+            throw new ArgumentException("O conteúdo da aula não pode estar vazio", nameof(content));
 
         if (order <= 0)
-            throw new ArgumentException("Order must be positive", nameof(order));
+            throw new ArgumentException("A ordem deve ser positiva", nameof(order));
 
         Title = title;
         Content = content;
@@ -40,10 +40,10 @@ public class Lesson : BaseEntity
     public void Update(string title, string content, string? materialUrl)
     {
         if (string.IsNullOrWhiteSpace(title))
-            throw new ArgumentException("Lesson title cannot be empty", nameof(title));
+            throw new ArgumentException("O título da aula não pode estar vazio", nameof(title));
 
         if (string.IsNullOrWhiteSpace(content))
-            throw new ArgumentException("Lesson content cannot be empty", nameof(content));
+            throw new ArgumentException("O conteúdo da aula não pode estar vazio", nameof(content));
 
         Title = title;
         Content = content;
@@ -54,7 +54,7 @@ public class Lesson : BaseEntity
     public void UpdateOrder(int newOrder)
     {
         if (newOrder <= 0)
-            throw new ArgumentException("Order must be positive", nameof(newOrder));
+            throw new ArgumentException("A ordem deve ser positiva", nameof(newOrder));
 
         Order = newOrder;
         UpdatedAt = DateTime.UtcNow;

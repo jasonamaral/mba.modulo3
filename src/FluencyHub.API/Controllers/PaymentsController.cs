@@ -27,19 +27,19 @@ public class PaymentsController : ControllerBase
     }
 
     /// <summary>
-    /// Process a payment for an enrollment
+    /// Processar um pagamento para uma matrícula
     /// </summary>
-    /// <param name="request">Payment details including card information</param>
-    /// <returns>The processed payment information</returns>
-    /// <response code="201">Returns the newly created payment</response>
-    /// <response code="400">If the request is invalid</response>
-    /// <response code="404">If the enrollment is not found</response>
-    /// <response code="422">If the payment cannot be processed</response>
+    /// <param name="request">Detalhes do pagamento incluindo informações do cartão</param>
+    /// <returns>As informações do pagamento processado</returns>
+    /// <response code="201">Retorna o pagamento recém-criado</response>
+    /// <response code="400">Se a requisição for inválida</response>
+    /// <response code="404">Se a matrícula não for encontrada</response>
+    /// <response code="422">Se o pagamento não puder ser processado</response>
     [HttpPost]
     [Authorize(Roles = "Student,Administrator")]
     [SwaggerOperation(
-        Summary = "Process a payment for an enrollment",
-        Description = "Creates a new payment for a specific enrollment using the provided card details",
+        Summary = "Processar um pagamento para uma matrícula",
+        Description = "Cria um novo pagamento para uma matrícula específica usando os detalhes do cartão fornecidos",
         OperationId = "ProcessPayment",
         Tags = new[] { "Payments" }
     )]
@@ -78,16 +78,16 @@ public class PaymentsController : ControllerBase
     }
 
     /// <summary>
-    /// Get payment details by ID
+    /// Obter detalhes do pagamento por ID
     /// </summary>
-    /// <param name="id">The unique identifier of the payment</param>
-    /// <returns>The payment details</returns>
-    /// <response code="200">Returns the payment details</response>
-    /// <response code="404">If the payment is not found</response>
+    /// <param name="id">O identificador único do pagamento</param>
+    /// <returns>Os detalhes do pagamento</returns>
+    /// <response code="200">Retorna os detalhes do pagamento</response>
+    /// <response code="404">Se o pagamento não for encontrado</response>
     [HttpGet("{id}")]
     [SwaggerOperation(
-        Summary = "Get payment by ID",
-        Description = "Retrieves a specific payment by its unique identifier",
+        Summary = "Obter pagamento por ID",
+        Description = "Recupera um pagamento específico pelo seu identificador único",
         OperationId = "GetPayment",
         Tags = new[] { "Payments" }
     )]
@@ -108,20 +108,20 @@ public class PaymentsController : ControllerBase
     }
 
     /// <summary>
-    /// Process a refund for a payment
+    /// Processar um reembolso para um pagamento
     /// </summary>
-    /// <param name="id">The unique identifier of the payment to refund</param>
-    /// <param name="request">The refund request data</param>
-    /// <returns>The updated payment details</returns>
-    /// <response code="200">Returns the updated payment details</response>
-    /// <response code="400">If the request is invalid</response>
-    /// <response code="404">If the payment is not found</response>
-    /// <response code="422">If the refund cannot be processed</response>
+    /// <param name="id">O identificador único do pagamento a ser reembolsado</param>
+    /// <param name="request">Os dados da requisição de reembolso</param>
+    /// <returns>Os detalhes atualizados do pagamento</returns>
+    /// <response code="200">Retorna os detalhes atualizados do pagamento</response>
+    /// <response code="400">Se a requisição for inválida</response>
+    /// <response code="404">Se o pagamento não for encontrado</response>
+    /// <response code="422">Se o reembolso não puder ser processado</response>
     [HttpPost("{id}/refund")]
     [Authorize(Roles = "Administrator")]
     [SwaggerOperation(
-        Summary = "Refund a payment",
-        Description = "Processes a refund for a specific payment. Requires Administrator role.",
+        Summary = "Reembolsar um pagamento",
+        Description = "Processa um reembolso para um pagamento específico. Requer perfil de Administrador.",
         OperationId = "RefundPayment",
         Tags = new[] { "Payments" }
     )]

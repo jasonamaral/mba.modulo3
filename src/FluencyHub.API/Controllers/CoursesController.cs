@@ -15,7 +15,7 @@ using ValidationException = FluencyHub.Application.Common.Exceptions.ValidationE
 namespace FluencyHub.API.Controllers;
 
 /// <summary>
-/// API endpoints for managing courses
+/// Endpoints da API para gerenciamento de cursos
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
@@ -31,14 +31,14 @@ public class CoursesController : ControllerBase
     }
 
     /// <summary>
-    /// Get all available courses
+    /// Obter todos os cursos disponíveis
     /// </summary>
-    /// <returns>A list of all courses</returns>
-    /// <response code="200">Returns the list of courses</response>
+    /// <returns>Uma lista de todos os cursos</returns>
+    /// <response code="200">Retorna a lista de cursos</response>
     [HttpGet]
     [SwaggerOperation(
-        Summary = "Get all courses",
-        Description = "Retrieves all available courses in the system",
+        Summary = "Obter todos os cursos",
+        Description = "Recupera todos os cursos disponíveis no sistema",
         OperationId = "GetAllCourses",
         Tags = new[] { "Courses" }
     )]
@@ -51,16 +51,16 @@ public class CoursesController : ControllerBase
     }
 
     /// <summary>
-    /// Get a specific course by ID
+    /// Obter um curso específico por ID
     /// </summary>
-    /// <param name="id">The unique identifier of the course</param>
-    /// <returns>The course details</returns>
-    /// <response code="200">Returns the course details</response>
-    /// <response code="404">If the course with the given ID is not found</response>
+    /// <param name="id">O identificador único do curso</param>
+    /// <returns>Os detalhes do curso</returns>
+    /// <response code="200">Retorna os detalhes do curso</response>
+    /// <response code="404">Se o curso com o ID fornecido não for encontrado</response>
     [HttpGet("{id}")]
     [SwaggerOperation(
-        Summary = "Get course by ID",
-        Description = "Retrieves a specific course by its unique identifier",
+        Summary = "Obter curso por ID",
+        Description = "Recupera um curso específico pelo seu identificador único",
         OperationId = "GetCourseById",
         Tags = new[] { "Courses" }
     )]
@@ -81,19 +81,19 @@ public class CoursesController : ControllerBase
     }
 
     /// <summary>
-    /// Create a new course
+    /// Criar um novo curso
     /// </summary>
-    /// <param name="request">The course creation details</param>
-    /// <returns>The ID of the newly created course</returns>
-    /// <response code="201">Returns the ID of the newly created course</response>
-    /// <response code="400">If the request data is invalid</response>
-    /// <response code="401">If the user is not authenticated</response>
-    /// <response code="403">If the user is not authorized to create courses</response>
+    /// <param name="request">Os detalhes para criação do curso</param>
+    /// <returns>O ID do curso recém-criado</returns>
+    /// <response code="201">Retorna o ID do curso recém-criado</response>
+    /// <response code="400">Se os dados da requisição forem inválidos</response>
+    /// <response code="401">Se o usuário não estiver autenticado</response>
+    /// <response code="403">Se o usuário não estiver autorizado a criar cursos</response>
     [HttpPost]
     [Authorize(Roles = "Administrator")]
     [SwaggerOperation(
-        Summary = "Create a new course",
-        Description = "Creates a new course with the provided details. Requires Administrator role.",
+        Summary = "Criar um novo curso",
+        Description = "Cria um novo curso com os detalhes fornecidos. Requer perfil de Administrador.",
         OperationId = "CreateCourse",
         Tags = new[] { "Courses" }
     )]
@@ -122,21 +122,21 @@ public class CoursesController : ControllerBase
     }
 
     /// <summary>
-    /// Update an existing course
+    /// Atualizar um curso existente
     /// </summary>
-    /// <param name="id">The unique identifier of the course to update</param>
-    /// <param name="request">The updated course details</param>
-    /// <returns>Success message with the course ID</returns>
-    /// <response code="200">Returns success with the course ID</response>
-    /// <response code="400">If the request data is invalid</response>
-    /// <response code="401">If the user is not authenticated</response>
-    /// <response code="403">If the user is not authorized to update courses</response>
-    /// <response code="404">If the course with the given ID is not found</response>
+    /// <param name="id">O identificador único do curso a ser atualizado</param>
+    /// <param name="request">Os detalhes atualizados do curso</param>
+    /// <returns>Mensagem de sucesso com o ID do curso</returns>
+    /// <response code="200">Retorna sucesso com o ID do curso</response>
+    /// <response code="400">Se os dados da requisição forem inválidos</response>
+    /// <response code="401">Se o usuário não estiver autenticado</response>
+    /// <response code="403">Se o usuário não estiver autorizado a atualizar cursos</response>
+    /// <response code="404">Se o curso com o ID fornecido não for encontrado</response>
     [HttpPut("{id}")]
     [Authorize(Roles = "Administrator")]
     [SwaggerOperation(
-        Summary = "Update an existing course",
-        Description = "Updates an existing course with the provided details. Requires Administrator role.",
+        Summary = "Atualizar um curso existente",
+        Description = "Atualiza um curso existente com os detalhes fornecidos. Requer perfil de Administrador.",
         OperationId = "UpdateCourse",
         Tags = new[] { "Courses" }
     )]
@@ -152,7 +152,7 @@ public class CoursesController : ControllerBase
         {
             if (id != request.Id)
             {
-                return BadRequest("The ID in the URL must be the same as the ID in the request body");
+                return BadRequest("O ID na URL deve ser o mesmo que o ID no corpo da requisição");
             }
 
             var command = request.ToCommand();

@@ -6,31 +6,31 @@ namespace FluencyHub.PaymentProcessing.Application.Common.Interfaces;
 public interface IPaymentService
 {
     /// <summary>
-    /// Process a payment using the payment gateway
+    /// Processa um pagamento usando o gateway de pagamento
     /// </summary>
-    /// <param name="studentId">ID of the student making the payment</param>
-    /// <param name="enrollmentId">ID of the enrollment being paid for</param>
-    /// <param name="amount">Amount to be charged</param>
-    /// <param name="cardDetails">Credit card details</param>
-    /// <returns>Result of the payment process</returns>
-    Task<FluencyHub.PaymentProcessing.Application.Common.Models.PaymentResult> ProcessPaymentAsync(
-        Guid studentId, 
-        Guid enrollmentId, 
-        decimal amount, 
+    /// <param name="studentId">ID do estudante que está realizando o pagamento</param>
+    /// <param name="enrollmentId">ID da matrícula sendo paga</param>
+    /// <param name="amount">Valor a ser cobrado</param>
+    /// <param name="cardDetails">Detalhes do cartão de crédito</param>
+    /// <returns>Resultado do processo de pagamento</returns>
+    Task<Models.PaymentResult> ProcessPaymentAsync(
+        Guid studentId,
+        Guid enrollmentId,
+        decimal amount,
         CardDetails cardDetails);
     
     /// <summary>
-    /// Get payment status from the payment gateway
+    /// Obtém o status de pagamento do gateway de pagamento
     /// </summary>
-    /// <param name="transactionId">Payment gateway transaction ID</param>
-    /// <returns>Current status of the payment</returns>
-    Task<FluencyHub.PaymentProcessing.Application.Common.Models.PaymentStatusResult> GetPaymentStatusAsync(string transactionId);
+    /// <param name="transactionId">ID da transação no gateway de pagamento</param>
+    /// <returns>Status atual do pagamento</returns>
+    Task<Models.PaymentStatusResult> GetPaymentStatusAsync(string transactionId);
     
     /// <summary>
-    /// Request a refund for a payment
+    /// Solicita um reembolso para um pagamento
     /// </summary>
-    /// <param name="transactionId">Original transaction ID</param>
-    /// <param name="amount">Amount to refund (can be partial)</param>
-    /// <returns>Result of the refund request</returns>
-    Task<FluencyHub.PaymentProcessing.Application.Common.Models.RefundResult> RequestRefundAsync(string transactionId, decimal amount);
+    /// <param name="transactionId">ID da transação original</param>
+    /// <param name="amount">Valor a ser reembolsado (pode ser parcial)</param>
+    /// <returns>Resultado da solicitação de reembolso</returns>
+    Task<Models.RefundResult> RequestRefundAsync(string transactionId, decimal amount);
 } 

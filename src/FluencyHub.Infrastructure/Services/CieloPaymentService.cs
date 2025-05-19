@@ -29,7 +29,7 @@ public class CieloPaymentService : FluencyHub.Application.Common.Interfaces.IPay
         _merchantKey = configuration["PaymentGateway:MerchantKey"]
             ?? throw new ArgumentException("PaymentGateway:MerchantKey configuration is missing");
 
-        // Configure HTTP client
+        // Configurar o cliente HTTP
         _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         _httpClient.DefaultRequestHeaders.Add("MerchantId", _merchantId);
         _httpClient.DefaultRequestHeaders.Add("MerchantKey", _merchantKey);
@@ -46,7 +46,7 @@ public class CieloPaymentService : FluencyHub.Application.Common.Interfaces.IPay
             _logger.LogInformation("Processing payment for student {StudentId}, enrollment {EnrollmentId}",
                 studentId, enrollmentId);
 
-            // Create payment request object
+            // Criar objeto de solicitação de pagamento
             var paymentRequest = new
             {
                 MerchantOrderId = enrollmentId.ToString(),
@@ -57,7 +57,7 @@ public class CieloPaymentService : FluencyHub.Application.Common.Interfaces.IPay
                 Payment = new
                 {
                     Type = "CreditCard",
-                    Amount = (int)(amount * 100), // Cielo expects amount in cents
+                    Amount = (int)(amount * 100), // Cielo espera o valor em centavos
                     Installments = 1,
                     SoftDescriptor = "FluencyHub",
                     CreditCard = new
@@ -65,24 +65,24 @@ public class CieloPaymentService : FluencyHub.Application.Common.Interfaces.IPay
                         CardNumber = GetCardNumberFromMasked(cardDetails.MaskedCardNumber),
                         Holder = cardDetails.CardHolderName,
                         ExpirationDate = $"{cardDetails.ExpiryMonth}/{cardDetails.ExpiryYear}",
-                        SecurityCode = "123", // In a real scenario, this would be provided by the customer
-                        Brand = "Visa" // In a real scenario, this would be determined from the card number
+                        SecurityCode = "123", // Em um cenário real, isso seria fornecido pelo cliente
+                        Brand = "Visa" // Em um cenário real, isso seria determinado pelo número do cartão
                     },
-                    Capture = true, // Automatically capture the payment
+                    Capture = true, // Capturar o pagamento automaticamente
                     Authenticate = false
                 }
             };
 
-            // Serialize request
+            // Serializar a requisição
             var content = new StringContent(
                 JsonSerializer.Serialize(paymentRequest),
                 Encoding.UTF8,
                 "application/json");
 
-            // Make API call
+            // Fazer a chamada à API
             var response = await _httpClient.PostAsync("1/sales", content);
 
-            // Process response
+            // Processar a resposta
             if (response.IsSuccessStatusCode)
             {
                 var responseString = await response.Content.ReadAsStringAsync();
@@ -92,7 +92,7 @@ public class CieloPaymentService : FluencyHub.Application.Common.Interfaces.IPay
                 var status = paymentNode.GetProperty("Status").GetInt32();
                 var transactionId = paymentNode.GetProperty("PaymentId").GetString();
 
-                // Cielo status codes: 2 = Authorized, 1 = Pending
+                // Códigos de status da Cielo: 2 = Autorizado, 1 = Pendente
                 if (status == 2 || status == 1)
                 {
                     _logger.LogInformation("Payment successful for enrollment {EnrollmentId}, transaction ID: {TransactionId}",
@@ -103,7 +103,7 @@ public class CieloPaymentService : FluencyHub.Application.Common.Interfaces.IPay
                 {
                     var message = paymentNode.TryGetProperty("ReturnMessage", out var returnMessage)
                         ? returnMessage.GetString()
-                        : "Payment failed with status code: " + status;
+                        : "Pagamento falhou com código de status: " + status;
 
                     _logger.LogWarning("Payment failed for enrollment {EnrollmentId}: {Message}",
                         enrollmentId, message);
@@ -115,14 +115,14 @@ public class CieloPaymentService : FluencyHub.Application.Common.Interfaces.IPay
                 var errorContent = await response.Content.ReadAsStringAsync();
                 _logger.LogError("Payment gateway returned error: {StatusCode}, {Error}",
                     response.StatusCode, errorContent);
-                return FluencyHub.Application.Common.Models.PaymentResult.Failure($"Payment gateway error: {response.StatusCode}");
+                return FluencyHub.Application.Common.Models.PaymentResult.Failure($"Erro no gateway de pagamento: {response.StatusCode}");
             }
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Exception occurred while processing payment for enrollment {EnrollmentId}",
                 enrollmentId);
-            return FluencyHub.Application.Common.Models.PaymentResult.Failure($"Payment processing error: {ex.Message}");
+            return FluencyHub.Application.Common.Models.PaymentResult.Failure($"Erro no processamento do pagamento: {ex.Message}");
         }
     }
 
@@ -132,10 +132,10 @@ public class CieloPaymentService : FluencyHub.Application.Common.Interfaces.IPay
         {
             _logger.LogInformation("Checking payment status for transaction {TransactionId}", transactionId);
 
-            // Make API call
+            // Fazer chamada à API
             var response = await _httpClient.GetAsync($"1/sales/{transactionId}");
 
-            // Process response
+            // Processar a resposta
             if (response.IsSuccessStatusCode)
             {
                 var responseString = await response.Content.ReadAsStringAsync();
@@ -144,7 +144,7 @@ public class CieloPaymentService : FluencyHub.Application.Common.Interfaces.IPay
                 var paymentNode = responseJson.RootElement.GetProperty("Payment");
                 var status = paymentNode.GetProperty("Status").GetInt32();
 
-                // Map Cielo status to our status
+                // Mapear o status da Cielo para o nosso status
                 var paymentStatus = MapCieloStatusToPaymentStatus(status);
                 var message = paymentNode.TryGetProperty("ReturnMessage", out var returnMessage)
                     ? returnMessage.GetString()
@@ -160,7 +160,7 @@ public class CieloPaymentService : FluencyHub.Application.Common.Interfaces.IPay
                 _logger.LogError("Payment gateway returned error when checking status: {StatusCode}, {Error}",
                     response.StatusCode, errorContent);
                 return PaymentStatusResult.Create(transactionId, FluencyHub.Application.Common.Models.PaymentStatus.Unknown,
-                    $"Failed to get status: {response.StatusCode}");
+                    $"Falha ao obter status: {response.StatusCode}");
             }
         }
         catch (Exception ex)
@@ -168,7 +168,7 @@ public class CieloPaymentService : FluencyHub.Application.Common.Interfaces.IPay
             _logger.LogError(ex, "Exception occurred while checking payment status for transaction {TransactionId}",
                 transactionId);
             return PaymentStatusResult.Create(transactionId, FluencyHub.Application.Common.Models.PaymentStatus.Unknown,
-                $"Error checking status: {ex.Message}");
+                $"Erro ao verificar status: {ex.Message}");
         }
     }
 
@@ -179,22 +179,22 @@ public class CieloPaymentService : FluencyHub.Application.Common.Interfaces.IPay
             _logger.LogInformation("Requesting refund for transaction {TransactionId}, amount {Amount}",
                 transactionId, amount);
 
-            // Create refund request object
+            // Criar objeto de solicitação de reembolso
             var refundRequest = new
             {
-                Amount = (int)(amount * 100) // Cielo expects amount in cents
+                Amount = (int)(amount * 100) // Cielo espera o valor em centavos
             };
 
-            // Serialize request
+            // Serializar a requisição
             var content = new StringContent(
                 JsonSerializer.Serialize(refundRequest),
                 Encoding.UTF8,
                 "application/json");
 
-            // Make API call
+            // Fazer chamada à API
             var response = await _httpClient.PutAsync($"1/sales/{transactionId}/void", content);
 
-            // Process response
+            // Processar a resposta
             if (response.IsSuccessStatusCode)
             {
                 var responseString = await response.Content.ReadAsStringAsync();
@@ -202,7 +202,7 @@ public class CieloPaymentService : FluencyHub.Application.Common.Interfaces.IPay
 
                 var status = responseJson.RootElement.GetProperty("Status").GetInt32();
 
-                // Cielo status code for successful refund is 10 or 11
+                // Código de status da Cielo para reembolso bem-sucedido é 10 ou 11
                 if (status == 10 || status == 11)
                 {
                     var refundTransactionId = responseJson.RootElement.TryGetProperty("VoidId", out var voidId)
@@ -217,7 +217,7 @@ public class CieloPaymentService : FluencyHub.Application.Common.Interfaces.IPay
                 {
                     var message = responseJson.RootElement.TryGetProperty("ReturnMessage", out var returnMessage)
                         ? returnMessage.GetString()
-                        : "Refund failed with status code: " + status;
+                        : "Reembolso falhou com código de status: " + status;
 
                     _logger.LogWarning("Refund failed for transaction {TransactionId}: {Message}",
                         transactionId, message);
@@ -229,14 +229,14 @@ public class CieloPaymentService : FluencyHub.Application.Common.Interfaces.IPay
                 var errorContent = await response.Content.ReadAsStringAsync();
                 _logger.LogError("Payment gateway returned error when requesting refund: {StatusCode}, {Error}",
                     response.StatusCode, errorContent);
-                return FluencyHub.Application.Common.Models.RefundResult.Failure(transactionId, $"Refund request error: {response.StatusCode}");
+                return FluencyHub.Application.Common.Models.RefundResult.Failure(transactionId, $"Erro na solicitação de reembolso: {response.StatusCode}");
             }
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Exception occurred while requesting refund for transaction {TransactionId}",
                 transactionId);
-            return FluencyHub.Application.Common.Models.RefundResult.Failure(transactionId, $"Refund processing error: {ex.Message}");
+            return FluencyHub.Application.Common.Models.RefundResult.Failure(transactionId, $"Erro no processamento do reembolso: {ex.Message}");
         }
     }
 
@@ -244,14 +244,14 @@ public class CieloPaymentService : FluencyHub.Application.Common.Interfaces.IPay
     {
         return cieloStatus switch
         {
-            1 => FluencyHub.Application.Common.Models.PaymentStatus.Pending,          // Pending
-            2 => FluencyHub.Application.Common.Models.PaymentStatus.Authorized,       // Authorized
-            3 => FluencyHub.Application.Common.Models.PaymentStatus.Cancelled,        // Denied
-            4 => FluencyHub.Application.Common.Models.PaymentStatus.Completed,        // Paid
-            10 => FluencyHub.Application.Common.Models.PaymentStatus.Refunded,        // Refunded
-            11 => FluencyHub.Application.Common.Models.PaymentStatus.Refunded,        // Partially Refunded
-            13 => FluencyHub.Application.Common.Models.PaymentStatus.Cancelled,       // Expired
-            _ => FluencyHub.Application.Common.Models.PaymentStatus.Unknown           // Other statuses
+            1 => FluencyHub.Application.Common.Models.PaymentStatus.Pending,
+            2 => FluencyHub.Application.Common.Models.PaymentStatus.Authorized,
+            3 => FluencyHub.Application.Common.Models.PaymentStatus.Cancelled,
+            4 => FluencyHub.Application.Common.Models.PaymentStatus.Completed,
+            10 => FluencyHub.Application.Common.Models.PaymentStatus.Refunded,    // Reembolsado
+            11 => FluencyHub.Application.Common.Models.PaymentStatus.Refunded,    // Parcialmente Reembolsado
+            13 => FluencyHub.Application.Common.Models.PaymentStatus.Cancelled,   // Expirado
+            _ => FluencyHub.Application.Common.Models.PaymentStatus.Unknown       // Outros status
         };
     }
 

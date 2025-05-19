@@ -79,7 +79,7 @@ public class EnrollmentsControllerTests
         var createdAtActionResult = Assert.IsType<CreatedAtActionResult>(result);
         Assert.Equal(nameof(EnrollmentsController.GetEnrollment), createdAtActionResult.ActionName);
         Assert.Equal(enrollmentId, createdAtActionResult.RouteValues["id"]);
-        Assert.Equal(enrollmentDto, createdAtActionResult.Value);
+        Assert.Null(createdAtActionResult.Value);
     }
     
     [Fact]
@@ -354,7 +354,7 @@ public class EnrollmentsControllerTests
             Id = enrollmentId,
             StudentId = studentId,
             CourseId = courseId,
-            Status = EnrollmentStatus.Active.ToString()
+            Status = StatusMatricula.Ativa.ToString()
         };
         
         _mediatorMock
@@ -368,7 +368,7 @@ public class EnrollmentsControllerTests
         // Create CourseProgress with all lessons completed
         var courseProgress = new CourseProgress(courseId)
         {
-            LearningHistoryId = studentId
+            LearningHistoryId = learningHistory.Id
         };
         
         // Mock GetCourseByIdQuery result
@@ -406,7 +406,7 @@ public class EnrollmentsControllerTests
         
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result);
-        Assert.Equal("Course completed successfully", okResult.Value);
+        Assert.Equal("Curso concluído com sucesso", okResult.Value);
     }
     
     [Fact]
@@ -441,7 +441,7 @@ public class EnrollmentsControllerTests
             Id = enrollmentId,
             StudentId = studentId,
             CourseId = courseId,
-            Status = EnrollmentStatus.Completed.ToString()
+            Status = StatusMatricula.Concluida.ToString()
         };
         
         _mediatorMock
@@ -453,7 +453,7 @@ public class EnrollmentsControllerTests
         
         // Assert
         var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-        Assert.Equal("Only active enrollments can be completed.", badRequestResult.Value);
+        Assert.Equal("Apenas matrículas ativas podem ser concluídas.", badRequestResult.Value);
     }
     
     [Fact]
@@ -470,7 +470,7 @@ public class EnrollmentsControllerTests
             Id = enrollmentId,
             StudentId = studentId,
             CourseId = courseId,
-            Status = EnrollmentStatus.Active.ToString()
+            Status = StatusMatricula.Ativa.ToString()
         };
         
         _mediatorMock
@@ -519,7 +519,7 @@ public class EnrollmentsControllerTests
         
         // Assert
         var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-        Assert.Contains("All classes must be completed", badRequestResult.Value.ToString());
+        Assert.Contains("Todas as aulas devem ser concluídas", badRequestResult.Value.ToString());
         Assert.Contains("1/2", badRequestResult.Value.ToString());
     }
     
@@ -537,7 +537,7 @@ public class EnrollmentsControllerTests
             Id = enrollmentId,
             StudentId = studentId,
             CourseId = courseId,
-            Status = EnrollmentStatus.Active.ToString()
+            Status = StatusMatricula.Ativa.ToString()
         };
         
         _mediatorMock

@@ -18,17 +18,17 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        // Add Persistence
+        // Adicionar Persistência
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         var identityConnectionString = configuration.GetConnectionString("IdentityConnection");
 
-        // Check environment to decide which database provider to use
+        // Verificar o ambiente para decidir qual provedor de banco de dados usar
         var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
         var usesSqlite = environment == "Development" || environment == "Testing";
 
         if (usesSqlite)
         {
-            // Configure SQLite for Development and Testing environments
+            // Configurar SQLite para ambientes de Desenvolvimento e Teste
             services.AddDbContext<FluencyHubDbContext>(options =>
                 options.UseSqlite(connectionString));
             
@@ -37,7 +37,7 @@ public static class DependencyInjection
         }
         else
         {
-            // Configure SQL Server for Production environment
+            // Configurar SQL Server para o ambiente de Produção
             services.AddDbContext<FluencyHubDbContext>(options =>
                 options.UseSqlServer(connectionString));
             
@@ -56,27 +56,27 @@ public static class DependencyInjection
         services.AddScoped<Application.Common.Interfaces.ILessonRepository, LessonRepository>();
         services.AddScoped<Application.Common.Interfaces.IDomainEventService, DomainEventService>();
 
-        // Add Identity
+        // Adicionar Identity
         services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
-                // Password settings
+                // Configurações de senha
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequiredLength = 8;
 
-                // Lockout settings
+                // Configurações de bloqueio
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
                 options.Lockout.MaxFailedAccessAttempts = 5;
 
-                // User settings
+                // Configurações de usuário
                 options.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
-        // Add Authentication with JWT
+        // Adicionar Autenticação com JWT
         services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -108,17 +108,17 @@ public static class DependencyInjection
                 };
             });
 
-        // Add Identity Services
+        // Adicionar Serviços de Identity
         services.AddScoped<Application.Common.Interfaces.IIdentityService, IdentityService>();
 
-        // Add Payment Services
+        // Adicionar Serviços de Pagamento
         services.AddHttpClient<Application.Common.Interfaces.IPaymentService, CieloPaymentService>(client =>
         {
             string baseUrl = configuration["PaymentGateway:BaseUrl"] ?? "https://api.cieloecommerce.cielo.com.br/";
             client.BaseAddress = new Uri(baseUrl);
         });
 
-        // Add Payment Gateway
+        // Adicionar Gateway de Pagamento
         services.AddScoped<Application.Common.Interfaces.IPaymentGateway, MockPaymentGateway>();
 
         return services;

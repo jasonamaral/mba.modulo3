@@ -47,7 +47,7 @@ public class PaymentDtoExample : IExamplesProvider<PaymentDto>
             EnrollmentId = Guid.Parse("33333333-3333-3333-3333-333333333333"),
             StudentId = Guid.Parse("22222222-2222-2222-2222-222222222222"),
             Amount = 99.99m,
-            Status = PaymentStatus.Successful.ToString(),
+            Status = StatusPagamento.Aprovado.ToString(),
             TransactionId = "TRX123456789",
             FailureReason = null,
             RefundReason = null,

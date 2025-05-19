@@ -55,7 +55,7 @@ public class EnrollStudentCommandHandlerTests
         Assert.Equal(courseId, student.Enrollments.First().CourseId);
         Assert.Equal(studentId, student.Enrollments.First().StudentId);
         Assert.Equal(course.Price, student.Enrollments.First().Price);
-        Assert.Equal(EnrollmentStatus.PendingPayment, student.Enrollments.First().Status);
+        Assert.Equal(StatusMatricula.AguardandoPagamento, student.Enrollments.First().Status);
         
         _mockStudentRepository.Verify(r => r.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }

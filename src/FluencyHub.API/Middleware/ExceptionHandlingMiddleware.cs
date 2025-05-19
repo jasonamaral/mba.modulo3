@@ -58,16 +58,16 @@ public class ExceptionHandlingMiddleware
     private static string GetTitle(Exception exception) =>
         exception switch
         {
-            BadRequestException => "Bad Request",
-            ValidationException => "Bad Request",
+            BadRequestException => "Requisição Inválida",
+            ValidationException => "Requisição Inválida",
             ApplicationException appEx => appEx.Message,
-            _ => "Server Error"
+            _ => "Erro no Servidor"
         };
 
     private static string GetDetail(Exception exception) =>
         exception switch
         {
-            NotFoundException notFoundEx => $"Entity not found: {notFoundEx.Message}",
+            NotFoundException notFoundEx => $"Entidade não encontrada: {notFoundEx.Message}",
             _ => exception.Message
         };
 
