@@ -1,5 +1,5 @@
 using FluencyHub.Application.Common.Models;
-using FluencyHub.Domain.PaymentProcessing;
+using FluencyHub.PaymentProcessing.Domain;
 using FluencyHub.Infrastructure.Services;
 using Microsoft.Extensions.Logging;
 using Moq;

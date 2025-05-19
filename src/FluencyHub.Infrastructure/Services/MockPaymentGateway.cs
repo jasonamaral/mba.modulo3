@@ -1,6 +1,6 @@
 using FluencyHub.Application.Common.Interfaces;
 using FluencyHub.Application.Common.Models;
-using FluencyHub.Domain.PaymentProcessing;
+using FluencyHub.PaymentProcessing.Domain;
 using Microsoft.Extensions.Logging;
 
 namespace FluencyHub.Infrastructure.Services;

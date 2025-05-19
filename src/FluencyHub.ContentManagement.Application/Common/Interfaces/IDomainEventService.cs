@@ -1,8 +1,8 @@
-using FluencyHub.Domain.Common;
+using FluencyHub.ContentManagement.Domain.Common;
 
 namespace FluencyHub.ContentManagement.Application.Common.Interfaces;
 
 public interface IDomainEventService
 {
-    Task PublishAsync(DomainEvent domainEvent);
+    Task PublishAsync(object domainEvent);
 } 

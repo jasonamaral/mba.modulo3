@@ -1,4 +1,4 @@
-using FluencyHub.Domain.ContentManagement;
+using FluencyHub.ContentManagement.Domain;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

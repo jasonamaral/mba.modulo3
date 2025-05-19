@@ -1,4 +1,4 @@
-using FluencyHub.Domain.Common;
+using FluencyHub.PaymentProcessing.Domain.Common;
 
 namespace FluencyHub.PaymentProcessing.Domain.Events;
 

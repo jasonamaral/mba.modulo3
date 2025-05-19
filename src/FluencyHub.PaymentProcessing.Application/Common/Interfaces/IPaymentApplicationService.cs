@@ -1,4 +1,4 @@
-using FluencyHub.Domain.PaymentProcessing;
+using FluencyHub.PaymentProcessing.Domain;
 
 namespace FluencyHub.PaymentProcessing.Application.Common.Interfaces;
 

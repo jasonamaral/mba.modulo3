@@ -4,7 +4,7 @@ using FluencyHub.Application.ContentManagement.Queries.GetCourseById;
 using FluencyHub.Application.ContentManagement.Queries.GetLessonById;
 using FluencyHub.Application.StudentManagement.Commands.CompleteLessonForStudent;
 using FluencyHub.Application.StudentManagement.Queries.GetStudentById;
-using FluencyHub.Domain.StudentManagement;
+using FluencyHub.StudentManagement.Domain;
 using MediatR;
 using Moq;
 using System;

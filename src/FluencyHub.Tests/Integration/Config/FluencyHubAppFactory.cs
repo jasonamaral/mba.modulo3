@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using FluencyHub.Infrastructure.Persistence;
+using FluencyHub.Infrastructure.Persistence.Extensions;
 using FluencyHub.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using FluencyHub.API;

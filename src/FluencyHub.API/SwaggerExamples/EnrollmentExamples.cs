@@ -1,6 +1,6 @@
 using FluencyHub.API.Models;
 using FluencyHub.Application.StudentManagement.Queries.GetEnrollmentById;
-using FluencyHub.Domain.StudentManagement;
+using FluencyHub.StudentManagement.Domain;
 using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.Collections.Generic;

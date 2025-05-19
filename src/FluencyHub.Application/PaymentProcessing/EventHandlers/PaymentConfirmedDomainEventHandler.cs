@@ -1,8 +1,8 @@
 using FluencyHub.Application.Common.Exceptions;
 using FluencyHub.Application.Common.Interfaces;
 using FluencyHub.Application.Common.Models;
-using FluencyHub.Domain.PaymentProcessing.Events;
-using FluencyHub.Domain.StudentManagement;
+using FluencyHub.PaymentProcessing.Domain.Events;
+using FluencyHub.StudentManagement.Domain;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

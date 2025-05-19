@@ -1,5 +1,5 @@
 using FluencyHub.Application.Common.Interfaces;
-using FluencyHub.Domain.ContentManagement;
+using FluencyHub.ContentManagement.Domain;
 using Microsoft.EntityFrameworkCore;
 using FluencyHub.Application.Common.Exceptions;
 

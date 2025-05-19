@@ -1,5 +1,6 @@
-using FluencyHub.Domain.Common;
+using FluencyHub.PaymentProcessing.Domain.Common;
 using FluencyHub.PaymentProcessing.Domain.Events;
+using FluencyHub.StudentManagement.Domain;
 using System.Text.Json.Serialization;
 
 namespace FluencyHub.PaymentProcessing.Domain;
@@ -15,6 +16,9 @@ public class Payment : BaseEntity
     public string? RefundReason { get; private set; }
     public CardDetails CardDetails { get; private set; }
     public DateTime PaymentDate { get; private set; }
+
+    [JsonIgnore]
+    public Enrollment? Enrollment { get; private set; }
 
     private Payment()
     { }

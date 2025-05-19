@@ -1,4 +1,4 @@
-using FluencyHub.Domain.PaymentProcessing;
+using FluencyHub.PaymentProcessing.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

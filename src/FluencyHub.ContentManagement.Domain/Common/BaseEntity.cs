@@ -1,4 +1,4 @@
-namespace FluencyHub.Domain.Common;
+namespace FluencyHub.ContentManagement.Domain.Common;
 
 public abstract class BaseEntity
 {

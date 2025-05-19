@@ -2,7 +2,7 @@ using FluencyHub.API.Controllers;
 using FluencyHub.API.Models;
 using FluencyHub.Application.Common.Interfaces;
 using FluencyHub.Application.Common.Exceptions;
-using FluencyHub.Domain.PaymentProcessing;
+using FluencyHub.PaymentProcessing.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;

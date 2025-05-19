@@ -1,8 +1,7 @@
 using FluencyHub.Application.Common.Exceptions;
-using FluencyHub.Application.Common.Interfaces;
 using FluencyHub.Application.StudentManagement.Commands.EnrollStudent;
-using FluencyHub.Domain.ContentManagement;
-using FluencyHub.Domain.StudentManagement;
+using FluencyHub.ContentManagement.Domain;
+using FluencyHub.StudentManagement.Domain;
 using Moq;
 
 namespace FluencyHub.Tests.Application.StudentManagement.Commands;

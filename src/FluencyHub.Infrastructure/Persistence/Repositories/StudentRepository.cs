@@ -1,4 +1,4 @@
-using FluencyHub.Domain.StudentManagement;
+using FluencyHub.StudentManagement.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace FluencyHub.Infrastructure.Persistence.Repositories;

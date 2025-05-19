@@ -2,7 +2,7 @@ using FluencyHub.Application.Common.Exceptions;
 using FluencyHub.Application.Common.Interfaces;
 using FluencyHub.Application.ContentManagement.Queries.GetLessonById;
 using FluencyHub.Application.StudentManagement.Queries.GetEnrollmentById;
-using FluencyHub.Domain.StudentManagement;
+using FluencyHub.StudentManagement.Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

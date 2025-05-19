@@ -1,4 +1,4 @@
-using FluencyHub.Domain.StudentManagement;
+using FluencyHub.StudentManagement.Domain;
 
 namespace FluencyHub.Application.Common.Interfaces;
 
@@ -11,4 +11,4 @@ public interface ICertificateRepository
     Task<IEnumerable<Certificate>> GetAllAsync();
     Task AddAsync(Certificate certificate);
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
-} 
+}

@@ -1,6 +1,7 @@
+using AutoMapper;
+using FluencyHub.ContentManagement.Domain;
 using FluencyHub.Application.Common.Exceptions;
 using FluencyHub.Application.Common.Interfaces;
-using FluencyHub.Domain.ContentManagement;
 using MediatR;
 
 namespace FluencyHub.Application.ContentManagement.Queries.GetLessonsByCourse;

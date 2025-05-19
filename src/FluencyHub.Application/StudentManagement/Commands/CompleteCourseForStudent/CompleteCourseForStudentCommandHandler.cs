@@ -2,7 +2,7 @@ using FluencyHub.Application.Common.Exceptions;
 using FluencyHub.Application.Common.Interfaces;
 using FluencyHub.Application.ContentManagement.Queries.GetCourseById;
 using FluencyHub.Application.StudentManagement.Queries.GetStudentById;
-using FluencyHub.Domain.StudentManagement;
+using FluencyHub.StudentManagement.Domain;
 using MediatR;
 
 namespace FluencyHub.Application.StudentManagement.Commands.CompleteCourseForStudent;

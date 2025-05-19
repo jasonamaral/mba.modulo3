@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\FluencyHub.Domain\FluencyHub.Domain.csproj" />
     <ProjectReference Include="..\FluencyHub.PaymentProcessing.Domain\FluencyHub.PaymentProcessing.Domain.csproj" />
   </ItemGroup>
 

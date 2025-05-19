@@ -1,5 +1,5 @@
 using FluencyHub.Application.Common.Models;
-using FluencyHub.Domain.PaymentProcessing;
+using FluencyHub.PaymentProcessing.Domain;
 
 namespace FluencyHub.Application.Common.Interfaces;
 

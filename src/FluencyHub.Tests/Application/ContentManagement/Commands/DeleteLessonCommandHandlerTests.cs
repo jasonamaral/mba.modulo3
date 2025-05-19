@@ -1,7 +1,7 @@
 using FluencyHub.Application.Common.Exceptions;
 using FluencyHub.Application.Common.Interfaces;
 using FluencyHub.Application.ContentManagement.Commands.DeleteLesson;
-using FluencyHub.Domain.ContentManagement;
+using FluencyHub.ContentManagement.Domain;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;

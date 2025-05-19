@@ -1,6 +1,6 @@
 using FluencyHub.API.Models;
 using FluencyHub.Application.PaymentProcessing.Queries.GetPaymentById;
-using FluencyHub.Domain.PaymentProcessing;
+using FluencyHub.PaymentProcessing.Domain;
 using Swashbuckle.AspNetCore.Filters;
 using System;
 

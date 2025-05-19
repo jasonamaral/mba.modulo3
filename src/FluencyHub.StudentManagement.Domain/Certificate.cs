@@ -1,4 +1,5 @@
-using FluencyHub.Domain.Common;
+using FluencyHub.StudentManagement.Domain.Common;
+using FluencyHub.ContentManagement.Domain;
 using System.Text.Json.Serialization;
 
 namespace FluencyHub.StudentManagement.Domain;
@@ -12,6 +13,9 @@ public class Certificate : BaseEntity
 
     [JsonIgnore]
     public Student Student { get; private set; }
+
+    [JsonIgnore]
+    public Course Course { get; private set; }
 
     private Certificate()
     { }

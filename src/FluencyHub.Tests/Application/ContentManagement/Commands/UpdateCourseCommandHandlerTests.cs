@@ -1,6 +1,6 @@
 using FluencyHub.Application.Common.Exceptions;
 using FluencyHub.Application.ContentManagement.Commands.UpdateCourse;
-using FluencyHub.Domain.ContentManagement;
+using FluencyHub.ContentManagement.Domain;
 using Microsoft.Extensions.Logging;
 using Moq;
 

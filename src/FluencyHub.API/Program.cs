@@ -86,7 +86,7 @@ try
             identityDbContext.Database.Migrate();
         }
 
-        if (!dbContext.Set<FluencyHub.Domain.ContentManagement.Course>().Any())
+        if (!dbContext.Set<FluencyHub.ContentManagement.Domain.Course>().Any())
         {
             await DatabaseSeeder.SeedData(services);
         }

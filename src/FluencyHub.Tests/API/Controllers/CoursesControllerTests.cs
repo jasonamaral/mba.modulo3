@@ -4,7 +4,7 @@ using FluencyHub.Application.Common.Exceptions;
 using FluencyHub.Application.ContentManagement.Commands.CreateCourse;
 using FluencyHub.Application.ContentManagement.Commands.UpdateCourse;
 using FluencyHub.Application.ContentManagement.Queries.GetCourseById;
-using FluencyHub.Domain.ContentManagement;
+using FluencyHub.ContentManagement.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;

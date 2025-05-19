@@ -1,5 +1,4 @@
 using FluencyHub.Application.Common.Models;
-using FluencyHub.Domain.Common;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -16,7 +15,7 @@ public class DomainEventService : Application.Common.Interfaces.IDomainEventServ
         _mediator = mediator;
     }
 
-    public async Task PublishAsync(DomainEvent domainEvent)
+    public async Task PublishAsync(object domainEvent)
     {
         _logger.LogInformation("Publishing domain event: {event}", domainEvent.GetType().Name);
         
@@ -27,6 +26,9 @@ public class DomainEventService : Application.Common.Interfaces.IDomainEventServ
         var notification = Activator.CreateInstance(notificationType, domainEvent);
         
         // Publicamos o adapter
-        await _mediator.Publish(notification);
+        if (notification != null)
+        {
+            await _mediator.Publish(notification);
+        }
     }
 } 

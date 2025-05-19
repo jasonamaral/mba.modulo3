@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\FluencyHub.Domain\FluencyHub.Domain.csproj" />
+    <ProjectReference Include="..\FluencyHub.ContentManagement.Domain\FluencyHub.ContentManagement.Domain.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -1,5 +1,5 @@
 using FluencyHub.Application.ContentManagement.Commands.CreateCourse;
-using FluencyHub.Domain.ContentManagement;
+using FluencyHub.ContentManagement.Domain;
 using Microsoft.Extensions.Logging;
 using Moq;
 

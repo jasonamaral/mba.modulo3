@@ -1,4 +1,4 @@
-using FluencyHub.Domain.Common;
+using FluencyHub.PaymentProcessing.Domain.Common;
 using Xunit;
 
 namespace FluencyHub.Tests.Domain.Common

@@ -1,4 +1,4 @@
-using FluencyHub.Domain.PaymentProcessing;
+using FluencyHub.PaymentProcessing.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace FluencyHub.Infrastructure.Persistence.Repositories;

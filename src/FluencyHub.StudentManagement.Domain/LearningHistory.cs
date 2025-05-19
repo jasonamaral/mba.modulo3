@@ -1,4 +1,4 @@
-using FluencyHub.Domain.Common;
+using FluencyHub.StudentManagement.Domain.Common;
 
 namespace FluencyHub.StudentManagement.Domain;
 

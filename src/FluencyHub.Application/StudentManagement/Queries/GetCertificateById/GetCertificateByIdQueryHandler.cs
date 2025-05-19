@@ -1,6 +1,6 @@
 using FluencyHub.Application.Common.Exceptions;
-using FluencyHub.Domain.ContentManagement;
-using FluencyHub.Domain.StudentManagement;
+using FluencyHub.ContentManagement.Domain;
+using FluencyHub.StudentManagement.Domain;
 using MediatR;
 
 namespace FluencyHub.Application.StudentManagement.Queries.GetCertificateById;

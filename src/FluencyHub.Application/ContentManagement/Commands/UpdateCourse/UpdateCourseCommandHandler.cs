@@ -1,5 +1,6 @@
+using FluencyHub.ContentManagement.Domain;
 using FluencyHub.Application.Common.Exceptions;
-using FluencyHub.Domain.ContentManagement;
+using FluencyHub.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

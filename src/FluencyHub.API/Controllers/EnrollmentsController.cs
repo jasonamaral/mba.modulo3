@@ -5,7 +5,7 @@ using FluencyHub.Application.ContentManagement.Commands.CompleteEnrollment;
 using FluencyHub.Application.ContentManagement.Queries.GetCourseById;
 using FluencyHub.Application.StudentManagement.Queries.GetEnrollmentById;
 using FluencyHub.Application.StudentManagement.Queries.GetStudentEnrollments;
-using FluencyHub.Domain.StudentManagement;
+using FluencyHub.StudentManagement.Domain;
 using FluencyHub.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

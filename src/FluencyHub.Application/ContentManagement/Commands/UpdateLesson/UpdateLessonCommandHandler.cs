@@ -1,5 +1,5 @@
+using FluencyHub.ContentManagement.Domain;
 using FluencyHub.Application.Common.Exceptions;
-using FluencyHub.Domain.ContentManagement;
 using MediatR;
 
 namespace FluencyHub.Application.ContentManagement.Commands.UpdateLesson;

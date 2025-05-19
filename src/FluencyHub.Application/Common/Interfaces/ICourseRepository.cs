@@ -1,4 +1,4 @@
-using FluencyHub.Domain.ContentManagement;
+using FluencyHub.ContentManagement.Domain;
 
 namespace FluencyHub.Application.Common.Interfaces;
 

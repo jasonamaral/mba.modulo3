@@ -1,5 +1,6 @@
-using FluencyHub.Domain.ContentManagement;
+using FluencyHub.ContentManagement.Domain;
 using FluencyHub.Infrastructure.Persistence;
+using FluencyHub.Infrastructure.Persistence.Extensions;
 using FluencyHub.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.Sqlite;

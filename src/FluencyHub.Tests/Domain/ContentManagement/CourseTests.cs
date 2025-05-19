@@ -1,4 +1,4 @@
-using FluencyHub.Domain.ContentManagement;
+using FluencyHub.ContentManagement.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,11 +1,13 @@
-using FluencyHub.Domain.ContentManagement;
-using FluencyHub.Domain.PaymentProcessing;
-using FluencyHub.Domain.StudentManagement;
+using FluencyHub.ContentManagement.Domain;
+using FluencyHub.PaymentProcessing.Domain;
+using FluencyHub.StudentManagement.Domain;
 using Microsoft.EntityFrameworkCore;
 using FluencyHub.Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using FluencyHub.Domain.Common;
-using System.Reflection;
+using FluencyHub.PaymentProcessing.Domain.Common;
+using FluencyHub.StudentManagement.Domain.Common;
+using FluencyHub.ContentManagement.Domain.Common;
+using System.Collections.Generic;
 
 namespace FluencyHub.Infrastructure.Persistence;
 
@@ -44,21 +46,36 @@ public class FluencyHubDbContext : DbContext, IApplicationDbContext
         if (_domainEventService == null)
             return;
             
+        // Processar entidades de todos os domínios
+        await DispatchDomainEventsForEntities<PaymentProcessing.Domain.Common.BaseEntity, PaymentProcessing.Domain.Common.DomainEvent>(cancellationToken);
+        await DispatchDomainEventsForEntities<StudentManagement.Domain.Common.BaseEntity, StudentManagement.Domain.Common.DomainEvent>(cancellationToken);
+        await DispatchDomainEventsForEntities<ContentManagement.Domain.Common.BaseEntity, ContentManagement.Domain.Common.DomainEvent>(cancellationToken);
+    }
+    
+    private async Task DispatchDomainEventsForEntities<TEntity, TDomainEvent>(CancellationToken cancellationToken)
+        where TEntity : class
+        where TDomainEvent : class
+    {
         var entities = ChangeTracker
-            .Entries<BaseEntity>()
-            .Where(e => e.Entity.DomainEvents.Any())
+            .Entries<TEntity>()
+            .Where(e => e.Entity is { } entity && entity.GetType().GetProperty("DomainEvents") != null && 
+                       entity.GetType().GetMethod("ClearDomainEvents") != null)
             .Select(e => e.Entity)
             .ToList();
             
-        var domainEvents = entities
-            .SelectMany(e => e.DomainEvents)
-            .ToList();
-            
-        entities.ForEach(e => e.ClearDomainEvents());
-        
-        foreach (var domainEvent in domainEvents)
+        foreach (var entity in entities)
         {
-            await _domainEventService.PublishAsync(domainEvent);
+            var domainEventsProperty = entity.GetType().GetProperty("DomainEvents");
+            if (domainEventsProperty?.GetValue(entity) is IEnumerable<TDomainEvent> domainEvents)
+            {
+                foreach (var domainEvent in domainEvents.ToList())
+                {
+                    await _domainEventService.PublishAsync(domainEvent);
+                }
+                
+                var clearMethod = entity.GetType().GetMethod("ClearDomainEvents");
+                clearMethod?.Invoke(entity, null);
+            }
         }
     }
     
@@ -66,8 +83,10 @@ public class FluencyHubDbContext : DbContext, IApplicationDbContext
     {
         base.OnModelCreating(modelBuilder);
         
-        // Ignorar DomainEvent e classes derivadas para evitar o mapeamento pelo EF Core
-        modelBuilder.Ignore<DomainEvent>();
+        // Ignorar todos os tipos de DomainEvent de todos os domínios
+        modelBuilder.Ignore<FluencyHub.PaymentProcessing.Domain.Common.DomainEvent>();
+        modelBuilder.Ignore<FluencyHub.StudentManagement.Domain.Common.DomainEvent>();
+        modelBuilder.Ignore<FluencyHub.ContentManagement.Domain.Common.DomainEvent>();
         
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(FluencyHubDbContext).Assembly);
 
