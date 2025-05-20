@@ -7,7 +7,15 @@ using FluencyHub.PaymentProcessing.Application;
 using FluencyHub.Infrastructure;
 using FluencyHub.Infrastructure.Identity;
 using FluencyHub.Infrastructure.Persistence;
+using FluencyHub.StudentManagement.Infrastructure;
+using FluencyHub.ContentManagement.Infrastructure;
+using FluencyHub.PaymentProcessing.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using FluencyHub.Application.Common.Interfaces;
+using FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories;
+using FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories;
+using FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories;
+using FluencyHub.API.Adapters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +24,16 @@ builder.Services.AddApplicationServices();
 builder.Services.AddContentManagementApplication();
 builder.Services.AddStudentManagementApplication();
 builder.Services.AddPaymentProcessingApplication();
+
+// Adicionar serviços de infraestrutura
 builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddStudentManagementInfrastructureServices(builder.Configuration);
+builder.Services.AddContentManagementInfrastructureServices(builder.Configuration);
+builder.Services.AddPaymentProcessingInfrastructureServices(builder.Configuration);
+
+// Registrar adaptadores para interfaces da Application.Common.Interfaces
+builder.Services.AddRepositoryAdapters();
+
 builder.Services.AddApiServices(builder.Configuration);
 
 // Configure Swagger

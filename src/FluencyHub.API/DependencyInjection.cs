@@ -1,6 +1,14 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using FluencyHub.API.Adapters;
+using FluencyHub.Application.Common.Interfaces;
+using FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories;
+using FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories;
+using FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories;
+using FluencyHub.PaymentProcessing.Infrastructure.Services;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FluencyHub.API;
 
@@ -30,6 +38,31 @@ public static class DependencyInjection
             });
         });
 
+        return services;
+    }
+    
+    public static IServiceCollection AddRepositoryAdapters(this IServiceCollection services)
+    {
+        // Registrar os repositórios base
+        services.AddScoped<CourseRepository>();
+        services.AddScoped<StudentRepository>();
+        services.AddScoped<EnrollmentRepository>();
+        services.AddScoped<CertificateRepository>();
+        services.AddScoped<PaymentRepository>();
+        services.AddScoped<LearningRepository>();
+        services.AddScoped<LessonRepository>();
+        services.AddScoped<MockPaymentGateway>();
+        
+        // Registrar os adaptadores
+        services.AddScoped<ICourseRepository, CourseRepositoryAdapter>();
+        services.AddScoped<IStudentRepository, StudentRepositoryAdapter>();
+        services.AddScoped<IEnrollmentRepository, EnrollmentRepositoryAdapter>();
+        services.AddScoped<ICertificateRepository, CertificateRepositoryAdapter>();
+        services.AddScoped<IPaymentRepository, PaymentRepositoryAdapter>();
+        services.AddScoped<ILessonRepository, LessonRepositoryAdapter>();
+        services.AddScoped<ILearningRepository, LearningRepositoryAdapter>();
+        services.AddScoped<IPaymentGateway, PaymentGatewayAdapter>();
+        
         return services;
     }
 }

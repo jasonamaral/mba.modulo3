@@ -40,6 +40,9 @@
     <ProjectReference Include="..\FluencyHub.ContentManagement.Application\FluencyHub.ContentManagement.Application.csproj" />
     <ProjectReference Include="..\FluencyHub.StudentManagement.Application\FluencyHub.StudentManagement.Application.csproj" />
     <ProjectReference Include="..\FluencyHub.PaymentProcessing.Application\FluencyHub.PaymentProcessing.Application.csproj" />
+    <ProjectReference Include="..\FluencyHub.StudentManagement.Infrastructure\FluencyHub.StudentManagement.Infrastructure.csproj" />
+    <ProjectReference Include="..\FluencyHub.ContentManagement.Infrastructure\FluencyHub.ContentManagement.Infrastructure.csproj" />
+    <ProjectReference Include="..\FluencyHub.PaymentProcessing.Infrastructure\FluencyHub.PaymentProcessing.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

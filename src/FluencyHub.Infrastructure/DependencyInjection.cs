@@ -1,7 +1,7 @@
 using FluencyHub.Application.Common.Interfaces;
+using FluencyHub.Infrastructure.Common;
 using FluencyHub.Infrastructure.Identity;
 using FluencyHub.Infrastructure.Persistence;
-using FluencyHub.Infrastructure.Persistence.Repositories;
 using FluencyHub.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -46,14 +46,8 @@ public static class DependencyInjection
         }
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<FluencyHubDbContext>());
-
-        services.AddScoped<Application.Common.Interfaces.ICourseRepository, CourseRepository>();
-        services.AddScoped<Application.Common.Interfaces.IStudentRepository, StudentRepository>();
-        services.AddScoped<Application.Common.Interfaces.IEnrollmentRepository, EnrollmentRepository>();
-        services.AddScoped<Application.Common.Interfaces.ICertificateRepository, CertificateRepository>();
-        services.AddScoped<Application.Common.Interfaces.IPaymentRepository, PaymentRepository>();
-        services.AddScoped<Application.Common.Interfaces.ILearningRepository, LearningRepository>();
-        services.AddScoped<Application.Common.Interfaces.ILessonRepository, LessonRepository>();
+        
+        // Adicionar serviço de eventos de domínio (comum a todos os BCs)
         services.AddScoped<Application.Common.Interfaces.IDomainEventService, DomainEventService>();
 
         // Adicionar Identity
@@ -110,16 +104,6 @@ public static class DependencyInjection
 
         // Adicionar Serviços de Identity
         services.AddScoped<Application.Common.Interfaces.IIdentityService, IdentityService>();
-
-        // Adicionar Serviços de Pagamento
-        services.AddHttpClient<Application.Common.Interfaces.IPaymentService, CieloPaymentService>(client =>
-        {
-            string baseUrl = configuration["PaymentGateway:BaseUrl"] ?? "https://api.cieloecommerce.cielo.com.br/";
-            client.BaseAddress = new Uri(baseUrl);
-        });
-
-        // Adicionar Gateway de Pagamento
-        services.AddScoped<Application.Common.Interfaces.IPaymentGateway, MockPaymentGateway>();
 
         return services;
     }

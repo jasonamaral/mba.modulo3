@@ -2,7 +2,7 @@ using FluencyHub.Application.Common.Models;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace FluencyHub.Infrastructure.Services;
+namespace FluencyHub.Infrastructure.Common;
 
 public class DomainEventService : Application.Common.Interfaces.IDomainEventService
 {

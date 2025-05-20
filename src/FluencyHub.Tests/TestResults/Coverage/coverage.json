@@ -4,311 +4,315 @@
       "Program/<<Main>$>d__0": {
         "System.Void Program/<<Main>$>d__0::MoveNext()": {
           "Lines": {
-            "12": 1,
-            "15": 1,
-            "16": 1,
-            "17": 1,
-            "18": 1,
-            "19": 1,
             "20": 1,
             "23": 1,
             "24": 1,
+            "25": 1,
             "26": 1,
             "29": 1,
+            "30": 1,
             "31": 1,
             "32": 1,
-            "33": 1,
-            "34": 1,
+            "35": 1,
             "37": 1,
-            "38": 1,
             "40": 1,
             "41": 1,
-            "42": 1,
             "43": 1,
-            "45": 1,
             "46": 1,
+            "48": 1,
             "49": 1,
             "50": 1,
-            "52": 1,
+            "51": 1,
             "54": 1,
             "55": 1,
-            "56": 1,
             "57": 1,
+            "58": 1,
+            "59": 1,
             "60": 1,
-            "61": 1,
-            "62": 0,
-            "63": 0,
-            "64": 0,
+            "62": 1,
+            "63": 1,
+            "66": 1,
             "67": 1,
-            "68": 1,
-            "70": 1,
+            "69": 1,
+            "71": 1,
             "72": 1,
-            "73": 0,
-            "74": 0,
-            "75": 0,
-            "77": 0,
+            "73": 1,
+            "74": 1,
+            "77": 1,
+            "78": 1,
             "79": 0,
             "80": 0,
             "81": 0,
-            "82": 0,
-            "84": 0,
-            "85": 0,
-            "86": 0,
-            "87": 0,
-            "89": 0,
+            "84": 1,
+            "85": 1,
+            "87": 1,
+            "89": 1,
             "90": 0,
             "91": 0,
             "92": 0,
             "94": 0,
-            "95": 0,
-            "96": 1,
-            "97": 1,
-            "98": 1,
-            "99": 1,
-            "100": 1,
-            "102": 1,
-            "103": 1,
-            "104": 1,
-            "105": 1,
-            "107": 1
+            "96": 0,
+            "97": 0,
+            "98": 0,
+            "99": 0,
+            "101": 0,
+            "102": 0,
+            "103": 0,
+            "104": 0,
+            "106": 0,
+            "107": 0,
+            "108": 0,
+            "109": 0,
+            "111": 0,
+            "112": 0,
+            "113": 1,
+            "114": 1,
+            "115": 1,
+            "116": 1,
+            "117": 1,
+            "119": 1,
+            "120": 1,
+            "121": 1,
+            "122": 1,
+            "124": 1
           },
           "Branches": [
             {
-              "Line": 31,
-              "Offset": 243,
-              "EndOffset": 245,
+              "Line": 48,
+              "Offset": 344,
+              "EndOffset": 346,
               "Path": 0,
               "Ordinal": 0,
               "Hits": 0
             },
             {
-              "Line": 31,
-              "Offset": 243,
-              "EndOffset": 273,
+              "Line": 48,
+              "Offset": 344,
+              "EndOffset": 374,
               "Path": 1,
               "Ordinal": 1,
               "Hits": 1
             },
             {
-              "Line": 31,
-              "Offset": 276,
-              "EndOffset": 278,
+              "Line": 48,
+              "Offset": 377,
+              "EndOffset": 379,
               "Path": 0,
               "Ordinal": 2,
               "Hits": 1
             },
             {
-              "Line": 31,
-              "Offset": 276,
-              "EndOffset": 292,
+              "Line": 48,
+              "Offset": 377,
+              "EndOffset": 393,
               "Path": 1,
               "Ordinal": 3,
               "Hits": 1
             },
             {
-              "Line": 45,
-              "Offset": 435,
-              "EndOffset": 437,
+              "Line": 62,
+              "Offset": 536,
+              "EndOffset": 538,
               "Path": 0,
               "Ordinal": 4,
               "Hits": 0
             },
             {
-              "Line": 45,
-              "Offset": 435,
-              "EndOffset": 465,
+              "Line": 62,
+              "Offset": 536,
+              "EndOffset": 566,
               "Path": 1,
               "Ordinal": 5,
               "Hits": 1
             },
             {
-              "Line": 45,
-              "Offset": 468,
-              "EndOffset": 473,
+              "Line": 62,
+              "Offset": 569,
+              "EndOffset": 574,
               "Path": 0,
               "Ordinal": 6,
               "Hits": 1
             },
             {
-              "Line": 49,
-              "Offset": 497,
-              "EndOffset": 499,
+              "Line": 66,
+              "Offset": 598,
+              "EndOffset": 600,
               "Path": 0,
               "Ordinal": 8,
               "Hits": 0
             },
             {
-              "Line": 49,
-              "Offset": 497,
-              "EndOffset": 505,
+              "Line": 66,
+              "Offset": 598,
+              "EndOffset": 606,
               "Path": 1,
               "Ordinal": 9,
               "Hits": 1
             },
             {
-              "Line": 50,
-              "Offset": 533,
-              "EndOffset": 535,
+              "Line": 67,
+              "Offset": 634,
+              "EndOffset": 636,
               "Path": 0,
               "Ordinal": 10,
               "Hits": 0
             },
             {
-              "Line": 50,
-              "Offset": 533,
-              "EndOffset": 541,
+              "Line": 67,
+              "Offset": 634,
+              "EndOffset": 642,
               "Path": 1,
               "Ordinal": 11,
               "Hits": 1
             },
             {
-              "Line": 52,
-              "Offset": 563,
-              "EndOffset": 565,
+              "Line": 69,
+              "Offset": 664,
+              "EndOffset": 666,
               "Path": 0,
               "Ordinal": 12,
               "Hits": 1
             },
             {
-              "Line": 52,
-              "Offset": 563,
-              "EndOffset": 583,
+              "Line": 69,
+              "Offset": 664,
+              "EndOffset": 684,
               "Path": 1,
               "Ordinal": 13,
               "Hits": 0
             },
             {
-              "Line": 54,
-              "Offset": 600,
-              "EndOffset": 605,
+              "Line": 71,
+              "Offset": 701,
+              "EndOffset": 706,
               "Path": 0,
               "Ordinal": 14,
               "Hits": 1
             },
             {
-              "Line": 61,
-              "Offset": 698,
-              "EndOffset": 700,
+              "Line": 78,
+              "Offset": 799,
+              "EndOffset": 801,
               "Path": 0,
               "Ordinal": 16,
               "Hits": 1
             },
             {
-              "Line": 61,
-              "Offset": 698,
-              "EndOffset": 716,
+              "Line": 78,
+              "Offset": 799,
+              "EndOffset": 817,
               "Path": 1,
               "Ordinal": 17,
               "Hits": 0
             },
             {
-              "Line": 61,
-              "Offset": 721,
-              "EndOffset": 723,
+              "Line": 78,
+              "Offset": 822,
+              "EndOffset": 824,
               "Path": 0,
               "Ordinal": 18,
               "Hits": 0
             },
             {
-              "Line": 61,
-              "Offset": 721,
-              "EndOffset": 737,
+              "Line": 78,
+              "Offset": 822,
+              "EndOffset": 838,
               "Path": 1,
               "Ordinal": 19,
               "Hits": 1
             },
             {
-              "Line": 67,
-              "Offset": 749,
-              "EndOffset": 751,
+              "Line": 84,
+              "Offset": 850,
+              "EndOffset": 852,
               "Path": 0,
               "Ordinal": 20,
               "Hits": 1
             },
             {
-              "Line": 67,
-              "Offset": 749,
-              "EndOffset": 764,
+              "Line": 84,
+              "Offset": 850,
+              "EndOffset": 865,
               "Path": 1,
               "Ordinal": 21,
               "Hits": 0
             },
             {
-              "Line": 68,
-              "Offset": 782,
-              "EndOffset": 784,
+              "Line": 85,
+              "Offset": 883,
+              "EndOffset": 885,
               "Path": 0,
               "Ordinal": 22,
               "Hits": 1
             },
             {
-              "Line": 68,
-              "Offset": 782,
-              "EndOffset": 797,
+              "Line": 85,
+              "Offset": 883,
+              "EndOffset": 898,
               "Path": 1,
               "Ordinal": 23,
               "Hits": 0
             },
             {
-              "Line": 54,
-              "Offset": 600,
-              "EndOffset": 825,
+              "Line": 71,
+              "Offset": 701,
+              "EndOffset": 926,
               "Path": 1,
               "Ordinal": 15,
               "Hits": 1
             },
             {
-              "Line": 45,
-              "Offset": 468,
-              "EndOffset": 984,
+              "Line": 62,
+              "Offset": 569,
+              "EndOffset": 1085,
               "Path": 1,
               "Ordinal": 7,
               "Hits": 0
             },
             {
-              "Line": 79,
-              "Offset": 1010,
-              "EndOffset": 1012,
+              "Line": 96,
+              "Offset": 1111,
+              "EndOffset": 1113,
               "Path": 0,
               "Ordinal": 24,
               "Hits": 0
             },
             {
-              "Line": 79,
-              "Offset": 1010,
-              "EndOffset": 1031,
+              "Line": 96,
+              "Offset": 1111,
+              "EndOffset": 1132,
               "Path": 1,
               "Ordinal": 25,
               "Hits": 0
             },
             {
-              "Line": 84,
-              "Offset": 1056,
-              "EndOffset": 1058,
+              "Line": 101,
+              "Offset": 1157,
+              "EndOffset": 1159,
               "Path": 0,
               "Ordinal": 26,
               "Hits": 0
             },
             {
-              "Line": 84,
-              "Offset": 1056,
-              "EndOffset": 1077,
+              "Line": 101,
+              "Offset": 1157,
+              "EndOffset": 1178,
               "Path": 1,
               "Ordinal": 27,
               "Hits": 0
             },
             {
-              "Line": 89,
-              "Offset": 1100,
-              "EndOffset": 1102,
+              "Line": 106,
+              "Offset": 1201,
+              "EndOffset": 1203,
               "Path": 0,
               "Ordinal": 28,
               "Hits": 0
             },
             {
-              "Line": 89,
-              "Offset": 1100,
-              "EndOffset": 1209,
+              "Line": 106,
+              "Offset": 1201,
+              "EndOffset": 1310,
               "Path": 1,
               "Ordinal": 29,
               "Hits": 0
@@ -504,28 +508,52 @@
       "FluencyHub.API.DependencyInjection": {
         "Microsoft.Extensions.DependencyInjection.IServiceCollection FluencyHub.API.DependencyInjection::AddApiServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)": {
           "Lines": {
-            "10": 1,
-            "11": 1,
-            "12": 1,
-            "13": 1,
-            "14": 1,
-            "15": 1,
-            "16": 1,
-            "17": 1,
-            "18": 2,
+            "18": 1,
+            "19": 1,
             "20": 1,
             "21": 1,
+            "22": 1,
             "23": 1,
-            "24": 0,
-            "25": 0,
-            "26": 0,
-            "27": 0,
-            "28": 0,
-            "29": 0,
-            "30": 0,
+            "24": 1,
+            "25": 1,
+            "26": 2,
+            "28": 1,
+            "29": 1,
             "31": 1,
-            "33": 1,
-            "34": 1
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 1,
+            "41": 1,
+            "42": 1
+          },
+          "Branches": []
+        },
+        "Microsoft.Extensions.DependencyInjection.IServiceCollection FluencyHub.API.DependencyInjection::AddRepositoryAdapters(Microsoft.Extensions.DependencyInjection.IServiceCollection)": {
+          "Lines": {
+            "45": 1,
+            "47": 1,
+            "48": 1,
+            "49": 1,
+            "50": 1,
+            "51": 1,
+            "52": 1,
+            "53": 1,
+            "54": 1,
+            "57": 1,
+            "58": 1,
+            "59": 1,
+            "60": 1,
+            "61": 1,
+            "62": 1,
+            "63": 1,
+            "64": 1,
+            "66": 1,
+            "67": 1
           },
           "Branches": []
         }
@@ -2969,6 +2997,808 @@
               "Hits": 0
             }
           ]
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.API/Adapters/CertificateRepositoryAdapter.cs": {
+      "FluencyHub.API.Adapters.CertificateRepositoryAdapter": {
+        "System.Threading.Tasks.Task FluencyHub.API.Adapters.CertificateRepositoryAdapter::SaveChangesAsync(System.Threading.CancellationToken)": {
+          "Lines": {
+            "47": 0,
+            "48": 0,
+            "49": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.API.Adapters.CertificateRepositoryAdapter::.ctor(FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.CertificateRepository)": {
+          "Lines": {
+            "11": 0,
+            "12": 0,
+            "13": 0,
+            "14": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.CertificateRepositoryAdapter/<AddAsync>d__7": {
+        "System.Void FluencyHub.API.Adapters.CertificateRepositoryAdapter/<AddAsync>d__7::MoveNext()": {
+          "Lines": {
+            "42": 0,
+            "43": 0,
+            "44": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.CertificateRepositoryAdapter/<GetAllAsync>d__6": {
+        "System.Void FluencyHub.API.Adapters.CertificateRepositoryAdapter/<GetAllAsync>d__6::MoveNext()": {
+          "Lines": {
+            "37": 0,
+            "38": 0,
+            "39": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.CertificateRepositoryAdapter/<GetByCourseIdAsync>d__4": {
+        "System.Void FluencyHub.API.Adapters.CertificateRepositoryAdapter/<GetByCourseIdAsync>d__4::MoveNext()": {
+          "Lines": {
+            "27": 0,
+            "28": 0,
+            "29": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.CertificateRepositoryAdapter/<GetByIdAsync>d__2": {
+        "System.Void FluencyHub.API.Adapters.CertificateRepositoryAdapter/<GetByIdAsync>d__2::MoveNext()": {
+          "Lines": {
+            "17": 0,
+            "18": 0,
+            "19": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.CertificateRepositoryAdapter/<GetByStudentAndCourseAsync>d__5": {
+        "System.Void FluencyHub.API.Adapters.CertificateRepositoryAdapter/<GetByStudentAndCourseAsync>d__5::MoveNext()": {
+          "Lines": {
+            "32": 0,
+            "33": 0,
+            "34": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.CertificateRepositoryAdapter/<GetByStudentIdAsync>d__3": {
+        "System.Void FluencyHub.API.Adapters.CertificateRepositoryAdapter/<GetByStudentIdAsync>d__3::MoveNext()": {
+          "Lines": {
+            "22": 0,
+            "23": 0,
+            "24": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.API/Adapters/CourseRepositoryAdapter.cs": {
+      "FluencyHub.API.Adapters.CourseRepositoryAdapter": {
+        "System.Threading.Tasks.Task FluencyHub.API.Adapters.CourseRepositoryAdapter::UpdateAsync(FluencyHub.ContentManagement.Domain.Course)": {
+          "Lines": {
+            "55": 0,
+            "56": 0,
+            "57": 0
+          },
+          "Branches": []
+        },
+        "System.Threading.Tasks.Task FluencyHub.API.Adapters.CourseRepositoryAdapter::DeleteAsync(System.Guid)": {
+          "Lines": {
+            "60": 0,
+            "61": 0,
+            "62": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.API.Adapters.CourseRepositoryAdapter::.ctor(FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository)": {
+          "Lines": {
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.CourseRepositoryAdapter/<>c": {
+        "FluencyHub.Application.Common.Interfaces.CourseProgressInfo FluencyHub.API.Adapters.CourseRepositoryAdapter/<>c::<GetCourseProgressesForStudent>b__13_0(FluencyHub.ContentManagement.Application.Common.Models.CourseProgressInfo)": {
+          "Lines": {
+            "77": 0,
+            "78": 0,
+            "79": 0,
+            "80": 0,
+            "81": 0,
+            "82": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.CourseRepositoryAdapter/<AddAsync>d__8": {
+        "System.Void FluencyHub.API.Adapters.CourseRepositoryAdapter/<AddAsync>d__8::MoveNext()": {
+          "Lines": {
+            "50": 0,
+            "51": 0,
+            "52": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.CourseRepositoryAdapter/<GetActiveCoursesAsync>d__5": {
+        "System.Void FluencyHub.API.Adapters.CourseRepositoryAdapter/<GetActiveCoursesAsync>d__5::MoveNext()": {
+          "Lines": {
+            "35": 0,
+            "36": 0,
+            "37": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.CourseRepositoryAdapter/<GetAllAsync>d__4": {
+        "System.Void FluencyHub.API.Adapters.CourseRepositoryAdapter/<GetAllAsync>d__4::MoveNext()": {
+          "Lines": {
+            "30": 0,
+            "31": 0,
+            "32": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.CourseRepositoryAdapter/<GetByIdAsync>d__2": {
+        "System.Void FluencyHub.API.Adapters.CourseRepositoryAdapter/<GetByIdAsync>d__2::MoveNext()": {
+          "Lines": {
+            "20": 0,
+            "21": 0,
+            "22": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.CourseRepositoryAdapter/<GetByIdWithLessonsAsync>d__3": {
+        "System.Void FluencyHub.API.Adapters.CourseRepositoryAdapter/<GetByIdWithLessonsAsync>d__3::MoveNext()": {
+          "Lines": {
+            "25": 0,
+            "26": 0,
+            "27": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.CourseRepositoryAdapter/<GetByLanguageAsync>d__6": {
+        "System.Void FluencyHub.API.Adapters.CourseRepositoryAdapter/<GetByLanguageAsync>d__6::MoveNext()": {
+          "Lines": {
+            "40": 0,
+            "41": 0,
+            "42": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.CourseRepositoryAdapter/<GetByLevelAsync>d__7": {
+        "System.Void FluencyHub.API.Adapters.CourseRepositoryAdapter/<GetByLevelAsync>d__7::MoveNext()": {
+          "Lines": {
+            "45": 0,
+            "46": 0,
+            "47": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.CourseRepositoryAdapter/<GetCourseProgressesForStudent>d__13": {
+        "System.Void FluencyHub.API.Adapters.CourseRepositoryAdapter/<GetCourseProgressesForStudent>d__13::MoveNext()": {
+          "Lines": {
+            "75": 0,
+            "76": 0,
+            "83": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.CourseRepositoryAdapter/<GetLessonByIdAsync>d__11": {
+        "System.Void FluencyHub.API.Adapters.CourseRepositoryAdapter/<GetLessonByIdAsync>d__11::MoveNext()": {
+          "Lines": {
+            "65": 0,
+            "66": 0,
+            "67": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.CourseRepositoryAdapter/<GetLessonsCountByCourseId>d__14": {
+        "System.Void FluencyHub.API.Adapters.CourseRepositoryAdapter/<GetLessonsCountByCourseId>d__14::MoveNext()": {
+          "Lines": {
+            "86": 0,
+            "87": 0,
+            "88": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.CourseRepositoryAdapter/<SaveChangesAsync>d__12": {
+        "System.Void FluencyHub.API.Adapters.CourseRepositoryAdapter/<SaveChangesAsync>d__12::MoveNext()": {
+          "Lines": {
+            "70": 0,
+            "71": 0,
+            "72": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.API/Adapters/EnrollmentRepositoryAdapter.cs": {
+      "FluencyHub.API.Adapters.EnrollmentRepositoryAdapter": {
+        "System.Threading.Tasks.Task FluencyHub.API.Adapters.EnrollmentRepositoryAdapter::SaveChangesAsync(System.Threading.CancellationToken)": {
+          "Lines": {
+            "52": 0,
+            "53": 0,
+            "54": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.API.Adapters.EnrollmentRepositoryAdapter::.ctor(FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.EnrollmentRepository)": {
+          "Lines": {
+            "11": 0,
+            "12": 0,
+            "13": 0,
+            "14": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.EnrollmentRepositoryAdapter/<AddAsync>d__8": {
+        "System.Void FluencyHub.API.Adapters.EnrollmentRepositoryAdapter/<AddAsync>d__8::MoveNext()": {
+          "Lines": {
+            "47": 0,
+            "48": 0,
+            "49": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.EnrollmentRepositoryAdapter/<GetActiveEnrollmentsAsync>d__7": {
+        "System.Void FluencyHub.API.Adapters.EnrollmentRepositoryAdapter/<GetActiveEnrollmentsAsync>d__7::MoveNext()": {
+          "Lines": {
+            "42": 0,
+            "43": 0,
+            "44": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.EnrollmentRepositoryAdapter/<GetAllAsync>d__6": {
+        "System.Void FluencyHub.API.Adapters.EnrollmentRepositoryAdapter/<GetAllAsync>d__6::MoveNext()": {
+          "Lines": {
+            "37": 0,
+            "38": 0,
+            "39": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.EnrollmentRepositoryAdapter/<GetByCourseIdAsync>d__5": {
+        "System.Void FluencyHub.API.Adapters.EnrollmentRepositoryAdapter/<GetByCourseIdAsync>d__5::MoveNext()": {
+          "Lines": {
+            "32": 0,
+            "33": 0,
+            "34": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.EnrollmentRepositoryAdapter/<GetByIdAsync>d__2": {
+        "System.Void FluencyHub.API.Adapters.EnrollmentRepositoryAdapter/<GetByIdAsync>d__2::MoveNext()": {
+          "Lines": {
+            "17": 0,
+            "18": 0,
+            "19": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.EnrollmentRepositoryAdapter/<GetByStudentAndCourseAsync>d__3": {
+        "System.Void FluencyHub.API.Adapters.EnrollmentRepositoryAdapter/<GetByStudentAndCourseAsync>d__3::MoveNext()": {
+          "Lines": {
+            "22": 0,
+            "23": 0,
+            "24": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.EnrollmentRepositoryAdapter/<GetByStudentIdAsync>d__4": {
+        "System.Void FluencyHub.API.Adapters.EnrollmentRepositoryAdapter/<GetByStudentIdAsync>d__4::MoveNext()": {
+          "Lines": {
+            "27": 0,
+            "28": 0,
+            "29": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.API/Adapters/LearningRepositoryAdapter.cs": {
+      "FluencyHub.API.Adapters.LearningRepositoryAdapter": {
+        "System.Void FluencyHub.API.Adapters.LearningRepositoryAdapter::.ctor(FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository)": {
+          "Lines": {
+            "11": 0,
+            "12": 0,
+            "13": 0,
+            "14": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.LearningRepositoryAdapter/<AddAsync>d__7": {
+        "System.Void FluencyHub.API.Adapters.LearningRepositoryAdapter/<AddAsync>d__7::MoveNext()": {
+          "Lines": {
+            "42": 0,
+            "43": 0,
+            "44": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.LearningRepositoryAdapter/<CompleteLessonAsync>d__10": {
+        "System.Void FluencyHub.API.Adapters.LearningRepositoryAdapter/<CompleteLessonAsync>d__10::MoveNext()": {
+          "Lines": {
+            "57": 0,
+            "58": 0,
+            "59": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.LearningRepositoryAdapter/<GetByStudentIdAsync>d__2": {
+        "System.Void FluencyHub.API.Adapters.LearningRepositoryAdapter/<GetByStudentIdAsync>d__2::MoveNext()": {
+          "Lines": {
+            "17": 0,
+            "18": 0,
+            "19": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.LearningRepositoryAdapter/<GetCompletedLessonIdsAsync>d__6": {
+        "System.Void FluencyHub.API.Adapters.LearningRepositoryAdapter/<GetCompletedLessonIdsAsync>d__6::MoveNext()": {
+          "Lines": {
+            "37": 0,
+            "38": 0,
+            "39": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.LearningRepositoryAdapter/<GetCompletedLessonsCountAsync>d__5": {
+        "System.Void FluencyHub.API.Adapters.LearningRepositoryAdapter/<GetCompletedLessonsCountAsync>d__5::MoveNext()": {
+          "Lines": {
+            "32": 0,
+            "33": 0,
+            "34": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.LearningRepositoryAdapter/<GetCourseProgressAsync>d__3": {
+        "System.Void FluencyHub.API.Adapters.LearningRepositoryAdapter/<GetCourseProgressAsync>d__3::MoveNext()": {
+          "Lines": {
+            "22": 0,
+            "23": 0,
+            "24": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.LearningRepositoryAdapter/<HasCompletedLessonAsync>d__4": {
+        "System.Void FluencyHub.API.Adapters.LearningRepositoryAdapter/<HasCompletedLessonAsync>d__4::MoveNext()": {
+          "Lines": {
+            "27": 0,
+            "28": 0,
+            "29": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.LearningRepositoryAdapter/<SaveChangesAsync>d__9": {
+        "System.Void FluencyHub.API.Adapters.LearningRepositoryAdapter/<SaveChangesAsync>d__9::MoveNext()": {
+          "Lines": {
+            "52": 0,
+            "53": 0,
+            "54": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.LearningRepositoryAdapter/<UncompleteLessonAsync>d__11": {
+        "System.Void FluencyHub.API.Adapters.LearningRepositoryAdapter/<UncompleteLessonAsync>d__11::MoveNext()": {
+          "Lines": {
+            "62": 0,
+            "63": 0,
+            "64": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.LearningRepositoryAdapter/<UpdateAsync>d__8": {
+        "System.Void FluencyHub.API.Adapters.LearningRepositoryAdapter/<UpdateAsync>d__8::MoveNext()": {
+          "Lines": {
+            "47": 0,
+            "48": 0,
+            "49": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.API/Adapters/LessonRepositoryAdapter.cs": {
+      "FluencyHub.API.Adapters.LessonRepositoryAdapter": {
+        "System.Threading.Tasks.Task FluencyHub.API.Adapters.LessonRepositoryAdapter::UpdateAsync(FluencyHub.ContentManagement.Domain.Lesson,System.Threading.CancellationToken)": {
+          "Lines": {
+            "32": 0,
+            "33": 0,
+            "34": 0
+          },
+          "Branches": []
+        },
+        "System.Threading.Tasks.Task FluencyHub.API.Adapters.LessonRepositoryAdapter::SaveChangesAsync(System.Threading.CancellationToken)": {
+          "Lines": {
+            "37": 0,
+            "38": 0,
+            "39": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.API.Adapters.LessonRepositoryAdapter::.ctor(FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.LessonRepository)": {
+          "Lines": {
+            "11": 0,
+            "12": 0,
+            "13": 0,
+            "14": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.LessonRepositoryAdapter/<AddAsync>d__4": {
+        "System.Void FluencyHub.API.Adapters.LessonRepositoryAdapter/<AddAsync>d__4::MoveNext()": {
+          "Lines": {
+            "27": 0,
+            "28": 0,
+            "29": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.LessonRepositoryAdapter/<GetByCourseIdAsync>d__3": {
+        "System.Void FluencyHub.API.Adapters.LessonRepositoryAdapter/<GetByCourseIdAsync>d__3::MoveNext()": {
+          "Lines": {
+            "22": 0,
+            "23": 0,
+            "24": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.LessonRepositoryAdapter/<GetByIdAsync>d__2": {
+        "System.Void FluencyHub.API.Adapters.LessonRepositoryAdapter/<GetByIdAsync>d__2::MoveNext()": {
+          "Lines": {
+            "17": 0,
+            "18": 0,
+            "19": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.API/Adapters/PaymentGatewayAdapter.cs": {
+      "FluencyHub.API.Adapters.PaymentGatewayAdapter": {
+        "System.Void FluencyHub.API.Adapters.PaymentGatewayAdapter::.ctor(FluencyHub.PaymentProcessing.Infrastructure.Services.MockPaymentGateway)": {
+          "Lines": {
+            "12": 0,
+            "13": 0,
+            "14": 0,
+            "15": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.PaymentGatewayAdapter/<ProcessPaymentAsync>d__2": {
+        "System.Void FluencyHub.API.Adapters.PaymentGatewayAdapter/<ProcessPaymentAsync>d__2::MoveNext()": {
+          "Lines": {
+            "18": 0,
+            "19": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "27": 0,
+            "28": 0,
+            "30": 0
+          },
+          "Branches": [
+            {
+              "Line": 22,
+              "Offset": 178,
+              "EndOffset": 180,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 22,
+              "Offset": 178,
+              "EndOffset": 200,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 28,
+              "Offset": 213,
+              "EndOffset": 215,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 28,
+              "Offset": 213,
+              "EndOffset": 221,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "FluencyHub.API.Adapters.PaymentGatewayAdapter/<ProcessRefundAsync>d__3": {
+        "System.Void FluencyHub.API.Adapters.PaymentGatewayAdapter/<ProcessRefundAsync>d__3::MoveNext()": {
+          "Lines": {
+            "33": 0,
+            "34": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "45": 0,
+            "46": 0,
+            "47": 0,
+            "48": 0,
+            "50": 0
+          },
+          "Branches": [
+            {
+              "Line": 37,
+              "Offset": 178,
+              "EndOffset": 180,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 37,
+              "Offset": 178,
+              "EndOffset": 222,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 46,
+              "Offset": 246,
+              "EndOffset": 248,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 46,
+              "Offset": 246,
+              "EndOffset": 254,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.API/Adapters/PaymentRepositoryAdapter.cs": {
+      "FluencyHub.API.Adapters.PaymentRepositoryAdapter": {
+        "System.Void FluencyHub.API.Adapters.PaymentRepositoryAdapter::.ctor(FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories.PaymentRepository)": {
+          "Lines": {
+            "11": 0,
+            "12": 0,
+            "13": 0,
+            "14": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.PaymentRepositoryAdapter/<AddAsync>d__7": {
+        "System.Void FluencyHub.API.Adapters.PaymentRepositoryAdapter/<AddAsync>d__7::MoveNext()": {
+          "Lines": {
+            "42": 0,
+            "43": 0,
+            "44": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.PaymentRepositoryAdapter/<GetByEnrollmentIdAsync>d__4": {
+        "System.Void FluencyHub.API.Adapters.PaymentRepositoryAdapter/<GetByEnrollmentIdAsync>d__4::MoveNext()": {
+          "Lines": {
+            "27": 0,
+            "28": 0,
+            "29": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.PaymentRepositoryAdapter/<GetByIdAsync>d__2": {
+        "System.Void FluencyHub.API.Adapters.PaymentRepositoryAdapter/<GetByIdAsync>d__2::MoveNext()": {
+          "Lines": {
+            "17": 0,
+            "18": 0,
+            "19": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.PaymentRepositoryAdapter/<GetByStudentIdAsync>d__3": {
+        "System.Void FluencyHub.API.Adapters.PaymentRepositoryAdapter/<GetByStudentIdAsync>d__3::MoveNext()": {
+          "Lines": {
+            "22": 0,
+            "23": 0,
+            "24": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.PaymentRepositoryAdapter/<GetByTransactionIdAsync>d__5": {
+        "System.Void FluencyHub.API.Adapters.PaymentRepositoryAdapter/<GetByTransactionIdAsync>d__5::MoveNext()": {
+          "Lines": {
+            "32": 0,
+            "33": 0,
+            "34": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.PaymentRepositoryAdapter/<GetSuccessfulPaymentsAsync>d__6": {
+        "System.Void FluencyHub.API.Adapters.PaymentRepositoryAdapter/<GetSuccessfulPaymentsAsync>d__6::MoveNext()": {
+          "Lines": {
+            "37": 0,
+            "38": 0,
+            "39": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.PaymentRepositoryAdapter/<SaveChangesAsync>d__8": {
+        "System.Void FluencyHub.API.Adapters.PaymentRepositoryAdapter/<SaveChangesAsync>d__8::MoveNext()": {
+          "Lines": {
+            "47": 0,
+            "48": 0,
+            "49": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.API/Adapters/StudentRepositoryAdapter.cs": {
+      "FluencyHub.API.Adapters.StudentRepositoryAdapter": {
+        "System.Threading.Tasks.Task FluencyHub.API.Adapters.StudentRepositoryAdapter::UpdateAsync(FluencyHub.StudentManagement.Domain.Student)": {
+          "Lines": {
+            "57": 0,
+            "58": 0,
+            "59": 0
+          },
+          "Branches": []
+        },
+        "System.Threading.Tasks.Task FluencyHub.API.Adapters.StudentRepositoryAdapter::DeleteAsync(System.Guid)": {
+          "Lines": {
+            "62": 0,
+            "63": 0,
+            "64": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.API.Adapters.StudentRepositoryAdapter::.ctor(FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.StudentRepository)": {
+          "Lines": {
+            "11": 1,
+            "12": 1,
+            "13": 1,
+            "14": 1
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.StudentRepositoryAdapter/<AddAsync>d__8": {
+        "System.Void FluencyHub.API.Adapters.StudentRepositoryAdapter/<AddAsync>d__8::MoveNext()": {
+          "Lines": {
+            "47": 1,
+            "48": 1,
+            "49": 1
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.StudentRepositoryAdapter/<GetActiveStudentsAsync>d__5": {
+        "System.Void FluencyHub.API.Adapters.StudentRepositoryAdapter/<GetActiveStudentsAsync>d__5::MoveNext()": {
+          "Lines": {
+            "32": 0,
+            "33": 0,
+            "34": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.StudentRepositoryAdapter/<GetAllAsync>d__3": {
+        "System.Void FluencyHub.API.Adapters.StudentRepositoryAdapter/<GetAllAsync>d__3::MoveNext()": {
+          "Lines": {
+            "22": 0,
+            "23": 0,
+            "24": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.StudentRepositoryAdapter/<GetByEmailAsync>d__4": {
+        "System.Void FluencyHub.API.Adapters.StudentRepositoryAdapter/<GetByEmailAsync>d__4::MoveNext()": {
+          "Lines": {
+            "27": 0,
+            "28": 0,
+            "29": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.StudentRepositoryAdapter/<GetByIdAsync>d__2": {
+        "System.Void FluencyHub.API.Adapters.StudentRepositoryAdapter/<GetByIdAsync>d__2::MoveNext()": {
+          "Lines": {
+            "17": 0,
+            "18": 0,
+            "19": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.StudentRepositoryAdapter/<GetCertificatesByStudentIdAsync>d__7": {
+        "System.Void FluencyHub.API.Adapters.StudentRepositoryAdapter/<GetCertificatesByStudentIdAsync>d__7::MoveNext()": {
+          "Lines": {
+            "42": 0,
+            "43": 0,
+            "44": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.StudentRepositoryAdapter/<GetEnrollmentsByStudentIdAsync>d__6": {
+        "System.Void FluencyHub.API.Adapters.StudentRepositoryAdapter/<GetEnrollmentsByStudentIdAsync>d__6::MoveNext()": {
+          "Lines": {
+            "37": 0,
+            "38": 0,
+            "39": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.API.Adapters.StudentRepositoryAdapter/<SaveChangesAsync>d__9": {
+        "System.Void FluencyHub.API.Adapters.StudentRepositoryAdapter/<SaveChangesAsync>d__9::MoveNext()": {
+          "Lines": {
+            "52": 1,
+            "53": 1,
+            "54": 1
+          },
+          "Branches": []
         }
       }
     }
@@ -9606,6 +10436,330 @@
       }
     }
   },
+  "FluencyHub.ContentManagement.Infrastructure.dll": {
+    "/mnt/modulo3/src/FluencyHub.ContentManagement.Infrastructure/DependencyInjection.cs": {
+      "FluencyHub.ContentManagement.Infrastructure.DependencyInjection": {
+        "Microsoft.Extensions.DependencyInjection.IServiceCollection FluencyHub.ContentManagement.Infrastructure.DependencyInjection::AddContentManagementInfrastructureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)": {
+          "Lines": {
+            "11": 1,
+            "13": 1,
+            "14": 1,
+            "16": 1,
+            "17": 1
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.ContentManagement.Infrastructure/Persistence/Repositories/CourseRepository.cs": {
+      "FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository": {
+        "System.Void FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository::.ctor(FluencyHub.Infrastructure.Persistence.FluencyHubDbContext)": {
+          "Lines": {
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<AddAsync>d__8": {
+        "System.Void FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<AddAsync>d__8::MoveNext()": {
+          "Lines": {
+            "75": 0,
+            "76": 0,
+            "77": 0,
+            "78": 0,
+            "79": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<DeleteAsync>d__11": {
+        "System.Void FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<DeleteAsync>d__11::MoveNext()": {
+          "Lines": {
+            "93": 0,
+            "94": 0,
+            "95": 0,
+            "96": 0,
+            "97": 0,
+            "100": 0,
+            "101": 0,
+            "102": 0
+          },
+          "Branches": [
+            {
+              "Line": 95,
+              "Offset": 197,
+              "EndOffset": 199,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 95,
+              "Offset": 197,
+              "EndOffset": 222,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<GetActiveCoursesAsync>d__5": {
+        "System.Void FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<GetActiveCoursesAsync>d__5::MoveNext()": {
+          "Lines": {
+            "51": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0,
+            "55": 0,
+            "56": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<GetAllAsync>d__4": {
+        "System.Void FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<GetAllAsync>d__4::MoveNext()": {
+          "Lines": {
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "47": 0,
+            "48": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<GetByIdAsync>d__2": {
+        "System.Void FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<GetByIdAsync>d__2::MoveNext()": {
+          "Lines": {
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<GetByIdWithLessonsAsync>d__3": {
+        "System.Void FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<GetByIdWithLessonsAsync>d__3::MoveNext()": {
+          "Lines": {
+            "29": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "40": 0,
+            "41": 0
+          },
+          "Branches": [
+            {
+              "Line": 35,
+              "Offset": 439,
+              "EndOffset": 441,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 35,
+              "Offset": 439,
+              "EndOffset": 469,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<GetByLanguageAsync>d__6": {
+        "System.Void FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<GetByLanguageAsync>d__6::MoveNext()": {
+          "Lines": {
+            "59": 0,
+            "60": 0,
+            "61": 0,
+            "62": 0,
+            "63": 0,
+            "64": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<GetByLevelAsync>d__7": {
+        "System.Void FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<GetByLevelAsync>d__7::MoveNext()": {
+          "Lines": {
+            "67": 0,
+            "68": 0,
+            "69": 0,
+            "70": 0,
+            "71": 0,
+            "72": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<GetCourseProgressesForStudent>d__13": {
+        "System.Void FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<GetCourseProgressesForStudent>d__13::MoveNext()": {
+          "Lines": {
+            "119": 0,
+            "120": 0,
+            "121": 0,
+            "122": 0,
+            "123": 0,
+            "124": 0,
+            "125": 0,
+            "126": 0,
+            "127": 0,
+            "128": 0,
+            "129": 0,
+            "130": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<GetLessonByIdAsync>d__12": {
+        "System.Void FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<GetLessonByIdAsync>d__12::MoveNext()": {
+          "Lines": {
+            "105": 0,
+            "106": 0,
+            "107": 0,
+            "108": 0,
+            "110": 0,
+            "111": 0,
+            "112": 0,
+            "115": 0,
+            "116": 0
+          },
+          "Branches": [
+            {
+              "Line": 110,
+              "Offset": 381,
+              "EndOffset": 383,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 110,
+              "Offset": 381,
+              "EndOffset": 411,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<GetLessonsCountByCourseId>d__14": {
+        "System.Void FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<GetLessonsCountByCourseId>d__14::MoveNext()": {
+          "Lines": {
+            "133": 0,
+            "134": 0,
+            "135": 0,
+            "136": 0,
+            "137": 0,
+            "138": 0,
+            "139": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<SaveChangesAsync>d__9": {
+        "System.Void FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<SaveChangesAsync>d__9::MoveNext()": {
+          "Lines": {
+            "82": 0,
+            "83": 0,
+            "84": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<UpdateAsync>d__10": {
+        "System.Void FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.CourseRepository/<UpdateAsync>d__10::MoveNext()": {
+          "Lines": {
+            "87": 0,
+            "88": 0,
+            "89": 0,
+            "90": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.ContentManagement.Infrastructure/Persistence/Repositories/LessonRepository.cs": {
+      "FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.LessonRepository": {
+        "System.Threading.Tasks.Task FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.LessonRepository::UpdateAsync(FluencyHub.ContentManagement.Domain.Lesson,System.Threading.CancellationToken)": {
+          "Lines": {
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.LessonRepository::.ctor(FluencyHub.Infrastructure.Persistence.FluencyHubDbContext)": {
+          "Lines": {
+            "12": 0,
+            "13": 0,
+            "14": 0,
+            "15": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.LessonRepository/<AddAsync>d__4": {
+        "System.Void FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.LessonRepository/<AddAsync>d__4::MoveNext()": {
+          "Lines": {
+            "32": 0,
+            "33": 0,
+            "34": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.LessonRepository/<GetByCourseIdAsync>d__3": {
+        "System.Void FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.LessonRepository/<GetByCourseIdAsync>d__3::MoveNext()": {
+          "Lines": {
+            "24": 0,
+            "25": 0,
+            "26": 0,
+            "27": 0,
+            "28": 0,
+            "29": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.LessonRepository/<GetByIdAsync>d__2": {
+        "System.Void FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.LessonRepository/<GetByIdAsync>d__2::MoveNext()": {
+          "Lines": {
+            "18": 0,
+            "19": 0,
+            "20": 0,
+            "21": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.LessonRepository/<SaveChangesAsync>d__6": {
+        "System.Void FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories.LessonRepository/<SaveChangesAsync>d__6::MoveNext()": {
+          "Lines": {
+            "43": 0,
+            "44": 0,
+            "45": 0
+          },
+          "Branches": []
+        }
+      }
+    }
+  },
   "FluencyHub.Infrastructure.dll": {
     "/mnt/modulo3/src/FluencyHub.Infrastructure/DependencyInjection.cs": {
       "FluencyHub.Infrastructure.DependencyInjection": {
@@ -9630,32 +10784,31 @@
             "45": 0,
             "46": 0,
             "48": 1,
-            "50": 1,
             "51": 1,
-            "52": 1,
-            "53": 1,
             "54": 1,
-            "55": 1,
+            "55": 2,
             "56": 1,
-            "57": 1,
-            "60": 1,
+            "57": 2,
+            "58": 2,
+            "59": 2,
+            "60": 2,
             "61": 2,
             "62": 1,
-            "63": 2,
+            "63": 1,
             "64": 2,
             "65": 2,
-            "66": 2,
-            "67": 2,
-            "68": 1,
-            "69": 1,
-            "70": 2,
-            "71": 2,
-            "72": 1,
-            "73": 1,
-            "74": 2,
-            "75": 2,
+            "66": 1,
+            "67": 1,
+            "68": 2,
+            "69": 2,
+            "70": 1,
+            "71": 1,
+            "74": 1,
+            "75": 1,
             "76": 1,
             "77": 1,
+            "78": 1,
+            "79": 1,
             "80": 1,
             "81": 1,
             "82": 1,
@@ -9679,22 +10832,10 @@
             "100": 1,
             "101": 1,
             "102": 1,
-            "103": 1,
-            "104": 1,
-            "105": 1,
+            "103": 2,
             "106": 1,
-            "107": 1,
             "108": 1,
-            "109": 2,
-            "112": 1,
-            "115": 1,
-            "116": 0,
-            "117": 0,
-            "118": 0,
-            "119": 1,
-            "122": 1,
-            "124": 1,
-            "125": 1
+            "109": 1
           },
           "Branches": [
             {
@@ -9730,7 +10871,7 @@
               "Hits": 0
             },
             {
-              "Line": 91,
+              "Line": 85,
               "Offset": 34,
               "EndOffset": 36,
               "Path": 0,
@@ -9738,7 +10879,7 @@
               "Hits": 0
             },
             {
-              "Line": 91,
+              "Line": 85,
               "Offset": 34,
               "EndOffset": 48,
               "Path": 1,
@@ -9746,7 +10887,7 @@
               "Hits": 1
             },
             {
-              "Line": 93,
+              "Line": 87,
               "Offset": 66,
               "EndOffset": 68,
               "Path": 0,
@@ -9754,7 +10895,7 @@
               "Hits": 0
             },
             {
-              "Line": 93,
+              "Line": 87,
               "Offset": 66,
               "EndOffset": 80,
               "Path": 1,
@@ -9762,7 +10903,7 @@
               "Hits": 1
             },
             {
-              "Line": 95,
+              "Line": 89,
               "Offset": 98,
               "EndOffset": 100,
               "Path": 0,
@@ -9770,28 +10911,12 @@
               "Hits": 0
             },
             {
-              "Line": 95,
+              "Line": 89,
               "Offset": 98,
               "EndOffset": 112,
               "Path": 1,
               "Ordinal": 5,
               "Hits": 1
-            },
-            {
-              "Line": 117,
-              "Offset": 18,
-              "EndOffset": 20,
-              "Path": 0,
-              "Ordinal": 0,
-              "Hits": 0
-            },
-            {
-              "Line": 117,
-              "Offset": 18,
-              "EndOffset": 26,
-              "Path": 1,
-              "Ordinal": 1,
-              "Hits": 0
             }
           ]
         }
@@ -10375,53 +11500,6 @@
               "Line": 198,
               "Offset": 343,
               "EndOffset": 872,
-              "Path": 1,
-              "Ordinal": 1,
-              "Hits": 0
-            }
-          ]
-        }
-      }
-    },
-    "/mnt/modulo3/src/FluencyHub.Infrastructure/Services/DomainEventService.cs": {
-      "FluencyHub.Infrastructure.Services.DomainEventService": {
-        "System.Void FluencyHub.Infrastructure.Services.DomainEventService::.ctor(Microsoft.Extensions.Logging.ILogger`1<FluencyHub.Infrastructure.Services.DomainEventService>,MediatR.IPublisher)": {
-          "Lines": {
-            "12": 17,
-            "13": 17,
-            "14": 17,
-            "15": 17,
-            "16": 17
-          },
-          "Branches": []
-        }
-      },
-      "FluencyHub.Infrastructure.Services.DomainEventService/<PublishAsync>d__3": {
-        "System.Void FluencyHub.Infrastructure.Services.DomainEventService/<PublishAsync>d__3::MoveNext()": {
-          "Lines": {
-            "19": 0,
-            "20": 0,
-            "23": 0,
-            "26": 0,
-            "29": 0,
-            "30": 0,
-            "31": 0,
-            "32": 0,
-            "33": 0
-          },
-          "Branches": [
-            {
-              "Line": 29,
-              "Offset": 149,
-              "EndOffset": 151,
-              "Path": 0,
-              "Ordinal": 0,
-              "Hits": 0
-            },
-            {
-              "Line": 29,
-              "Offset": 149,
-              "EndOffset": 272,
               "Path": 1,
               "Ordinal": 1,
               "Hits": 0
@@ -12090,10 +13168,10 @@
       "FluencyHub.Infrastructure.Persistence.Repositories.StudentRepository": {
         "System.Void FluencyHub.Infrastructure.Persistence.Repositories.StudentRepository::.ctor(FluencyHub.Infrastructure.Persistence.FluencyHubDbContext)": {
           "Lines": {
-            "10": 1,
-            "11": 1,
-            "12": 1,
-            "13": 1
+            "10": 0,
+            "11": 0,
+            "12": 0,
+            "13": 0
           },
           "Branches": []
         }
@@ -12101,9 +13179,9 @@
       "FluencyHub.Infrastructure.Persistence.Repositories.StudentRepository/<AddAsync>d__8": {
         "System.Void FluencyHub.Infrastructure.Persistence.Repositories.StudentRepository/<AddAsync>d__8::MoveNext()": {
           "Lines": {
-            "67": 1,
-            "68": 1,
-            "69": 1
+            "67": 0,
+            "68": 0,
+            "69": 0
           },
           "Branches": []
         }
@@ -12239,9 +13317,9 @@
       "FluencyHub.Infrastructure.Persistence.Repositories.StudentRepository/<SaveChangesAsync>d__9": {
         "System.Void FluencyHub.Infrastructure.Persistence.Repositories.StudentRepository/<SaveChangesAsync>d__9::MoveNext()": {
           "Lines": {
-            "72": 1,
-            "73": 1,
-            "74": 1
+            "72": 0,
+            "73": 0,
+            "74": 0
           },
           "Branches": []
         }
@@ -16574,6 +17652,53 @@
           ]
         }
       }
+    },
+    "/mnt/modulo3/src/FluencyHub.Infrastructure/Common/DomainEventService.cs": {
+      "FluencyHub.Infrastructure.Common.DomainEventService": {
+        "System.Void FluencyHub.Infrastructure.Common.DomainEventService::.ctor(Microsoft.Extensions.Logging.ILogger`1<FluencyHub.Infrastructure.Common.DomainEventService>,MediatR.IPublisher)": {
+          "Lines": {
+            "12": 17,
+            "13": 17,
+            "14": 17,
+            "15": 17,
+            "16": 17
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.Infrastructure.Common.DomainEventService/<PublishAsync>d__3": {
+        "System.Void FluencyHub.Infrastructure.Common.DomainEventService/<PublishAsync>d__3::MoveNext()": {
+          "Lines": {
+            "19": 0,
+            "20": 0,
+            "23": 0,
+            "26": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0
+          },
+          "Branches": [
+            {
+              "Line": 29,
+              "Offset": 149,
+              "EndOffset": 151,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 29,
+              "Offset": 149,
+              "EndOffset": 272,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      }
     }
   },
   "FluencyHub.PaymentProcessing.Application.dll": {
@@ -17852,6 +18977,857 @@
             "10": 15,
             "11": 15,
             "12": 15
+          },
+          "Branches": []
+        }
+      }
+    }
+  },
+  "FluencyHub.PaymentProcessing.Infrastructure.dll": {
+    "/mnt/modulo3/src/FluencyHub.PaymentProcessing.Infrastructure/DependencyInjection.cs": {
+      "FluencyHub.PaymentProcessing.Infrastructure.DependencyInjection": {
+        "Microsoft.Extensions.DependencyInjection.IServiceCollection FluencyHub.PaymentProcessing.Infrastructure.DependencyInjection::AddPaymentProcessingInfrastructureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)": {
+          "Lines": {
+            "15": 1,
+            "17": 1,
+            "20": 1,
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 1,
+            "27": 1,
+            "28": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 1,
+            "36": 1,
+            "38": 1,
+            "39": 1
+          },
+          "Branches": [
+            {
+              "Line": 22,
+              "Offset": 18,
+              "EndOffset": 20,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 22,
+              "Offset": 18,
+              "EndOffset": 26,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.PaymentProcessing.Infrastructure/Services/CieloPaymentService.cs": {
+      "FluencyHub.PaymentProcessing.Infrastructure.Services.CieloPaymentService": {
+        "FluencyHub.PaymentProcessing.Application.Common.Models.StatusPagamento FluencyHub.PaymentProcessing.Infrastructure.Services.CieloPaymentService::MapCieloStatusToPaymentStatus(System.Int32)": {
+          "Lines": {
+            "245": 0,
+            "246": 0,
+            "247": 0,
+            "248": 0,
+            "249": 0,
+            "250": 0,
+            "251": 0,
+            "252": 0,
+            "253": 0,
+            "254": 0,
+            "255": 0,
+            "256": 0,
+            "257": 0,
+            "258": 0
+          },
+          "Branches": [
+            {
+              "Line": 246,
+              "Offset": 8,
+              "EndOffset": 67,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 246,
+              "Offset": 8,
+              "EndOffset": 71,
+              "Path": 2,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 246,
+              "Offset": 8,
+              "EndOffset": 75,
+              "Path": 3,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 246,
+              "Offset": 8,
+              "EndOffset": 79,
+              "Path": 4,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 246,
+              "Offset": 8,
+              "EndOffset": 83,
+              "Path": 10,
+              "Ordinal": 10,
+              "Hits": 0
+            },
+            {
+              "Line": 246,
+              "Offset": 8,
+              "EndOffset": 87,
+              "Path": 11,
+              "Ordinal": 11,
+              "Hits": 0
+            },
+            {
+              "Line": 246,
+              "Offset": 8,
+              "EndOffset": 91,
+              "Path": 12,
+              "Ordinal": 12,
+              "Hits": 0
+            },
+            {
+              "Line": 246,
+              "Offset": 8,
+              "EndOffset": 95,
+              "Path": 13,
+              "Ordinal": 13,
+              "Hits": 0
+            },
+            {
+              "Line": 246,
+              "Offset": 8,
+              "EndOffset": 99,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 246,
+              "Offset": 8,
+              "EndOffset": 99,
+              "Path": 5,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 246,
+              "Offset": 8,
+              "EndOffset": 99,
+              "Path": 6,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 246,
+              "Offset": 8,
+              "EndOffset": 99,
+              "Path": 7,
+              "Ordinal": 7,
+              "Hits": 0
+            },
+            {
+              "Line": 246,
+              "Offset": 8,
+              "EndOffset": 99,
+              "Path": 8,
+              "Ordinal": 8,
+              "Hits": 0
+            },
+            {
+              "Line": 246,
+              "Offset": 8,
+              "EndOffset": 99,
+              "Path": 9,
+              "Ordinal": 9,
+              "Hits": 0
+            }
+          ]
+        },
+        "System.String FluencyHub.PaymentProcessing.Infrastructure.Services.CieloPaymentService::GetCardNumberFromMasked(System.String)": {
+          "Lines": {
+            "261": 0,
+            "263": 0,
+            "264": 0,
+            "266": 0,
+            "267": 0,
+            "269": 0,
+            "270": 0
+          },
+          "Branches": [
+            {
+              "Line": 263,
+              "Offset": 14,
+              "EndOffset": 16,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 263,
+              "Offset": 14,
+              "EndOffset": 24,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 266,
+              "Offset": 37,
+              "EndOffset": 39,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 266,
+              "Offset": 37,
+              "EndOffset": 47,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            }
+          ]
+        },
+        "System.Void FluencyHub.PaymentProcessing.Infrastructure.Services.CieloPaymentService::.ctor(System.Net.Http.HttpClient,Microsoft.Extensions.Logging.ILogger`1<FluencyHub.PaymentProcessing.Infrastructure.Services.CieloPaymentService>,Microsoft.Extensions.Configuration.IConfiguration)": {
+          "Lines": {
+            "19": 0,
+            "20": 0,
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "27": 0,
+            "28": 0,
+            "30": 0,
+            "31": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0
+          },
+          "Branches": [
+            {
+              "Line": 24,
+              "Offset": 11,
+              "EndOffset": 13,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 24,
+              "Offset": 11,
+              "EndOffset": 25,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 25,
+              "Offset": 33,
+              "EndOffset": 35,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 25,
+              "Offset": 33,
+              "EndOffset": 47,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 27,
+              "Offset": 65,
+              "EndOffset": 67,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 27,
+              "Offset": 65,
+              "EndOffset": 79,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 30,
+              "Offset": 97,
+              "EndOffset": 99,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 30,
+              "Offset": 97,
+              "EndOffset": 111,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "FluencyHub.PaymentProcessing.Infrastructure.Services.CieloPaymentService/<GetPaymentStatusAsync>d__6": {
+        "System.Void FluencyHub.PaymentProcessing.Infrastructure.Services.CieloPaymentService/<GetPaymentStatusAsync>d__6::MoveNext()": {
+          "Lines": {
+            "131": 0,
+            "133": 0,
+            "134": 0,
+            "137": 0,
+            "140": 0,
+            "141": 0,
+            "142": 0,
+            "143": 0,
+            "145": 0,
+            "146": 0,
+            "149": 0,
+            "150": 0,
+            "151": 0,
+            "152": 0,
+            "154": 0,
+            "155": 0,
+            "156": 0,
+            "159": 0,
+            "160": 0,
+            "161": 0,
+            "162": 0,
+            "163": 0,
+            "164": 0,
+            "167": 0,
+            "168": 0,
+            "169": 0,
+            "170": 0,
+            "171": 0,
+            "172": 0,
+            "174": 0
+          },
+          "Branches": [
+            {
+              "Line": 140,
+              "Offset": 251,
+              "EndOffset": 256,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 150,
+              "Offset": 525,
+              "EndOffset": 527,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 150,
+              "Offset": 525,
+              "EndOffset": 530,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 140,
+              "Offset": 251,
+              "EndOffset": 626,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "FluencyHub.PaymentProcessing.Infrastructure.Services.CieloPaymentService/<ProcessPaymentAsync>d__5": {
+        "System.Void FluencyHub.PaymentProcessing.Infrastructure.Services.CieloPaymentService/<ProcessPaymentAsync>d__5::MoveNext()": {
+          "Lines": {
+            "44": 0,
+            "46": 0,
+            "47": 0,
+            "48": 0,
+            "51": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0,
+            "55": 0,
+            "56": 0,
+            "57": 0,
+            "58": 0,
+            "59": 0,
+            "60": 0,
+            "61": 0,
+            "62": 0,
+            "63": 0,
+            "64": 0,
+            "65": 0,
+            "66": 0,
+            "67": 0,
+            "68": 0,
+            "69": 0,
+            "70": 0,
+            "71": 0,
+            "72": 0,
+            "73": 0,
+            "74": 0,
+            "75": 0,
+            "78": 0,
+            "79": 0,
+            "80": 0,
+            "81": 0,
+            "84": 0,
+            "87": 0,
+            "88": 0,
+            "89": 0,
+            "90": 0,
+            "92": 0,
+            "93": 0,
+            "94": 0,
+            "97": 0,
+            "98": 0,
+            "99": 0,
+            "100": 0,
+            "101": 0,
+            "104": 0,
+            "105": 0,
+            "106": 0,
+            "107": 0,
+            "109": 0,
+            "110": 0,
+            "111": 0,
+            "115": 0,
+            "116": 0,
+            "117": 0,
+            "118": 0,
+            "119": 0,
+            "122": 0,
+            "123": 0,
+            "124": 0,
+            "125": 0,
+            "126": 0,
+            "128": 0
+          },
+          "Branches": [
+            {
+              "Line": 87,
+              "Offset": 463,
+              "EndOffset": 468,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 97,
+              "Offset": 729,
+              "EndOffset": 731,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 97,
+              "Offset": 729,
+              "EndOffset": 742,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 97,
+              "Offset": 747,
+              "EndOffset": 749,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 97,
+              "Offset": 747,
+              "EndOffset": 818,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 105,
+              "Offset": 842,
+              "EndOffset": 844,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 105,
+              "Offset": 842,
+              "EndOffset": 867,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 0
+            },
+            {
+              "Line": 87,
+              "Offset": 463,
+              "EndOffset": 951,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "FluencyHub.PaymentProcessing.Infrastructure.Services.CieloPaymentService/<RequestRefundAsync>d__7": {
+        "System.Void FluencyHub.PaymentProcessing.Infrastructure.Services.CieloPaymentService/<RequestRefundAsync>d__7::MoveNext()": {
+          "Lines": {
+            "177": 0,
+            "179": 0,
+            "180": 0,
+            "181": 0,
+            "184": 0,
+            "185": 0,
+            "186": 0,
+            "187": 0,
+            "190": 0,
+            "191": 0,
+            "192": 0,
+            "193": 0,
+            "196": 0,
+            "199": 0,
+            "200": 0,
+            "201": 0,
+            "202": 0,
+            "204": 0,
+            "207": 0,
+            "208": 0,
+            "209": 0,
+            "210": 0,
+            "211": 0,
+            "213": 0,
+            "214": 0,
+            "215": 0,
+            "218": 0,
+            "219": 0,
+            "220": 0,
+            "221": 0,
+            "223": 0,
+            "224": 0,
+            "225": 0,
+            "229": 0,
+            "230": 0,
+            "231": 0,
+            "232": 0,
+            "233": 0,
+            "236": 0,
+            "237": 0,
+            "238": 0,
+            "239": 0,
+            "240": 0,
+            "242": 0
+          },
+          "Branches": [
+            {
+              "Line": 199,
+              "Offset": 343,
+              "EndOffset": 348,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 207,
+              "Offset": 557,
+              "EndOffset": 559,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 207,
+              "Offset": 557,
+              "EndOffset": 571,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 207,
+              "Offset": 576,
+              "EndOffset": 581,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 209,
+              "Offset": 614,
+              "EndOffset": 616,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 209,
+              "Offset": 614,
+              "EndOffset": 638,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 0
+            },
+            {
+              "Line": 207,
+              "Offset": 576,
+              "EndOffset": 729,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 219,
+              "Offset": 762,
+              "EndOffset": 764,
+              "Path": 0,
+              "Ordinal": 8,
+              "Hits": 0
+            },
+            {
+              "Line": 219,
+              "Offset": 762,
+              "EndOffset": 787,
+              "Path": 1,
+              "Ordinal": 9,
+              "Hits": 0
+            },
+            {
+              "Line": 199,
+              "Offset": 343,
+              "EndOffset": 872,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.PaymentProcessing.Infrastructure/Services/MockPaymentGateway.cs": {
+      "FluencyHub.PaymentProcessing.Infrastructure.Services.MockPaymentGateway": {
+        "System.Threading.Tasks.Task`1<FluencyHub.PaymentProcessing.Application.Common.Models.PaymentResult> FluencyHub.PaymentProcessing.Infrastructure.Services.MockPaymentGateway::ProcessPaymentAsync(System.String,System.Decimal,FluencyHub.PaymentProcessing.Domain.CardDetails)": {
+          "Lines": {
+            "20": 0,
+            "21": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0,
+            "27": 0,
+            "29": 0,
+            "30": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "37": 0
+          },
+          "Branches": [
+            {
+              "Line": 24,
+              "Offset": 53,
+              "EndOffset": 55,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 24,
+              "Offset": 53,
+              "EndOffset": 73,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 24,
+              "Offset": 76,
+              "EndOffset": 78,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 24,
+              "Offset": 76,
+              "EndOffset": 182,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            }
+          ]
+        },
+        "System.Threading.Tasks.Task`1<FluencyHub.PaymentProcessing.Application.Common.Models.RefundResult> FluencyHub.PaymentProcessing.Infrastructure.Services.MockPaymentGateway::ProcessRefundAsync(System.String,System.Decimal,System.String)": {
+          "Lines": {
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "48": 0,
+            "49": 0,
+            "50": 0,
+            "51": 0,
+            "52": 0,
+            "55": 0,
+            "56": 0,
+            "57": 0,
+            "58": 0,
+            "59": 0,
+            "61": 0
+          },
+          "Branches": [
+            {
+              "Line": 44,
+              "Offset": 54,
+              "EndOffset": 56,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 44,
+              "Offset": 54,
+              "EndOffset": 149,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        },
+        "System.Void FluencyHub.PaymentProcessing.Infrastructure.Services.MockPaymentGateway::.ctor(Microsoft.Extensions.Logging.ILogger`1<FluencyHub.PaymentProcessing.Infrastructure.Services.MockPaymentGateway>)": {
+          "Lines": {
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0
+          },
+          "Branches": []
+        },
+        "System.Void FluencyHub.PaymentProcessing.Infrastructure.Services.MockPaymentGateway::.cctor()": {
+          "Lines": {
+            "12": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.PaymentProcessing.Infrastructure/Persistence/Repositories/PaymentRepository.cs": {
+      "FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories.PaymentRepository": {
+        "System.Void FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories.PaymentRepository::.ctor(FluencyHub.Infrastructure.Persistence.FluencyHubDbContext)": {
+          "Lines": {
+            "12": 0,
+            "13": 0,
+            "14": 0,
+            "15": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories.PaymentRepository/<AddAsync>d__7": {
+        "System.Void FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories.PaymentRepository/<AddAsync>d__7::MoveNext()": {
+          "Lines": {
+            "54": 0,
+            "55": 0,
+            "56": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories.PaymentRepository/<GetByEnrollmentIdAsync>d__4": {
+        "System.Void FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories.PaymentRepository/<GetByEnrollmentIdAsync>d__4::MoveNext()": {
+          "Lines": {
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories.PaymentRepository/<GetByIdAsync>d__2": {
+        "System.Void FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories.PaymentRepository/<GetByIdAsync>d__2::MoveNext()": {
+          "Lines": {
+            "18": 0,
+            "19": 0,
+            "20": 0,
+            "21": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories.PaymentRepository/<GetByStudentIdAsync>d__3": {
+        "System.Void FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories.PaymentRepository/<GetByStudentIdAsync>d__3::MoveNext()": {
+          "Lines": {
+            "24": 0,
+            "25": 0,
+            "26": 0,
+            "27": 0,
+            "28": 0,
+            "29": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories.PaymentRepository/<GetByTransactionIdAsync>d__5": {
+        "System.Void FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories.PaymentRepository/<GetByTransactionIdAsync>d__5::MoveNext()": {
+          "Lines": {
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories.PaymentRepository/<GetSuccessfulPaymentsAsync>d__6": {
+        "System.Void FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories.PaymentRepository/<GetSuccessfulPaymentsAsync>d__6::MoveNext()": {
+          "Lines": {
+            "46": 0,
+            "47": 0,
+            "48": 0,
+            "49": 0,
+            "50": 0,
+            "51": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories.PaymentRepository/<SaveChangesAsync>d__8": {
+        "System.Void FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories.PaymentRepository/<SaveChangesAsync>d__8::MoveNext()": {
+          "Lines": {
+            "59": 0,
+            "60": 0,
+            "61": 0
           },
           "Branches": []
         }
@@ -19318,6 +21294,989 @@
             "10": 0,
             "11": 0,
             "12": 0
+          },
+          "Branches": []
+        }
+      }
+    }
+  },
+  "FluencyHub.StudentManagement.Infrastructure.dll": {
+    "/mnt/modulo3/src/FluencyHub.StudentManagement.Infrastructure/DependencyInjection.cs": {
+      "FluencyHub.StudentManagement.Infrastructure.DependencyInjection": {
+        "Microsoft.Extensions.DependencyInjection.IServiceCollection FluencyHub.StudentManagement.Infrastructure.DependencyInjection::AddStudentManagementInfrastructureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)": {
+          "Lines": {
+            "13": 1,
+            "15": 1,
+            "16": 1,
+            "17": 1,
+            "18": 1,
+            "20": 1,
+            "21": 1
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.StudentManagement.Infrastructure/Persistence/Repositories/CertificateRepository.cs": {
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.CertificateRepository": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.CertificateRepository::.ctor(FluencyHub.Infrastructure.Persistence.FluencyHubDbContext)": {
+          "Lines": {
+            "12": 0,
+            "13": 0,
+            "14": 0,
+            "15": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.CertificateRepository/<AddAsync>d__7": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.CertificateRepository/<AddAsync>d__7::MoveNext()": {
+          "Lines": {
+            "56": 0,
+            "57": 0,
+            "58": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.CertificateRepository/<GetAllAsync>d__6": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.CertificateRepository/<GetAllAsync>d__6::MoveNext()": {
+          "Lines": {
+            "48": 0,
+            "49": 0,
+            "50": 0,
+            "51": 0,
+            "52": 0,
+            "53": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.CertificateRepository/<GetByCourseIdAsync>d__4": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.CertificateRepository/<GetByCourseIdAsync>d__4::MoveNext()": {
+          "Lines": {
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.CertificateRepository/<GetByIdAsync>d__2": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.CertificateRepository/<GetByIdAsync>d__2::MoveNext()": {
+          "Lines": {
+            "18": 0,
+            "19": 0,
+            "20": 0,
+            "21": 0,
+            "22": 0,
+            "23": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.CertificateRepository/<GetByStudentAndCourseAsync>d__5": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.CertificateRepository/<GetByStudentAndCourseAsync>d__5::MoveNext()": {
+          "Lines": {
+            "42": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.CertificateRepository/<GetByStudentIdAsync>d__3": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.CertificateRepository/<GetByStudentIdAsync>d__3::MoveNext()": {
+          "Lines": {
+            "26": 0,
+            "27": 0,
+            "28": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.CertificateRepository/<SaveChangesAsync>d__8": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.CertificateRepository/<SaveChangesAsync>d__8::MoveNext()": {
+          "Lines": {
+            "61": 0,
+            "62": 0,
+            "63": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.StudentManagement.Infrastructure/Persistence/Repositories/EnrollmentRepository.cs": {
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.EnrollmentRepository": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.EnrollmentRepository::.ctor(FluencyHub.Infrastructure.Persistence.FluencyHubDbContext)": {
+          "Lines": {
+            "12": 0,
+            "13": 0,
+            "14": 0,
+            "15": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.EnrollmentRepository/<AddAsync>d__8": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.EnrollmentRepository/<AddAsync>d__8::MoveNext()": {
+          "Lines": {
+            "65": 0,
+            "66": 0,
+            "67": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.EnrollmentRepository/<GetActiveEnrollmentsAsync>d__6": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.EnrollmentRepository/<GetActiveEnrollmentsAsync>d__6::MoveNext()": {
+          "Lines": {
+            "50": 0,
+            "51": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0,
+            "55": 0,
+            "56": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.EnrollmentRepository/<GetAllAsync>d__5": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.EnrollmentRepository/<GetAllAsync>d__5::MoveNext()": {
+          "Lines": {
+            "42": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "47": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.EnrollmentRepository/<GetByCourseIdAsync>d__3": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.EnrollmentRepository/<GetByCourseIdAsync>d__3::MoveNext()": {
+          "Lines": {
+            "26": 0,
+            "27": 0,
+            "28": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.EnrollmentRepository/<GetByIdAsync>d__2": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.EnrollmentRepository/<GetByIdAsync>d__2::MoveNext()": {
+          "Lines": {
+            "18": 0,
+            "19": 0,
+            "20": 0,
+            "21": 0,
+            "22": 0,
+            "23": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.EnrollmentRepository/<GetByStudentAndCourseAsync>d__7": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.EnrollmentRepository/<GetByStudentAndCourseAsync>d__7::MoveNext()": {
+          "Lines": {
+            "59": 0,
+            "60": 0,
+            "61": 0,
+            "62": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.EnrollmentRepository/<GetByStudentIdAsync>d__4": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.EnrollmentRepository/<GetByStudentIdAsync>d__4::MoveNext()": {
+          "Lines": {
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.EnrollmentRepository/<SaveChangesAsync>d__9": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.EnrollmentRepository/<SaveChangesAsync>d__9::MoveNext()": {
+          "Lines": {
+            "70": 0,
+            "71": 0,
+            "72": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.StudentManagement.Infrastructure/Persistence/Repositories/LearningRepository.cs": {
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository::.ctor(FluencyHub.Infrastructure.Persistence.FluencyHubDbContext)": {
+          "Lines": {
+            "12": 0,
+            "13": 0,
+            "14": 0,
+            "15": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository/<>c": {
+        "System.Guid FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository/<>c::<GetCompletedLessonIdsAsync>b__6_0(FluencyHub.StudentManagement.Domain.CompletedLesson)": {
+          "Lines": {
+            "47": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository/<AddAsync>d__7": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository/<AddAsync>d__7::MoveNext()": {
+          "Lines": {
+            "51": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository/<CompleteLessonAsync>d__8": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository/<CompleteLessonAsync>d__8::MoveNext()": {
+          "Lines": {
+            "57": 0,
+            "58": 0,
+            "59": 0,
+            "60": 0,
+            "61": 0,
+            "62": 0,
+            "63": 0,
+            "64": 0,
+            "65": 0,
+            "66": 0,
+            "67": 0,
+            "69": 0,
+            "70": 0,
+            "71": 0,
+            "72": 0,
+            "73": 0,
+            "74": 0,
+            "75": 0,
+            "77": 0,
+            "78": 0,
+            "80": 0,
+            "81": 0,
+            "82": 0,
+            "83": 0,
+            "84": 0,
+            "85": 0,
+            "86": 0,
+            "87": 0,
+            "88": 0,
+            "89": 0,
+            "90": 0,
+            "91": 0,
+            "92": 0
+          },
+          "Branches": [
+            {
+              "Line": 59,
+              "Offset": 289,
+              "EndOffset": 294,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 62,
+              "Offset": 448,
+              "EndOffset": 453,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 62,
+              "Offset": 448,
+              "EndOffset": 717,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 59,
+              "Offset": 289,
+              "EndOffset": 1010,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 80,
+              "Offset": 1381,
+              "EndOffset": 1386,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 80,
+              "Offset": 1381,
+              "EndOffset": 1719,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository/<GetByStudentIdAsync>d__2": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository/<GetByStudentIdAsync>d__2::MoveNext()": {
+          "Lines": {
+            "18": 0,
+            "19": 0,
+            "20": 0,
+            "21": 0,
+            "22": 0,
+            "23": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository/<GetCompletedLessonIdsAsync>d__6": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository/<GetCompletedLessonIdsAsync>d__6::MoveNext()": {
+          "Lines": {
+            "45": 0,
+            "46": 0,
+            "48": 0
+          },
+          "Branches": [
+            {
+              "Line": 47,
+              "Offset": 165,
+              "EndOffset": 167,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 47,
+              "Offset": 165,
+              "EndOffset": 171,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 47,
+              "Offset": 218,
+              "EndOffset": 220,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 47,
+              "Offset": 218,
+              "EndOffset": 226,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository/<GetCompletedLessonsCountAsync>d__5": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository/<GetCompletedLessonsCountAsync>d__5::MoveNext()": {
+          "Lines": {
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0
+          },
+          "Branches": [
+            {
+              "Line": 41,
+              "Offset": 165,
+              "EndOffset": 167,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 41,
+              "Offset": 165,
+              "EndOffset": 171,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository/<GetCourseProgressAsync>d__3": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository/<GetCourseProgressAsync>d__3::MoveNext()": {
+          "Lines": {
+            "26": 0,
+            "27": 0,
+            "28": 0,
+            "29": 0,
+            "30": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository/<HasCompletedLessonAsync>d__4": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository/<HasCompletedLessonAsync>d__4::MoveNext()": {
+          "Lines": {
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository/<SaveChangesAsync>d__11": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository/<SaveChangesAsync>d__11::MoveNext()": {
+          "Lines": {
+            "209": 0,
+            "210": 0,
+            "211": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository/<UncompleteLessonAsync>d__9": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository/<UncompleteLessonAsync>d__9::MoveNext()": {
+          "Lines": {
+            "95": 0,
+            "96": 0,
+            "97": 0,
+            "99": 0,
+            "100": 0,
+            "101": 0,
+            "102": 0,
+            "103": 0,
+            "104": 0
+          },
+          "Branches": [
+            {
+              "Line": 99,
+              "Offset": 445,
+              "EndOffset": 450,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 99,
+              "Offset": 445,
+              "EndOffset": 592,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository/<UpdateAsync>d__10": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.LearningRepository/<UpdateAsync>d__10::MoveNext()": {
+          "Lines": {
+            "107": 0,
+            "109": 0,
+            "110": 0,
+            "112": 0,
+            "113": 0,
+            "115": 0,
+            "116": 0,
+            "117": 0,
+            "118": 0,
+            "119": 0,
+            "122": 0,
+            "124": 0,
+            "125": 0,
+            "126": 0,
+            "127": 0,
+            "128": 0,
+            "129": 0,
+            "131": 0,
+            "132": 0,
+            "133": 0,
+            "134": 0,
+            "135": 0,
+            "136": 0,
+            "137": 0,
+            "138": 0,
+            "139": 0,
+            "141": 0,
+            "142": 0,
+            "143": 0,
+            "144": 0,
+            "146": 0,
+            "147": 0,
+            "148": 0,
+            "149": 0,
+            "150": 0,
+            "151": 0,
+            "153": 0,
+            "154": 0,
+            "155": 0,
+            "156": 0,
+            "157": 0,
+            "158": 0,
+            "159": 0,
+            "160": 0,
+            "161": 0,
+            "163": 0,
+            "164": 0,
+            "165": 0,
+            "166": 0,
+            "168": 0,
+            "169": 0,
+            "170": 0,
+            "171": 0,
+            "172": 0,
+            "173": 0,
+            "174": 0,
+            "175": 0,
+            "177": 0,
+            "178": 0,
+            "179": 0,
+            "180": 0,
+            "181": 0,
+            "182": 0,
+            "184": 0,
+            "185": 0,
+            "186": 0,
+            "187": 0,
+            "188": 0,
+            "189": 0,
+            "191": 0,
+            "192": 0,
+            "193": 0,
+            "194": 0,
+            "195": 0,
+            "196": 0,
+            "197": 0,
+            "198": 0,
+            "199": 0,
+            "200": 0,
+            "201": 0,
+            "203": 0,
+            "204": 0,
+            "205": 0,
+            "206": 0
+          },
+          "Branches": [
+            {
+              "Line": 107,
+              "Offset": 18,
+              "EndOffset": 29,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 115,
+              "Offset": 446,
+              "EndOffset": 451,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 115,
+              "Offset": 446,
+              "EndOffset": 707,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 124,
+              "Offset": 2510,
+              "EndOffset": 813,
+              "Path": 1,
+              "Ordinal": 15,
+              "Hits": 0
+            },
+            {
+              "Line": 131,
+              "Offset": 1294,
+              "EndOffset": 1299,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 131,
+              "Offset": 1294,
+              "EndOffset": 1611,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 141,
+              "Offset": 1627,
+              "EndOffset": 1629,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 141,
+              "Offset": 1627,
+              "EndOffset": 1650,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 0
+            },
+            {
+              "Line": 141,
+              "Offset": 1655,
+              "EndOffset": 1657,
+              "Path": 0,
+              "Ordinal": 8,
+              "Hits": 0
+            },
+            {
+              "Line": 141,
+              "Offset": 1655,
+              "EndOffset": 1676,
+              "Path": 1,
+              "Ordinal": 9,
+              "Hits": 0
+            },
+            {
+              "Line": 146,
+              "Offset": 2445,
+              "EndOffset": 1732,
+              "Path": 1,
+              "Ordinal": 13,
+              "Hits": 0
+            },
+            {
+              "Line": 153,
+              "Offset": 2185,
+              "EndOffset": 2190,
+              "Path": 0,
+              "Ordinal": 10,
+              "Hits": 0
+            },
+            {
+              "Line": 153,
+              "Offset": 2185,
+              "EndOffset": 2426,
+              "Path": 1,
+              "Ordinal": 11,
+              "Hits": 0
+            },
+            {
+              "Line": 146,
+              "Offset": 2445,
+              "EndOffset": 2450,
+              "Path": 0,
+              "Ordinal": 12,
+              "Hits": 0
+            },
+            {
+              "Line": 124,
+              "Offset": 2510,
+              "EndOffset": 2515,
+              "Path": 0,
+              "Ordinal": 14,
+              "Hits": 0
+            },
+            {
+              "Line": 107,
+              "Offset": 18,
+              "EndOffset": 2740,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 172,
+              "Offset": 4260,
+              "EndOffset": 2757,
+              "Path": 1,
+              "Ordinal": 27,
+              "Hits": 0
+            },
+            {
+              "Line": 172,
+              "Offset": 2746,
+              "EndOffset": 2836,
+              "Path": 1,
+              "Ordinal": 17,
+              "Hits": 0
+            },
+            {
+              "Line": 174,
+              "Offset": 4202,
+              "EndOffset": 2853,
+              "Path": 1,
+              "Ordinal": 25,
+              "Hits": 0
+            },
+            {
+              "Line": 174,
+              "Offset": 2842,
+              "EndOffset": 2904,
+              "Path": 1,
+              "Ordinal": 19,
+              "Hits": 0
+            },
+            {
+              "Line": 184,
+              "Offset": 3520,
+              "EndOffset": 3525,
+              "Path": 0,
+              "Ordinal": 20,
+              "Hits": 0
+            },
+            {
+              "Line": 191,
+              "Offset": 3966,
+              "EndOffset": 3971,
+              "Path": 0,
+              "Ordinal": 22,
+              "Hits": 0
+            },
+            {
+              "Line": 191,
+              "Offset": 3966,
+              "EndOffset": 4168,
+              "Path": 1,
+              "Ordinal": 23,
+              "Hits": 0
+            },
+            {
+              "Line": 184,
+              "Offset": 3520,
+              "EndOffset": 4176,
+              "Path": 1,
+              "Ordinal": 21,
+              "Hits": 0
+            },
+            {
+              "Line": 174,
+              "Offset": 2842,
+              "EndOffset": 4191,
+              "Path": 0,
+              "Ordinal": 18,
+              "Hits": 0
+            },
+            {
+              "Line": 174,
+              "Offset": 4202,
+              "EndOffset": 4207,
+              "Path": 0,
+              "Ordinal": 24,
+              "Hits": 0
+            },
+            {
+              "Line": 172,
+              "Offset": 2746,
+              "EndOffset": 4249,
+              "Path": 0,
+              "Ordinal": 16,
+              "Hits": 0
+            },
+            {
+              "Line": 172,
+              "Offset": 4260,
+              "EndOffset": 4265,
+              "Path": 0,
+              "Ordinal": 26,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "/mnt/modulo3/src/FluencyHub.StudentManagement.Infrastructure/Persistence/Repositories/StudentRepository.cs": {
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.StudentRepository": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.StudentRepository::.ctor(FluencyHub.Infrastructure.Persistence.FluencyHubDbContext)": {
+          "Lines": {
+            "12": 1,
+            "13": 1,
+            "14": 1,
+            "15": 1
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.StudentRepository/<AddAsync>d__8": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.StudentRepository/<AddAsync>d__8::MoveNext()": {
+          "Lines": {
+            "69": 1,
+            "70": 1,
+            "71": 1
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.StudentRepository/<DeleteAsync>d__11": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.StudentRepository/<DeleteAsync>d__11::MoveNext()": {
+          "Lines": {
+            "85": 0,
+            "86": 0,
+            "87": 0,
+            "88": 0,
+            "90": 0,
+            "91": 0,
+            "92": 0,
+            "93": 0
+          },
+          "Branches": [
+            {
+              "Line": 87,
+              "Offset": 198,
+              "EndOffset": 200,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 87,
+              "Offset": 198,
+              "EndOffset": 207,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.StudentRepository/<GetActiveStudentsAsync>d__5": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.StudentRepository/<GetActiveStudentsAsync>d__5::MoveNext()": {
+          "Lines": {
+            "46": 0,
+            "47": 0,
+            "48": 0,
+            "49": 0,
+            "50": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.StudentRepository/<GetAllAsync>d__4": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.StudentRepository/<GetAllAsync>d__4::MoveNext()": {
+          "Lines": {
+            "34": 0,
+            "35": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "42": 0,
+            "43": 0
+          },
+          "Branches": [
+            {
+              "Line": 37,
+              "Offset": 56,
+              "EndOffset": 58,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 37,
+              "Offset": 56,
+              "EndOffset": 134,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.StudentRepository/<GetByEmailAsync>d__3": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.StudentRepository/<GetByEmailAsync>d__3::MoveNext()": {
+          "Lines": {
+            "26": 0,
+            "27": 0,
+            "28": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.StudentRepository/<GetByIdAsync>d__2": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.StudentRepository/<GetByIdAsync>d__2::MoveNext()": {
+          "Lines": {
+            "18": 0,
+            "19": 0,
+            "20": 0,
+            "21": 0,
+            "22": 0,
+            "23": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.StudentRepository/<GetCertificatesByStudentIdAsync>d__7": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.StudentRepository/<GetCertificatesByStudentIdAsync>d__7::MoveNext()": {
+          "Lines": {
+            "61": 0,
+            "62": 0,
+            "63": 0,
+            "64": 0,
+            "65": 0,
+            "66": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.StudentRepository/<GetEnrollmentsByStudentIdAsync>d__6": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.StudentRepository/<GetEnrollmentsByStudentIdAsync>d__6::MoveNext()": {
+          "Lines": {
+            "53": 0,
+            "54": 0,
+            "55": 0,
+            "56": 0,
+            "57": 0,
+            "58": 0
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.StudentRepository/<SaveChangesAsync>d__9": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.StudentRepository/<SaveChangesAsync>d__9::MoveNext()": {
+          "Lines": {
+            "74": 1,
+            "75": 1,
+            "76": 1
+          },
+          "Branches": []
+        }
+      },
+      "FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.StudentRepository/<UpdateAsync>d__10": {
+        "System.Void FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories.StudentRepository/<UpdateAsync>d__10::MoveNext()": {
+          "Lines": {
+            "79": 0,
+            "80": 0,
+            "81": 0,
+            "82": 0
           },
           "Branches": []
         }
