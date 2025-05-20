@@ -1,8 +1,8 @@
 using FluencyHub.API.SwaggerExamples;
 using FluencyHub.Application.Common.Exceptions;
-using FluencyHub.Application.StudentManagement.Commands.GenerateCertificate;
-using FluencyHub.Application.StudentManagement.Queries.GetCertificateById;
-using FluencyHub.Application.StudentManagement.Queries.GetStudentCertificates;
+using FluencyHub.StudentManagement.Application.Commands.GenerateCertificate;
+using FluencyHub.StudentManagement.Application.Queries.GetCertificateById;
+using FluencyHub.StudentManagement.Application.Queries.GetStudentCertificates;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

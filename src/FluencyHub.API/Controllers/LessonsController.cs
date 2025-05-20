@@ -1,9 +1,9 @@
 using FluencyHub.API.Models;
 using FluencyHub.API.SwaggerExamples;
-using FluencyHub.Application.ContentManagement.Commands.DeleteLesson;
-using FluencyHub.Application.ContentManagement.Commands.UpdateLesson;
-using FluencyHub.Application.ContentManagement.Queries.GetLessonsByCourse;
-using FluencyHub.Application.StudentManagement.Commands.CompleteLessonForStudent;
+using FluencyHub.ContentManagement.Application.Commands.DeleteLesson;
+using FluencyHub.ContentManagement.Application.Commands.UpdateLesson;
+using FluencyHub.ContentManagement.Application.Queries.GetLessonsByCourse;
+using FluencyHub.StudentManagement.Application.Commands.CompleteLessonForStudent;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

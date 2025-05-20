@@ -1,15 +1,15 @@
 using FluencyHub.API.SwaggerExamples;
 using FluencyHub.Application.Common.Exceptions;
-using FluencyHub.Application.StudentManagement.Commands.ActivateStudent;
-using FluencyHub.Application.StudentManagement.Commands.CompleteCourseForStudent;
-using FluencyHub.Application.StudentManagement.Commands.CompleteLessonForStudent;
-using FluencyHub.Application.StudentManagement.Commands.CreateStudent;
-using FluencyHub.Application.StudentManagement.Commands.DeactivateStudent;
-using FluencyHub.Application.StudentManagement.Commands.UpdateStudent;
-using FluencyHub.Application.StudentManagement.Queries.GetAllStudents;
-using FluencyHub.Application.StudentManagement.Queries.GetStudentByEmail;
-using FluencyHub.Application.StudentManagement.Queries.GetStudentById;
-using FluencyHub.Application.StudentManagement.Queries.GetStudentProgress;
+using FluencyHub.StudentManagement.Application.Commands.ActivateStudent;
+using FluencyHub.StudentManagement.Application.Commands.CompleteCourseForStudent;
+using FluencyHub.StudentManagement.Application.Commands.CompleteLessonForStudent;
+using FluencyHub.StudentManagement.Application.Commands.CreateStudent;
+using FluencyHub.StudentManagement.Application.Commands.DeactivateStudent;
+using FluencyHub.StudentManagement.Application.Commands.UpdateStudent;
+using FluencyHub.StudentManagement.Application.Queries.GetAllStudents;
+using FluencyHub.StudentManagement.Application.Queries.GetStudentByEmail;
+using FluencyHub.StudentManagement.Application.Queries.GetStudentById;
+using FluencyHub.StudentManagement.Application.Queries.GetStudentProgress;
 using FluencyHub.Infrastructure.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -52,7 +52,7 @@ public class StudentsController : ControllerBase
         OperationId = "GetAllStudents",
         Tags = new[] { "Students" }
     )]
-    [ProducesResponseType(typeof(IEnumerable<FluencyHub.Application.StudentManagement.Queries.GetAllStudents.StudentDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<FluencyHub.StudentManagement.Application.Queries.GetAllStudents.StudentDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(StudentListDtoExample))]
     public async Task<IActionResult> GetAllStudents()
@@ -82,7 +82,7 @@ public class StudentsController : ControllerBase
         OperationId = "GetCurrentStudent",
         Tags = new[] { "Students" }
     )]
-    [ProducesResponseType(typeof(FluencyHub.Application.StudentManagement.Queries.GetStudentById.StudentDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(FluencyHub.StudentManagement.Application.Queries.GetStudentById.StudentDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(StudentDtoExample))]
@@ -132,7 +132,7 @@ public class StudentsController : ControllerBase
         OperationId = "GetStudentById",
         Tags = new[] { "Students" }
     )]
-    [ProducesResponseType(typeof(FluencyHub.Application.StudentManagement.Queries.GetStudentById.StudentDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(FluencyHub.StudentManagement.Application.Queries.GetStudentById.StudentDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(StudentDtoExample))]

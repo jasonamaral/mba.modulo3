@@ -21,4 +21,4 @@ public class NotFoundException : Exception
         : base($"Entity \"{name}\" ({key}) was not found.")
     {
     }
-} 
+}

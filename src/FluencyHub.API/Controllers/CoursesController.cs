@@ -1,8 +1,8 @@
 using FluencyHub.API.Models;
 using FluencyHub.API.SwaggerExamples;
 using FluencyHub.Application.Common.Exceptions;
-using FluencyHub.Application.ContentManagement.Queries.GetAllCourses;
-using FluencyHub.Application.ContentManagement.Queries.GetCourseById;
+using FluencyHub.ContentManagement.Application.Queries.GetAllCourses;
+using FluencyHub.ContentManagement.Application.Queries.GetCourseById;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

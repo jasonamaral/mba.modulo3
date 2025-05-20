@@ -4,6 +4,9 @@ namespace FluencyHub.Application.StudentManagement.Commands.GenerateCertificate;
 
 public record GenerateCertificateCommand : IRequest<Guid>
 {
-    public Guid StudentId { get; init; }
-    public Guid CourseId { get; init; }
+    public required Guid StudentId { get; init; }
+    public required Guid CourseId { get; init; }
+    public required DateTime IssueDate { get; init; }
+    public int? Score { get; init; }
+    public string? Feedback { get; init; }
 } 

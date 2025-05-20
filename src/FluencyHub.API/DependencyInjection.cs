@@ -63,6 +63,9 @@ public static class DependencyInjection
         services.AddScoped<ILearningRepository, LearningRepositoryAdapter>();
         services.AddScoped<IPaymentGateway, PaymentGatewayAdapter>();
         
+        // Registrar o adaptador específico para o PaymentProcessing
+        services.AddScoped<FluencyHub.PaymentProcessing.Application.Common.Interfaces.IEnrollmentRepository, PaymentProcessingEnrollmentRepositoryAdapter>();
+        
         return services;
     }
 }

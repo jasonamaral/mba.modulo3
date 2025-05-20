@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using FluentValidation;
 using MediatR;
+using FluencyHub.ContentManagement.Application.Common.Behaviors;
 
 namespace FluencyHub.ContentManagement.Application;
 
@@ -12,6 +13,7 @@ public static class DependencyInjection
         services.AddMediatR(cfg => 
         {
             cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         });
         
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());

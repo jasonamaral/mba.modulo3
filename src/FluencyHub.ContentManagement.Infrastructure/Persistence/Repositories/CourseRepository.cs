@@ -1,7 +1,7 @@
 using FluencyHub.Application.Common.Interfaces;
 using FluencyHub.ContentManagement.Domain;
 using Microsoft.EntityFrameworkCore;
-using FluencyHub.Application.Common.Exceptions;
+using FluencyHub.ContentManagement.Infrastructure.Exceptions;
 using FluencyHub.Infrastructure.Persistence;
 using FluencyHub.ContentManagement.Application.Common.Models;
 using FluencyHub.ContentManagement.Application.Common.Interfaces;

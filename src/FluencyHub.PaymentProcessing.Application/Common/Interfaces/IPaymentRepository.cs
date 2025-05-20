@@ -11,4 +11,4 @@ public interface IPaymentRepository
     Task<IEnumerable<Payment>> GetSuccessfulPaymentsAsync();
     Task AddAsync(Payment payment);
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
-} 
+}

@@ -19,4 +19,4 @@ public class ValidationException : Exception
     }
 
     public IReadOnlyDictionary<string, string[]> Errors { get; }
-} 
+}

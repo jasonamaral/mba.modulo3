@@ -1,5 +1,5 @@
-using FluencyHub.ContentManagement.Application.Common.Models;
 using FluencyHub.ContentManagement.Domain;
+using FluencyHub.ContentManagement.Application.Common.Models;
 
 namespace FluencyHub.ContentManagement.Application.Common.Interfaces;
 
