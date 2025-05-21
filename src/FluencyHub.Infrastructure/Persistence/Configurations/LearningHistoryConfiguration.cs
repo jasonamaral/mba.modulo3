@@ -20,7 +20,7 @@ public class LearningHistoryConfiguration : IEntityTypeConfiguration<LearningHis
             
         builder.Property(lh => lh.UpdatedAt);
             
-        builder.HasMany(lh => lh.CourseProgress)
+        builder.HasMany(lh => lh.CourseProgresses)
             .WithOne()
             .HasForeignKey("LearningHistoryId")
             .OnDelete(DeleteBehavior.Cascade);

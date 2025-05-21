@@ -1,11 +1,8 @@
 using FluencyHub.API.Controllers;
 using FluencyHub.API.Models;
 using FluencyHub.Application.Common.Exceptions;
-using FluencyHub.Application.ContentManagement.Commands.AddLesson;
-using FluencyHub.Application.ContentManagement.Commands.DeleteLesson;
-using FluencyHub.Application.ContentManagement.Commands.UpdateLesson;
-using FluencyHub.Application.ContentManagement.Queries.GetLessonsByCourse;
-using FluencyHub.Application.StudentManagement.Commands.CompleteLessonForStudent;
+using FluencyHub.Application.ContentManagement;
+using FluencyHub.Application.StudentManagement;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -14,4 +14,6 @@ public class EnrollmentDto
     public bool IsCompleted { get; set; }
     public DateTime? CompletionDate { get; set; }
     public int? Progress { get; set; }
+    public string Status { get; set; } = string.Empty;
+    public DateTime? ActivationDate { get; set; }
 } 

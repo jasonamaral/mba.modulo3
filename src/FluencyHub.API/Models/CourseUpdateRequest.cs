@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using FluencyHub.Application.ContentManagement.Commands.UpdateCourse;
+using FluencyHub.ContentManagement.Application.Commands.UpdateCourse;
 
 namespace FluencyHub.API.Models;
 

@@ -18,4 +18,6 @@ public interface ICourseRepository
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
     Task<IEnumerable<CourseProgressInfo>> GetCourseProgressesForStudent(Guid studentId, CancellationToken cancellationToken = default);
     Task<int> GetLessonsCountByCourseId(Guid courseId, CancellationToken cancellationToken = default);
+    Task<bool> ExistsAsync(Guid courseId);
+    Task<string> GetNameAsync(Guid courseId);
 } 

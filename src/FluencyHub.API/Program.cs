@@ -6,18 +6,30 @@ using FluencyHub.StudentManagement.Application;
 using FluencyHub.PaymentProcessing.Application;
 using FluencyHub.Infrastructure;
 using FluencyHub.Infrastructure.Identity;
-using FluencyHub.Infrastructure.Persistence;
 using FluencyHub.StudentManagement.Infrastructure;
 using FluencyHub.ContentManagement.Infrastructure;
 using FluencyHub.PaymentProcessing.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using FluencyHub.Application.Common.Interfaces;
-using FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories;
-using FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories;
-using FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories;
-using FluencyHub.API.Adapters;
+using FluencyHub.SharedKernel;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Adicionar serviços do SharedKernel
+builder.Services.AddSharedKernelServices();
+
+// Configurar MediatR com todos os assemblies que contêm handlers
+var assemblies = new[]
+{
+    typeof(Program).Assembly, // API
+    typeof(FluencyHub.Application.DependencyInjection).Assembly, // Application
+    typeof(FluencyHub.ContentManagement.Application.DependencyInjection).Assembly, // ContentManagement.Application
+    typeof(FluencyHub.StudentManagement.Application.DependencyInjection).Assembly, // StudentManagement.Application
+    typeof(FluencyHub.PaymentProcessing.Application.DependencyInjection).Assembly, // PaymentProcessing.Application
+    typeof(FluencyHub.SharedKernel.DependencyInjection).Assembly // SharedKernel
+};
+
+builder.Services.AddMediatorServices(assemblies);
 
 // Add services to the container
 builder.Services.AddApplicationServices();
@@ -30,9 +42,6 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddStudentManagementInfrastructureServices(builder.Configuration);
 builder.Services.AddContentManagementInfrastructureServices(builder.Configuration);
 builder.Services.AddPaymentProcessingInfrastructureServices(builder.Configuration);
-
-// Registrar adaptadores para interfaces da Application.Common.Interfaces
-builder.Services.AddRepositoryAdapters();
 
 builder.Services.AddApiServices(builder.Configuration);
 
@@ -56,70 +65,34 @@ try
 
     using var scope = app.Services.CreateScope();
     var services = scope.ServiceProvider;
-    var dbContext = services.GetRequiredService<FluencyHubDbContext>();
+    
+    // Migrar os bancos de dados de cada contexto
+    var contentDbContext = services.GetRequiredService<FluencyHub.ContentManagement.Infrastructure.Persistence.ContentDbContext>();
+    var studentDbContext = services.GetRequiredService<FluencyHub.StudentManagement.Infrastructure.Persistence.StudentDbContext>();
+    var paymentDbContext = services.GetRequiredService<FluencyHub.PaymentProcessing.Infrastructure.Persistence.PaymentDbContext>();
     var identityDbContext = services.GetRequiredService<ApplicationDbContext>();
-
-    if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "Testing")
-    {
-
-        // Development or Testing Environment - Using SQLite
-        var mainDbConnectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "";
-        var identityDbConnectionString = builder.Configuration.GetConnectionString("IdentityConnection") ?? "";
-
-        bool isMemoryDb = mainDbConnectionString.Contains(":memory:") || identityDbConnectionString.Contains(":memory:");
-
-        if (!isMemoryDb)
-        {
-            string mainDbPath = mainDbConnectionString.Replace("Data Source=", "").Trim();
-            string identityDbPath = identityDbConnectionString.Replace("Data Source=", "").Trim();
-
-            // Ensure the Data directory exists
-            var dataDir = Path.GetDirectoryName(mainDbPath);
-            if (!string.IsNullOrEmpty(dataDir) && !Directory.Exists(dataDir))
-            {
-                Directory.CreateDirectory(dataDir);
-            }
-
-            // Check if database files exist
-            bool mainDbExists = !string.IsNullOrEmpty(mainDbPath) && File.Exists(mainDbPath);
-            bool identityDbExists = !string.IsNullOrEmpty(identityDbPath) && File.Exists(identityDbPath);
-
-        }
-
-        dbContext.Database.Migrate();
-        identityDbContext.Database.Migrate();
-        await DatabaseSeeder.SeedData(services);
-    }
-    else
-    {
-
-        if (dbContext.Database.GetPendingMigrations().Any())
-        {
-            dbContext.Database.Migrate();
-        }
-
-        if (identityDbContext.Database.GetPendingMigrations().Any())
-        {
-            identityDbContext.Database.Migrate();
-        }
-
-        if (!dbContext.Set<FluencyHub.ContentManagement.Domain.Course>().Any())
-        {
-            await DatabaseSeeder.SeedData(services);
-        }
-
-    }
+    
+    logger.LogInformation("Aplicando migrações do banco de dados");
+    
+    await contentDbContext.Database.MigrateAsync();
+    await studentDbContext.Database.MigrateAsync();
+    await paymentDbContext.Database.MigrateAsync();
+    await identityDbContext.Database.MigrateAsync();
+    
+    logger.LogInformation("Migrações aplicadas com sucesso");
 }
 catch (Exception ex)
 {
     var logger = app.Services.GetRequiredService<ILogger<Program>>();
-    logger.LogError(ex, "Error initializing database");
+    logger.LogError(ex, "Ocorreu um erro ao migrar ou inicializar o banco de dados");
 }
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
+app.MapFallbackToFile("/index.html");
 
 app.Run();
 

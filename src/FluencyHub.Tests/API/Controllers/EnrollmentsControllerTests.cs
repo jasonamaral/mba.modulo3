@@ -1,8 +1,10 @@
 using FluencyHub.API.Controllers;
 using FluencyHub.API.Models;
 using FluencyHub.Application.Common.Exceptions;
-using FluencyHub.Application.ContentManagement.Commands.CompleteEnrollment;
-using FluencyHub.Application.ContentManagement.Queries.GetCourseById;
+using FluencyHub.Application.ContentManagement;
+using FluencyHub.Application.ContentManagement.Commands;
+using FluencyHub.Application.StudentManagement;
+using FluencyHub.Application.StudentManagement.Commands;
 using FluencyHub.Application.StudentManagement.Commands.CompleteLesson;
 using FluencyHub.Application.StudentManagement.Commands.EnrollStudent;
 using FluencyHub.Application.StudentManagement.Queries.GetEnrollmentById;

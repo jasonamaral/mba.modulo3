@@ -1,4 +1,5 @@
 using FluencyHub.PaymentProcessing.Application.Common.Interfaces;
+using FluencyHub.PaymentProcessing.Infrastructure.Persistence;
 using FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories;
 using FluencyHub.PaymentProcessing.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
@@ -13,14 +14,25 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddPaymentProcessingInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        // Adicionar Repositórios Payment Processing
+        // Registrar DbContext com sua própria string de conexão
+        services.AddDbContext<PaymentDbContext>(options =>
+        {
+            var connectionString = configuration.GetConnectionString("PaymentProcessingConnection") 
+                ?? throw new InvalidOperationException("PaymentProcessing connection string não configurada");
+                
+            options.UseSqlite(connectionString);
+        });
+
+        // Adicionar Repositórios
         services.AddScoped<IPaymentRepository, PaymentRepository>();
         
+        // Adicionar EnrollmentRepository do Student Management (adaptador)
+        services.AddScoped<IEnrollmentRepository, EnrollmentRepositoryAdapter>();
+
         // Adicionar Serviços de Pagamento
         services.AddHttpClient<IPaymentService, CieloPaymentService>((serviceProvider, client) =>
         {
-            string baseUrl = configuration["PaymentGateway:BaseUrl"] ?? "https://api.cieloecommerce.cielo.com.br/";
-            client.BaseAddress = new Uri(baseUrl);
+            client.BaseAddress = new Uri(configuration["PaymentGateway:BaseUrl"] ?? "");
         });
 
         // Registrar o serviço de pagamento com as dependências necessárias

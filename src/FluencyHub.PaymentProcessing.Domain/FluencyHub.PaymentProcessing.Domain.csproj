@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FluencyHub.StudentManagement.Domain\FluencyHub.StudentManagement.Domain.csproj" />
+    <ProjectReference Include="..\FluencyHub.SharedKernel\FluencyHub.SharedKernel.csproj" />
   </ItemGroup>
 
 </Project>

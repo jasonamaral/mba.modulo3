@@ -1,5 +1,7 @@
+using FluencyHub.ContentManagement.Infrastructure.Persistence;
 using FluencyHub.Infrastructure.Identity;
-using FluencyHub.Infrastructure.Persistence;
+using FluencyHub.PaymentProcessing.Infrastructure.Persistence;
+using FluencyHub.StudentManagement.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
 
 namespace FluencyHub.API;
@@ -14,18 +16,38 @@ public static class DatabaseSeeder
 
         try
         {
-            var context = services.GetRequiredService<FluencyHubDbContext>();
+            // Inicializar cada banco de dados específico por contexto
+            var contentContext = services.GetRequiredService<ContentDbContext>();
+            var studentContext = services.GetRequiredService<StudentDbContext>();
+            var paymentContext = services.GetRequiredService<PaymentDbContext>();
+            var identityContext = services.GetRequiredService<ApplicationDbContext>();
 
-            if (context.Database.EnsureCreated())
+            if (contentContext.Database.EnsureCreated())
             {
-                logger.LogInformation("Main database created successfully");
+                logger.LogInformation("Content database created successfully");
             }
             else
             {
-                logger.LogInformation("Main database already exists");
+                logger.LogInformation("Content database already exists");
             }
 
-            var identityContext = services.GetRequiredService<ApplicationDbContext>();
+            if (studentContext.Database.EnsureCreated())
+            {
+                logger.LogInformation("Student database created successfully");
+            }
+            else
+            {
+                logger.LogInformation("Student database already exists");
+            }
+
+            if (paymentContext.Database.EnsureCreated())
+            {
+                logger.LogInformation("Payment database created successfully");
+            }
+            else
+            {
+                logger.LogInformation("Payment database already exists");
+            }
 
             if (identityContext.Database.EnsureCreated())
             {

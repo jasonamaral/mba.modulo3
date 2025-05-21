@@ -1,4 +1,4 @@
-using FluencyHub.Application.PaymentProcessing.Commands.ProcessPayment;
+using FluencyHub.PaymentProcessing.Application.Commands.ProcessPayment;
 using System.ComponentModel.DataAnnotations;
 
 namespace FluencyHub.API.Models;
@@ -7,6 +7,9 @@ public class PaymentProcessRequest
 {
     [Required(ErrorMessage = "Enrollment ID is required.")]
     public Guid EnrollmentId { get; set; }
+
+    [Required(ErrorMessage = "Student ID is required.")]
+    public Guid StudentId { get; set; }
 
     [Required(ErrorMessage = "Card details are required.")]
     public CardDetailsRequest CardDetails { get; set; } = null!;
@@ -20,10 +23,13 @@ public class PaymentProcessRequest
         return new ProcessPaymentCommand
         {
             EnrollmentId = EnrollmentId,
+            StudentId = StudentId,
+            Amount = Amount,
+            PaymentMethod = "CreditCard",
             CardHolderName = CardDetails.CardholderName,
             CardNumber = CardDetails.CardNumber,
-            ExpiryMonth = CardDetails.ExpiryMonth.ToString(),
-            ExpiryYear = CardDetails.ExpiryYear.ToString()
+            ExpirationDate = $"{CardDetails.ExpiryMonth:D2}/{CardDetails.ExpiryYear}",
+            SecurityCode = CardDetails.Cvv
         };
     }
 }

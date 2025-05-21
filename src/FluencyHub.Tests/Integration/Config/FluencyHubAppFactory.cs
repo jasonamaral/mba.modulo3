@@ -3,24 +3,33 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using FluencyHub.Infrastructure.Persistence;
-using FluencyHub.Infrastructure.Persistence.Extensions;
 using FluencyHub.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using FluencyHub.API;
 using Microsoft.Data.Sqlite;
+using FluencyHub.ContentManagement.Infrastructure.Persistence;
+using FluencyHub.StudentManagement.Infrastructure.Persistence;
+using FluencyHub.PaymentProcessing.Infrastructure.Persistence;
 
 namespace FluencyHub.Tests.Integration.Config;
 
 public class FluencyHubAppFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : class
 {
-    private readonly SqliteConnection _mainConnection;
+    private readonly SqliteConnection _contentConnection;
+    private readonly SqliteConnection _studentConnection;
+    private readonly SqliteConnection _paymentConnection;
     private readonly SqliteConnection _identityConnection;
 
     public FluencyHubAppFactory()
     {
-        _mainConnection = new SqliteConnection("DataSource=:memory:");
-        _mainConnection.Open();
+        _contentConnection = new SqliteConnection("DataSource=:memory:");
+        _contentConnection.Open();
+        
+        _studentConnection = new SqliteConnection("DataSource=:memory:");
+        _studentConnection.Open();
+        
+        _paymentConnection = new SqliteConnection("DataSource=:memory:");
+        _paymentConnection.Open();
 
         _identityConnection = new SqliteConnection("DataSource=:memory:");
         _identityConnection.Open();
@@ -36,55 +45,62 @@ public class FluencyHubAppFactory<TProgram> : WebApplicationFactory<TProgram> wh
             RemoveDbContextRegistrations(services);
 
             // Adicionar SQLite em memória para testes
-            services.AddDbContext<FluencyHubDbContext>(options =>
+            services.AddDbContext<ContentDbContext>(options =>
             {
-                options.UseSqlite(_mainConnection);
+                options.UseSqlite(_contentConnection);
+            });
+            
+            services.AddDbContext<StudentDbContext>(options =>
+            {
+                options.UseSqlite(_studentConnection);
+            });
+            
+            services.AddDbContext<PaymentDbContext>(options =>
+            {
+                options.UseSqlite(_paymentConnection);
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlite(_identityConnection);
             });
-
-            // Criar esquemas de banco de dados
-            var serviceProvider = services.BuildServiceProvider();
-            using (var scope = serviceProvider.CreateScope())
-            {
-                var scopedServices = scope.ServiceProvider;
-                var mainDb = scopedServices.GetRequiredService<FluencyHubDbContext>();
-                var identityDb = scopedServices.GetRequiredService<ApplicationDbContext>();
-
-                // Garantir que os esquemas de banco de dados foram criados
-                mainDb.Database.EnsureCreated();
-                identityDb.Database.EnsureCreated();
-
-                // Seed dados de identidade
-                SeedIdentityData(scopedServices).Wait();
-            }
         });
 
-        base.ConfigureWebHost(builder);
+        builder.UseEnvironment("Testing");
     }
 
-    private static async Task SeedIdentityData(IServiceProvider serviceProvider)
+    public async Task InitializeAsync()
     {
-        var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-        var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        using var scope = Services.CreateScope();
+        var services = scope.ServiceProvider;
+        
+        var contentDbContext = services.GetRequiredService<ContentDbContext>();
+        var studentDbContext = services.GetRequiredService<StudentDbContext>();
+        var paymentDbContext = services.GetRequiredService<PaymentDbContext>();
+        var identityDbContext = services.GetRequiredService<ApplicationDbContext>();
+        
+        await contentDbContext.Database.EnsureCreatedAsync();
+        await studentDbContext.Database.EnsureCreatedAsync();
+        await paymentDbContext.Database.EnsureCreatedAsync();
+        await identityDbContext.Database.EnsureCreatedAsync();
+        
+        // Configurar Identity e criar roles básicos
+        await ConfigureIdentityAsync(services);
+    }
+
+    private async Task ConfigureIdentityAsync(IServiceProvider services)
+    {
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
 
         // Criar roles
-        if (!await roleManager.RoleExistsAsync("Administrator"))
+        string[] roles = { "Administrator", "Student" };
+        foreach (var role in roles)
         {
-            await roleManager.CreateAsync(new IdentityRole("Administrator"));
-        }
-        
-        if (!await roleManager.RoleExistsAsync("Student"))
-        {
-            await roleManager.CreateAsync(new IdentityRole("Student"));
-        }
-
-        if (!await roleManager.RoleExistsAsync("Teacher"))
-        {
-            await roleManager.CreateAsync(new IdentityRole("Teacher"));
+            if (!await roleManager.RoleExistsAsync(role))
+            {
+                await roleManager.CreateAsync(new IdentityRole(role));
+            }
         }
 
         // Criar usuário administrador
@@ -130,7 +146,9 @@ public class FluencyHubAppFactory<TProgram> : WebApplicationFactory<TProgram> wh
     {
         if (disposing)
         {
-            _mainConnection?.Dispose();
+            _contentConnection?.Dispose();
+            _studentConnection?.Dispose();
+            _paymentConnection?.Dispose();
             _identityConnection?.Dispose();
         }
 

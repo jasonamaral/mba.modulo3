@@ -1,4 +1,5 @@
 using FluencyHub.ContentManagement.Domain.Common;
+using FluencyHub.ContentManagement.Domain.Events;
 using System.Text.Json.Serialization;
 
 namespace FluencyHub.ContentManagement.Domain;
@@ -15,6 +16,7 @@ public class Course : BaseEntity
     public bool IsActive { get; private set; }
     public CourseStatus Status { get; private set; } = CourseStatus.Draft;
     public DateTime? PublishedAt { get; private set; }
+    public int EnrollmentCount { get; private set; } = 0;
 
     [JsonIgnore]
     public IReadOnlyCollection<Lesson> Lessons => _lessons.AsReadOnly();
@@ -41,6 +43,9 @@ public class Course : BaseEntity
         IsActive = true;
         Status = CourseStatus.Draft;
         CreatedAt = DateTime.UtcNow;
+        
+        // Adicionar evento de domínio para curso criado
+        AddDomainEvent(new CourseCreatedDomainEvent(this));
     }
 
     public void UpdateDetails(string name, string description, CourseContent content, decimal price)
@@ -59,29 +64,38 @@ public class Course : BaseEntity
         Content = content ?? throw new ArgumentException("Course content cannot be null", nameof(content));
         Price = price;
         UpdatedAt = DateTime.UtcNow;
+        
+        // Adicionar evento de domínio para curso atualizado
+        AddDomainEvent(new CourseUpdatedDomainEvent(this));
     }
 
-    public Lesson AddLesson(string title, string content, string? materialUrl = null)
+    public Lesson AddLesson(string title, string description, string content, string? materialUrl = null, int durationMinutes = 0)
     {
         if (!IsActive)
             throw new InvalidOperationException("Cannot add lessons to an inactive course");
 
         var order = _lessons.Count > 0 ? _lessons.Max(l => l.Order) + 1 : 1;
-        var lesson = new Lesson(title, content, materialUrl, order);
+        var lesson = new Lesson(title, description, content, materialUrl, order, durationMinutes);
 
         lesson.SetCourseId(this.Id);
 
         _lessons.Add(lesson);
         UpdatedAt = DateTime.UtcNow;
+        
+        // Adicionar evento de domínio para curso atualizado
+        AddDomainEvent(new CourseUpdatedDomainEvent(this));
 
         return lesson;
     }
 
-    public void UpdateLesson(Guid lessonId, string title, string content, string materialUrl)
+    public void UpdateLesson(Guid lessonId, string title, string description, string content, string? materialUrl = null, int durationMinutes = 0)
     {
         var lesson = _lessons.FirstOrDefault(l => l.Id == lessonId) ?? throw new ArgumentException($"Lesson with ID {lessonId} not found", nameof(lessonId));
-        lesson.Update(title, content, materialUrl);
+        lesson.Update(title, description, content, materialUrl, durationMinutes);
         UpdatedAt = DateTime.UtcNow;
+        
+        // Adicionar evento de domínio para curso atualizado
+        AddDomainEvent(new CourseUpdatedDomainEvent(this));
     }
 
     public void RemoveLesson(Guid lessonId)
@@ -96,6 +110,9 @@ public class Course : BaseEntity
         }
 
         UpdatedAt = DateTime.UtcNow;
+        
+        // Adicionar evento de domínio para curso atualizado
+        AddDomainEvent(new CourseUpdatedDomainEvent(this));
     }
 
     public void ReorderLesson(Guid lessonId, int newOrder)
@@ -129,6 +146,9 @@ public class Course : BaseEntity
 
         lesson.UpdateOrder(newOrder);
         UpdatedAt = DateTime.UtcNow;
+        
+        // Adicionar evento de domínio para curso atualizado
+        AddDomainEvent(new CourseUpdatedDomainEvent(this));
     }
 
     public void PublishCourse()
@@ -139,6 +159,9 @@ public class Course : BaseEntity
         Status = CourseStatus.Published;
         PublishedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
+        
+        // Adicionar evento de domínio para curso atualizado
+        AddDomainEvent(new CourseUpdatedDomainEvent(this));
     }
 
     public void ArchiveCourse()
@@ -149,6 +172,9 @@ public class Course : BaseEntity
         Status = CourseStatus.Archived;
         IsActive = false;
         UpdatedAt = DateTime.UtcNow;
+        
+        // Adicionar evento de domínio para curso atualizado
+        AddDomainEvent(new CourseUpdatedDomainEvent(this));
     }
 
     public void Activate()
@@ -158,6 +184,9 @@ public class Course : BaseEntity
 
         IsActive = true;
         UpdatedAt = DateTime.UtcNow;
+        
+        // Adicionar evento de domínio para curso atualizado
+        AddDomainEvent(new CourseUpdatedDomainEvent(this));
     }
 
     public void Deactivate()
@@ -167,5 +196,20 @@ public class Course : BaseEntity
 
         IsActive = false;
         UpdatedAt = DateTime.UtcNow;
+        
+        // Adicionar evento de domínio para curso atualizado
+        AddDomainEvent(new CourseUpdatedDomainEvent(this));
+    }
+    
+    public void IncrementEnrollmentCount()
+    {
+        EnrollmentCount++;
+        UpdatedAt = DateTime.UtcNow;
+    }
+    
+    public void Delete()
+    {
+        // Adicionar evento de domínio para curso excluído
+        AddDomainEvent(new CourseDeletedDomainEvent(this.Id));
     }
 } 

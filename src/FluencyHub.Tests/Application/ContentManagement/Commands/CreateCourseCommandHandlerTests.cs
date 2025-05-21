@@ -1,21 +1,25 @@
-using FluencyHub.Application.ContentManagement.Commands.CreateCourse;
-using FluencyHub.ContentManagement.Domain;
+using FluencyHub.Application.Common.Interfaces;
+using FluencyHub.ContentManagement.Application.Commands.CreateCourse;
+using FluencyHub.ContentManagement.Domain.Entities;
 using Microsoft.Extensions.Logging;
 using Moq;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace FluencyHub.Tests.Application.ContentManagement.Commands;
 
 public class CreateCourseCommandHandlerTests
 {
-    private readonly Mock<FluencyHub.Application.Common.Interfaces.ICourseRepository> _courseRepositoryMock;
+    private readonly Mock<ICourseRepository> _mockCourseRepository;
     private readonly Mock<ILogger<CreateCourseCommandHandler>> _loggerMock;
     private readonly CreateCourseCommandHandler _handler;
     
     public CreateCourseCommandHandlerTests()
     {
-        _courseRepositoryMock = new Mock<FluencyHub.Application.Common.Interfaces.ICourseRepository>();
+        _mockCourseRepository = new Mock<ICourseRepository>();
         _loggerMock = new Mock<ILogger<CreateCourseCommandHandler>>();
-        _handler = new CreateCourseCommandHandler(_courseRepositoryMock.Object, _loggerMock.Object);
+        _handler = new CreateCourseCommandHandler(_mockCourseRepository.Object, _loggerMock.Object);
     }
     
     [Fact]
@@ -38,7 +42,7 @@ public class CreateCourseCommandHandlerTests
         var validCourseId = Guid.NewGuid();
         Course savedCourse = null;
         
-        _courseRepositoryMock
+        _mockCourseRepository
             .Setup(r => r.AddAsync(It.IsAny<Course>()))
             .Callback<Course>(course => 
             {
@@ -48,7 +52,7 @@ public class CreateCourseCommandHandlerTests
             })
             .ReturnsAsync((Course course) => course);
             
-        _courseRepositoryMock
+        _mockCourseRepository
             .Setup(r => r.SaveChangesAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
         
@@ -58,8 +62,8 @@ public class CreateCourseCommandHandlerTests
         // Assert
         Assert.Equal(validCourseId, result);
         
-        _courseRepositoryMock.Verify(r => r.AddAsync(It.IsAny<Course>()), Times.Once);
-        _courseRepositoryMock.Verify(r => r.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _mockCourseRepository.Verify(r => r.AddAsync(It.IsAny<Course>()), Times.Once);
+        _mockCourseRepository.Verify(r => r.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
         
         Assert.NotNull(savedCourse);
         Assert.Equal(command.Name, savedCourse.Name);
@@ -89,7 +93,7 @@ public class CreateCourseCommandHandlerTests
         
         var expectedException = new Exception("Database error");
         
-        _courseRepositoryMock
+        _mockCourseRepository
             .Setup(r => r.AddAsync(It.IsAny<Course>()))
             .Throws(expectedException);
         

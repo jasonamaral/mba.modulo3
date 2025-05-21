@@ -4,10 +4,10 @@ namespace FluencyHub.StudentManagement.Domain;
 
 public class LearningHistory : BaseEntity
 {
-    private readonly List<CourseProgress> _courseProgress = [];
+    private readonly List<CourseProgress> _courseProgresses = [];
     private readonly List<LearningRecord> _records = [];
 
-    public IReadOnlyCollection<CourseProgress> CourseProgress => _courseProgress;
+    public IReadOnlyCollection<CourseProgress> CourseProgresses => _courseProgresses;
     public IReadOnlyCollection<LearningRecord> Records => _records.AsReadOnly();
 
     public Guid StudentId => Id;
@@ -24,19 +24,19 @@ public class LearningHistory : BaseEntity
 
     public void AddCourseProgress(CourseProgress progress)
     {
-        _courseProgress.Add(progress);
+        _courseProgresses.Add(progress);
     }
 
     public void AddProgress(Guid courseId, Guid lessonId)
     {
-        var courseProgress = _courseProgress.FirstOrDefault(cp => cp.CourseId == courseId);
+        var courseProgress = _courseProgresses.FirstOrDefault(cp => cp.CourseId == courseId);
         if (courseProgress == null)
         {
             courseProgress = new CourseProgress(courseId)
             {
                 LearningHistoryId = this.Id
             };
-            _courseProgress.Add(courseProgress);
+            _courseProgresses.Add(courseProgress);
         }
 
         courseProgress.AddCompletedLesson(lessonId);
@@ -65,14 +65,14 @@ public class LearningHistory : BaseEntity
 
     public void CompleteCourse(Guid courseId)
     {
-        var courseProgress = _courseProgress.FirstOrDefault(cp => cp.CourseId == courseId);
+        var courseProgress = _courseProgresses.FirstOrDefault(cp => cp.CourseId == courseId);
         if (courseProgress == null)
         {
             courseProgress = new CourseProgress(courseId)
             {
                 LearningHistoryId = this.Id
             };
-            _courseProgress.Add(courseProgress);
+            _courseProgresses.Add(courseProgress);
         }
 
         courseProgress.CompleteCourse();
@@ -81,19 +81,19 @@ public class LearningHistory : BaseEntity
 
     public bool HasCompletedLesson(Guid courseId, Guid lessonId)
     {
-        var courseProgress = _courseProgress.FirstOrDefault(cp => cp.CourseId == courseId);
+        var courseProgress = _courseProgresses.FirstOrDefault(cp => cp.CourseId == courseId);
         return courseProgress != null && courseProgress.HasCompletedLesson(lessonId);
     }
 
     public bool HasCompletedCourse(Guid courseId)
     {
-        var courseProgress = _courseProgress.FirstOrDefault(cp => cp.CourseId == courseId);
+        var courseProgress = _courseProgresses.FirstOrDefault(cp => cp.CourseId == courseId);
         return courseProgress != null && courseProgress.IsCompleted;
     }
 
     public int GetCompletedLessonsCount(Guid courseId)
     {
-        var courseProgress = _courseProgress.FirstOrDefault(cp => cp.CourseId == courseId);
+        var courseProgress = _courseProgresses.FirstOrDefault(cp => cp.CourseId == courseId);
         return courseProgress != null ? courseProgress.GetCompletedLessonsCount() : 0;
     }
 } 

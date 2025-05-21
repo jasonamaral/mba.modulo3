@@ -2,9 +2,9 @@ using MediatR;
 using FluencyHub.ContentManagement.Application.Common.Models;
 using FluencyHub.ContentManagement.Application.Common.Interfaces;
 
-namespace FluencyHub.ContentManagement.Application.Queries.GetLessonsByCourse;
+namespace FluencyHub.ContentManagement.Application.Queries.GetLessonsByCourseId;
 
-public class GetLessonsByCourseQueryHandler : IRequestHandler<GetLessonsByCourseQuery, IEnumerable<LessonDto>>
+public class GetLessonsByCourseQueryHandler : IRequestHandler<GetLessonsByCourseIdQuery, IEnumerable<LessonDto>>
 {
     private readonly ILessonRepository _lessonRepository;
 
@@ -13,7 +13,7 @@ public class GetLessonsByCourseQueryHandler : IRequestHandler<GetLessonsByCourse
         _lessonRepository = lessonRepository;
     }
 
-    public async Task<IEnumerable<LessonDto>> Handle(GetLessonsByCourseQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<LessonDto>> Handle(GetLessonsByCourseIdQuery request, CancellationToken cancellationToken)
     {
         var lessons = await _lessonRepository.GetByCourseIdAsync(request.CourseId, cancellationToken);
         
@@ -22,10 +22,10 @@ public class GetLessonsByCourseQueryHandler : IRequestHandler<GetLessonsByCourse
             Id = lesson.Id,
             CourseId = lesson.CourseId,
             Title = lesson.Title,
-            Description = lesson.Content,
+            Description = lesson.Description ?? string.Empty,
             Content = lesson.Content,
             Order = lesson.Order,
-            DurationMinutes = 0,
+            DurationMinutes = lesson.DurationMinutes,
             IsActive = true,
             CreatedAt = lesson.CreatedAt,
             UpdatedAt = lesson.UpdatedAt

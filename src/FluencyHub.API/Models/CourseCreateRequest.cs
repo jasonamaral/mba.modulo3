@@ -1,4 +1,4 @@
-using FluencyHub.Application.ContentManagement.Commands.CreateCourse;
+using FluencyHub.ContentManagement.Application.Commands.CreateCourse;
 using System.ComponentModel.DataAnnotations;
 
 namespace FluencyHub.API.Models;

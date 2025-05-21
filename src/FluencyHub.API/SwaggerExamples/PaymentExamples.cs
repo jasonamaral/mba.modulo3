@@ -1,5 +1,5 @@
 using FluencyHub.API.Models;
-using FluencyHub.Application.PaymentProcessing.Queries.GetPaymentById;
+using FluencyHub.PaymentProcessing.Application.Queries.GetPaymentById;
 using FluencyHub.PaymentProcessing.Domain;
 using Swashbuckle.AspNetCore.Filters;
 using System;
@@ -46,13 +46,16 @@ public class PaymentDtoExample : IExamplesProvider<PaymentDto>
             Id = Guid.Parse("44444444-4444-4444-4444-444444444444"),
             EnrollmentId = Guid.Parse("33333333-3333-3333-3333-333333333333"),
             StudentId = Guid.Parse("22222222-2222-2222-2222-222222222222"),
+            StudentName = "Maria Silva",
+            CourseName = "Curso de Inglês Avançado",
             Amount = 99.99m,
+            PaymentMethod = "CreditCard",
             Status = StatusPagamento.Aprovado.ToString(),
             TransactionId = "TRX123456789",
-            FailureReason = null,
-            RefundReason = null,
-            CreatedAt = DateTime.Now.AddDays(-5),
-            UpdatedAt = DateTime.Now.AddDays(-5)
+            PaymentDate = DateTime.Now.AddDays(-5),
+            IsRefunded = false,
+            RefundedAmount = null,
+            RefundDate = null
         };
     }
 } 

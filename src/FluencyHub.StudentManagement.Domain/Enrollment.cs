@@ -13,6 +13,8 @@ public class Enrollment : BaseEntity
     public DateTime EnrollmentDate { get; private set; }
     public DateTime? ActivationDate { get; private set; }
     public DateTime? CompletionDate { get; private set; }
+    public Guid? PaymentId { get; private set; }
+    public string? PaymentFailureReason { get; private set; }
 
     [JsonIgnore]
     public Student Student { get; private set; }
@@ -62,6 +64,26 @@ public class Enrollment : BaseEntity
             throw new InvalidOperationException("Não é possível cancelar uma matrícula concluída");
 
         Status = StatusMatricula.Cancelada;
+        UpdatedAt = DateTime.UtcNow;
+    }
+    
+    public void ProcessPaymentSuccess(Guid paymentId, decimal amount)
+    {
+        if (Status != StatusMatricula.AguardandoPagamento)
+            throw new InvalidOperationException($"Não é possível processar o pagamento para uma matrícula com status {Status}");
+            
+        PaymentId = paymentId;
+        Status = StatusMatricula.Ativa;
+        ActivationDate = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
+    }
+    
+    public void ProcessPaymentFailure(string errorMessage)
+    {
+        if (Status != StatusMatricula.AguardandoPagamento)
+            throw new InvalidOperationException($"Não é possível processar a falha de pagamento para uma matrícula com status {Status}");
+            
+        PaymentFailureReason = errorMessage;
         UpdatedAt = DateTime.UtcNow;
     }
 

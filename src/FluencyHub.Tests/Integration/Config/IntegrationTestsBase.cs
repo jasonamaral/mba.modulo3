@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using FluencyHub.Infrastructure.Persistence;
+using FluencyHub.ContentManagement.Infrastructure.Persistence;
+using FluencyHub.StudentManagement.Infrastructure.Persistence;
+using FluencyHub.PaymentProcessing.Infrastructure.Persistence;
 using FluencyHub.Infrastructure.Identity;
 using System.Transactions;
 using System.Collections.Concurrent;
@@ -14,7 +16,6 @@ public abstract class IntegrationTestsBase<TProgram> : IDisposable where TProgra
 {
     public readonly WebApplicationFactory<TProgram> Factory;
     public HttpClient Client;
-    protected readonly SqliteConnection Connection;
     protected readonly TransactionScope TransactionScope;
     private readonly ConcurrentDictionary<string, string> _tokens = new();
     public string? CurrentToken { get; set; }
@@ -22,13 +23,6 @@ public abstract class IntegrationTestsBase<TProgram> : IDisposable where TProgra
     protected IntegrationTestsBase(WebApplicationFactory<TProgram> factory)
     {
         Factory = factory;
-        Connection = new SqliteConnection("DataSource=:memory:");
-        Connection.Open();
-        
-        // Configurar o banco de dados para cada teste
-        using var scope = Factory.Services.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<FluencyHubDbContext>();
-        dbContext.Database.EnsureCreated();
         
         // Iniciar uma transação para cada teste
         TransactionScope = new TransactionScope(
@@ -78,15 +72,34 @@ public abstract class IntegrationTestsBase<TProgram> : IDisposable where TProgra
     protected async Task ResetDatabaseAsync()
     {
         using var scope = Factory.Services.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<FluencyHubDbContext>();
-        await dbContext.Database.EnsureDeletedAsync();
-        await dbContext.Database.EnsureCreatedAsync();
+        
+        // Obter todos os DbContexts específicos de cada BC
+        var contentDbContext = scope.ServiceProvider.GetRequiredService<ContentDbContext>();
+        var studentDbContext = scope.ServiceProvider.GetRequiredService<StudentDbContext>();
+        var paymentDbContext = scope.ServiceProvider.GetRequiredService<PaymentDbContext>();
+        var identityDbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        
+        // Redefinir cada contexto
+        await contentDbContext.Database.EnsureDeletedAsync();
+        await contentDbContext.Database.EnsureCreatedAsync();
+        
+        await studentDbContext.Database.EnsureDeletedAsync();
+        await studentDbContext.Database.EnsureCreatedAsync();
+        
+        await paymentDbContext.Database.EnsureDeletedAsync();
+        await paymentDbContext.Database.EnsureCreatedAsync();
+        
+        await identityDbContext.Database.EnsureDeletedAsync();
+        await identityDbContext.Database.EnsureCreatedAsync();
         
         // Seed dados iniciais
-        await SeedTestDataAsync(dbContext);
+        await SeedTestDataAsync(contentDbContext, studentDbContext, paymentDbContext);
     }
 
-    protected virtual async Task SeedTestDataAsync(FluencyHubDbContext dbContext)
+    protected virtual async Task SeedTestDataAsync(
+        ContentDbContext contentDbContext, 
+        StudentDbContext studentDbContext, 
+        PaymentDbContext paymentDbContext)
     {
         // Implementação padrão vazia - pode ser sobrescrita por classes derivadas
         await Task.CompletedTask;
@@ -95,7 +108,6 @@ public abstract class IntegrationTestsBase<TProgram> : IDisposable where TProgra
     public void Dispose()
     {
         TransactionScope.Dispose();
-        Connection?.Dispose();
         Client?.Dispose();
         GC.SuppressFinalize(this);
     }

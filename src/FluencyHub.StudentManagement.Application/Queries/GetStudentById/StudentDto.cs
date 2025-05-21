@@ -16,4 +16,7 @@ public class StudentDto
     public bool IsActive { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
+    public string FullName { get; set; } = string.Empty;
+    public int EnrollmentsCount { get; set; }
+    public int CertificatesCount { get; set; }
 } 

@@ -4,6 +4,9 @@ using FluentValidation;
 using MediatR;
 using FluencyHub.PaymentProcessing.Application.Common.Interfaces;
 using FluencyHub.PaymentProcessing.Application.Services;
+using FluencyHub.PaymentProcessing.Application.Handlers;
+using FluencyHub.SharedKernel.Events.ContentManagement;
+using FluencyHub.SharedKernel.Events.StudentManagement;
 
 namespace FluencyHub.PaymentProcessing.Application;
 
@@ -22,6 +25,11 @@ public static class DependencyInjection
         
         // Serviços de aplicação
         services.AddScoped<IPaymentApplicationService, PaymentService>();
+        
+        // Registrar handlers de eventos específicos
+        services.AddScoped<INotificationHandler<StudentEnrolledEvent>, StudentEnrolledEventHandler>();
+        services.AddScoped<INotificationHandler<CourseCreatedEvent>, CourseCreatedEventHandler>();
+        services.AddScoped<INotificationHandler<CourseUpdatedEvent>, CourseUpdatedEventHandler>();
         
         return services;
     }

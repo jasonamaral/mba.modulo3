@@ -1,5 +1,5 @@
 using FluencyHub.API.Models;
-using FluencyHub.Application.ContentManagement.Queries.GetCourseById;
+using FluencyHub.ContentManagement.Application.Queries.GetCourseById;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace FluencyHub.API.SwaggerExamples;
@@ -52,33 +52,13 @@ public class CourseDtoExample : IExamplesProvider<CourseDto>
             Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
             Name = "English for Beginners",
             Description = "A comprehensive course for beginners to learn English",
-            Content = new CourseContentDto
-            {
-                Language = "English",
-                Level = "Beginner",
-                Syllabus = "Complete syllabus for beginners",
-                LearningObjectives = "Learn basic English skills",
-                PreRequisites = "No prerequisites",
-                TargetAudience = "Beginners with no prior knowledge"
-            },
-            Price = 99.99m,
-            IsActive = true,
-            CreatedAt = DateTime.Now.AddDays(-30),
-            UpdatedAt = DateTime.Now,
-            Lessons = new List<LessonDto>
-            {
-                new LessonDto
-                {
-                    Id = Guid.Parse("22222222-2222-2222-2222-222222222222"),
-                    Title = "Introduction to English",
-                    Content = "Basic introduction to English language",
-                    Order = 1,
-                    MaterialUrl = "https://example.com/materials/intro",
-                    IsActive = true,
-                    CreatedAt = DateTime.Now.AddDays(-30),
-                    UpdatedAt = DateTime.Now
-                }
-            }
+            Syllabus = "Complete syllabus for beginners",
+            LearningObjectives = "Learn basic English skills",
+            PreRequisites = "No prerequisites",
+            TargetAudience = "Beginners with no prior knowledge",
+            Language = "English",
+            Level = "Beginner",
+            Price = 99.99m
         };
     }
 } 

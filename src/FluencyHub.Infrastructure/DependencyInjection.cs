@@ -1,7 +1,5 @@
 using FluencyHub.Application.Common.Interfaces;
-using FluencyHub.Infrastructure.Common;
 using FluencyHub.Infrastructure.Identity;
-using FluencyHub.Infrastructure.Persistence;
 using FluencyHub.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -18,38 +16,14 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        // Adicionar Persistência
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
-        var identityConnectionString = configuration.GetConnectionString("IdentityConnection");
+        // Obter connection string para identidade
+        var identityConnectionString = configuration.GetConnectionString("IdentityConnection") 
+            ?? throw new InvalidOperationException("Identity connection string não configurada");
 
-        // Verificar o ambiente para decidir qual provedor de banco de dados usar
-        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-        var usesSqlite = environment == "Development" || environment == "Testing";
-
-        if (usesSqlite)
-        {
-            // Configurar SQLite para ambientes de Desenvolvimento e Teste
-            services.AddDbContext<FluencyHubDbContext>(options =>
-                options.UseSqlite(connectionString));
-            
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(identityConnectionString));
-        }
-        else
-        {
-            // Configurar SQL Server para o ambiente de Produção
-            services.AddDbContext<FluencyHubDbContext>(options =>
-                options.UseSqlServer(connectionString));
-            
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(identityConnectionString));
-        }
-
-        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<FluencyHubDbContext>());
+        // Adicionar DbContext de Identidade
+        services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlite(identityConnectionString));
         
-        // Adicionar serviço de eventos de domínio (comum a todos os BCs)
-        services.AddScoped<Application.Common.Interfaces.IDomainEventService, DomainEventService>();
-
         // Adicionar Identity
         services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
@@ -103,7 +77,7 @@ public static class DependencyInjection
             });
 
         // Adicionar Serviços de Identity
-        services.AddScoped<Application.Common.Interfaces.IIdentityService, IdentityService>();
+        services.AddScoped<IIdentityService, IdentityService>();
 
         return services;
     }

@@ -71,7 +71,8 @@ public class CoursesController : ControllerBase
     {
         try
         {
-            var course = await _mediator.Send(new GetCourseByIdQuery(id));
+            var query = new GetCourseByIdQuery { CourseId = id };
+            var course = await _mediator.Send(query);
             return Ok(course);
         }
         catch (Exception ex)

@@ -1,7 +1,7 @@
 using FluencyHub.API.Controllers;
-using FluencyHub.Application.Common.Exceptions;
-using FluencyHub.Application.StudentManagement.Commands.CompleteLessonForStudent;
-using FluencyHub.Application.StudentManagement.Queries.GetAllStudents;
+using FluencyHub.StudentManagement.Application.Common.Exceptions;
+using FluencyHub.StudentManagement.Application.Commands.CompleteLessonForStudent;
+using FluencyHub.StudentManagement.Application.Queries.GetAllStudents;
 using FluencyHub.StudentManagement.Domain;
 using FluencyHub.Infrastructure.Identity;
 using MediatR;
@@ -129,14 +129,14 @@ public class StudentsControllerTests
         var lessonId = Guid.NewGuid();
         
         _mediatorMock.Setup(m => m.Send(It.IsAny<CompleteLessonForStudentCommand>(), It.IsAny<CancellationToken>()))
-            .ThrowsAsync(new NotFoundException("Student", studentId));
+            .ThrowsAsync(new NotFoundException($"Student with ID {studentId} not found"));
         
         // Act
         var result = await _controller.MarkLessonAsCompleted(studentId, courseId, lessonId);
         
         // Assert
         var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
-        Assert.Equal($"Entity \"Student\" ({studentId}) was not found.", notFoundResult.Value);
+        Assert.Contains(studentId.ToString(), notFoundResult.Value.ToString());
     }
     
     [Fact]

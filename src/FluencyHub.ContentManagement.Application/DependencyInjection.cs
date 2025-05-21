@@ -3,6 +3,9 @@ using System.Reflection;
 using FluentValidation;
 using MediatR;
 using FluencyHub.ContentManagement.Application.Common.Behaviors;
+using FluencyHub.ContentManagement.Application.Common.Interfaces;
+using FluencyHub.ContentManagement.Application.Handlers;
+using FluencyHub.SharedKernel.Events.StudentManagement;
 
 namespace FluencyHub.ContentManagement.Application;
 
@@ -19,6 +22,9 @@ public static class DependencyInjection
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
+        
+        services.AddScoped<INotificationHandler<StudentEnrolledEvent>, StudentEnrolledEventHandler>();
+        services.AddScoped<INotificationHandler<LessonCompletedEvent>, LessonCompletedEventHandler>();
         
         return services;
     }

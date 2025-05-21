@@ -36,6 +36,20 @@ public class CourseProgress
             LastUpdated = DateTime.UtcNow;
         }
     }
+    
+    public void AddCompletedLesson(CompletedLesson completedLesson)
+    {
+        if (!HasCompletedLesson(completedLesson.LessonId))
+        {
+            _completedLessons.Add(completedLesson);
+            LastUpdated = DateTime.UtcNow;
+        }
+    }
+    
+    public void CompleteLesson(Guid lessonId)
+    {
+        AddCompletedLesson(lessonId);
+    }
 
     public bool HasCompletedLesson(Guid lessonId)
     {

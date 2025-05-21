@@ -1,9 +1,8 @@
 using FluencyHub.API.Controllers;
-using FluencyHub.Application.StudentManagement.Commands.GenerateCertificate;
-using FluencyHub.Application.StudentManagement.Queries.GetCertificateById;
-using FluencyHub.Application.StudentManagement.Queries.GetStudentCertificates;
-using FluencyHub.Application.Common.Models;
-using FluencyHub.Application.Common.Exceptions;
+using FluencyHub.StudentManagement.Application.Commands.GenerateCertificate;
+using FluencyHub.StudentManagement.Application.Queries.GetCertificateById;
+using FluencyHub.StudentManagement.Application.Queries.GetStudentCertificates;
+using FluencyHub.StudentManagement.Application.Common.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -39,11 +38,11 @@ public class CertificatesControllerTests
             CourseName = "English Course",
             StudentName = "John Doe",
             IssueDate = DateTime.UtcNow,
-            Title = "Certificate of Completion"
+            CertificateNumber = "CERT-123"
         };
 
         _mediatorMock
-            .Setup(m => m.Send(It.Is<GetCertificateByIdQuery>(q => q.Id == certificateId), It.IsAny<CancellationToken>()))
+            .Setup(m => m.Send(It.Is<GetCertificateByIdQuery>(q => q.CertificateId == certificateId), It.IsAny<CancellationToken>()))
             .ReturnsAsync(certificateDto);
 
         // Act
@@ -64,8 +63,8 @@ public class CertificatesControllerTests
         var certificateId = Guid.NewGuid();
 
         _mediatorMock
-            .Setup(m => m.Send(It.Is<GetCertificateByIdQuery>(q => q.Id == certificateId), It.IsAny<CancellationToken>()))
-            .ThrowsAsync(new NotFoundException("Certificate", certificateId));
+            .Setup(m => m.Send(It.Is<GetCertificateByIdQuery>(q => q.CertificateId == certificateId), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new NotFoundException($"Certificate with ID {certificateId} not found"));
 
         // Act
         var result = await _controller.GetCertificate(certificateId);
@@ -86,19 +85,19 @@ public class CertificatesControllerTests
                 Id = Guid.NewGuid(),
                 CourseName = "English Course",
                 IssueDate = DateTime.UtcNow,
-                Title = "Certificate of Completion"
+                CertificateNumber = "CERT-123"
             },
             new CertificateDto
             {
                 Id = Guid.NewGuid(),
                 CourseName = "Spanish Course",
                 IssueDate = DateTime.UtcNow,
-                Title = "Certificate of Completion"
+                CertificateNumber = "CERT-456"
             }
         };
 
         _mediatorMock
-            .Setup(m => m.Send(It.Is<GetStudentCertificatesQuery>(q => q.StudentId == studentId), It.IsAny<CancellationToken>()))
+            .Setup(m => m.Send(It.IsAny<GetStudentCertificatesQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(certificates);
 
         // Act

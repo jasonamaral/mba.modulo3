@@ -1,6 +1,6 @@
 using FluencyHub.API.Models;
-using FluencyHub.Application.ContentManagement.Commands.CreateCourse;
-using FluencyHub.Application.StudentManagement.Commands.CreateStudent;
+using FluencyHub.ContentManagement.Application.Commands.CreateCourse;
+using FluencyHub.StudentManagement.Application.Commands.CreateStudent;
 using FluencyHub.Tests.Integration.Config;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;

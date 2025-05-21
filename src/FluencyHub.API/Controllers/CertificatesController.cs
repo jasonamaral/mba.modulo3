@@ -1,5 +1,5 @@
 using FluencyHub.API.SwaggerExamples;
-using FluencyHub.Application.Common.Exceptions;
+using FluencyHub.StudentManagement.Application.Common.Exceptions;
 using FluencyHub.StudentManagement.Application.Commands.GenerateCertificate;
 using FluencyHub.StudentManagement.Application.Queries.GetCertificateById;
 using FluencyHub.StudentManagement.Application.Queries.GetStudentCertificates;
@@ -87,7 +87,8 @@ public class CertificatesController : ControllerBase
     {
         try
         {
-            var certificate = await _mediator.Send(new GetCertificateByIdQuery(id));
+            var query = new GetCertificateByIdQuery { CertificateId = id };
+            var certificate = await _mediator.Send(query);
             return Ok(certificate);
         }
         catch (NotFoundException ex)

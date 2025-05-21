@@ -1,5 +1,5 @@
 using FluencyHub.API.SwaggerExamples;
-using FluencyHub.Application.Common.Exceptions;
+using FluencyHub.StudentManagement.Application.Common.Exceptions;
 using FluencyHub.StudentManagement.Application.Commands.ActivateStudent;
 using FluencyHub.StudentManagement.Application.Commands.CompleteCourseForStudent;
 using FluencyHub.StudentManagement.Application.Commands.CompleteLessonForStudent;
@@ -59,7 +59,8 @@ public class StudentsController : ControllerBase
     {
         try
         {
-            var students = await _mediator.Send(new GetAllStudentsQuery());
+            var query = new GetAllStudentsQuery();
+            var students = await _mediator.Send(query);
             return Ok(students);
         }
         catch (Exception ex)
@@ -140,7 +141,8 @@ public class StudentsController : ControllerBase
     {
         try
         {
-            var student = await _mediator.Send(new GetStudentByIdQuery(id));
+            var query = new GetStudentByIdQuery { StudentId = id };
+            var student = await _mediator.Send(query);
             return Ok(student);
         }
         catch (NotFoundException ex)
@@ -242,6 +244,14 @@ public class StudentsController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Deactivate a student account
+    /// </summary>
+    /// <param name="id">ID of the student to deactivate</param>
+    /// <returns>Success message</returns>
+    /// <response code="200">If the student was deactivated successfully</response>
+    /// <response code="404">If the student is not found</response>
+    /// <response code="403">If the user is not authorized</response>
     [HttpPut("{id}/deactivate")]
     [Authorize(Roles = "Administrator")]
     [SwaggerOperation(
@@ -258,8 +268,9 @@ public class StudentsController : ControllerBase
     {
         try
         {
-            await _mediator.Send(new DeactivateStudentCommand(id));
-            return Ok();
+            var command = new DeactivateStudentCommand { Id = id };
+            var result = await _mediator.Send(command);
+            return Ok(new { message = "Student deactivated successfully", result });
         }
         catch (NotFoundException ex)
         {
@@ -267,6 +278,14 @@ public class StudentsController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Activate a student account
+    /// </summary>
+    /// <param name="id">ID of the student to activate</param>
+    /// <returns>Success message</returns>
+    /// <response code="200">If the student was activated successfully</response>
+    /// <response code="404">If the student is not found</response>
+    /// <response code="403">If the user is not authorized</response>
     [HttpPut("{id}/activate")]
     [Authorize(Roles = "Administrator")]
     [SwaggerOperation(
@@ -283,8 +302,9 @@ public class StudentsController : ControllerBase
     {
         try
         {
-            await _mediator.Send(new ActivateStudentCommand(id));
-            return Ok();
+            var command = new ActivateStudentCommand { Id = id };
+            var result = await _mediator.Send(command);
+            return Ok(new { message = "Student activated successfully", result });
         }
         catch (NotFoundException ex)
         {
@@ -293,9 +313,9 @@ public class StudentsController : ControllerBase
     }
 
     /// <summary>
-    /// Get the learning progress for a specific student
+    /// Get a student's learning progress
     /// </summary>
-    /// <param name="studentId">The unique identifier of the student</param>
+    /// <param name="studentId">ID of the student</param>
     /// <returns>The student's progress across all courses</returns>
     /// <response code="200">Returns the student's progress</response>
     /// <response code="404">If the student is not found</response>
@@ -308,34 +328,30 @@ public class StudentsController : ControllerBase
     )]
     [ProducesResponseType(typeof(StudentProgressViewModel), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(StudentProgressViewModelExample))]
     public async Task<IActionResult> GetStudentProgress(Guid studentId)
     {
         try
         {
-            var progress = await _mediator.Send(new GetStudentProgressQuery(studentId));
+            var query = new GetStudentProgressQuery { StudentId = studentId };
+            var progress = await _mediator.Send(query);
             return Ok(progress);
         }
         catch (NotFoundException ex)
         {
             return NotFound(ex.Message);
         }
-        catch (Exception ex)
-        {
-            return BadRequest(new { error = ex.Message });
-        }
     }
 
     /// <summary>
     /// Mark a lesson as completed for a student
     /// </summary>
-    /// <param name="studentId">The unique identifier of the student</param>
-    /// <param name="courseId">The unique identifier of the course</param>
-    /// <param name="lessonId">The unique identifier of the lesson to mark as completed</param>
-    /// <returns>Success message and completion details</returns>
+    /// <param name="studentId">ID of the student</param>
+    /// <param name="courseId">ID of the course</param>
+    /// <param name="lessonId">ID of the lesson</param>
+    /// <returns>Result of the completion</returns>
     /// <response code="200">If the lesson was marked as completed successfully</response>
-    /// <response code="400">If the request is invalid</response>
-    /// <response code="404">If the student, course, or lesson is not found</response>
+    /// <response code="400">If there was a problem completing the lesson</response>
+    /// <response code="404">If the student, course or lesson is not found</response>
     [HttpPost("{studentId}/courses/{courseId}/lessons/{lessonId}/complete")]
     [SwaggerOperation(
         Summary = "Complete a lesson for a student",
@@ -351,16 +367,18 @@ public class StudentsController : ControllerBase
     {
         try
         {
-            var result = await _mediator.Send(new CompleteLessonForStudentCommand(studentId, courseId, lessonId));
+            var command = new CompleteLessonForStudentCommand
+            {
+                StudentId = studentId,
+                LessonId = lessonId,
+                CompletionDate = DateTime.UtcNow
+            };
+            var result = await _mediator.Send(command);
             return Ok(result);
         }
         catch (NotFoundException ex)
         {
             return NotFound(ex.Message);
-        }
-        catch (BadRequestException ex)
-        {
-            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {
@@ -371,11 +389,11 @@ public class StudentsController : ControllerBase
     /// <summary>
     /// Mark a course as completed for a student
     /// </summary>
-    /// <param name="studentId">The unique identifier of the student</param>
-    /// <param name="courseId">The unique identifier of the course to mark as completed</param>
-    /// <returns>Success message and completion details</returns>
+    /// <param name="studentId">ID of the student</param>
+    /// <param name="courseId">ID of the course</param>
+    /// <returns>Result of the completion</returns>
     /// <response code="200">If the course was marked as completed successfully</response>
-    /// <response code="400">If the request is invalid or not all lessons are completed</response>
+    /// <response code="400">If there was a problem completing the course</response>
     /// <response code="404">If the student or course is not found</response>
     [HttpPost("{studentId}/courses/{courseId}/complete")]
     [SwaggerOperation(
@@ -392,26 +410,22 @@ public class StudentsController : ControllerBase
     {
         try
         {
-            var result = await _mediator.Send(new CompleteCourseForStudentCommand(studentId, courseId));
-
-            if (!result.Success)
+            var command = new CompleteCourseForStudentCommand
             {
-                return BadRequest(result);
-            }
-
+                StudentId = studentId,
+                CourseId = courseId,
+                CompletionDate = DateTime.UtcNow
+            };
+            var result = await _mediator.Send(command);
             return Ok(result);
         }
         catch (NotFoundException ex)
         {
             return NotFound(ex.Message);
         }
-        catch (BadRequestException ex)
-        {
-            return BadRequest(ex.Message);
-        }
         catch (Exception ex)
         {
-            return BadRequest(new { error = ex.Message });
+            return BadRequest(ex.Message);
         }
     }
 }

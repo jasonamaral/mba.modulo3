@@ -1,5 +1,5 @@
-using FluencyHub.Application.StudentManagement.Commands.GenerateCertificate;
-using FluencyHub.Application.StudentManagement.Queries.GetCertificateById;
+using FluencyHub.StudentManagement.Application.Commands.GenerateCertificate;
+using FluencyHub.StudentManagement.Application.Queries.GetCertificateById;
 using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,8 @@ public class GenerateCertificateCommandExample : IExamplesProvider<GenerateCerti
         return new GenerateCertificateCommand
         {
             StudentId = Guid.Parse("22222222-2222-2222-2222-222222222222"),
-            CourseId = Guid.Parse("11111111-1111-1111-1111-111111111111")
+            CourseId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+            IssueDate = DateTime.Now
         };
     }
 }
@@ -29,8 +30,10 @@ public class CertificateDtoExample : IExamplesProvider<CertificateDto>
             StudentName = "Maria Silva",
             CourseId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
             CourseName = "English for Beginners",
-            Title = "Certificate of Completion - English for Beginners",
-            IssueDate = DateTime.Now.AddDays(-5)
+            CertificateNumber = "CERT-2023-00001",
+            IssueDate = DateTime.Now.AddDays(-5),
+            Score = 95,
+            Feedback = "Excellent performance"
         };
     }
 }
@@ -48,8 +51,10 @@ public class CertificateListDtoExample : IExamplesProvider<List<CertificateDto>>
                 StudentName = "Maria Silva",
                 CourseId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
                 CourseName = "English for Beginners",
-                Title = "Certificate of Completion - English for Beginners",
-                IssueDate = DateTime.Now.AddDays(-5)
+                CertificateNumber = "CERT-2023-00001",
+                IssueDate = DateTime.Now.AddDays(-5),
+                Score = 95,
+                Feedback = "Excellent performance"
             },
             new CertificateDto
             {
@@ -58,8 +63,10 @@ public class CertificateListDtoExample : IExamplesProvider<List<CertificateDto>>
                 StudentName = "Maria Silva",
                 CourseId = Guid.Parse("77777777-7777-7777-7777-777777777777"),
                 CourseName = "Intermediate Spanish",
-                Title = "Certificate of Completion - Intermediate Spanish",
-                IssueDate = DateTime.Now.AddDays(-20)
+                CertificateNumber = "CERT-2023-00002",
+                IssueDate = DateTime.Now.AddDays(-20),
+                Score = 85,
+                Feedback = "Very good performance"
             }
         };
     }

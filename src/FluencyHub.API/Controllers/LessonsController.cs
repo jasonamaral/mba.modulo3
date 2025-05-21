@@ -2,8 +2,10 @@ using FluencyHub.API.Models;
 using FluencyHub.API.SwaggerExamples;
 using FluencyHub.ContentManagement.Application.Commands.DeleteLesson;
 using FluencyHub.ContentManagement.Application.Commands.UpdateLesson;
-using FluencyHub.ContentManagement.Application.Queries.GetLessonsByCourse;
+using FluencyHub.ContentManagement.Application.Queries.GetLessonsByCourseId;
+using FluencyHub.ContentManagement.Application.Common.Exceptions;
 using FluencyHub.StudentManagement.Application.Commands.CompleteLessonForStudent;
+using FluencyHub.ContentManagement.Application.Common.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -54,7 +56,7 @@ public class LessonsController : ControllerBase
     {
         try
         {
-            var lessons = await _mediator.Send(new GetLessonsByCourseQuery(courseId));
+            var lessons = await _mediator.Send(new GetLessonsByCourseIdQuery { CourseId = courseId });
             return Ok(lessons);
         }
         catch (Exception ex)
@@ -130,9 +132,9 @@ public class LessonsController : ControllerBase
     [SwaggerRequestExample(typeof(UpdateLessonCommand), typeof(UpdateLessonCommandExample))]
     public async Task<IActionResult> UpdateLesson(Guid courseId, Guid lessonId, [FromBody] UpdateLessonCommand command)
     {
-        if (courseId != command.CourseId || lessonId != command.LessonId)
+        if (command.Id != lessonId)
         {
-            return BadRequest("Course ID and Lesson ID in the route must match the IDs in the command");
+            return BadRequest("Lesson ID in the route must match the ID in the command");
         }
 
         try
@@ -174,11 +176,11 @@ public class LessonsController : ControllerBase
     {
         try
         {
-            var command = new DeleteLessonCommand(courseId, lessonId);
+            var command = new DeleteLessonCommand { Id = lessonId };
             await _mediator.Send(command);
             return Ok();
         }
-        catch (FluencyHub.Application.Common.Exceptions.NotFoundException ex)
+        catch (NotFoundException ex)
         {
             return NotFound(ex.Message);
         }
@@ -224,7 +226,15 @@ public class LessonsController : ControllerBase
                 return BadRequest("Student ID could not be determined from the authentication token.");
             }
 
-            var command = new CompleteLessonForStudentCommand(studentId, courseId, lessonId);
+            var command = new CompleteLessonForStudentCommand 
+            {
+                StudentId = studentId,
+                LessonId = lessonId,
+                CompletionDate = DateTime.UtcNow,
+                Score = request.Score,
+                Feedback = request.Feedback
+            };
+            
             var result = await _mediator.Send(command);
             return Ok(result);
         }

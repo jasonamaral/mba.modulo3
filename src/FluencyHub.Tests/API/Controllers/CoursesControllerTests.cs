@@ -1,9 +1,9 @@
 using FluencyHub.API.Controllers;
 using FluencyHub.API.Models;
-using FluencyHub.Application.Common.Exceptions;
-using FluencyHub.Application.ContentManagement.Commands.CreateCourse;
-using FluencyHub.Application.ContentManagement.Commands.UpdateCourse;
-using FluencyHub.Application.ContentManagement.Queries.GetCourseById;
+using FluencyHub.ContentManagement.Application.Common.Exceptions;
+using FluencyHub.ContentManagement.Application.Commands.CreateCourse;
+using FluencyHub.ContentManagement.Application.Commands.UpdateCourse;
+using FluencyHub.ContentManagement.Application.Queries.GetCourseById;
 using FluencyHub.ContentManagement.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

@@ -10,6 +10,9 @@ public class Certificate : BaseEntity
     public Guid CourseId { get; private set; }
     public string Title { get; private set; }
     public DateTime IssueDate { get; private set; }
+    public string CertificateNumber { get; private set; }
+    public int? Score { get; private set; }
+    public string? Feedback { get; private set; }
 
     [JsonIgnore]
     public Student Student { get; private set; }
@@ -30,6 +33,7 @@ public class Certificate : BaseEntity
         Title = title;
         IssueDate = DateTime.UtcNow;
         CreatedAt = DateTime.UtcNow;
+        CertificateNumber = GenerateRandomCertificateNumber();
     }
 
     public void UpdateTitle(string title)
@@ -39,5 +43,25 @@ public class Certificate : BaseEntity
 
         Title = title;
         UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void SetScore(int score)
+    {
+        if (score < 0 || score > 100)
+            throw new ArgumentException("A nota deve estar entre 0 e 100", nameof(score));
+
+        Score = score;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void SetFeedback(string feedback)
+    {
+        Feedback = feedback;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    private string GenerateRandomCertificateNumber()
+    {
+        return $"CERT-{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}";
     }
 } 

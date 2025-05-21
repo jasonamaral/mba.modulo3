@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FluencyHub.ContentManagement.Domain\FluencyHub.ContentManagement.Domain.csproj" />
+    <ProjectReference Include="..\FluencyHub.SharedKernel\FluencyHub.SharedKernel.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
