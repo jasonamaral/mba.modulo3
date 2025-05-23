@@ -91,27 +91,92 @@ graph TD
     linkStyle 6,7,8 stroke:#ef9a9a,stroke-width:1.5px
 
 ```
+O projeto está organizado em Bounded Contexts (BCs), cada um com suas próprias camadas:
 
 ```
-A estrutura do projeto é organizada da seguinte forma:
-	FluencyHub/
-	├── src/
-	│   ├── API/
-	│   │   ├── FluencyHub.API/             - API RESTful
-	│   │   ├── FluencyHub.Application/     - Models, Services, Extensions
-	│   │   ├── FluencyHub.Infrastructure/  - Repositórios, Migrations, Configurações do EF Core
-	│   │   ├── FluencyHub.Domain/          - Modelos de Domínio, Agregados, Objetos de Valor
-	├── tests/
-	│   ├── FluencyHub.Tests/               - Testes de Unidade e Integração
-	│   │   ├── Integration/                - Testes de Integração
-	│   │   ├── Unit/                       - Testes de Unidade
-	├── docs/                               - Documentação do Projeto
-	├── FluencyHub.sln                      - Solução do Visual Studio
-	├── README.md                           - Arquivo de Documentação do Projeto
-	├── feedback.md                         - Arquivo para Consolidação dos Feedbacks
-	├── .gitignore                          - Arquivo de Ignoração do Git
-
+src/
+  ├── BoundedContexts/
+  │   ├── StudentManagement/
+  │   │   ├── Domain/
+  │   │   ├── Application/
+  │   │   ├── Infrastructure/
+  │   │   └── API/
+  │   ├── ContentManagement/
+  │   │   ├── Domain/
+  │   │   ├── Application/
+  │   │   ├── Infrastructure/
+  │   │   └── API/
+  │   └── PaymentProcessing/
+  │       ├── Domain/
+  │       ├── Application/
+  │       ├── Infrastructure/
+  │       └── API/
+  ├── SharedKernel/
+  └── API/
 ```
+
+### Bounded Contexts
+
+1. **StudentManagement**
+   - Responsável pelo gerenciamento de alunos, matrículas e progresso
+   - Domínio isolado com suas próprias entidades e regras de negócio
+   - Comunicação via eventos de domínio
+
+2. **ContentManagement**
+   - Gerencia o conteúdo didático, aulas e materiais
+   - Domínio isolado com foco em conteúdo educacional
+   - Integração via eventos de domínio
+
+3. **PaymentProcessing**
+   - Processa pagamentos e gerencia assinaturas
+   - Domínio isolado para transações financeiras
+   - Comunicação assíncrona via eventos
+
+### Camadas
+
+1. **Domain**
+   - Entidades
+   - Value Objects
+   - Agregados
+   - Eventos de Domínio
+   - Interfaces de Repositório
+
+2. **Application**
+   - Use Cases
+   - DTOs
+   - Interfaces de Serviço
+   - Handlers de Eventos
+   - Validações
+
+3. **Infrastructure**
+   - Implementações de Repositório
+   - Serviços Externos
+   - Persistência
+   - Configurações
+
+4. **API**
+   - Controllers
+   - Middlewares
+   - Configurações de API
+
+### SharedKernel
+
+- Tipos compartilhados
+- Eventos de integração
+- Utilitários comuns
+- Abstrações base
+
+## Comunicação entre Bounded Contexts
+
+- Utiliza MediatR para publicação e manipulação de eventos
+- Eventos de domínio para comunicação assíncrona
+- Cada BC possui seus próprios handlers de eventos
+
+## Banco de Dados
+
+- Cada BC possui seu próprio banco de dados
+- Migrations independentes
+- Conexões configuradas em `appsettings.json`
 
 ## **5. Funcionalidades Implementadas**
 
