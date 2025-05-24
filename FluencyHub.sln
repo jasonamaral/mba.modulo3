@@ -31,6 +31,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluencyHub.SharedKernel", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluencyHub.API", "src\API\FluencyHub.API.csproj", "{F7A8B9C4-D5E6-8D1E-2F3A-4B5C6D7E8F9A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluencyHub.Tests", "tests\FluencyHub.Tests\FluencyHub.Tests.csproj", "{4CF23F01-7A22-2EFA-6EED-5985B089E69F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +85,10 @@ Global
 		{F7A8B9C4-D5E6-8D1E-2F3A-4B5C6D7E8F9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7A8B9C4-D5E6-8D1E-2F3A-4B5C6D7E8F9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7A8B9C4-D5E6-8D1E-2F3A-4B5C6D7E8F9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CF23F01-7A22-2EFA-6EED-5985B089E69F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CF23F01-7A22-2EFA-6EED-5985B089E69F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CF23F01-7A22-2EFA-6EED-5985B089E69F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CF23F01-7A22-2EFA-6EED-5985B089E69F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,6 +103,7 @@ Global
 		{B3C4D5E6-F7A8-4B9C-8D1E-A2B3C4D5E6F7} = {A1B2C3D4-E5F6-4A5B-8C7D-9E0F1A2B3C4D}
 		{C4D5E6F7-A8B9-4C8D-1E2F-3A4B5C6D7E8F} = {A1B2C3D4-E5F6-4A5B-8C7D-9E0F1A2B3C4D}
 		{D5E6F7A8-B9C4-8D1E-2F3A-4B5C6D7E8F9A} = {A1B2C3D4-E5F6-4A5B-8C7D-9E0F1A2B3C4D}
+		{4CF23F01-7A22-2EFA-6EED-5985B089E69F} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EF2C66F0-72E8-429A-BC70-B26C2556DFF0}

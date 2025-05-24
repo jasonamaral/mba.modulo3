@@ -23,15 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\FluencyHub.ContentManagement.Application\FluencyHub.ContentManagement.Application.csproj" />
-    <ProjectReference Include="..\..\src\FluencyHub.ContentManagement.Domain\FluencyHub.ContentManagement.Domain.csproj" />
-    <ProjectReference Include="..\..\src\FluencyHub.ContentManagement.Infrastructure\FluencyHub.ContentManagement.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\src\FluencyHub.StudentManagement.Application\FluencyHub.StudentManagement.Application.csproj" />
-    <ProjectReference Include="..\..\src\FluencyHub.StudentManagement.Domain\FluencyHub.StudentManagement.Domain.csproj" />
-    <ProjectReference Include="..\..\src\FluencyHub.StudentManagement.Infrastructure\FluencyHub.StudentManagement.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\src\FluencyHub.PaymentProcessing.Application\FluencyHub.PaymentProcessing.Application.csproj" />
-    <ProjectReference Include="..\..\src\FluencyHub.PaymentProcessing.Domain\FluencyHub.PaymentProcessing.Domain.csproj" />
-    <ProjectReference Include="..\..\src\FluencyHub.PaymentProcessing.Infrastructure\FluencyHub.PaymentProcessing.Infrastructure.csproj" />
+    <Folder Include="Unit\" />
   </ItemGroup>
 
 </Project> 
