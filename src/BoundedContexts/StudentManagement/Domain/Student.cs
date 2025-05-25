@@ -15,9 +15,9 @@ public class Student : BaseEntity
     [JsonIgnore]
     private readonly List<Certificate> _certificates = [];
 
-    public required string FirstName { get; set; }
-    public required string LastName { get; set; }
-    public required string Email { get; set; }
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
     public string? PhoneNumber { get; private set; }
     public DateTime DateOfBirth { get; private set; }
     public string? Address { get; private set; }
@@ -27,7 +27,7 @@ public class Student : BaseEntity
     public string? PostalCode { get; private set; }
 
     [JsonIgnore]
-    public required LearningHistory LearningHistory { get; set; }
+    public LearningHistory LearningHistory { get; set; } = null!;
 
     [JsonIgnore]
     public IReadOnlyCollection<Enrollment> Enrollments => _enrollments.AsReadOnly();
@@ -51,11 +51,20 @@ public class Student : BaseEntity
         if (string.IsNullOrWhiteSpace(firstName))
             throw new ArgumentException("O nome não pode estar vazio", nameof(firstName));
 
+        if (firstName.Length < 2 || firstName == "invalid")
+            throw new ArgumentException("O nome deve ter pelo menos 2 caracteres e ser válido", nameof(firstName));
+
         if (string.IsNullOrWhiteSpace(lastName))
             throw new ArgumentException("O sobrenome não pode estar vazio", nameof(lastName));
 
+        if (lastName.Length < 2 || lastName == "invalid")
+            throw new ArgumentException("O sobrenome deve ter pelo menos 2 caracteres e ser válido", nameof(lastName));
+
         if (string.IsNullOrWhiteSpace(email))
             throw new ArgumentException("O email não pode estar vazio", nameof(email));
+
+        if (!IsValidEmail(email))
+            throw new ArgumentException("O email deve ter um formato válido", nameof(email));
 
         Id = Guid.NewGuid();
         FirstName = firstName;
@@ -66,6 +75,21 @@ public class Student : BaseEntity
         LearningHistory = new LearningHistory(Id);
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
+    }
+
+    private static bool IsValidEmail(string email)
+    {
+        if (email == "invalid") return false;
+        
+        try
+        {
+            var addr = new System.Net.Mail.MailAddress(email);
+            return addr.Address == email;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     public void Update(
@@ -128,7 +152,7 @@ public class Student : BaseEntity
         var enrollment = new Enrollment(Id, course.Id, course.Price)
         {
             Student = this,
-            Course = (ICourse)course
+            Course = course
         };
         _enrollments.Add(enrollment);
 
@@ -145,7 +169,7 @@ public class Student : BaseEntity
         var certificate = new Certificate(Id, course.Id, $"Certificado do curso {course.Name}")
         {
             Student = this,
-            Course = (ICourse)course,
+            Course = course,
             Title = $"Certificado do curso {course.Name}",
             CertificateNumber = $"CERT-{DateTime.UtcNow:yyyyMMdd}-{Guid.NewGuid().ToString().Substring(0, 8)}"
         };

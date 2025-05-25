@@ -14,7 +14,7 @@ public class Payment : BaseEntity
     public string? TransactionId { get; private set; }
     public string? FailureReason { get; private set; }
     public string? RefundReason { get; private set; }
-    public required CardDetails CardDetails { get; init; }
+    public CardDetails CardDetails { get; init; } = null!;
     public DateTime PaymentDate { get; private init; }
 
     [JsonIgnore]

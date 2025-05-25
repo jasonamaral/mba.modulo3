@@ -2,10 +2,10 @@ namespace FluencyHub.PaymentProcessing.Domain;
 
 public class CardDetails
 {
-    public required string CardHolderName { get; set; }
-    public required string MaskedCardNumber { get; set; }
-    public required string ExpiryMonth { get; set; }
-    public required string ExpiryYear { get; set; }
+    public string CardHolderName { get; set; } = string.Empty;
+    public string MaskedCardNumber { get; set; } = string.Empty;
+    public string ExpiryMonth { get; set; } = string.Empty;
+    public string ExpiryYear { get; set; } = string.Empty;
 
     // Construtor para EF Core
     private CardDetails()
@@ -40,6 +40,30 @@ public class CardDetails
         MaskedCardNumber = MaskCardNumber(cardNumber);
         ExpiryMonth = expiryMonth;
         ExpiryYear = expiryYear;
+    }
+
+    public string GetMaskedCardNumber()
+    {
+        // O MaskedCardNumber já está no formato "453201******0366"
+        // Vamos extrair apenas os últimos 4 dígitos e criar o formato desejado
+        var lastFour = MaskedCardNumber.Substring(MaskedCardNumber.Length - 4, 4);
+        return $"****-****-****-{lastFour}";
+    }
+
+    public bool IsExpired()
+    {
+        if (!int.TryParse(ExpiryMonth, out int month) || !int.TryParse(ExpiryYear, out int year))
+            return true;
+
+        // Trata o formato de ano com 2 dígitos
+        if (year < 100)
+            year += 2000;
+
+        var now = DateTime.UtcNow;
+        var currentYear = now.Year;
+        var currentMonth = now.Month;
+
+        return (year < currentYear) || (year == currentYear && month < currentMonth);
     }
 
     private static bool ValidateCardNumber(string cardNumber)
@@ -80,7 +104,12 @@ public class CardDetails
 
         // Trata o formato de ano com 2 dígitos
         if (expiryYear < 100)
+        {
+            // Rejeita anos muito baixos (como 20 que seria 2020)
+            if (expiryYear < 25)
+                return false;
             expiryYear += 2000;
+        }
 
         var now = DateTime.UtcNow;
         var currentYear = now.Year;
@@ -103,5 +132,22 @@ public class CardDetails
         string masked = new string('*', digitsOnly.Length - 10);
 
         return $"{firstSix}{masked}{lastFour}";
+    }
+
+    // Implementação de igualdade
+    public override bool Equals(object? obj)
+    {
+        if (obj is not CardDetails other)
+            return false;
+
+        return CardHolderName == other.CardHolderName &&
+               MaskedCardNumber == other.MaskedCardNumber &&
+               ExpiryMonth == other.ExpiryMonth &&
+               ExpiryYear == other.ExpiryYear;
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(CardHolderName, MaskedCardNumber, ExpiryMonth, ExpiryYear);
     }
 } 

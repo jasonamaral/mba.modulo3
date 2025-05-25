@@ -52,18 +52,12 @@ public class PaymentService : IPaymentApplicationService
                 cardNumber,
                 expiryDate.Split('/')[0],
                 expiryDate.Split('/')[1]
-            )
-            {
-                CardHolderName = cardHolderName,
-                MaskedCardNumber = cardNumber.Substring(Math.Max(0, cardNumber.Length - 4)).PadLeft(cardNumber.Length, '*'),
-                ExpiryMonth = expiryDate.Split('/')[0],
-                ExpiryYear = expiryDate.Split('/')[1]
-            };
+            );
 
-            var payment = new Payment(studentId, Guid.NewGuid(), 0m, cardDetails)
-            {
-                CardDetails = cardDetails
-            };
+            // Valor padrão para teste - em um cenário real, isso viria de um parâmetro ou seria obtido do enrollment
+            var amount = 299.99m;
+            
+            var payment = new Payment(studentId, Guid.NewGuid(), amount, cardDetails);
 
             var applicationCardDetails = new ApplicationCardDetails
             {

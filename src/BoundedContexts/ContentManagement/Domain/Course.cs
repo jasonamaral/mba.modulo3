@@ -160,8 +160,8 @@ public class Course : BaseEntity
         PublishedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
         
-        // Adicionar evento de domínio para curso atualizado
-        AddDomainEvent(new CourseUpdatedDomainEvent(this));
+        // Adicionar evento de domínio específico para curso publicado
+        AddDomainEvent(new CoursePublishedDomainEvent(this));
     }
 
     public void ArchiveCourse()
@@ -173,8 +173,8 @@ public class Course : BaseEntity
         IsActive = false;
         UpdatedAt = DateTime.UtcNow;
         
-        // Adicionar evento de domínio para curso atualizado
-        AddDomainEvent(new CourseUpdatedDomainEvent(this));
+        // Adicionar evento de domínio específico para curso arquivado
+        AddDomainEvent(new CourseArchivedDomainEvent(this));
     }
 
     public void Activate()
@@ -185,8 +185,8 @@ public class Course : BaseEntity
         IsActive = true;
         UpdatedAt = DateTime.UtcNow;
         
-        // Adicionar evento de domínio para curso atualizado
-        AddDomainEvent(new CourseUpdatedDomainEvent(this));
+        // Adicionar evento de domínio específico para curso ativado
+        AddDomainEvent(new CourseActivatedDomainEvent(this));
     }
 
     public void Deactivate()
@@ -197,8 +197,8 @@ public class Course : BaseEntity
         IsActive = false;
         UpdatedAt = DateTime.UtcNow;
         
-        // Adicionar evento de domínio para curso atualizado
-        AddDomainEvent(new CourseUpdatedDomainEvent(this));
+        // Adicionar evento de domínio específico para curso desativado
+        AddDomainEvent(new CourseDeactivatedDomainEvent(this));
     }
     
     public void IncrementEnrollmentCount()
