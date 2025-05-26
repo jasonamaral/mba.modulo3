@@ -1,6 +1,8 @@
 using FluencyHub.StudentManagement.Application.Commands.CreateStudent;
 using FluencyHub.StudentManagement.Application.Common.Interfaces;
+using FluencyHub.StudentManagement.Application.Common.Models;
 using FluencyHub.StudentManagement.Domain;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 using FluentAssertions;
@@ -10,12 +12,16 @@ namespace FluencyHub.Tests.Unit.StudentManagement.Application.Commands;
 public class CreateStudentCommandHandlerTests
 {
     private readonly Mock<FluencyHub.StudentManagement.Application.Common.Interfaces.IStudentRepository> _mockStudentRepository;
+    private readonly Mock<IIdentityService> _mockIdentityService;
+    private readonly Mock<ILogger<CreateStudentCommandHandler>> _mockLogger;
     private readonly CreateStudentCommandHandler _handler;
 
     public CreateStudentCommandHandlerTests()
     {
         _mockStudentRepository = new Mock<FluencyHub.StudentManagement.Application.Common.Interfaces.IStudentRepository>();
-        _handler = new CreateStudentCommandHandler(_mockStudentRepository.Object);
+        _mockIdentityService = new Mock<IIdentityService>();
+        _mockLogger = new Mock<ILogger<CreateStudentCommandHandler>>();
+        _handler = new CreateStudentCommandHandler(_mockStudentRepository.Object, _mockIdentityService.Object, _mockLogger.Object);
     }
 
     [Fact]
@@ -27,6 +33,7 @@ public class CreateStudentCommandHandlerTests
             FirstName = "João",
             LastName = "Silva",
             Email = "joao.silva@email.com",
+            Password = "Password123!",
             DateOfBirth = new DateTime(1990, 5, 15),
             PhoneNumber = "+5511999999999"
         };
@@ -40,6 +47,23 @@ public class CreateStudentCommandHandlerTests
         _mockStudentRepository
             .Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
+
+        // Setup identity service mocks
+        _mockIdentityService
+            .Setup(x => x.RegisterUserAsync(command.Email, command.Password, command.FirstName, command.LastName))
+            .ReturnsAsync(AuthResult.Success("fake-token"));
+
+        _mockIdentityService
+            .Setup(x => x.UpdateUserStudentIdAsync(command.Email, It.IsAny<Guid>()))
+            .ReturnsAsync(true);
+
+        _mockIdentityService
+            .Setup(x => x.EnsureRoleExistsAsync("Student"))
+            .ReturnsAsync(true);
+
+        _mockIdentityService
+            .Setup(x => x.AddToRoleAsync(command.Email, "Student"))
+            .ReturnsAsync(true);
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
@@ -62,6 +86,7 @@ public class CreateStudentCommandHandlerTests
             FirstName = "João",
             LastName = "Silva",
             Email = "joao.silva@email.com",
+            Password = "Password123!",
             DateOfBirth = new DateTime(1990, 5, 15),
             PhoneNumber = "+5511999999999"
         };
@@ -88,6 +113,7 @@ public class CreateStudentCommandHandlerTests
             FirstName = firstName,
             LastName = lastName,
             Email = email,
+            Password = "Password123!",
             DateOfBirth = new DateTime(1990, 5, 15),
             PhoneNumber = "+5511999999999"
         };
@@ -106,6 +132,7 @@ public class CreateStudentCommandHandlerTests
             FirstName = "Maria",
             LastName = "Santos",
             Email = "maria.santos@email.com",
+            Password = "Password123!",
             DateOfBirth = new DateTime(1985, 3, 20),
             PhoneNumber = "+5511888888888",
             Address = "Rua das Flores, 123",
@@ -122,6 +149,23 @@ public class CreateStudentCommandHandlerTests
             .Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
 
+        // Setup identity service mocks
+        _mockIdentityService
+            .Setup(x => x.RegisterUserAsync(command.Email, command.Password, command.FirstName, command.LastName))
+            .ReturnsAsync(AuthResult.Success("fake-token"));
+
+        _mockIdentityService
+            .Setup(x => x.UpdateUserStudentIdAsync(command.Email, It.IsAny<Guid>()))
+            .ReturnsAsync(true);
+
+        _mockIdentityService
+            .Setup(x => x.EnsureRoleExistsAsync("Student"))
+            .ReturnsAsync(true);
+
+        _mockIdentityService
+            .Setup(x => x.AddToRoleAsync(command.Email, "Student"))
+            .ReturnsAsync(true);
+
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
 
@@ -129,5 +173,92 @@ public class CreateStudentCommandHandlerTests
         result.Should().NotBe(Guid.Empty);
         _mockStudentRepository.Verify(x => x.AddAsync(It.Is<Student>(s => 
             s.LearningHistory != null)), Times.Once);
+    }
+
+    [Fact]
+    public async Task Handle_WhenIdentityServiceFails_ShouldRollbackStudentCreation()
+    {
+        // Arrange
+        var command = new CreateStudentCommand
+        {
+            FirstName = "João",
+            LastName = "Silva",
+            Email = "joao.silva@email.com",
+            Password = "Password123!",
+            DateOfBirth = new DateTime(1990, 5, 15),
+            PhoneNumber = "+5511999999999"
+        };
+
+        _mockStudentRepository
+            .Setup(x => x.AddAsync(It.IsAny<Student>()))
+            .Returns(Task.CompletedTask);
+
+        _mockStudentRepository
+            .Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+
+        _mockStudentRepository
+            .Setup(x => x.DeleteAsync(It.IsAny<Guid>()))
+            .ReturnsAsync(true);
+
+        // Setup identity service to fail
+        _mockIdentityService
+            .Setup(x => x.RegisterUserAsync(command.Email, command.Password, command.FirstName, command.LastName))
+            .ReturnsAsync(AuthResult.Failure("Email já existe"));
+
+        // Act & Assert
+        var action = async () => await _handler.Handle(command, CancellationToken.None);
+        await action.Should().ThrowAsync<InvalidOperationException>()
+            .WithMessage("Falha ao criar usuário: Email já existe");
+
+        // Verify rollback was attempted
+        _mockStudentRepository.Verify(x => x.DeleteAsync(It.IsAny<Guid>()), Times.Once);
+    }
+
+    [Fact]
+    public async Task Handle_WithValidCommand_ShouldAssignStudentRole()
+    {
+        // Arrange
+        var command = new CreateStudentCommand
+        {
+            FirstName = "João",
+            LastName = "Silva",
+            Email = "joao.silva@email.com",
+            Password = "Password123!",
+            DateOfBirth = new DateTime(1990, 5, 15),
+            PhoneNumber = "+5511999999999"
+        };
+
+        _mockStudentRepository
+            .Setup(x => x.AddAsync(It.IsAny<Student>()))
+            .Returns(Task.CompletedTask);
+
+        _mockStudentRepository
+            .Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+
+        _mockIdentityService
+            .Setup(x => x.RegisterUserAsync(command.Email, command.Password, command.FirstName, command.LastName))
+            .ReturnsAsync(AuthResult.Success("fake-token"));
+
+        _mockIdentityService
+            .Setup(x => x.UpdateUserStudentIdAsync(command.Email, It.IsAny<Guid>()))
+            .ReturnsAsync(true);
+
+        _mockIdentityService
+            .Setup(x => x.EnsureRoleExistsAsync("Student"))
+            .ReturnsAsync(true);
+
+        _mockIdentityService
+            .Setup(x => x.AddToRoleAsync(command.Email, "Student"))
+            .ReturnsAsync(true);
+
+        // Act
+        var result = await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        result.Should().NotBe(Guid.Empty);
+        _mockIdentityService.Verify(x => x.EnsureRoleExistsAsync("Student"), Times.Once);
+        _mockIdentityService.Verify(x => x.AddToRoleAsync(command.Email, "Student"), Times.Once);
     }
 } 

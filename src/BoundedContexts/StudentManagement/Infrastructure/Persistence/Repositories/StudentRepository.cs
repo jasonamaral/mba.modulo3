@@ -88,6 +88,16 @@ public class StudentRepository : IApplicationStudentRepository, IDomainStudentRe
         await _context.Students.AddAsync(student);
     }
 
+    public async Task<bool> DeleteAsync(Guid id)
+    {
+        var student = await _context.Students.FindAsync(id);
+        if (student == null) return false;
+
+        _context.Students.Remove(student);
+        await SaveChangesAsync();
+        return true;
+    }
+
     async Task IDomainStudentRepository.UpdateAsync(Student student)
     {
         if (student == null) throw new ArgumentNullException(nameof(student));
@@ -97,12 +107,7 @@ public class StudentRepository : IApplicationStudentRepository, IDomainStudentRe
 
     async Task<bool> IDomainStudentRepository.DeleteAsync(Guid id)
     {
-        var student = await _context.Students.FindAsync(id);
-        if (student == null) return false;
-
-        _context.Students.Remove(student);
-        await SaveChangesAsync();
-        return true;
+        return await DeleteAsync(id);
     }
 
     public async Task<bool> ExistsAsync(Guid id)

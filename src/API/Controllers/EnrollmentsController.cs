@@ -44,7 +44,7 @@ public class EnrollmentsController : ControllerBase
         Summary = "Matricular um aluno em um curso",
         Description = "Cria uma nova matrícula para um aluno em um curso específico",
         OperationId = "EnrollStudent",
-        Tags = new[] { "Enrollments" }
+        Tags = new[] { "Matriculas" }
     )]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -81,7 +81,7 @@ public class EnrollmentsController : ControllerBase
         Summary = "Obter matrícula por ID",
         Description = "Recupera uma matrícula específica pelo seu identificador único",
         OperationId = "GetEnrollment",
-        Tags = new[] { "Enrollments" }
+        Tags = new[] { "Matriculas" }
     )]
     [ProducesResponseType(typeof(EnrollmentDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -112,7 +112,7 @@ public class EnrollmentsController : ControllerBase
         Summary = "Obter matrículas do aluno",
         Description = "Recupera todas as matrículas associadas a um aluno específico",
         OperationId = "GetStudentEnrollments",
-        Tags = new[] { "Enrollments" }
+        Tags = new[] { "Matriculas" }
     )]
     [ProducesResponseType(typeof(IEnumerable<EnrollmentDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -149,7 +149,7 @@ public class EnrollmentsController : ControllerBase
         Summary = "Concluir uma lição",
         Description = "Marca uma lição específica como concluída para uma determinada matrícula",
         OperationId = "CompleteLesson",
-        Tags = new[] { "Enrollments" }
+        Tags = new[] { "Matriculas" }
     )]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -193,7 +193,7 @@ public class EnrollmentsController : ControllerBase
         Summary = "Concluir um curso",
         Description = "Marca uma matrícula como concluída. Todas as lições devem ser concluídas primeiro.",
         OperationId = "CompleteCourse",
-        Tags = new[] { "Enrollments" }
+        Tags = new[] { "Matriculas" }
     )]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

@@ -11,5 +11,6 @@ public interface IStudentRepository
     Task<IEnumerable<Enrollment>> GetEnrollmentsByStudentIdAsync(Guid studentId);
     Task<IEnumerable<Certificate>> GetCertificatesByStudentIdAsync(Guid studentId);
     Task AddAsync(Student student);
+    Task<bool> DeleteAsync(Guid id);
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
 } 

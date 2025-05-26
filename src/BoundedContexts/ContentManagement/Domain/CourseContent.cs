@@ -10,7 +10,11 @@ public class CourseContent
     public string Level { get; private set; } = string.Empty;
 
     // EF Core constructor
-    private CourseContent() { }
+    private CourseContent() 
+    {
+        // Propriedades serão definidas pelo EF Core durante a hidratação
+        // Não aplicamos validações aqui para permitir a criação pelo ORM
+    }
 
     public CourseContent(
         string syllabus, 

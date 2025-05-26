@@ -30,6 +30,7 @@ public class StudentDbContext : DbContext
     public DbSet<LearningHistory> LearningHistories => Set<LearningHistory>();
     public DbSet<CourseProgress> CourseProgresses => Set<CourseProgress>();
     public DbSet<CompletedLesson> CompletedLessons => Set<CompletedLesson>();
+    public DbSet<LearningRecord> LearningRecords => Set<LearningRecord>();
     
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
@@ -72,6 +73,7 @@ public class StudentDbContext : DbContext
         modelBuilder.Entity<LearningHistory>(ConfigureLearningHistory);
         modelBuilder.Entity<CourseProgress>(ConfigureCourseProgress);
         modelBuilder.Entity<CompletedLesson>(ConfigureCompletedLesson);
+        modelBuilder.Entity<LearningRecord>(ConfigureLearningRecord);
 
         // Matrícula - referência CourseId diretamente sem navegação
         modelBuilder.Entity<Enrollment>()
@@ -116,7 +118,7 @@ public class StudentDbContext : DbContext
 
         builder.HasOne(s => s.LearningHistory)
             .WithOne()
-            .HasForeignKey<LearningHistory>(lh => lh.StudentId)
+            .HasForeignKey<LearningHistory>(lh => lh.Id)
             .OnDelete(DeleteBehavior.Cascade);
     }
 
@@ -131,6 +133,9 @@ public class StudentDbContext : DbContext
             .WithMany(s => s.Enrollments)
             .HasForeignKey(e => e.StudentId)
             .OnDelete(DeleteBehavior.Restrict);
+            
+        // Ignorar a propriedade Course pois é uma interface (ICourse)
+        builder.Ignore(e => e.Course);
     }
 
     private void ConfigureCertificate(EntityTypeBuilder<Certificate> builder)
@@ -144,15 +149,21 @@ public class StudentDbContext : DbContext
             .WithMany(s => s.Certificates)
             .HasForeignKey(c => c.StudentId)
             .OnDelete(DeleteBehavior.Restrict);
+            
+        // Ignorar a propriedade Course pois é uma interface (ICourse)
+        builder.Ignore(c => c.Course);
     }
 
     private void ConfigureLearningHistory(EntityTypeBuilder<LearningHistory> builder)
     {
         builder.HasKey(lh => lh.Id);
 
+        // Ignorar a propriedade StudentId pois é uma propriedade computada
+        builder.Ignore(lh => lh.StudentId);
+
         builder.HasOne<Student>()
             .WithOne(s => s.LearningHistory)
-            .HasForeignKey<LearningHistory>(lh => lh.StudentId)
+            .HasForeignKey<LearningHistory>(lh => lh.Id)
             .OnDelete(DeleteBehavior.Restrict);
     }
 
@@ -169,5 +180,13 @@ public class StudentDbContext : DbContext
         builder.HasKey(cl => cl.Id);
         builder.Property(cl => cl.LessonId).IsRequired();
         builder.Property(cl => cl.CompletedAt).IsRequired();
+    }
+
+    private void ConfigureLearningRecord(EntityTypeBuilder<LearningRecord> builder)
+    {
+        builder.HasKey(lr => lr.Id);
+        builder.Property(lr => lr.LessonId).IsRequired();
+        builder.Property(lr => lr.CompletedAt).IsRequired();
+        builder.Property(lr => lr.Grade);
     }
 } 

@@ -41,7 +41,7 @@ public class PaymentsController : ControllerBase
         Summary = "Processar um pagamento para uma matrícula",
         Description = "Cria um novo pagamento para uma matrícula específica usando os detalhes do cartão fornecidos",
         OperationId = "ProcessPayment",
-        Tags = new[] { "Payments" }
+        Tags = new[] { "Pagamentos" }
     )]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -89,7 +89,7 @@ public class PaymentsController : ControllerBase
         Summary = "Obter pagamento por ID",
         Description = "Recupera um pagamento específico pelo seu identificador único",
         OperationId = "GetPayment",
-        Tags = new[] { "Payments" }
+        Tags = new[] { "Pagamentos" }
     )]
     [ProducesResponseType(typeof(PaymentDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -123,7 +123,7 @@ public class PaymentsController : ControllerBase
         Summary = "Reembolsar um pagamento",
         Description = "Processa um reembolso para um pagamento específico. Requer perfil de Administrador.",
         OperationId = "RefundPayment",
-        Tags = new[] { "Payments" }
+        Tags = new[] { "Pagamentos" }
     )]
     [ProducesResponseType(typeof(PaymentDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

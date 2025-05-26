@@ -60,31 +60,52 @@ try
     using var scope = app.Services.CreateScope();
     var services = scope.ServiceProvider;
     
-    // Migrar os bancos de dados de cada contexto
+    logger.LogInformation("Aplicando migrações do banco de dados");
+    
+    // Aplicar migrações do Identity primeiro (mais crítico)
+    var identityDbContext = services.GetRequiredService<FluencyHub.StudentManagement.Infrastructure.Identity.ApplicationDbContext>();
+    await identityDbContext.Database.MigrateAsync();
+    logger.LogInformation("Migrações do Identity aplicadas com sucesso");
+    
+    // Aplicar outras migrações
     var contentDbContext = services.GetRequiredService<FluencyHub.ContentManagement.Infrastructure.Persistence.ContentDbContext>();
     var studentDbContext = services.GetRequiredService<FluencyHub.StudentManagement.Infrastructure.Persistence.StudentDbContext>();
     var paymentDbContext = services.GetRequiredService<FluencyHub.PaymentProcessing.Infrastructure.Persistence.PaymentDbContext>();
-    
-    logger.LogInformation("Aplicando migrações do banco de dados");
     
     await contentDbContext.Database.MigrateAsync();
     await studentDbContext.Database.MigrateAsync();
     await paymentDbContext.Database.MigrateAsync();
     
-    logger.LogInformation("Migrações aplicadas com sucesso");
+    logger.LogInformation("Todas as migrações aplicadas com sucesso");
+    
+    // Executar o seeder de dados
+    logger.LogInformation("Iniciando o preenchimento dos dados iniciais");
+    await DatabaseSeeder.SeedData(app.Services);
+    logger.LogInformation("Dados iniciais preenchidos com sucesso");
 }
 catch (Exception ex)
 {
     var logger = app.Services.GetRequiredService<ILogger<Program>>();
     logger.LogError(ex, "Ocorreu um erro ao migrar ou inicializar o banco de dados");
+    // Não fazer throw para permitir que a aplicação continue rodando
+    logger.LogWarning("Aplicação continuará rodando sem inicialização completa do banco");
 }
 
 app.UseHttpsRedirection();
+
+// Configurar CORS
+app.UseCors("AllowAll");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.MapFallbackToFile("/index.html");
+
+// Configurar fallback apenas para desenvolvimento
+if (app.Environment.IsDevelopment())
+{
+    app.MapFallbackToFile("/index.html");
+}
 
 app.Run();
 

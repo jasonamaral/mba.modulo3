@@ -78,5 +78,9 @@ public class PaymentDbContext : DbContext
 
         modelBuilder.Entity<Payment>()
             .Property(p => p.StudentId);
+
+        // Ignorar a propriedade Enrollment pois é uma interface
+        modelBuilder.Entity<Payment>()
+            .Ignore(p => p.Enrollment);
     }
 } 

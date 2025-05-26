@@ -8,4 +8,6 @@ public interface IIdentityService
     Task<AuthResult> RegisterUserAsync(string email, string password, string firstName, string lastName);
     Task<bool> UpdateUserStudentIdAsync(string email, Guid studentId);
     Task<bool> DeleteUserAsync(string email);
+    Task<bool> AddToRoleAsync(string email, string roleName);
+    Task<bool> EnsureRoleExistsAsync(string roleName);
 } 

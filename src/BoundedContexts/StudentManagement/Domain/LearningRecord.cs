@@ -2,6 +2,7 @@ namespace FluencyHub.StudentManagement.Domain;
 
 public class LearningRecord
 {
+    public Guid Id { get; private set; }
     public Guid LessonId { get; }
     public DateTime CompletedAt { get; }
     public float? Grade { get; }
@@ -13,6 +14,7 @@ public class LearningRecord
 
     public LearningRecord(Guid lessonId, DateTime completedAt, float? grade = null)
     {
+        Id = Guid.NewGuid();
         LessonId = lessonId;
         CompletedAt = completedAt;
         Grade = grade;

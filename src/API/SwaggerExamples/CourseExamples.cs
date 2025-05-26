@@ -1,5 +1,5 @@
 using FluencyHub.API.Models;
-using FluencyHub.ContentManagement.Application.Queries.GetCourseById;
+using FluencyHub.ContentManagement.Application.Common.Models;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace FluencyHub.API.SwaggerExamples;

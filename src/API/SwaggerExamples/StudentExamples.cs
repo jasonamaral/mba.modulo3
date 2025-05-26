@@ -24,6 +24,7 @@ public class CreateStudentCommandExample : IExamplesProvider<CreateStudentComman
             FirstName = "Maria",
             LastName = "Silva",
             Email = "maria.silva@example.com",
+            Password = "Password123!",
             PhoneNumber = "+5511987654321",
             DateOfBirth = new DateTime(1995, 5, 15)
         };

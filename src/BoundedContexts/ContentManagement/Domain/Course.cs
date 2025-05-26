@@ -27,7 +27,7 @@ public class Course : BaseEntity
     {
         Name = string.Empty;
         Description = string.Empty;
-        Content = new CourseContent(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
+        Content = null!; // Será definido pelo EF Core durante a hidratação
     }
 
     public Course(string name, string description, CourseContent content, decimal price)
