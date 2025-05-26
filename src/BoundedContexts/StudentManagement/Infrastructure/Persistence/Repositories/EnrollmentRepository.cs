@@ -40,7 +40,6 @@ public class EnrollmentRepository : IStudentManagementEnrollmentRepository, IApp
     {
         return await _context.Enrollments
             .Include(e => e.Student)
-            .Include(e => e.Course)
             .FirstOrDefaultAsync(e => e.Id == id);
     }
 
@@ -48,7 +47,6 @@ public class EnrollmentRepository : IStudentManagementEnrollmentRepository, IApp
     {
         return await _context.Enrollments
             .Include(e => e.Student)
-            .Include(e => e.Course)
             .Where(e => e.StudentId == studentId)
             .ToListAsync();
     }
@@ -57,7 +55,6 @@ public class EnrollmentRepository : IStudentManagementEnrollmentRepository, IApp
     {
         return await _context.Enrollments
             .Include(e => e.Student)
-            .Include(e => e.Course)
             .Where(e => e.CourseId == courseId)
             .ToListAsync();
     }
@@ -149,7 +146,6 @@ public class EnrollmentRepository : IStudentManagementEnrollmentRepository, IApp
     {
         return await _context.Enrollments
             .Include(e => e.Student)
-            .Include(e => e.Course)
             .FirstOrDefaultAsync(e => e.PaymentId == paymentId);
     }
 

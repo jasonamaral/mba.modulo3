@@ -19,8 +19,7 @@ namespace FluencyHub.API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
-[Produces(MediaTypeNames.Application.Json)]
-[Consumes(MediaTypeNames.Application.Json)]
+
 public class EnrollmentsController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -43,8 +42,7 @@ public class EnrollmentsController : ControllerBase
     [SwaggerOperation(
         Summary = "Matricular um aluno em um curso",
         Description = "Cria uma nova matrícula para um aluno em um curso específico",
-        OperationId = "EnrollStudent",
-        Tags = new[] { "Matriculas" }
+        OperationId = "EnrollStudent"
     )]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -80,8 +78,7 @@ public class EnrollmentsController : ControllerBase
     [SwaggerOperation(
         Summary = "Obter matrícula por ID",
         Description = "Recupera uma matrícula específica pelo seu identificador único",
-        OperationId = "GetEnrollment",
-        Tags = new[] { "Matriculas" }
+        OperationId = "GetEnrollment"
     )]
     [ProducesResponseType(typeof(EnrollmentDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -111,8 +108,7 @@ public class EnrollmentsController : ControllerBase
     [SwaggerOperation(
         Summary = "Obter matrículas do aluno",
         Description = "Recupera todas as matrículas associadas a um aluno específico",
-        OperationId = "GetStudentEnrollments",
-        Tags = new[] { "Matriculas" }
+        OperationId = "GetStudentEnrollments"
     )]
     [ProducesResponseType(typeof(IEnumerable<EnrollmentDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -148,8 +144,8 @@ public class EnrollmentsController : ControllerBase
     [SwaggerOperation(
         Summary = "Concluir uma lição",
         Description = "Marca uma lição específica como concluída para uma determinada matrícula",
-        OperationId = "CompleteLesson",
-        Tags = new[] { "Matriculas" }
+        OperationId = "CompleteLesson"
+
     )]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -192,8 +188,7 @@ public class EnrollmentsController : ControllerBase
     [SwaggerOperation(
         Summary = "Concluir um curso",
         Description = "Marca uma matrícula como concluída. Todas as lições devem ser concluídas primeiro.",
-        OperationId = "CompleteCourse",
-        Tags = new[] { "Matriculas" }
+        OperationId = "CompleteCourse"
     )]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

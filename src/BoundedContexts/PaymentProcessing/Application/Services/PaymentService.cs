@@ -47,11 +47,23 @@ public class PaymentService : IPaymentApplicationService
     {
         try
         {
+            // Validar formato da data de expiração
+            if (string.IsNullOrWhiteSpace(expiryDate) || !expiryDate.Contains('/'))
+            {
+                throw new ArgumentException("Data de expiração deve estar no formato MM/YYYY");
+            }
+
+            var dateParts = expiryDate.Split('/');
+            if (dateParts.Length != 2)
+            {
+                throw new ArgumentException("Data de expiração deve estar no formato MM/YYYY");
+            }
+
             var cardDetails = new DomainCardDetails(
                 cardHolderName,
                 cardNumber,
-                expiryDate.Split('/')[0],
-                expiryDate.Split('/')[1]
+                dateParts[0],
+                dateParts[1]
             );
 
             // Valor padrão para teste - em um cenário real, isso viria de um parâmetro ou seria obtido do enrollment

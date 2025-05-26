@@ -40,8 +40,7 @@ public class PaymentsController : ControllerBase
     [SwaggerOperation(
         Summary = "Processar um pagamento para uma matrícula",
         Description = "Cria um novo pagamento para uma matrícula específica usando os detalhes do cartão fornecidos",
-        OperationId = "ProcessPayment",
-        Tags = new[] { "Pagamentos" }
+        OperationId = "ProcessPayment"
     )]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -54,11 +53,11 @@ public class PaymentsController : ControllerBase
         try
         {
             var paymentId = await _paymentService.ProcessPaymentAsync(
-                request.EnrollmentId,
-                request.CardDetails.CardholderName,
+                request.StudentId,
                 request.CardDetails.CardNumber,
-                request.CardDetails.ExpiryMonth.ToString(),
-                request.CardDetails.ExpiryYear.ToString());
+                request.CardDetails.CardholderName,
+                $"{request.CardDetails.ExpiryMonth:D2}/{request.CardDetails.ExpiryYear}",
+                request.CardDetails.Cvv);
 
             var payment = await _paymentService.GetPaymentByIdAsync(paymentId);
             return CreatedAtAction(nameof(GetPayment), new { id = paymentId }, payment);
@@ -88,8 +87,7 @@ public class PaymentsController : ControllerBase
     [SwaggerOperation(
         Summary = "Obter pagamento por ID",
         Description = "Recupera um pagamento específico pelo seu identificador único",
-        OperationId = "GetPayment",
-        Tags = new[] { "Pagamentos" }
+        OperationId = "GetPayment"
     )]
     [ProducesResponseType(typeof(PaymentDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -122,8 +120,7 @@ public class PaymentsController : ControllerBase
     [SwaggerOperation(
         Summary = "Reembolsar um pagamento",
         Description = "Processa um reembolso para um pagamento específico. Requer perfil de Administrador.",
-        OperationId = "RefundPayment",
-        Tags = new[] { "Pagamentos" }
+        OperationId = "RefundPayment"
     )]
     [ProducesResponseType(typeof(PaymentDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

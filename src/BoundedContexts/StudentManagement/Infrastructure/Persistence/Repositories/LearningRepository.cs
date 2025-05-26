@@ -23,7 +23,7 @@ public class LearningRepository : ILearningRepository
         return await _context.LearningHistories
             .Include(lh => lh.CourseProgresses)
             .ThenInclude(cp => cp.CompletedLessons)
-            .FirstOrDefaultAsync(lh => lh.StudentId == studentId);
+            .FirstOrDefaultAsync(lh => lh.Id == studentId);
     }
 
     public async Task<CourseProgress> GetCourseProgressAsync(Guid courseId, Guid learningHistoryId)
@@ -138,7 +138,7 @@ public class LearningRepository : ILearningRepository
     {
         return await _context.LearningHistories
             .Include(lh => lh.CourseProgresses)
-            .FirstOrDefaultAsync(lh => lh.StudentId == studentId);
+            .FirstOrDefaultAsync(lh => lh.Id == studentId);
     }
 
     public async Task<CourseProgress> GetCourseProgressByIdAsync(Guid courseProgressId)
@@ -153,7 +153,7 @@ public class LearningRepository : ILearningRepository
         var learningHistory = await _context.LearningHistories
             .Include(lh => lh.CourseProgresses)
             .ThenInclude(cp => cp.CompletedLessons)
-            .FirstOrDefaultAsync(lh => lh.StudentId == studentId);
+            .FirstOrDefaultAsync(lh => lh.Id == studentId);
 
         return learningHistory?.CourseProgresses ?? new List<CourseProgress>();
     }
