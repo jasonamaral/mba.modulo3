@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluencyHub.StudentManagement.Domain;
+using FluencyHub.StudentManagement.Domain.Enums;
 using FluencyHub.StudentManagement.Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using FluencyHub.StudentManagement.Infrastructure.Exceptions;

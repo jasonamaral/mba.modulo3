@@ -2,6 +2,7 @@ using MediatR;
 using FluencyHub.StudentManagement.Application.Common.Interfaces;
 using FluencyHub.StudentManagement.Application.Common.Exceptions;
 using FluencyHub.SharedKernel.Queries;
+using FluencyHub.ContentManagement.Application.Queries.GetLessonsByCourseId;
 using Microsoft.Extensions.Logging;
 using IStudentRepository = FluencyHub.StudentManagement.Application.Common.Interfaces.IStudentRepository;
 using IEnrollmentRepository = FluencyHub.StudentManagement.Application.Common.Interfaces.IEnrollmentRepository;
@@ -32,133 +33,157 @@ public class GetStudentProgressQueryHandler : IRequestHandler<GetStudentProgress
 
     public async Task<StudentProgressViewModel> Handle(GetStudentProgressQuery request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Getting progress for student {StudentId}", request.StudentId);
 
-        // Verificar se o estudante existe
-        var student = await _studentRepository.GetByIdAsync(request.StudentId);
-        if (student == null)
-        {
-            throw new NotFoundException($"Student with ID {request.StudentId} not found");
-        }
+        var student = await _studentRepository.GetByIdAsync(request.StudentId) ?? throw new NotFoundException($"Student with ID {request.StudentId} not found");
 
-        // Obter todas as matrículas do estudante
         var enrollments = await _enrollmentRepository.GetByStudentIdAsync(request.StudentId);
         
-        // Se não há matrículas, retornar progresso vazio
         if (!enrollments.Any())
         {
-            _logger.LogInformation("No enrollments found for student {StudentId}", request.StudentId);
             return new StudentProgressViewModel
             {
                 StudentId = request.StudentId,
                 StudentName = student.FullName,
-                CourseId = Guid.Empty,
-                CourseName = "Nenhum curso matriculado",
-                TotalLessons = 0,
-                CompletedLessons = 0,
-                ProgressPercentage = 0,
-                EnrollmentDate = DateTime.MinValue,
+                TotalCourses = 0,
+                CompletedCourses = 0,
+                TotalLessonsAcrossAllCourses = 0,
+                CompletedLessonsAcrossAllCourses = 0,
+                OverallProgressPercentage = 0,
                 LastActivityDate = null,
-                IsCompleted = false,
-                CompletionDate = null,
-                LessonProgress = new List<LessonProgressDto>()
+                CourseProgresses = []
             };
         }
 
-        // Para simplificar, vamos pegar a primeira matrícula ativa
-        // Em uma implementação mais completa, isso poderia retornar uma lista de progressos
-        var activeEnrollment = enrollments.FirstOrDefault(e => e.IsActive) ?? enrollments.First();
+        var courseProgresses = await _learningRepository.GetCourseProgressesByStudentIdAsync(request.StudentId);
+        
+        var courseProgressDtos = new List<CourseProgressDto>();
+        var totalLessonsAcrossAllCourses = 0;
+        var completedLessonsAcrossAllCourses = 0;
+        var completedCourses = 0;
+        DateTime? lastActivityDate = null;
 
-        // Obter informações do curso usando queries compartilhadas
-        var courseInfo = await _mediator.Send(new GetCourseById { CourseId = activeEnrollment.CourseId }, cancellationToken);
-        if (courseInfo == null)
+        foreach (var enrollment in enrollments)
         {
-            _logger.LogWarning("Course {CourseId} not found for student {StudentId}", activeEnrollment.CourseId, request.StudentId);
-            throw new NotFoundException($"Course with ID {activeEnrollment.CourseId} not found");
+            try
+            {
+
+                var courseInfo = await _mediator.Send(new GetCourseById { CourseId = enrollment.CourseId }, cancellationToken);
+                if (courseInfo == null)
+                {
+                    continue;
+                }
+
+                var courseProgress = courseProgresses.FirstOrDefault(cp => cp.CourseId == enrollment.CourseId);
+
+                var totalLessons = await GetTotalLessonsForCourse(enrollment.CourseId, cancellationToken);
+                
+                var completedLessons = courseProgress?.GetCompletedLessonsCount() ?? 0;
+                var progressPercentage = totalLessons > 0 ? (int)Math.Round((double)completedLessons / totalLessons * 100) : 0;
+
+                var lessonProgress = await GetLessonProgressDetails(enrollment.CourseId, courseProgress, cancellationToken);
+
+                var isCourseCompleted = courseProgress?.IsCompleted ?? false;
+                if (isCourseCompleted)
+                {
+                    completedCourses++;
+                }
+
+                if (courseProgress?.LastUpdated != null && 
+                    (lastActivityDate == null || courseProgress.LastUpdated > lastActivityDate))
+                {
+                    lastActivityDate = courseProgress.LastUpdated;
+                }
+
+                totalLessonsAcrossAllCourses += totalLessons;
+                completedLessonsAcrossAllCourses += completedLessons;
+
+                courseProgressDtos.Add(new CourseProgressDto
+                {
+                    CourseId = enrollment.CourseId,
+                    CourseName = courseInfo.Name,
+                    TotalLessons = totalLessons,
+                    CompletedLessons = completedLessons,
+                    ProgressPercentage = progressPercentage,
+                    EnrollmentDate = enrollment.EnrollmentDate,
+                    LastActivityDate = courseProgress?.LastUpdated,
+                    IsCompleted = isCourseCompleted,
+                    CompletionDate = enrollment.CompletionDate,
+                    LessonProgress = lessonProgress
+                });
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Curso {CourseId}. Estudante {StudentId}", enrollment.CourseId, request.StudentId);
+            }
         }
 
-        // Obter progresso do curso
-        var courseProgresses = await _learningRepository.GetCourseProgressesByStudentIdAsync(request.StudentId);
-        var courseProgress = courseProgresses.FirstOrDefault(cp => cp.CourseId == activeEnrollment.CourseId);
-
-        // Obter total de lições do curso
-        var totalLessons = await GetTotalLessonsForCourse(activeEnrollment.CourseId, cancellationToken);
-        
-        var completedLessons = courseProgress?.GetCompletedLessonsCount() ?? 0;
-        var progressPercentage = totalLessons > 0 ? (int)Math.Round((double)completedLessons / totalLessons * 100) : 0;
-
-        // Obter detalhes das lições (simplificado)
-        var lessonProgress = await GetLessonProgressDetails(activeEnrollment.CourseId, courseProgress, cancellationToken);
+        var overallProgressPercentage = totalLessonsAcrossAllCourses > 0 
+            ? (int)Math.Round((double)completedLessonsAcrossAllCourses / totalLessonsAcrossAllCourses * 100) 
+            : 0;
 
         var result = new StudentProgressViewModel
         {
             StudentId = request.StudentId,
             StudentName = student.FullName,
-            CourseId = activeEnrollment.CourseId,
-            CourseName = courseInfo.Name,
-            TotalLessons = totalLessons,
-            CompletedLessons = completedLessons,
-            ProgressPercentage = progressPercentage,
-            EnrollmentDate = activeEnrollment.EnrollmentDate,
-            LastActivityDate = courseProgress?.LastUpdated,
-            IsCompleted = courseProgress?.IsCompleted ?? false,
-            CompletionDate = activeEnrollment.CompletionDate,
-            LessonProgress = lessonProgress
+            TotalCourses = enrollments.Count(),
+            CompletedCourses = completedCourses,
+            TotalLessonsAcrossAllCourses = totalLessonsAcrossAllCourses,
+            CompletedLessonsAcrossAllCourses = completedLessonsAcrossAllCourses,
+            OverallProgressPercentage = overallProgressPercentage,
+            LastActivityDate = lastActivityDate,
+            CourseProgresses = courseProgressDtos
         };
-
-        _logger.LogInformation("Retrieved progress for student {StudentId}: {CompletedLessons}/{TotalLessons} lessons completed ({ProgressPercentage}%)",
-            request.StudentId, completedLessons, totalLessons, progressPercentage);
 
         return result;
     }
 
-    private Task<int> GetTotalLessonsForCourse(Guid courseId, CancellationToken cancellationToken)
+    private async Task<int> GetTotalLessonsForCourse(Guid courseId, CancellationToken cancellationToken)
     {
         try
         {
-            // Usar query compartilhada para obter informações do curso
-            // Por enquanto, vamos retornar um valor padrão
-            // Em uma implementação completa, isso seria obtido do contexto de ContentManagement
-            return Task.FromResult(10); // Valor padrão para demonstração
+            var lessons = await _mediator.Send(new GetLessonsByCourseIdQuery { CourseId = courseId }, cancellationToken);
+            return lessons.Count();
         }
         catch (Exception ex)
         {
-            _logger.LogWarning(ex, "Could not get total lessons for course {CourseId}, using default value", courseId);
-            return Task.FromResult(10); // Valor padrão em caso de erro
+            _logger.LogWarning(ex, "Curso {CourseId}", courseId);
+            return 0;
         }
     }
 
-    private Task<List<LessonProgressDto>> GetLessonProgressDetails(Guid courseId, Domain.CourseProgress? courseProgress, CancellationToken cancellationToken)
+    private async Task<List<LessonProgressDto>> GetLessonProgressDetails(Guid courseId, Domain.CourseProgress? courseProgress, CancellationToken cancellationToken)
     {
         try
         {
             var lessonProgress = new List<LessonProgressDto>();
 
-            if (courseProgress != null)
+            var lessons = await _mediator.Send(new GetLessonsByCourseIdQuery { CourseId = courseId }, cancellationToken);
+            
+            foreach (var lesson in lessons.OrderBy(l => l.Order))
             {
-                var completedLessons = courseProgress.CompletedLessons.ToList();
-                
-                for (int i = 0; i < completedLessons.Count; i++)
+                var isCompleted = courseProgress?.HasCompletedLesson(lesson.Id) ?? false;
+                var completionDate = isCompleted 
+                    ? courseProgress?.CompletedLessons.FirstOrDefault(cl => cl.LessonId == lesson.Id)?.CompletedAt
+                    : null;
+
+                lessonProgress.Add(new LessonProgressDto
                 {
-                    var lesson = completedLessons[i];
-                    lessonProgress.Add(new LessonProgressDto
-                    {
-                        LessonId = lesson.LessonId,
-                        Title = $"Lição {i + 1}", // Em uma implementação completa, isso viria do ContentManagement
-                        Order = i + 1,
-                        IsCompleted = true,
-                        CompletionDate = lesson.CompletedAt,
-                        Score = null // Score não está disponível na entidade CompletedLesson
-                    });
-                }
+                    LessonId = lesson.Id,
+                    Title = lesson.Title,
+                    Order = lesson.Order,
+                    IsCompleted = isCompleted,
+                    CompletionDate = completionDate,
+                    Score = null
+                });
             }
 
-            return Task.FromResult(lessonProgress);
+            return lessonProgress;
         }
         catch (Exception ex)
         {
-            _logger.LogWarning(ex, "Could not get lesson progress details for course {CourseId}", courseId);
-            return Task.FromResult(new List<LessonProgressDto>());
+            _logger.LogWarning(ex, "Curso {CourseId}", courseId);
+            return [];
         }
     }
 } 

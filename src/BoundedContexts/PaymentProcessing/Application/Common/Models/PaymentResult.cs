@@ -16,7 +16,7 @@ public class PaymentResult
     public static PaymentResult Success(string transactionId)
     {
         if (string.IsNullOrWhiteSpace(transactionId))
-            throw new ArgumentException("Transaction ID cannot be empty", nameof(transactionId));
+            throw new ArgumentException("ID da transação não pode estar vazio", nameof(transactionId));
             
         return new PaymentResult(true, transactionId, null);
     }
@@ -24,7 +24,7 @@ public class PaymentResult
     public static PaymentResult Failure(string errorMessage)
     {
         if (string.IsNullOrWhiteSpace(errorMessage))
-            throw new ArgumentException("Error message cannot be empty", nameof(errorMessage));
+            throw new ArgumentException("Mensagem de erro não pode estar vazia", nameof(errorMessage));
             
         return new PaymentResult(false, null, errorMessage);
     }

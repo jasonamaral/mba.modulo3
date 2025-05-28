@@ -20,7 +20,7 @@ public class PaymentProcessedEventHandler : INotificationHandler<PaymentProcesse
     
     public async Task Handle(PaymentProcessedEvent notification, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Handling PaymentProcessedEvent for EnrollmentId: {EnrollmentId}", notification.EnrollmentId);
+
         
         var enrollment = await _enrollmentRepository.GetByIdAsync(notification.EnrollmentId);
         if (enrollment == null)
@@ -32,7 +32,7 @@ public class PaymentProcessedEventHandler : INotificationHandler<PaymentProcesse
         if (notification.IsSuccessful)
         {
             enrollment.ProcessPaymentSuccess(notification.PaymentId, notification.Amount);
-            _logger.LogInformation("Payment processed successfully for enrollment: {EnrollmentId}", enrollment.Id);
+
         }
         else
         {

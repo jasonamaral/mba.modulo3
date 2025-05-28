@@ -9,34 +9,27 @@ namespace FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories
 {
     public class EnrollmentRepositoryAdapter : FluencyHub.PaymentProcessing.Application.Common.Interfaces.IEnrollmentRepository
     {
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IStudentManagementEnrollmentRepository _repository;
         private const string AGUARDANDO_PAGAMENTO = "AguardandoPagamento";
 
-        public EnrollmentRepositoryAdapter(IServiceProvider serviceProvider)
+        public EnrollmentRepositoryAdapter(IStudentManagementEnrollmentRepository repository)
         {
-            _serviceProvider = serviceProvider;
-        }
-
-        private IStudentManagementEnrollmentRepository GetRepository()
-        {
-            // Obter o serviço do StudentManagement de forma lazy para evitar dependências circulares
-            using var scope = _serviceProvider.CreateScope();
-            return scope.ServiceProvider.GetRequiredService<IStudentManagementEnrollmentRepository>();
+            _repository = repository;
         }
 
         public async Task<IEnrollment?> GetByIdAsync(Guid id)
         {
-            return await GetRepository().GetByIdAsync(id);
+            return await _repository.GetByIdAsync(id);
         }
 
         public async Task<IEnrollment?> GetByStudentAndCourseAsync(Guid studentId, Guid courseId)
         {
-            return await GetRepository().GetByStudentAndCourseAsync(studentId, courseId);
+            return await _repository.GetByStudentAndCourseAsync(studentId, courseId);
         }
 
         public async Task<IEnrollment?> GetPendingEnrollmentAsync(Guid studentId, Guid courseId)
         {
-            var enrollment = await GetRepository().GetByStudentAndCourseAsync(studentId, courseId);
+            var enrollment = await _repository.GetByStudentAndCourseAsync(studentId, courseId);
             if (enrollment != null && string.Equals(enrollment.Status, AGUARDANDO_PAGAMENTO))
             {
                 return enrollment;
@@ -46,7 +39,7 @@ namespace FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            await GetRepository().SaveChangesAsync(cancellationToken);
+            await _repository.SaveChangesAsync(cancellationToken);
         }
     }
 } 

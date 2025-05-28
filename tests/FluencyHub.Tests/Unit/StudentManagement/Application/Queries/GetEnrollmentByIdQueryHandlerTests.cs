@@ -162,7 +162,7 @@ public class GetEnrollmentByIdQueryHandlerTests
 
         // Assert
         result.Should().NotBeNull();
-        result.CourseName.Should().Be("Course Name"); // Default value
+        result.CourseName.Should().Be("Nome do Curso"); // Default value
     }
 
     [Fact]

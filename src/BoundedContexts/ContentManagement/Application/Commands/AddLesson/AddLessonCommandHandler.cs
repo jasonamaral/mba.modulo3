@@ -1,60 +1,49 @@
 using MediatR;
-using FluencyHub.ContentManagement.Domain;
+using FluencyHub.ContentManagement.Application.Common.Interfaces;
 using FluencyHub.ContentManagement.Application.Common.Exceptions;
+using FluencyHub.ContentManagement.Domain;
 using Microsoft.Extensions.Logging;
 using ICourseRepository = FluencyHub.ContentManagement.Application.Common.Interfaces.ICourseRepository;
-using ILessonRepository = FluencyHub.ContentManagement.Application.Common.Interfaces.ILessonRepository;
 
 namespace FluencyHub.ContentManagement.Application.Commands.AddLesson;
 
 public class AddLessonCommandHandler : IRequestHandler<AddLessonCommand, Guid>
 {
-    private readonly ILessonRepository _lessonRepository;
     private readonly ICourseRepository _courseRepository;
     private readonly ILogger<AddLessonCommandHandler> _logger;
 
-    public AddLessonCommandHandler(
-        ILessonRepository lessonRepository,
-        ICourseRepository courseRepository,
-        ILogger<AddLessonCommandHandler> logger)
+    public AddLessonCommandHandler(ICourseRepository courseRepository, ILogger<AddLessonCommandHandler> logger)
     {
-        _lessonRepository = lessonRepository;
         _courseRepository = courseRepository;
         _logger = logger;
     }
 
     public async Task<Guid> Handle(AddLessonCommand request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Creating new lesson with title: {Title} for course: {CourseId}", 
-            request.Title, request.CourseId);
-
         // Verificar se o curso existe
         var course = await _courseRepository.GetByIdAsync(request.CourseId);
         if (course == null)
         {
-            _logger.LogWarning("Course with ID {CourseId} not found", request.CourseId);
-            throw new NotFoundException($"Course with ID {request.CourseId} not found");
+            throw new NotFoundException($"Curso com ID {request.CourseId} não encontrado");
         }
 
-        // Criar a nova lição
+        // Criar nova lição
         var lesson = new Lesson(
-            request.Title,
-            request.Content,
-            request.Description,
-            course,
-            request.Order,
-            request.DurationMinutes);
-
-        if (!string.IsNullOrEmpty(request.VideoUrl))
+            title: request.Title,
+            description: request.Description,
+            content: request.Content,
+            duration: request.Duration,
+            order: request.Order,
+            courseId: request.CourseId)
         {
-            lesson.UpdateMaterialUrl(request.VideoUrl);
-        }
+            VideoUrl = request.VideoUrl
+        };
 
-        // Adicionar ao repositório
-        await _lessonRepository.AddAsync(lesson, cancellationToken);
-        await _lessonRepository.SaveChangesAsync(cancellationToken);
+        // Adicionar lição ao curso
+        course.AddLesson(lesson);
 
-        _logger.LogInformation("Lesson created successfully with ID: {LessonId}", lesson.Id);
+        // Salvar alterações
+        await _courseRepository.SaveChangesAsync(cancellationToken);
 
         return lesson.Id;
     }

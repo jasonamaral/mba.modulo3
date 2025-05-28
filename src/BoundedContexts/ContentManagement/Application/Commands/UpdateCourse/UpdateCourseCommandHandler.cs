@@ -21,7 +21,7 @@ public class UpdateCourseCommandHandler : IRequestHandler<UpdateCourseCommand, b
 
     public async Task<bool> Handle(UpdateCourseCommand request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Updating course with ID: {CourseId}", request.Id);
+
 
         var course = await _courseRepository.GetByIdAsync(request.Id);
         if (course == null)
@@ -47,7 +47,7 @@ public class UpdateCourseCommandHandler : IRequestHandler<UpdateCourseCommand, b
         await _courseRepository.UpdateAsync(course);
         await _courseRepository.SaveChangesAsync(cancellationToken);
 
-        _logger.LogInformation("Course with ID {CourseId} updated successfully", request.Id);
+
 
         return true;
     }

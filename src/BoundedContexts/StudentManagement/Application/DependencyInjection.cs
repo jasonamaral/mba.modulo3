@@ -5,6 +5,7 @@ using MediatR;
 using FluencyHub.StudentManagement.Application.Common.Interfaces;
 using FluencyHub.StudentManagement.Application.Handlers;
 using FluencyHub.SharedKernel.Events.PaymentProcessing;
+using FluencyHub.PaymentProcessing.Domain.Events;
 
 namespace FluencyHub.StudentManagement.Application;
 
@@ -22,7 +23,7 @@ public static class DependencyInjection
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         
         services.AddScoped<INotificationHandler<PaymentProcessedEvent>, PaymentProcessedEventHandler>();
-        services.AddScoped<INotificationHandler<EnrollmentActivatedEvent>, EnrollmentActivatedEventHandler>();
+        services.AddScoped<INotificationHandler<PaymentConfirmedDomainEvent>, PaymentConfirmedDomainEventHandler>();
         
         return services;
     }

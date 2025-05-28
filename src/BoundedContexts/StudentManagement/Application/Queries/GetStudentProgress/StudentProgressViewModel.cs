@@ -4,6 +4,17 @@ public class StudentProgressViewModel
 {
     public Guid StudentId { get; set; }
     public string StudentName { get; set; } = string.Empty;
+    public int TotalCourses { get; set; }
+    public int CompletedCourses { get; set; }
+    public int TotalLessonsAcrossAllCourses { get; set; }
+    public int CompletedLessonsAcrossAllCourses { get; set; }
+    public int OverallProgressPercentage { get; set; }
+    public DateTime? LastActivityDate { get; set; }
+    public List<CourseProgressDto> CourseProgresses { get; set; } = new List<CourseProgressDto>();
+}
+
+public class CourseProgressDto
+{
     public Guid CourseId { get; set; }
     public string CourseName { get; set; } = string.Empty;
     public int TotalLessons { get; set; }

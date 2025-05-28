@@ -20,7 +20,7 @@ public class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand, G
 
     public async Task<Guid> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Creating new course with name: {Name}", request.Name);
+
 
         var courseContent = new CourseContent(
             request.Syllabus,
@@ -44,7 +44,7 @@ public class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand, G
         await _courseRepository.AddAsync(course);
         await _courseRepository.SaveChangesAsync(cancellationToken);
 
-        _logger.LogInformation("Course created successfully with ID: {CourseId}", course.Id);
+
 
         return course.Id;
     }

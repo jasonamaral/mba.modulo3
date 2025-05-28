@@ -53,11 +53,11 @@ public class PaymentsController : ControllerBase
         try
         {
             var paymentId = await _paymentService.ProcessPaymentAsync(
-                request.StudentId,
-                request.CardDetails.CardNumber,
+                request.EnrollmentId,
                 request.CardDetails.CardholderName,
-                $"{request.CardDetails.ExpiryMonth:D2}/{request.CardDetails.ExpiryYear}",
-                request.CardDetails.Cvv);
+                request.CardDetails.CardNumber,
+                request.CardDetails.ExpiryMonth.ToString("D2"),
+                request.CardDetails.ExpiryYear.ToString());
 
             var payment = await _paymentService.GetPaymentByIdAsync(paymentId);
             return CreatedAtAction(nameof(GetPayment), new { id = paymentId }, payment);
@@ -68,11 +68,11 @@ public class PaymentsController : ControllerBase
         }
         catch (InvalidOperationException ex)
         {
-            return UnprocessableEntity(new { error = ex.Message });
+            return UnprocessableEntity(new { erro = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new { error = ex.Message });
+            return BadRequest(new { erro = ex.Message });
         }
     }
 
@@ -140,13 +140,13 @@ public class PaymentsController : ControllerBase
         {
             return NotFound(ex.Message);
         }
-        catch (InvalidOperationException ex)
+                catch (InvalidOperationException ex)
         {
-            return UnprocessableEntity(new { error = ex.Message });
+            return UnprocessableEntity(new { erro = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new { error = ex.Message });
+            return BadRequest(new { erro = ex.Message });
         }
-    }
+}
 }

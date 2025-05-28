@@ -23,7 +23,7 @@ public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,
 
     public async Task<Guid> Handle(CreateStudentCommand request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Creating new student with email: {Email}", request.Email);
+
 
         // Criar o estudante no domínio
         var student = new Student(
@@ -52,7 +52,7 @@ public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,
         await _studentRepository.AddAsync(student);
         await _studentRepository.SaveChangesAsync(cancellationToken);
 
-        _logger.LogInformation("Student created successfully with ID: {StudentId}", student.Id);
+        
 
         try
         {
@@ -71,7 +71,7 @@ public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,
                 throw new InvalidOperationException($"Falha ao criar usuário: {string.Join(", ", authResult.Errors)}");
             }
 
-            _logger.LogInformation("User created successfully for student {StudentId}", student.Id);
+            
 
             // Atualizar o usuário com o StudentId
             var updateResult = await _identityService.UpdateUserStudentIdAsync(request.Email, student.Id);
@@ -81,7 +81,7 @@ public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,
             }
             else
             {
-                _logger.LogInformation("StudentId updated successfully for user {Email}", request.Email);
+
             }
 
             // Garantir que a role "Student" existe e atribuí-la ao usuário
@@ -95,7 +95,7 @@ public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,
             }
             else
             {
-                _logger.LogInformation("Student role assigned successfully to user {Email}", request.Email);
+
             }
         }
         catch (Exception ex)

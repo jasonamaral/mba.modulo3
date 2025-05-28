@@ -344,7 +344,7 @@ public class EstudantesController : Controller
     /// <response code="200">If the lesson was marked as completed successfully</response>
     /// <response code="400">If there was a problem completing the lesson</response>
     /// <response code="404">If the student, course or lesson is not found</response>
-    [HttpPost("{studentId}/courses/{courseId}/lessons/{lessonId}/complete")]
+    [HttpPost("{studentId}/curso/{courseId}/licao/{lessonId}/completa")]
     [SwaggerOperation(
         Summary = "Completar uma lição para um estudante",
         Description = "Marca uma lição específica como concluída para um estudante em um curso específico",
@@ -386,7 +386,7 @@ public class EstudantesController : Controller
     /// <response code="200">If the course was marked as completed successfully</response>
     /// <response code="400">If there was a problem completing the course</response>
     /// <response code="404">If the student or course is not found</response>
-    [HttpPost("{studentId}/courses/{courseId}/complete")]
+    [HttpPost("{studentId}/curso/{courseId}/completo")]
     [SwaggerOperation(
         Summary = "Completar um curso para um estudante",
         Description = "Marca um curso como concluído para um estudante. Todas as lições devem ser concluídas primeiro.",

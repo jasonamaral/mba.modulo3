@@ -15,7 +15,7 @@ public static class DependencyInjection
     public static IServiceCollection AddPaymentProcessingInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
         // Registrar DbContext com sua própria string de conexão
-        services.AddDbContext<PaymentDbContext>(options =>
+        services.AddDbContext<PaymentDbContext>((serviceProvider, options) =>
         {
             var connectionString = configuration.GetConnectionString("PaymentProcessingConnection") 
                 ?? throw new InvalidOperationException("PaymentProcessing connection string não configurada");

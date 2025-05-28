@@ -3,7 +3,7 @@ namespace FluencyHub.PaymentProcessing.Application.Common.Exceptions;
 public class BadRequestException : Exception
 {
     public BadRequestException() 
-        : base("A bad request occurred.")
+        : base("Ocorreu uma requisição inválida.")
     {
     }
 

@@ -28,23 +28,23 @@ public class GetEnrollmentByIdQueryHandler : IRequestHandler<GetEnrollmentByIdQu
 
     public async Task<EnrollmentDto> Handle(GetEnrollmentByIdQuery request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Getting enrollment with ID {EnrollmentId}", request.EnrollmentId);
+
 
         var enrollment = await _enrollmentRepository.GetByIdAsync(request.EnrollmentId);
         if (enrollment == null)
         {
-            throw new NotFoundException($"Enrollment with ID {request.EnrollmentId} not found");
+            throw new NotFoundException($"Matrícula com ID {request.EnrollmentId} não encontrada");
         }
 
         // Obter informações do estudante
         var student = await _studentRepository.GetByIdAsync(enrollment.StudentId);
         if (student == null)
         {
-            throw new NotFoundException($"Student with ID {enrollment.StudentId} not found");
+            throw new NotFoundException($"Estudante com ID {enrollment.StudentId} não encontrado");
         }
 
         // Obter informações do curso usando query compartilhada
-        string courseName = "Course Name"; // Valor padrão
+        string courseName = "Nome do Curso"; // Valor padrão
         try
         {
             var courseInfo = await _mediator.Send(new GetCourseById { CourseId = enrollment.CourseId }, cancellationToken);
@@ -55,7 +55,7 @@ public class GetEnrollmentByIdQueryHandler : IRequestHandler<GetEnrollmentByIdQu
         }
         catch (Exception ex)
         {
-            _logger.LogWarning(ex, "Could not get course information for course {CourseId}", enrollment.CourseId);
+            _logger.LogWarning(ex, "Não foi possível obter informações do curso {CourseId}", enrollment.CourseId);
         }
 
         // Calcular preço final considerando desconto
@@ -72,7 +72,7 @@ public class GetEnrollmentByIdQueryHandler : IRequestHandler<GetEnrollmentByIdQu
         }
         catch (Exception ex)
         {
-            _logger.LogWarning(ex, "Could not calculate progress for enrollment {EnrollmentId}", enrollment.Id);
+            _logger.LogWarning(ex, "Não foi possível calcular o progresso para a matrícula {EnrollmentId}", enrollment.Id);
         }
 
         return new EnrollmentDto

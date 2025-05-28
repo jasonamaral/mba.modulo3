@@ -1,5 +1,6 @@
 using FluentAssertions;
 using FluencyHub.StudentManagement.Domain;
+using FluencyHub.StudentManagement.Domain.Enums;
 using FluencyHub.SharedKernel.Contracts;
 using Moq;
 using Xunit;

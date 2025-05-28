@@ -14,7 +14,7 @@ public class PaymentStatusResult
     public static PaymentStatusResult Create(string transactionId, StatusPagamento status, string? statusMessage = null)
     {
         if (string.IsNullOrWhiteSpace(transactionId))
-            throw new ArgumentException("Transaction ID cannot be empty", nameof(transactionId));
+            throw new ArgumentException("ID da transação não pode estar vazio", nameof(transactionId));
             
         return new PaymentStatusResult
         {

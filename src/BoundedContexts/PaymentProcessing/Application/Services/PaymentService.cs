@@ -1,12 +1,7 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using FluencyHub.PaymentProcessing.Application.Common.Exceptions;
 using FluencyHub.PaymentProcessing.Application.Common.Interfaces;
 using FluencyHub.PaymentProcessing.Domain;
 using Microsoft.Extensions.Logging;
-using FluencyHub.SharedKernel.Events;
-using FluencyHub.PaymentProcessing.Application.Common.Models;
 using IPaymentRepository = FluencyHub.PaymentProcessing.Application.Common.Interfaces.IPaymentRepository;
 using IPaymentGateway = FluencyHub.PaymentProcessing.Application.Common.Interfaces.IPaymentGateway;
 using IDomainEventService = FluencyHub.SharedKernel.Events.IDomainEventService;
@@ -38,38 +33,32 @@ public class PaymentService : IPaymentApplicationService
     }
 
     public async Task<Guid> ProcessPaymentAsync(
-        Guid studentId,
-        string cardNumber,
+        Guid enrollmentId,
         string cardHolderName,
-        string expiryDate,
-        string cvv,
+        string cardNumber,
+        string expiryMonth,
+        string expiryYear,
         CancellationToken cancellationToken = default)
     {
         try
         {
-            // Validar formato da data de expiração
-            if (string.IsNullOrWhiteSpace(expiryDate) || !expiryDate.Contains('/'))
-            {
-                throw new ArgumentException("Data de expiração deve estar no formato MM/YYYY");
-            }
+            // Obter informações da matrícula
+            var enrollment = await _enrollmentRepository.GetByIdAsync(enrollmentId) ?? throw new NotFoundException($"Matrícula com ID {enrollmentId} não encontrada");
 
-            var dateParts = expiryDate.Split('/');
-            if (dateParts.Length != 2)
+            // Verificar se a matrícula está em estado válido para pagamento
+            if (enrollment.Status != "AguardandoPagamento")
             {
-                throw new ArgumentException("Data de expiração deve estar no formato MM/YYYY");
+                throw new InvalidOperationException($"Matrícula não está em estado válido para pagamento. Status atual: {enrollment.Status}");
             }
 
             var cardDetails = new DomainCardDetails(
                 cardHolderName,
                 cardNumber,
-                dateParts[0],
-                dateParts[1]
+                expiryMonth,
+                expiryYear
             );
 
-            // Valor padrão para teste - em um cenário real, isso viria de um parâmetro ou seria obtido do enrollment
-            var amount = 299.99m;
-            
-            var payment = new Payment(studentId, Guid.NewGuid(), amount, cardDetails);
+            var payment = new Payment(enrollment.StudentId, enrollmentId, enrollment.Price, cardDetails);
 
             var applicationCardDetails = new ApplicationCardDetails
             {
@@ -78,7 +67,7 @@ public class PaymentService : IPaymentApplicationService
                 MaskedCardNumber = cardDetails.MaskedCardNumber,
                 ExpiryMonth = cardDetails.ExpiryMonth,
                 ExpiryYear = cardDetails.ExpiryYear,
-                Cvv = cvv
+                Cvv = "123" // CVV não é armazenado por segurança
             };
 
             var gatewayResult = await _paymentGateway.ProcessPaymentAsync(
@@ -87,10 +76,15 @@ public class PaymentService : IPaymentApplicationService
                 applicationCardDetails);
 
             if (!gatewayResult.IsSuccessful)
+            {
+                payment.MarkAsFailed(gatewayResult.ErrorMessage ?? "Falha no processamento do pagamento");
+                await _paymentRepository.AddAsync(payment);
+                await _paymentRepository.SaveChangesAsync();
+                
                 throw new PaymentProcessingException(gatewayResult.ErrorMessage ?? "Erro no processamento do pagamento");
+            }
 
             payment.MarkAsSuccess(gatewayResult.TransactionId!);
-
             await _paymentRepository.AddAsync(payment);
             await _paymentRepository.SaveChangesAsync();
 
@@ -98,7 +92,7 @@ public class PaymentService : IPaymentApplicationService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Erro ao processar pagamento para estudante {StudentId}", studentId);
+            _logger.LogError(ex, "Erro ao processar pagamento para matrícula {EnrollmentId}", enrollmentId);
             throw;
         }
     }

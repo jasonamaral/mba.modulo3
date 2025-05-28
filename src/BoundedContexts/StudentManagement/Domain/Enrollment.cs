@@ -1,4 +1,5 @@
 using FluencyHub.StudentManagement.Domain.Common;
+using FluencyHub.StudentManagement.Domain.Enums;
 using FluencyHub.SharedKernel.Contracts;
 using System.Text.Json.Serialization;
 
@@ -92,12 +93,4 @@ public class Enrollment : BaseEntity, IEnrollment
     public bool IsPendingPayment => Status == StatusMatricula.AguardandoPagamento;
     public bool IsCompleted => Status == StatusMatricula.Concluida;
     public bool IsCancelled => Status == StatusMatricula.Cancelada;
-}
-
-public enum StatusMatricula
-{
-    AguardandoPagamento,
-    Ativa,
-    Concluida,
-    Cancelada
 } 

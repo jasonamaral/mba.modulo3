@@ -24,8 +24,7 @@ public class StudentEnrolledEventHandler : INotificationHandler<StudentEnrolledE
 
     public async Task Handle(StudentEnrolledEvent notification, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Handling StudentEnrolledEvent for StudentId: {StudentId}, CourseId: {CourseId}, EnrollmentId: {EnrollmentId}", 
-            notification.StudentId, notification.CourseId, notification.EnrollmentId);
+
         
         try
         {

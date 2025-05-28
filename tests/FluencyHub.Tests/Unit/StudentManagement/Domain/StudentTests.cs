@@ -3,6 +3,9 @@ using FluentAssertions;
 using FluencyHub.StudentManagement.Domain;
 using FluencyHub.StudentManagement.Domain.Models;
 using FluencyHub.StudentManagement.Domain.Enums;
+using FluencyHub.StudentManagement.Domain.Events;
+using FluencyHub.SharedKernel.Contracts;
+using Moq;
 
 namespace FluencyHub.Tests.Unit.StudentManagement.Domain;
 
@@ -279,7 +282,7 @@ public class StudentTests
         student.Enrollments.Should().HaveCount(initialEnrollmentCount + 1);
         var enrollment = student.Enrollments.First();
         enrollment.CourseId.Should().Be(course.Id);
-        enrollment.Status.Should().Be(FluencyHub.StudentManagement.Domain.StatusMatricula.AguardandoPagamento);
+        enrollment.Status.Should().Be(StatusMatricula.AguardandoPagamento);
     }
 
     [Fact]
@@ -334,7 +337,7 @@ public class StudentTests
         student.CompleteCourse(course);
 
         // Assert
-        enrollment.Status.Should().Be(FluencyHub.StudentManagement.Domain.StatusMatricula.Concluida);
+        enrollment.Status.Should().Be(StatusMatricula.Concluida);
         student.Certificates.Should().HaveCount(initialCertificateCount + 1);
         var certificate = student.Certificates.First();
         certificate.CourseId.Should().Be(course.Id);

@@ -1,6 +1,7 @@
 using MediatR;
 using FluencyHub.StudentManagement.Application.Common.Exceptions;
 using FluencyHub.StudentManagement.Domain;
+using FluencyHub.StudentManagement.Domain.Enums;
 using FluencyHub.SharedKernel.Queries;
 using FluencyHub.SharedKernel.Contracts;
 using Microsoft.Extensions.Logging;
@@ -30,8 +31,7 @@ public class EnrollStudentCommandHandler : IRequestHandler<EnrollStudentCommand,
 
     public async Task<Guid> Handle(EnrollStudentCommand request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Processing enrollment for student {StudentId} in course {CourseId}", 
-            request.StudentId, request.CourseId);
+        
 
         // Verificar se o estudante existe
         var student = await _studentRepository.GetByIdAsync(request.StudentId);
@@ -80,8 +80,7 @@ public class EnrollStudentCommandHandler : IRequestHandler<EnrollStudentCommand,
             var discountAmount = finalPrice * (request.DiscountPercentage.Value / 100);
             finalPrice -= discountAmount;
             
-            _logger.LogInformation("Applied discount of {DiscountPercentage}% to course {CourseId}. Original price: {OriginalPrice}, Final price: {FinalPrice}",
-                request.DiscountPercentage.Value, request.CourseId, courseInfo.Price, finalPrice);
+
         }
 
         // Criar a matrícula
@@ -94,8 +93,7 @@ public class EnrollStudentCommandHandler : IRequestHandler<EnrollStudentCommand,
         await _enrollmentRepository.AddAsync(enrollment);
         await _enrollmentRepository.SaveChangesAsync(cancellationToken);
 
-        _logger.LogInformation("Successfully created enrollment {EnrollmentId} for student {StudentId} in course {CourseId}",
-            enrollment.Id, request.StudentId, request.CourseId);
+
 
         return enrollment.Id;
     }

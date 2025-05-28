@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Domain\FluencyHub.PaymentProcessing.Domain.csproj" />
     <ProjectReference Include="..\..\..\SharedKernel\FluencyHub.SharedKernel.csproj" />
+    <ProjectReference Include="..\..\StudentManagement\Domain\FluencyHub.StudentManagement.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
