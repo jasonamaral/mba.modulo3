@@ -286,7 +286,7 @@ public class ProcessPaymentCommandHandlerTests
             x => x.Log(
                 LogLevel.Error,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Error processing payment for student")),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Erro ao processar pagamento para estudante")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);

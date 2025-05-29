@@ -17,11 +17,11 @@ namespace FluencyHub.API.Controllers;
 [Authorize]
 [Produces(MediaTypeNames.Application.Json)]
 [Consumes(MediaTypeNames.Application.Json)]
-public class PaymentsController : ControllerBase
+public class PagamentosController : ControllerBase
 {
     private readonly IPaymentApplicationService _paymentService;
 
-    public PaymentsController(IPaymentApplicationService paymentService)
+    public PagamentosController(IPaymentApplicationService paymentService)
     {
         _paymentService = paymentService;
     }
@@ -140,7 +140,7 @@ public class PaymentsController : ControllerBase
         {
             return NotFound(ex.Message);
         }
-                catch (InvalidOperationException ex)
+        catch (InvalidOperationException ex)
         {
             return UnprocessableEntity(new { erro = ex.Message });
         }
@@ -148,5 +148,5 @@ public class PaymentsController : ControllerBase
         {
             return BadRequest(new { erro = ex.Message });
         }
-}
+    }
 }

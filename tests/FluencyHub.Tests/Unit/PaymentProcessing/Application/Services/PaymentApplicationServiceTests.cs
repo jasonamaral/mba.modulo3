@@ -46,7 +46,7 @@ public class PaymentApplicationServiceTests
         mockEnrollment.Setup(x => x.Id).Returns(enrollmentId);
         mockEnrollment.Setup(x => x.StudentId).Returns(studentId);
         mockEnrollment.Setup(x => x.Price).Returns(299.99m);
-        mockEnrollment.Setup(x => x.Status).Returns("Pendente");
+        mockEnrollment.Setup(x => x.Status).Returns("AguardandoPagamento");
 
         _mockEnrollmentRepository
             .Setup(x => x.GetByIdAsync(enrollmentId))
@@ -84,11 +84,22 @@ public class PaymentApplicationServiceTests
     public async Task ProcessPaymentAsync_WhenPaymentGatewayFails_ShouldThrowException()
     {
         // Arrange
+        var enrollmentId = Guid.NewGuid();
         var studentId = Guid.NewGuid();
         var cardNumber = "4532015112830366";
         var cardHolderName = "João Silva";
-        var expiryDate = "12/2025";
-        var cvv = "123";
+        var expiryMonth = "12";
+        var expiryYear = "2025";
+
+        var mockEnrollment = new Mock<FluencyHub.SharedKernel.Contracts.IEnrollment>();
+        mockEnrollment.Setup(x => x.Id).Returns(enrollmentId);
+        mockEnrollment.Setup(x => x.StudentId).Returns(studentId);
+        mockEnrollment.Setup(x => x.Price).Returns(299.99m);
+        mockEnrollment.Setup(x => x.Status).Returns("AguardandoPagamento");
+
+        _mockEnrollmentRepository
+            .Setup(x => x.GetByIdAsync(enrollmentId))
+            .ReturnsAsync(mockEnrollment.Object);
 
         var paymentResult = FluencyHub.PaymentProcessing.Application.Common.Models.PaymentResult.Failure("Cartão recusado");
 
@@ -96,13 +107,21 @@ public class PaymentApplicationServiceTests
             .Setup(x => x.ProcessPaymentAsync(It.IsAny<string>(), It.IsAny<decimal>(), It.IsAny<FluencyHub.PaymentProcessing.Application.Common.Models.CardDetails>()))
             .ReturnsAsync(paymentResult);
 
+        _mockPaymentRepository
+            .Setup(x => x.AddAsync(It.IsAny<Payment>()))
+            .Returns(Task.CompletedTask);
+
+        _mockPaymentRepository
+            .Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+
         // Act & Assert
         var action = async () => await _service.ProcessPaymentAsync(
-            studentId,
-            cardNumber,
+            enrollmentId,
             cardHolderName,
-            expiryDate,
-            cvv);
+            cardNumber,
+            expiryMonth,
+            expiryYear);
 
         await action.Should().ThrowAsync<FluencyHub.PaymentProcessing.Application.Common.Exceptions.PaymentProcessingException>()
             .WithMessage("Cartão recusado");

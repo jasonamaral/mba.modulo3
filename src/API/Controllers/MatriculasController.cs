@@ -1,18 +1,13 @@
 using FluencyHub.API.Models;
 using FluencyHub.API.SwaggerExamples;
 using FluencyHub.StudentManagement.Application.Common.Exceptions;
-using FluencyHub.ContentManagement.Application.Commands.CompleteEnrollment;
-using FluencyHub.ContentManagement.Application.Queries.GetCourseById;
-using FluencyHub.StudentManagement.Application.Commands.EnrollStudent;
 using FluencyHub.StudentManagement.Application.Queries.GetEnrollmentById;
 using FluencyHub.StudentManagement.Application.Queries.GetStudentEnrollments;
-using FluencyHub.StudentManagement.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
-using System.Net.Mime;
 
 namespace FluencyHub.API.Controllers;
 
@@ -20,11 +15,11 @@ namespace FluencyHub.API.Controllers;
 [Route("api/[controller]")]
 [Authorize]
 
-public class EnrollmentsController : ControllerBase
+public class MatriculasController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public EnrollmentsController(IMediator mediator)
+    public MatriculasController(IMediator mediator)
     {
         _mediator = mediator;
     }

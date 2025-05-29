@@ -27,20 +27,19 @@ public class AddLessonCommandHandler : IRequestHandler<AddLessonCommand, Guid>
             throw new NotFoundException($"Curso com ID {request.CourseId} não encontrado");
         }
 
-        // Criar nova lição
-        var lesson = new Lesson(
+        // Adicionar lição ao curso usando o método AddLesson
+        var lesson = course.AddLesson(
             title: request.Title,
-            description: request.Description,
             content: request.Content,
-            duration: request.Duration,
+            description: request.Description,
             order: request.Order,
-            courseId: request.CourseId)
-        {
-            VideoUrl = request.VideoUrl
-        };
+            durationMinutes: request.DurationMinutes);
 
-        // Adicionar lição ao curso
-        course.AddLesson(lesson);
+        // Atualizar VideoUrl se fornecido
+        if (!string.IsNullOrEmpty(request.VideoUrl))
+        {
+            lesson.UpdateMaterialUrl(request.VideoUrl);
+        }
 
         // Salvar alterações
         await _courseRepository.SaveChangesAsync(cancellationToken);

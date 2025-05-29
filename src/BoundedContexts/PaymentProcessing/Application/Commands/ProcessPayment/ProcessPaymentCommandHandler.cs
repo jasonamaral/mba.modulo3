@@ -25,7 +25,7 @@ public class ProcessPaymentCommandHandler : IRequestHandler<ProcessPaymentComman
 
     public async Task<Guid> Handle(ProcessPaymentCommand request, CancellationToken cancellationToken)
     {
-
+        _logger.LogInformation("Processing payment for student {StudentId}", request.StudentId);
 
         try
         {
@@ -76,8 +76,6 @@ public class ProcessPaymentCommandHandler : IRequestHandler<ProcessPaymentComman
 
             // Salvar no repositório
             await _paymentRepository.AddAsync(payment);
-
-
 
             return payment.Id;
         }

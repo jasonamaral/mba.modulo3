@@ -17,11 +17,11 @@ namespace FluencyHub.API.Controllers;
 [Authorize]
 [Produces(MediaTypeNames.Application.Json)]
 [Consumes(MediaTypeNames.Application.Json)]
-public class CertificatesController : ControllerBase
+public class CertificadosController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public CertificatesController(IMediator mediator)
+    public CertificadosController(IMediator mediator)
     {
         _mediator = mediator;
     }
@@ -38,8 +38,7 @@ public class CertificatesController : ControllerBase
     [SwaggerOperation(
         Summary = "Gerar um certificado",
         Description = "Cria um certificado para um aluno que concluiu um curso com sucesso",
-        OperationId = "GerarCertificado",
-        Tags = new[] { "Certificados" }
+        OperationId = "GerarCertificado"
     )]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -77,8 +76,7 @@ public class CertificatesController : ControllerBase
     [SwaggerOperation(
         Summary = "Obter certificado por ID",
         Description = "Recupera um certificado específico por seu identificador exclusivo",
-        OperationId = "ObterCertificado",
-        Tags = new[] { "Certificados" }
+        OperationId = "ObterCertificado"
     )]
     [ProducesResponseType(typeof(CertificateDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -108,8 +106,7 @@ public class CertificatesController : ControllerBase
     [SwaggerOperation(
         Summary = "Obtenha todos os certificados de um aluno",
         Description = "Recupera todos os certificados emitidos para um aluno específico",
-        OperationId = "ObterCertificadosEstudante",
-        Tags = new[] { "Certificados" }
+        OperationId = "ObterCertificadosEstudante"
     )]
     [ProducesResponseType(typeof(IEnumerable<CertificateDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
