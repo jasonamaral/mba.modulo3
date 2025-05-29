@@ -1,4 +1,5 @@
 using FluencyHub.ContentManagement.Domain;
+using FluencyHub.ContentManagement.Domain.Common;
 using FluencyHub.ContentManagement.Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using FluencyHub.ContentManagement.Application.Common.Models;
@@ -108,7 +109,56 @@ public class CourseRepository :
     
     public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        try
+        {
+            // Forçar a detecção de mudanças antes de salvar
+            _dbContext.ChangeTracker.DetectChanges();
+            
+            // Verificar se há cursos modificados com lições novas
+            var modifiedCourses = _dbContext.ChangeTracker.Entries<Course>()
+                .Where(e => e.State == Microsoft.EntityFrameworkCore.EntityState.Modified)
+                .Select(e => e.Entity)
+                .ToList();
+
+            foreach (var course in modifiedCourses)
+            {
+                // Verificar se há lições que não estão sendo rastreadas
+                foreach (var lesson in course.Lessons)
+                {
+                    var lessonEntry = _dbContext.Entry(lesson);
+                    if (lessonEntry.State == Microsoft.EntityFrameworkCore.EntityState.Detached)
+                    {
+                        Console.WriteLine($"[DEBUG] Adicionando lição {lesson.Id} ao contexto");
+                        _dbContext.Lessons.Add(lesson);
+                    }
+                }
+            }
+            
+            // Log das entidades que estão sendo rastreadas
+            var trackedEntities = _dbContext.ChangeTracker.Entries()
+                .Where(e => e.State != Microsoft.EntityFrameworkCore.EntityState.Unchanged)
+                .ToList();
+
+            foreach (var entry in trackedEntities)
+            {
+                var entityName = entry.Entity.GetType().Name;
+                var state = entry.State;
+                var entityId = entry.Entity is BaseEntity baseEntity ? baseEntity.Id.ToString() : "N/A";
+                
+                Console.WriteLine($"[DEBUG] Entidade: {entityName}, ID: {entityId}, Estado: {state}");
+            }
+
+            var result = await _dbContext.SaveChangesAsync(cancellationToken);
+            Console.WriteLine($"[DEBUG] SaveChanges executado com sucesso. {result} entidades afetadas.");
+            
+            return;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[ERROR] Erro ao salvar no banco: {ex.Message}");
+            Console.WriteLine($"[ERROR] Stack trace: {ex.StackTrace}");
+            throw;
+        }
     }
 
     async Task<int> FluencyHub.ContentManagement.Domain.ICourseRepository.SaveChangesAsync(CancellationToken cancellationToken)

@@ -12,16 +12,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
-using System;
-using System.Collections.Generic;
-using System.Net.Mime;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace FluencyHub.API.Controllers;
 
 [ApiController]
-[Route("api/cursos/{courseId}/[controller]")]
+[Route("api/[controller]/curso/{courseId}/")]
 public class LicoesController : ControllerBase
 {
     private readonly IMediator _mediator;
