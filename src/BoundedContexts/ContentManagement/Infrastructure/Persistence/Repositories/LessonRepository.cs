@@ -42,7 +42,7 @@ public class LessonRepository : ILessonRepository
         return Task.CompletedTask;
     }
 
-    public async Task DeleteAsync(Guid id)
+    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var lesson = await _dbContext.Lessons.FindAsync(id);
         if (lesson == null)
@@ -51,7 +51,7 @@ public class LessonRepository : ILessonRepository
         }
 
         _dbContext.Lessons.Remove(lesson);
-        await _dbContext.SaveChangesAsync();
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
     public async Task SaveChangesAsync(CancellationToken cancellationToken = default)

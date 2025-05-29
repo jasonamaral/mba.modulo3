@@ -8,5 +8,6 @@ public interface ILessonRepository
     Task<IEnumerable<Lesson>> GetByCourseIdAsync(Guid courseId, CancellationToken cancellationToken = default);
     Task AddAsync(Lesson lesson, CancellationToken cancellationToken = default);
     Task UpdateAsync(Lesson lesson, CancellationToken cancellationToken = default);
+    Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
 } 

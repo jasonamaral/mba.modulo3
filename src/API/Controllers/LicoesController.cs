@@ -8,7 +8,6 @@ using FluencyHub.StudentManagement.Application.Commands.CompleteLessonForStudent
 using FluencyHub.ContentManagement.Application.Common.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
@@ -108,7 +107,8 @@ public class LicoesController : ControllerBase
     /// <response code="404">Se o curso ou a lição não for encontrada</response>
     /// <response code="401">Se o usuário não estiver autenticado</response>
     /// <response code="403">Se o usuário não estiver autorizado</response>
-    [HttpPut("{lessonId}")]
+
+    [HttpPut("/api/licoes/{lessonId}/curso/{courseId}")]
     [Authorize(Roles = "Administrator")]
     [SwaggerOperation(
         Summary = "Atualizar uma lição existente",
