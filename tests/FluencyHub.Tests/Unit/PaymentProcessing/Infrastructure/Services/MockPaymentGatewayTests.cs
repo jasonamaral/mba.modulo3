@@ -132,7 +132,7 @@ public class MockPaymentGatewayTests
         refundResult.Should().NotBeNull();
         refundResult.IsSuccessful.Should().BeFalse();
         refundResult.OriginalTransactionId.Should().Be(transactionId);
-        refundResult.ErrorMessage.Should().Be("Transaction not found");
+        refundResult.ErrorMessage.Should().Be("Transação não encontrada");
     }
 
     [Fact]
@@ -162,6 +162,6 @@ public class MockPaymentGatewayTests
         refundResult.Should().NotBeNull();
         refundResult.IsSuccessful.Should().BeFalse();
         refundResult.OriginalTransactionId.Should().Be(transactionId);
-        refundResult.ErrorMessage.Should().Contain("Payment not in approved status");
+        refundResult.ErrorMessage.Should().Contain("Pagamento não está em status aprovado");
     }
 } 

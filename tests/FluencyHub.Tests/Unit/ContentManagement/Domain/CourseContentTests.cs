@@ -58,7 +58,7 @@ public class CourseContentTests
             level);
 
         action.Should().Throw<ArgumentException>()
-            .WithMessage("Syllabus cannot be empty*");
+            .WithMessage("O programa não pode estar vazio*");
     }
 
     [Theory]
@@ -84,7 +84,7 @@ public class CourseContentTests
             level);
 
         action.Should().Throw<ArgumentException>()
-            .WithMessage("Learning objectives cannot be empty*");
+            .WithMessage("Os objetivos de aprendizagem não podem estar vazios*");
     }
 
     [Theory]
@@ -110,7 +110,7 @@ public class CourseContentTests
             level);
 
         action.Should().Throw<ArgumentException>()
-            .WithMessage("Target audience cannot be empty*");
+            .WithMessage("O público-alvo não pode estar vazio*");
     }
 
     [Theory]
@@ -136,7 +136,7 @@ public class CourseContentTests
             level);
 
         action.Should().Throw<ArgumentException>()
-            .WithMessage("Language cannot be empty*");
+            .WithMessage("O idioma não pode estar vazio*");
     }
 
     [Theory]
@@ -162,7 +162,7 @@ public class CourseContentTests
             level!);
 
         action.Should().Throw<ArgumentException>()
-            .WithMessage("Level cannot be empty*");
+            .WithMessage("O nível não pode estar vazio*");
     }
 
     [Fact]

@@ -148,7 +148,7 @@ public class EnrollStudentCommandHandlerTests
         // Act & Assert
         var action = async () => await _handler.Handle(command, CancellationToken.None);
         await action.Should().ThrowAsync<NotFoundException>()
-            .WithMessage($"Student with ID {studentId} not found");
+            .WithMessage("Estudante com ID * não encontrado");
     }
 
     [Fact]
@@ -174,7 +174,7 @@ public class EnrollStudentCommandHandlerTests
         // Act & Assert
         var action = async () => await _handler.Handle(command, CancellationToken.None);
         await action.Should().ThrowAsync<InvalidOperationException>()
-            .WithMessage("Cannot enroll an inactive student");
+            .WithMessage("Não é possível matricular um estudante inativo");
     }
 
     [Fact]
@@ -203,7 +203,7 @@ public class EnrollStudentCommandHandlerTests
         // Act & Assert
         var action = async () => await _handler.Handle(command, CancellationToken.None);
         await action.Should().ThrowAsync<NotFoundException>()
-            .WithMessage($"Course with ID {courseId} not found");
+            .WithMessage("Curso com ID * não encontrado");
     }
 
     [Fact]

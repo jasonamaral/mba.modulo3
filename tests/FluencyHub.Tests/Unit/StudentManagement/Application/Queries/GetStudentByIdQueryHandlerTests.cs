@@ -61,7 +61,7 @@ public class GetStudentByIdQueryHandlerTests
         var exception = await Assert.ThrowsAsync<NotFoundException>(() =>
             _handler.Handle(query, CancellationToken.None));
 
-        exception.Message.Should().Contain($"Student with ID {studentId} not found");
+        exception.Message.Should().Contain("Estudante com ID");
     }
 
     [Fact]

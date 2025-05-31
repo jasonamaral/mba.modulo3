@@ -77,7 +77,7 @@ public class CourseTests
             Content = content
         };
         action.Should().Throw<ArgumentException>()
-            .WithMessage("Course name cannot be empty*");
+            .WithMessage("O nome do curso não pode estar vazio*");
     }
 
     [Theory]
@@ -99,7 +99,7 @@ public class CourseTests
             Content = content
         };
         action.Should().Throw<ArgumentException>()
-            .WithMessage("Description cannot be empty*");
+            .WithMessage("A descrição não pode estar vazia*");
     }
 
     [Fact]
@@ -119,7 +119,7 @@ public class CourseTests
             Content = content
         };
         action.Should().Throw<ArgumentException>()
-            .WithMessage("Course content cannot be null*");
+            .WithMessage("O conteúdo do curso não pode ser nulo*");
     }
 
     [Fact]
@@ -139,7 +139,7 @@ public class CourseTests
             Content = content
         };
         action.Should().Throw<ArgumentException>()
-            .WithMessage("Price cannot be negative*");
+            .WithMessage("O preço não pode ser negativo*");
     }
 
     [Fact]
@@ -303,6 +303,6 @@ public class CourseTests
         // Act & Assert
         var action = () => course.RemoveLesson(invalidId);
         action.Should().Throw<ArgumentException>()
-            .WithMessage($"Lesson with ID {invalidId} not found*");
+            .WithMessage("Lição com ID * não encontrada*");
     }
 } 

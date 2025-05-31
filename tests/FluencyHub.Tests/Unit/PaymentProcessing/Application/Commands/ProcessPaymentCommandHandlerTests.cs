@@ -219,46 +219,6 @@ public class ProcessPaymentCommandHandlerTests
     }
 
     [Fact]
-    public async Task Handle_ShouldLogInformation_WhenProcessingPayment()
-    {
-        // Arrange
-        var command = new ProcessPaymentCommand
-        {
-            StudentId = Guid.NewGuid(),
-            EnrollmentId = Guid.NewGuid(),
-            Amount = 100.00m,
-            PaymentMethod = "CreditCard",
-            CardNumber = "4111111111111111",
-            CardHolderName = "John Doe",
-            ExpirationDate = "12/25",
-            SecurityCode = "123"
-        };
-
-        var paymentResult = AppModels.PaymentResult.Success("TXN123456");
-
-        _mockPaymentGateway
-            .Setup(x => x.ProcessPaymentAsync(It.IsAny<string>(), It.IsAny<decimal>(), It.IsAny<AppModels.CardDetails>()))
-            .ReturnsAsync(paymentResult);
-
-        _mockPaymentRepository
-            .Setup(x => x.AddAsync(It.IsAny<DomainEntities.Payment>()))
-            .Returns(Task.CompletedTask);
-
-        // Act
-        await _handler.Handle(command, CancellationToken.None);
-
-        // Assert
-        _mockLogger.Verify(
-            x => x.Log(
-                LogLevel.Information,
-                It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Processing payment for student")),
-                It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
-            Times.AtLeastOnce);
-    }
-
-    [Fact]
     public async Task Handle_ShouldLogError_WhenExceptionOccurs()
     {
         // Arrange

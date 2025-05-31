@@ -133,7 +133,7 @@ public class GetStudentProgressQueryHandlerTests
         // Act & Assert
         var action = async () => await _handler.Handle(query, CancellationToken.None);
         await action.Should().ThrowAsync<NotFoundException>()
-            .WithMessage($"Student with ID {studentId} not found");
+            .WithMessage("Estudante com ID * não encontrado");
     }
 
     [Fact]
