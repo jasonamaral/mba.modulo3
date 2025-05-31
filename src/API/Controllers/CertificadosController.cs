@@ -8,15 +8,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
-using System.Net.Mime;
 
 namespace FluencyHub.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
-[Produces(MediaTypeNames.Application.Json)]
-[Consumes(MediaTypeNames.Application.Json)]
 public class CertificadosController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -35,6 +32,7 @@ public class CertificadosController : ControllerBase
     /// <response code="400">Se a solicitação for inválida</response>
     /// <response code="404">Se o aluno ou curso não for encontrado</response>
     [HttpPost]
+    [Authorize(Roles = "Student,Administrator")]
     [SwaggerOperation(
         Summary = "Gerar um certificado",
         Description = "Cria um certificado para um aluno que concluiu um curso com sucesso",
@@ -73,6 +71,7 @@ public class CertificadosController : ControllerBase
     /// <response code="200">Retorna os detalhes do certificado</response>
     /// <response code="404">Se o certificado não for encontrado</response>
     [HttpGet("{id}")]
+    [Authorize(Roles = "Student,Administrator")]
     [SwaggerOperation(
         Summary = "Obter certificado por ID",
         Description = "Recupera um certificado específico por seu identificador exclusivo",
@@ -102,7 +101,8 @@ public class CertificadosController : ControllerBase
     /// <returns>Lista de certificados do aluno</returns>
     /// <response code="200">Retorna a lista de certificados</response>
     /// <response code="404">Se o aluno não for encontrado</response>
-    [HttpGet("student/{studentId}")]
+    [HttpGet("estudente/{studentId}")]
+    [Authorize(Roles = "Student,Administrator")]
     [SwaggerOperation(
         Summary = "Obtenha todos os certificados de um aluno",
         Description = "Recupera todos os certificados emitidos para um aluno específico",

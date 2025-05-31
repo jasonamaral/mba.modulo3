@@ -4,6 +4,7 @@ using FluencyHub.StudentManagement.Application.Common.Exceptions;
 using FluencyHub.StudentManagement.Domain;
 using IStudentRepositoryInterface = FluencyHub.StudentManagement.Application.Common.Interfaces.IStudentRepository;
 using FluencyHub.SharedKernel.Contracts;
+using FluencyHub.StudentManagement.Domain.Models;
 
 namespace FluencyHub.StudentManagement.Application.Commands.GenerateCertificate;
 
@@ -43,20 +44,31 @@ public class GenerateCertificateCommandHandler : IRequestHandler<GenerateCertifi
         if (!courseExists)
             throw new NotFoundException($"Course with ID {request.CourseId} not found");
 
-        // Obter o nome do curso para o certificado
-        var courseName = await _courseRepository.GetNameAsync(request.CourseId);
+        // Obter as informações do curso
+        var courseInfo = await _courseRepository.GetByIdAsync(request.CourseId);
+        if (courseInfo == null)
+            throw new NotFoundException($"Course with ID {request.CourseId} not found");
 
         // Verificar se já existe um certificado para este aluno e curso
         var existingCertificate = await _certificateRepository.GetByStudentAndCourseAsync(request.StudentId, request.CourseId);
         if (existingCertificate != null)
             throw new InvalidOperationException($"Certificate already exists for student {request.StudentId} and course {request.CourseId}");
 
+        // Criar CourseReference que implementa ICourse
+        var courseReference = new CourseReference(
+            courseInfo.Id,
+            courseInfo.Name,
+            courseInfo.Description,
+            courseInfo.Price,
+            true // assumindo que o curso está ativo se existe
+        );
+
         // Gerar novo certificado
-        var certificate = new Certificate(request.StudentId, request.CourseId, courseName)
+        var certificate = new Certificate(request.StudentId, request.CourseId, courseInfo.Name)
         {
             Student = student,
-            Course = (ICourse)await _courseRepository.GetByIdAsync(request.CourseId),
-            Title = courseName,
+            Course = courseReference,
+            Title = courseInfo.Name,
             CertificateNumber = $"CERT-{DateTime.UtcNow:yyyyMMdd}-{Guid.NewGuid().ToString().Substring(0, 8)}"
         };
         
