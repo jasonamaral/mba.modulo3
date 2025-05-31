@@ -3,20 +3,17 @@ using FluencyHub.API.SwaggerExamples;
 using FluencyHub.PaymentProcessing.Application.Common.Exceptions;
 using FluencyHub.PaymentProcessing.Application.Common.Interfaces;
 using FluencyHub.PaymentProcessing.Application.Queries.GetPaymentById;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
-using System.Net.Mime;
 
 namespace FluencyHub.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
-[Produces(MediaTypeNames.Application.Json)]
-[Consumes(MediaTypeNames.Application.Json)]
+
 public class PagamentosController : ControllerBase
 {
     private readonly IPaymentApplicationService _paymentService;
@@ -84,6 +81,7 @@ public class PagamentosController : ControllerBase
     /// <response code="200">Retorna os detalhes do pagamento</response>
     /// <response code="404">Se o pagamento não for encontrado</response>
     [HttpGet("{id}")]
+    [AllowAnonymous]
     [SwaggerOperation(
         Summary = "Obter pagamento por ID",
         Description = "Recupera um pagamento específico pelo seu identificador único",
@@ -94,14 +92,41 @@ public class PagamentosController : ControllerBase
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(PaymentDtoExample))]
     public async Task<IActionResult> GetPayment(Guid id)
     {
+        Console.WriteLine($"=== GetPayment INICIADO ===");
+        Console.WriteLine($"ID recebido: {id}");
+        Console.WriteLine($"User.Identity.IsAuthenticated: {User.Identity?.IsAuthenticated}");
+        Console.WriteLine($"User.Identity.Name: {User.Identity?.Name}");
+        
+        if (User.Claims.Any())
+        {
+            Console.WriteLine("Claims do usuário:");
+            foreach (var claim in User.Claims)
+            {
+                Console.WriteLine($"  {claim.Type}: {claim.Value}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Nenhuma claim encontrada");
+        }
+        
         try
         {
+            Console.WriteLine("Chamando _paymentService.GetPaymentByIdAsync...");
             var payment = await _paymentService.GetPaymentByIdAsync(id);
+            Console.WriteLine($"Pagamento encontrado: {payment?.Id}");
             return Ok(payment);
         }
         catch (NotFoundException ex)
         {
+            Console.WriteLine($"NotFoundException: {ex.Message}");
             return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exception geral: {ex.GetType().Name} - {ex.Message}");
+            Console.WriteLine($"StackTrace: {ex.StackTrace}");
+            throw;
         }
     }
 
@@ -115,7 +140,7 @@ public class PagamentosController : ControllerBase
     /// <response code="400">Se a requisição for inválida</response>
     /// <response code="404">Se o pagamento não for encontrado</response>
     /// <response code="422">Se o reembolso não puder ser processado</response>
-    [HttpPost("{id}/refund")]
+    [HttpPost("{id}/reembolso")]
     [Authorize(Roles = "Administrator")]
     [SwaggerOperation(
         Summary = "Reembolsar um pagamento",

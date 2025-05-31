@@ -7,5 +7,6 @@ public class CompletedLesson
     public Guid CourseProgressId { get; set; }
     public DateTime CompletedAt { get; set; }
 
-    public required CourseProgress CourseProgress { get; set; }
+    // Navigation property - não required para evitar problemas de referência circular
+    public CourseProgress? CourseProgress { get; set; }
 } 

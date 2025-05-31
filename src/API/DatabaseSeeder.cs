@@ -1,6 +1,4 @@
-using FluencyHub.ContentManagement.Infrastructure.Persistence;
 using FluencyHub.StudentManagement.Infrastructure.Identity;
-using FluencyHub.PaymentProcessing.Infrastructure.Persistence;
 using FluencyHub.StudentManagement.Infrastructure.Persistence;
 using FluencyHub.StudentManagement.Domain;
 using Microsoft.AspNetCore.Identity;

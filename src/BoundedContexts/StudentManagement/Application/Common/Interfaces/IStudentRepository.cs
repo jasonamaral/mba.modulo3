@@ -10,7 +10,9 @@ public interface IStudentRepository
     Task<IEnumerable<Student>> GetActiveStudentsAsync();
     Task<IEnumerable<Enrollment>> GetEnrollmentsByStudentIdAsync(Guid studentId);
     Task<IEnumerable<Certificate>> GetCertificatesByStudentIdAsync(Guid studentId);
+    Task<LearningHistory?> GetLearningHistoryByStudentIdAsync(Guid studentId);
     Task AddAsync(Student student);
     Task<bool> DeleteAsync(Guid id);
+    Task DeleteLearningHistoryAsync(Guid studentId);
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
 } 

@@ -65,13 +65,33 @@ public class CompleteLessonForStudentCommandHandler : IRequestHandler<CompleteLe
             throw new InvalidOperationException($"Estudante não está matriculado no curso ou matrícula não está ativa");
         }
 
-        // Obter ou criar o histórico de aprendizado
+        // Sempre recarregar o histórico de aprendizado para garantir dados atualizados
         var learningHistory = await _learningRepository.GetLearningHistoryByStudentIdAsync(request.StudentId);
         if (learningHistory == null)
         {
             learningHistory = new LearningHistory(request.StudentId);
             await _learningRepository.AddLearningHistoryAsync(learningHistory);
+            
+            try
+            {
+                await _learningRepository.SaveChangesAsync(cancellationToken);
+                _logger.LogInformation("Novo histórico de aprendizado criado para estudante {StudentId}", request.StudentId);
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException ex) when (ex.InnerException?.Message?.Contains("UNIQUE constraint failed") == true)
+            {
+                // Outro processo criou o histórico de aprendizado, vamos recarregar
+                _logger.LogInformation("Histórico de aprendizado já foi criado por outro processo para o estudante {StudentId}, recarregando...", request.StudentId);
+                learningHistory = await _learningRepository.GetLearningHistoryByStudentIdAsync(request.StudentId);
+                if (learningHistory == null)
+                {
+                    throw new InvalidOperationException($"Falha ao obter histórico de aprendizado para o estudante {request.StudentId}");
+                }
+            }
         }
+
+        _logger.LogInformation("Histórico de aprendizado obtido para estudante {StudentId}. " +
+            "Cursos em progresso: {CourseCount}", 
+            request.StudentId, learningHistory.CourseProgresses.Count);
 
         // Verificar se a lição já foi completada
         if (learningHistory.HasCompletedLesson(courseId, request.LessonId))
@@ -90,8 +110,33 @@ public class CompleteLessonForStudentCommandHandler : IRequestHandler<CompleteLe
             };
         }
 
-        // Adicionar progresso da lição
-        learningHistory.AddProgress(courseId, request.LessonId);
+        _logger.LogInformation("Adicionando progresso da lição {LessonId} para o curso {CourseId}", 
+            request.LessonId, courseId);
+
+        // SOLUÇÃO: Usar o método robusto do repositório em vez de lógica manual
+        try
+        {
+            await _learningRepository.CompleteLessonAsync(request.StudentId, courseId, request.LessonId, cancellationToken);
+            
+            _logger.LogInformation("Progresso da lição {LessonId} salvo com sucesso para o estudante {StudentId}", 
+                request.LessonId, request.StudentId);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao salvar progresso da lição {LessonId} para o estudante {StudentId}", 
+                request.LessonId, request.StudentId);
+            throw;
+        }
+
+        // Recarregar o histórico para cálculos atualizados
+        learningHistory = await _learningRepository.GetLearningHistoryByStudentIdAsync(request.StudentId);
+        if (learningHistory == null)
+        {
+            throw new InvalidOperationException($"Falha ao recarregar histórico de aprendizado para o estudante {request.StudentId}");
+        }
+
+        _logger.LogInformation("Progresso adicionado. Lições completadas no curso {CourseId}: {CompletedCount}", 
+            courseId, learningHistory.GetCompletedLessonsCount(courseId));
 
         // Calcular progresso do curso
         var courseProgress = await CalculateCourseProgress(courseId, learningHistory, cancellationToken);
@@ -113,10 +158,24 @@ public class CompleteLessonForStudentCommandHandler : IRequestHandler<CompleteLe
             
             _logger.LogInformation("Curso {CourseId} completado pelo estudante {StudentId}", 
                 courseId, request.StudentId);
+            
+            // Salvar apenas a conclusão do curso se necessário
+            try
+            {
+                await _learningRepository.SaveChangesAsync(cancellationToken);
+                _logger.LogInformation("Conclusão do curso {CourseId} salva para o estudante {StudentId}", 
+                    courseId, request.StudentId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao salvar conclusão do curso {CourseId} para o estudante {StudentId}", 
+                    courseId, request.StudentId);
+                // Não lançar exceção aqui, a lição já foi completada com sucesso
+            }
         }
 
-        // Salvar alterações
-        await _learningRepository.SaveChangesAsync(cancellationToken);
+        _logger.LogInformation("Lição {LessonId} processada com sucesso para o estudante {StudentId}", 
+            request.LessonId, request.StudentId);
 
         // Disparar evento de conclusão da lição
         var lessonCompletedEvent = new LessonCompletedEvent(
@@ -126,9 +185,6 @@ public class CompleteLessonForStudentCommandHandler : IRequestHandler<CompleteLe
             request.CompletionDate);
         
         await _domainEventService.PublishAsync(lessonCompletedEvent);
-
-        _logger.LogInformation("Lição {LessonId} completada com sucesso pelo estudante {StudentId}", 
-            request.LessonId, request.StudentId);
 
         return new CompleteLessonForStudentResult
         {

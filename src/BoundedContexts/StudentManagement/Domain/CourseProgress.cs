@@ -26,13 +26,14 @@ public class CourseProgress
     {
         if (!HasCompletedLesson(lessonId))
         {
-            _completedLessons.Add(new CompletedLesson
+            var completedLesson = new CompletedLesson
             {
                 LessonId = lessonId,
                 CourseProgressId = Id,
-                CompletedAt = DateTime.UtcNow,
-                CourseProgress = this
-            });
+                CompletedAt = DateTime.UtcNow
+            };
+            
+            _completedLessons.Add(completedLesson);
             LastUpdated = DateTime.UtcNow;
         }
     }

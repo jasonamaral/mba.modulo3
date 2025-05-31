@@ -99,7 +99,7 @@ public class MatriculasController : ControllerBase
     /// <returns>Uma lista de matrículas do aluno</returns>
     /// <response code="200">Retorna a lista de matrículas</response>
     /// <response code="404">Se o aluno não for encontrado</response>
-    [HttpGet("student/{studentId}")]
+    [HttpGet("estudente/{studentId}")]
     [SwaggerOperation(
         Summary = "Obter matrículas do aluno",
         Description = "Recupera todas as matrículas associadas a um aluno específico",

@@ -44,6 +44,7 @@ public class LearningHistory : BaseEntity
         // Adiciona também um registro ao histórico de aprendizado
         AddLearningRecord(lessonId);
         
+        // Atualizar apenas uma vez ao final para evitar conflitos
         UpdatedAt = DateTime.UtcNow;
     }
 
@@ -55,7 +56,7 @@ public class LearningHistory : BaseEntity
             
         var record = new LearningRecord(lessonId, DateTime.UtcNow, grade);
         _records.Add(record);
-        UpdatedAt = DateTime.UtcNow;
+        // Não atualizar UpdatedAt aqui - será feito no método que chama este
     }
     
     public LearningRecord? GetRecord(Guid lessonId)

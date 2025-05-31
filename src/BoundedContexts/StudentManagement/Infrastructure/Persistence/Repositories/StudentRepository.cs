@@ -83,6 +83,14 @@ public class StudentRepository : IApplicationStudentRepository, IDomainStudentRe
             .ToListAsync();
     }
 
+    public async Task<LearningHistory?> GetLearningHistoryByStudentIdAsync(Guid studentId)
+    {
+        return await _context.LearningHistories
+            .Include(lh => lh.CourseProgresses)
+            .ThenInclude(cp => cp.CompletedLessons)
+            .FirstOrDefaultAsync(lh => lh.Id == studentId);
+    }
+
     public async Task AddAsync(Student student)
     {
         await _context.Students.AddAsync(student);
@@ -96,6 +104,21 @@ public class StudentRepository : IApplicationStudentRepository, IDomainStudentRe
         _context.Students.Remove(student);
         await SaveChangesAsync();
         return true;
+    }
+
+    public async Task DeleteLearningHistoryAsync(Guid studentId)
+    {
+        var learningHistory = await _context.LearningHistories
+            .Include(lh => lh.CourseProgresses)
+            .ThenInclude(cp => cp.CompletedLessons)
+            .Include(lh => lh.Records)
+            .FirstOrDefaultAsync(lh => lh.Id == studentId);
+
+        if (learningHistory != null)
+        {
+            _context.LearningHistories.Remove(learningHistory);
+            await SaveChangesAsync();
+        }
     }
 
     async Task IDomainStudentRepository.UpdateAsync(Student student)
@@ -122,13 +145,34 @@ public class StudentRepository : IApplicationStudentRepository, IDomainStudentRe
 
     public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
+        // Capturar eventos antes de salvar
         var events = _context.ChangeTracker
             .Entries<BaseEntity>()
             .SelectMany(e => e.Entity.DomainEvents)
             .ToList();
-
+        
+        // Antes de salvar, detectar novas CompletedLessons adicionadas via domínio
+        var courseProgressesInContext = _context.ChangeTracker.Entries<CourseProgress>()
+            .Where(e => e.State != EntityState.Deleted)
+            .Select(e => e.Entity)
+            .ToList();
+            
+        foreach (var courseProgress in courseProgressesInContext)
+        {
+            foreach (var completedLesson in courseProgress.CompletedLessons)
+            {
+                // Se a CompletedLesson não está sendo rastreada, adicionar ao contexto
+                var entry = _context.Entry(completedLesson);
+                if (entry.State == EntityState.Detached)
+                {
+                    _context.CompletedLessons.Add(completedLesson);
+                }
+            }
+        }
+        
         await _context.SaveChangesAsync(cancellationToken);
 
+        // Publicar eventos após salvar com sucesso
         foreach (var @event in events)
         {
             await _eventService.PublishAsync(@event);
