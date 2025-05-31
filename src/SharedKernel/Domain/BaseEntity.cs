@@ -2,11 +2,11 @@ using System.ComponentModel.DataAnnotations;
 using FluencyHub.SharedKernel.Events;
 using System.Text.Json.Serialization;
 
-namespace FluencyHub.StudentManagement.Domain.Common;
+namespace FluencyHub.SharedKernel.Domain;
 
 public abstract class BaseEntity
 {
-    private readonly List<IDomainEvent> _domainEvents = new();
+    private readonly List<IDomainEvent> _domainEvents = [];
     
     [Key]
     public Guid Id { get; protected set; }
@@ -20,6 +20,11 @@ public abstract class BaseEntity
     protected void AddDomainEvent(IDomainEvent eventItem)
     {
         _domainEvents.Add(eventItem);
+    }
+    
+    public void RemoveDomainEvent(IDomainEvent domainEvent)
+    {
+        _domainEvents.Remove(domainEvent);
     }
     
     public void ClearDomainEvents()

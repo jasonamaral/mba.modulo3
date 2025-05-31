@@ -1,5 +1,5 @@
 using FluencyHub.PaymentProcessing.Domain;
-using FluencyHub.PaymentProcessing.Domain.Common;
+using FluencyHub.SharedKernel.Domain;
 using FluencyHub.SharedKernel.Events;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -54,7 +54,7 @@ public class PaymentDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         
-        modelBuilder.Ignore<DomainEvent>();
+        modelBuilder.Ignore<IDomainEvent>();
         
         // Configurações de entidades
         modelBuilder.Entity<Payment>(entity =>

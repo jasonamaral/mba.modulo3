@@ -1,5 +1,5 @@
 using FluencyHub.ContentManagement.Domain;
-using FluencyHub.ContentManagement.Domain.Common;
+using FluencyHub.SharedKernel.Domain;
 using FluencyHub.SharedKernel.Events;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ namespace FluencyHub.ContentManagement.Infrastructure.Persistence;
 
 public class ContentDbContext : DbContext
 {
-    private readonly IDomainEventService _domainEventService;
+    private readonly IDomainEventService? _domainEventService;
 
     public ContentDbContext(
         DbContextOptions<ContentDbContext> options,
@@ -55,7 +55,7 @@ public class ContentDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         
-        modelBuilder.Ignore<DomainEvent>();
+        modelBuilder.Ignore<IDomainEvent>();
 
         // Configurar CourseContent como entidade possuída
         modelBuilder.Entity<Course>()

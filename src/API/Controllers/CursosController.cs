@@ -11,7 +11,8 @@ using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mime;
-using ValidationException = FluencyHub.ContentManagement.Application.Common.Exceptions.ValidationException;
+using FluencyHub.SharedKernel.Common.Exceptions;
+using ValidationException = FluencyHub.SharedKernel.Common.Exceptions.ValidationException;
 
 namespace FluencyHub.API.Controllers;
 

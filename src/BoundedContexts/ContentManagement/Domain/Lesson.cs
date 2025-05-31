@@ -1,4 +1,4 @@
-using FluencyHub.ContentManagement.Domain.Common;
+using FluencyHub.SharedKernel.Domain;
 using System.Text.Json.Serialization;
 
 namespace FluencyHub.ContentManagement.Domain;

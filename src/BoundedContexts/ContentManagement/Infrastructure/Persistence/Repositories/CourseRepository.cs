@@ -1,5 +1,5 @@
 using FluencyHub.ContentManagement.Domain;
-using FluencyHub.ContentManagement.Domain.Common;
+using FluencyHub.SharedKernel.Domain;
 using FluencyHub.ContentManagement.Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using FluencyHub.ContentManagement.Application.Common.Models;

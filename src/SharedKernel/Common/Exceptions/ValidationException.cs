@@ -1,6 +1,6 @@
 using FluentValidation.Results;
 
-namespace FluencyHub.PaymentProcessing.Application.Common.Exceptions;
+namespace FluencyHub.SharedKernel.Common.Exceptions;
 
 public class ValidationException : Exception
 {

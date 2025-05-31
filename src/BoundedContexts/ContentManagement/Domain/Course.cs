@@ -1,5 +1,5 @@
-using FluencyHub.ContentManagement.Domain.Common;
 using FluencyHub.ContentManagement.Domain.Events;
+using FluencyHub.SharedKernel.Domain;
 using FluencyHub.SharedKernel.Enums;
 using System.Text.Json.Serialization;
 
@@ -14,7 +14,7 @@ public class Course : BaseEntity
     public required string Description { get; set; }
     public required CourseContent Content { get; set; }
     public decimal Price { get; private set; }
-    public bool IsActive { get; private set; }
+    public new bool IsActive { get; private set; }
     public CourseStatus Status { get; private set; } = CourseStatus.Draft;
     public DateTime? PublishedAt { get; private set; }
     public int EnrollmentCount { get; private set; } = 0;

@@ -1,6 +1,6 @@
-using FluencyHub.PaymentProcessing.Domain.Common;
 using FluencyHub.PaymentProcessing.Domain.Events;
 using FluencyHub.SharedKernel.Contracts;
+using FluencyHub.SharedKernel.Domain;
 using System.Text.Json.Serialization;
 
 namespace FluencyHub.PaymentProcessing.Domain;

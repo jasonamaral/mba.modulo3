@@ -1,6 +1,6 @@
 using FluentValidation;
 using MediatR;
-using ValidationException = FluencyHub.ContentManagement.Application.Common.Exceptions.ValidationException;
+using ValidationException = FluencyHub.SharedKernel.Common.Exceptions.ValidationException;
 
 namespace FluencyHub.ContentManagement.Application.Common.Behaviors;
 

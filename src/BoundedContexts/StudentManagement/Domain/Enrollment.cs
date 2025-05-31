@@ -1,6 +1,6 @@
-using FluencyHub.StudentManagement.Domain.Common;
 using FluencyHub.StudentManagement.Domain.Enums;
 using FluencyHub.SharedKernel.Contracts;
+using FluencyHub.SharedKernel.Domain;
 using System.Text.Json.Serialization;
 
 namespace FluencyHub.StudentManagement.Domain;
