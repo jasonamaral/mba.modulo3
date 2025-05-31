@@ -24,7 +24,7 @@ public class GetStudentCertificatesQueryHandler : IRequestHandler<GetStudentCert
     {
         var student = await _studentRepository.GetByIdAsync(request.StudentId);
         if (student == null)
-            throw new NotFoundException($"Student with ID {request.StudentId} not found");
+            throw new NotFoundException($"Estudante com ID {request.StudentId} não encontrado");
 
         var certificates = await _certificateRepository.GetByStudentIdAsync(request.StudentId);
         return certificates.Select(c => new CertificateDto

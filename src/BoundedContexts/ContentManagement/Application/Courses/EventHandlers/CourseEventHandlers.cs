@@ -30,8 +30,6 @@ namespace FluencyHub.ContentManagement.Application.Courses.EventHandlers
 
         public async Task Handle(CourseCreatedDomainEvent notification, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Curso criado: {CourseId}", notification.CourseId);
-
             // Publicar evento de integração
             var integrationEvent = new CourseCreatedEvent(
                 notification.CourseId,
@@ -69,8 +67,6 @@ namespace FluencyHub.ContentManagement.Application.Courses.EventHandlers
 
         public async Task Handle(CourseUpdatedDomainEvent notification, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Curso atualizado: {CourseId}", notification.CourseId);
-
             // Publicar evento de integração
             var integrationEvent = new CourseUpdatedEvent(
                 notification.CourseId,
@@ -108,8 +104,6 @@ namespace FluencyHub.ContentManagement.Application.Courses.EventHandlers
 
         public async Task Handle(CourseDeletedDomainEvent notification, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Curso excluído: {CourseId}", notification.CourseId);
-
             // Publicar evento de integração
             var integrationEvent = new CourseDeletedEvent(notification.CourseId);
 
@@ -135,15 +129,12 @@ namespace FluencyHub.ContentManagement.Application.Courses.EventHandlers
 
         public async Task<CourseDto?> Handle(GetCourseById request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Consultando curso por ID: {CourseId}", request.CourseId);
-
             try
             {
                 var exists = await _courseRepository.ExistsAsync(request.CourseId);
                 
                 if (!exists)
                 {
-                    _logger.LogWarning("Curso não encontrado: {CourseId}", request.CourseId);
                     return null;
                 }
                 

@@ -221,7 +221,7 @@ public class EstudantesController : Controller
 
         if (id != command.Id)
         {
-            return BadRequest("Student ID in the route must match the student ID in the command");
+            return BadRequest("O ID do estudante na rota deve corresponder ao ID do estudante no comando");
         }
 
         try
@@ -240,13 +240,13 @@ public class EstudantesController : Controller
     }
 
     /// <summary>
-    /// Deactivate a student account
+    /// Desativar uma conta de estudante
     /// </summary>
-    /// <param name="id">ID of the student to deactivate</param>
-    /// <returns>Success message</returns>
-    /// <response code="200">If the student was deactivated successfully</response>
-    /// <response code="404">If the student is not found</response>
-    /// <response code="403">If the user is not authorized</response>
+    /// <param name="id">ID do estudante a ser desativado</param>
+    /// <returns>Mensagem de sucesso</returns>
+    /// <response code="200">Se o estudante foi desativado com sucesso</response>
+    /// <response code="404">Se o estudante não for encontrado</response>
+    /// <response code="403">Se o usuário não estiver autorizado</response>
     [HttpPut("{id}/desativar")]
     [Authorize(Roles = "Administrator")]
     [SwaggerOperation(
@@ -264,7 +264,7 @@ public class EstudantesController : Controller
         {
             var command = new DeactivateStudentCommand { Id = id };
             var result = await _mediator.Send(command);
-            return Ok(new { message = "Student deactivated successfully", result });
+            return Ok(new { message = "Estudante desativado com sucesso", result });
         }
         catch (NotFoundException ex)
         {
@@ -273,13 +273,13 @@ public class EstudantesController : Controller
     }
 
     /// <summary>
-    /// Activate a student account
+    /// Ativar uma conta de estudante
     /// </summary>
-    /// <param name="id">ID of the student to activate</param>
-    /// <returns>Success message</returns>
-    /// <response code="200">If the student was activated successfully</response>
-    /// <response code="404">If the student is not found</response>
-    /// <response code="403">If the user is not authorized</response>
+    /// <param name="id">ID do estudante a ser ativado</param>
+    /// <returns>Mensagem de sucesso</returns>
+    /// <response code="200">Se o estudante foi ativado com sucesso</response>
+    /// <response code="404">Se o estudante não for encontrado</response>
+    /// <response code="403">Se o usuário não estiver autorizado</response>
     [HttpPut("{id}/ativar")]
     [Authorize(Roles = "Administrator")]
     [SwaggerOperation(
@@ -297,7 +297,7 @@ public class EstudantesController : Controller
         {
             var command = new ActivateStudentCommand { Id = id };
             var result = await _mediator.Send(command);
-            return Ok(new { message = "Student activated successfully", result });
+            return Ok(new { message = "Estudante ativado com sucesso", result });
         }
         catch (NotFoundException ex)
         {
@@ -306,12 +306,12 @@ public class EstudantesController : Controller
     }
 
     /// <summary>
-    /// Get a student's learning progress
+    /// Obter o progresso de aprendizado de um estudante
     /// </summary>
-    /// <param name="studentId">ID of the student</param>
-    /// <returns>The student's progress across all courses</returns>
-    /// <response code="200">Returns the student's progress</response>
-    /// <response code="404">If the student is not found</response>
+    /// <param name="studentId">ID do estudante</param>
+    /// <returns>O progresso do estudante em todos os cursos</returns>
+    /// <response code="200">Retorna o progresso do estudante</response>
+    /// <response code="404">Se o estudante não for encontrado</response>
     [HttpGet("{studentId}/progresso")]
     [SwaggerOperation(
         Summary = "Obter progresso do estudante",
@@ -335,15 +335,15 @@ public class EstudantesController : Controller
     }
 
     /// <summary>
-    /// Mark a lesson as completed for a student
+    /// Marcar uma lição como concluída para um estudante
     /// </summary>
-    /// <param name="studentId">ID of the student</param>
-    /// <param name="courseId">ID of the course</param>
-    /// <param name="lessonId">ID of the lesson</param>
-    /// <returns>Result of the completion</returns>
-    /// <response code="200">If the lesson was marked as completed successfully</response>
-    /// <response code="400">If there was a problem completing the lesson</response>
-    /// <response code="404">If the student, course or lesson is not found</response>
+    /// <param name="studentId">ID do estudante</param>
+    /// <param name="courseId">ID do curso</param>
+    /// <param name="lessonId">ID da lição</param>
+    /// <returns>Resultado da conclusão</returns>
+    /// <response code="200">Se a lição foi marcada como concluída com sucesso</response>
+    /// <response code="400">Se houve um problema ao concluir a lição</response>
+    /// <response code="404">Se o estudante, curso ou lição não for encontrado</response>
     [HttpPost("{studentId}/curso/{courseId}/licao/{lessonId}/completa")]
     [SwaggerOperation(
         Summary = "Completar uma lição para um estudante",
@@ -378,14 +378,14 @@ public class EstudantesController : Controller
     }
 
     /// <summary>
-    /// Mark a course as completed for a student
+    /// Marcar um curso como concluído para um estudante
     /// </summary>
-    /// <param name="studentId">ID of the student</param>
-    /// <param name="courseId">ID of the course</param>
-    /// <returns>Result of the completion</returns>
-    /// <response code="200">If the course was marked as completed successfully</response>
-    /// <response code="400">If there was a problem completing the course</response>
-    /// <response code="404">If the student or course is not found</response>
+    /// <param name="studentId">ID do estudante</param>
+    /// <param name="courseId">ID do curso</param>
+    /// <returns>Resultado da conclusão</returns>
+    /// <response code="200">Se o curso foi marcado como concluído com sucesso</response>
+    /// <response code="400">Se houve um problema ao concluir o curso</response>
+    /// <response code="404">Se o estudante ou curso não for encontrado</response>
     [HttpPost("{studentId}/curso/{courseId}/completo")]
     [SwaggerOperation(
         Summary = "Completar um curso para um estudante",

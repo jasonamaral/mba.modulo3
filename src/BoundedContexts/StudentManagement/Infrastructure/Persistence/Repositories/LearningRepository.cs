@@ -45,7 +45,7 @@ public class LearningRepository : ILearningRepository
             .FirstOrDefaultAsync(cp => cp.CourseId == courseId && cp.LearningHistoryId == learningHistoryId);
             
         if (progress == null)
-            throw new InvalidOperationException($"CourseProgress not found for courseId {courseId} and learningHistoryId {learningHistoryId}");
+            throw new InvalidOperationException($"Progresso do curso não encontrado para courseId {courseId} e learningHistoryId {learningHistoryId}");
             
         return progress;
     }

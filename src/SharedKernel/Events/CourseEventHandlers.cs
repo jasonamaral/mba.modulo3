@@ -1,6 +1,5 @@
 using MediatR;
 using FluencyHub.SharedKernel.Queries;
-using Microsoft.Extensions.Logging;
 
 namespace FluencyHub.SharedKernel.Events;
 
@@ -10,18 +9,14 @@ namespace FluencyHub.SharedKernel.Events;
 public class CourseExistsHandler : IRequestHandler<CourseExists, bool>
 {
     private readonly IMediator _mediator;
-    private readonly ILogger<CourseExistsHandler> _logger;
 
-    public CourseExistsHandler(IMediator mediator, ILogger<CourseExistsHandler> logger)
+    public CourseExistsHandler(IMediator mediator)
     {
         _mediator = mediator;
-        _logger = logger;
     }
 
     public async Task<bool> Handle(CourseExists request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Verificando existência do curso {CourseId}", request.CourseId);
-
         var query = new GetCourseById { CourseId = request.CourseId };
         var result = await _mediator.Send(query, cancellationToken);
 
@@ -35,18 +30,14 @@ public class CourseExistsHandler : IRequestHandler<CourseExists, bool>
 public class GetCourseNameHandler : IRequestHandler<GetCourseName, string>
 {
     private readonly IMediator _mediator;
-    private readonly ILogger<GetCourseNameHandler> _logger;
 
-    public GetCourseNameHandler(IMediator mediator, ILogger<GetCourseNameHandler> logger)
+    public GetCourseNameHandler(IMediator mediator)
     {
         _mediator = mediator;
-        _logger = logger;
     }
 
     public async Task<string> Handle(GetCourseName request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Obtendo nome do curso {CourseId}", request.CourseId);
-
         var query = new GetCourseById { CourseId = request.CourseId };
         var course = await _mediator.Send(query, cancellationToken);
 

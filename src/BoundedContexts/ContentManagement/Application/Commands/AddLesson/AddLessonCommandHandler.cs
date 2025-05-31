@@ -2,7 +2,6 @@ using MediatR;
 using FluencyHub.ContentManagement.Application.Common.Exceptions;
 using FluencyHub.ContentManagement.Application.Common.Interfaces;
 using FluencyHub.ContentManagement.Domain;
-using Microsoft.Extensions.Logging;
 using ICourseRepository = FluencyHub.ContentManagement.Application.Common.Interfaces.ICourseRepository;
 
 namespace FluencyHub.ContentManagement.Application.Commands.AddLesson;
@@ -11,16 +10,13 @@ public class AddLessonCommandHandler : IRequestHandler<AddLessonCommand, Guid>
 {
     private readonly ICourseRepository _courseRepository;
     private readonly ILessonRepository _lessonRepository;
-    private readonly ILogger<AddLessonCommandHandler> _logger;
 
     public AddLessonCommandHandler(
         ICourseRepository courseRepository, 
-        ILessonRepository lessonRepository,
-        ILogger<AddLessonCommandHandler> logger)
+        ILessonRepository lessonRepository)
     {
         _courseRepository = courseRepository;
         _lessonRepository = lessonRepository;
-        _logger = logger;
     }
 
     public async Task<Guid> Handle(AddLessonCommand request, CancellationToken cancellationToken)

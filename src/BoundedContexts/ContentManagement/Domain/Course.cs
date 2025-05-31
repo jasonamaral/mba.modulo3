@@ -33,17 +33,17 @@ public class Course : BaseEntity
     public Course(string name, string description, CourseContent content, decimal price)
     {
         if (string.IsNullOrWhiteSpace(name))
-            throw new ArgumentException("Course name cannot be empty", nameof(name));
+            throw new ArgumentException("O nome do curso não pode estar vazio", nameof(name));
 
         if (string.IsNullOrWhiteSpace(description))
-            throw new ArgumentException("Description cannot be empty", nameof(description));
+            throw new ArgumentException("A descrição não pode estar vazia", nameof(description));
 
         if (price < 0)
-            throw new ArgumentException("Price cannot be negative", nameof(price));
+            throw new ArgumentException("O preço não pode ser negativo", nameof(price));
 
         Name = name;
         Description = description;
-        Content = content ?? throw new ArgumentException("Course content cannot be null", nameof(content));
+        Content = content ?? throw new ArgumentException("O conteúdo do curso não pode ser nulo", nameof(content));
         Price = price;
         IsActive = true;
         Status = CourseStatus.Draft;
@@ -56,17 +56,17 @@ public class Course : BaseEntity
     public void UpdateDetails(string name, string description, CourseContent content, decimal price)
     {
         if (string.IsNullOrWhiteSpace(name))
-            throw new ArgumentException("Course name cannot be empty", nameof(name));
+            throw new ArgumentException("O nome do curso não pode estar vazio", nameof(name));
 
         if (string.IsNullOrWhiteSpace(description))
-            throw new ArgumentException("Description cannot be empty", nameof(description));
+            throw new ArgumentException("A descrição não pode estar vazia", nameof(description));
 
         if (price < 0)
-            throw new ArgumentException("Price cannot be negative", nameof(price));
+            throw new ArgumentException("O preço não pode ser negativo", nameof(price));
 
         Name = name;
         Description = description;
-        Content = content ?? throw new ArgumentException("Course content cannot be null", nameof(content));
+        Content = content ?? throw new ArgumentException("O conteúdo do curso não pode ser nulo", nameof(content));
         Price = price;
         UpdatedAt = DateTime.UtcNow;
         
@@ -90,7 +90,7 @@ public class Course : BaseEntity
 
     public void UpdateLesson(Guid lessonId, string title, string description, string content, string? materialUrl = null, int durationMinutes = 0)
     {
-        var lesson = _lessons.FirstOrDefault(l => l.Id == lessonId) ?? throw new ArgumentException($"Lesson with ID {lessonId} not found", nameof(lessonId));
+        var lesson = _lessons.FirstOrDefault(l => l.Id == lessonId) ?? throw new ArgumentException($"Lição com ID {lessonId} não encontrada", nameof(lessonId));
         lesson.Update(title, description, content, materialUrl, durationMinutes);
         UpdatedAt = DateTime.UtcNow;
         
@@ -100,7 +100,7 @@ public class Course : BaseEntity
 
     public void RemoveLesson(Guid lessonId)
     {
-        var lesson = _lessons.FirstOrDefault(l => l.Id == lessonId) ?? throw new ArgumentException($"Lesson with ID {lessonId} not found", nameof(lessonId));
+        var lesson = _lessons.FirstOrDefault(l => l.Id == lessonId) ?? throw new ArgumentException($"Lição com ID {lessonId} não encontrada", nameof(lessonId));
         _lessons.Remove(lesson);
 
         var orderedLessons = _lessons.OrderBy(l => l.Order).ToList();
@@ -118,9 +118,9 @@ public class Course : BaseEntity
     public void ReorderLesson(Guid lessonId, int newOrder)
     {
         if (newOrder <= 0)
-            throw new ArgumentException("Order must be positive", nameof(newOrder));
+            throw new ArgumentException("A ordem deve ser positiva", nameof(newOrder));
 
-        var lesson = _lessons.FirstOrDefault(l => l.Id == lessonId) ?? throw new ArgumentException($"Lesson with ID {lessonId} not found", nameof(lessonId));
+        var lesson = _lessons.FirstOrDefault(l => l.Id == lessonId) ?? throw new ArgumentException($"Lição com ID {lessonId} não encontrada", nameof(lessonId));
         var maxOrder = _lessons.Count;
         if (newOrder > maxOrder)
             newOrder = maxOrder;

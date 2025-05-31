@@ -4,7 +4,7 @@ namespace FluencyHub.API.Models;
 
 public class RefundProcessRequest
 {
-    [Required(ErrorMessage = "Reason is required.")]
-    [StringLength(200, ErrorMessage = "Reason cannot exceed 200 characters.")]
+    [Required(ErrorMessage = "A razão é obrigatória.")]
+    [StringLength(200, ErrorMessage = "A razão não pode exceder 200 caracteres.")]
     public string Reason { get; set; } = string.Empty;
 } 

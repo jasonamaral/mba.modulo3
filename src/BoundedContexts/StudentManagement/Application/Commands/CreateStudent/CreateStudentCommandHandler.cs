@@ -65,38 +65,17 @@ public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,
 
             if (!authResult.Succeeded)
             {
-                _logger.LogError("Failed to create user for student {StudentId}: {Errors}", 
-                    student.Id, string.Join(", ", authResult.Errors));
-                
                 throw new InvalidOperationException($"Falha ao criar usuário: {string.Join(", ", authResult.Errors)}");
             }
 
-            
-
             // Atualizar o usuário com o StudentId
             var updateResult = await _identityService.UpdateUserStudentIdAsync(request.Email, student.Id);
-            if (!updateResult)
-            {
-                _logger.LogWarning("Failed to update user with StudentId for {Email}", request.Email);
-            }
-            else
-            {
-
-            }
 
             // Garantir que a role "Student" existe e atribuí-la ao usuário
             const string studentRole = "Student";
             await _identityService.EnsureRoleExistsAsync(studentRole);
             
             var roleResult = await _identityService.AddToRoleAsync(request.Email, studentRole);
-            if (!roleResult)
-            {
-                _logger.LogWarning("Failed to add Student role to user {Email}", request.Email);
-            }
-            else
-            {
-
-            }
         }
         catch (Exception ex)
         {

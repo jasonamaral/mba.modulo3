@@ -1,5 +1,4 @@
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace FluencyHub.SharedKernel.Events;
 
@@ -9,12 +8,10 @@ namespace FluencyHub.SharedKernel.Events;
 public class DomainEventService : IDomainEventService
 {
     private readonly IMediator _mediator;
-    private readonly ILogger<DomainEventService> _logger;
 
-    public DomainEventService(IMediator mediator, ILogger<DomainEventService> logger)
+    public DomainEventService(IMediator mediator)
     {
         _mediator = mediator;
-        _logger = logger;
     }
 
     /// <summary>
@@ -35,7 +32,6 @@ public class DomainEventService : IDomainEventService
     /// <param name="event">O evento de domínio</param>
     public async Task PublishEventAsync(IDomainEvent @event)
     {
-        _logger.LogInformation("Publishing domain event: {EventName}", @event.GetType().Name);
         await _mediator.Publish(@event);
     }
     
@@ -45,7 +41,6 @@ public class DomainEventService : IDomainEventService
     /// <param name="event">O evento de domínio</param>
     public async Task PublishAsync(INotification domainEvent)
     {
-        _logger.LogInformation("Publishing domain event. Event - {event}", domainEvent.GetType().Name);
         await _mediator.Publish(domainEvent);
     }
 } 

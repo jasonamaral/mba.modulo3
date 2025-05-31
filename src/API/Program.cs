@@ -19,10 +19,10 @@ builder.Services.AddSharedKernelServices();
 var assemblies = new[]
 {
     typeof(Program).Assembly, // API
-    Assembly.GetAssembly(typeof(StudentManagementApplicationReference)) ?? throw new InvalidOperationException("StudentManagement.Application assembly not found"),
-    Assembly.GetAssembly(typeof(ContentManagementApplicationReference)) ?? throw new InvalidOperationException("ContentManagement.Application assembly not found"),
-    Assembly.GetAssembly(typeof(PaymentProcessingApplicationReference)) ?? throw new InvalidOperationException("PaymentProcessing.Application assembly not found"),
-    Assembly.GetAssembly(typeof(SharedKernelReference)) ?? throw new InvalidOperationException("SharedKernel assembly not found")
+    Assembly.GetAssembly(typeof(StudentManagementApplicationReference)) ?? throw new InvalidOperationException("Assembly StudentManagement.Application não encontrado"),
+    Assembly.GetAssembly(typeof(ContentManagementApplicationReference)) ?? throw new InvalidOperationException("Assembly ContentManagement.Application não encontrado"),
+    Assembly.GetAssembly(typeof(PaymentProcessingApplicationReference)) ?? throw new InvalidOperationException("Assembly PaymentProcessing.Application não encontrado"),
+    Assembly.GetAssembly(typeof(SharedKernelReference)) ?? throw new InvalidOperationException("Assembly SharedKernel não encontrado")
 };
 
 builder.Services.AddMediatorServices(assemblies);

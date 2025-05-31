@@ -19,7 +19,7 @@ public class GetCourseByIdQueryHandler : IRequestHandler<GetCourseByIdQuery, Flu
         
         if (course == null)
         {
-            throw new KeyNotFoundException($"Course with ID {request.CourseId} not found");
+            throw new KeyNotFoundException($"Curso com ID {request.CourseId} não encontrado");
         }
 
         return new FluencyHub.ContentManagement.Application.Common.Models.CourseDto

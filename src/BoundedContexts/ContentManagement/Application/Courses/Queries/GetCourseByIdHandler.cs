@@ -23,15 +23,12 @@ namespace FluencyHub.ContentManagement.Application.Courses.Queries
 
         public async Task<CourseDto?> Handle(GetCourseById request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Consultando curso por ID: {CourseId}", request.CourseId);
-
             try
             {
                 var exists = await _courseRepository.ExistsAsync(request.CourseId);
                 
                 if (!exists)
                 {
-                    _logger.LogWarning("Curso não encontrado: {CourseId}", request.CourseId);
                     return null;
                 }
                 

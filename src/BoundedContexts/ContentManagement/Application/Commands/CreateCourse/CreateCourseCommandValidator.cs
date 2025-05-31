@@ -7,33 +7,33 @@ public class CreateCourseCommandValidator : AbstractValidator<CreateCourseComman
     public CreateCourseCommandValidator()
     {
         RuleFor(x => x.Name)
-            .NotEmpty().WithMessage("Course name is required")
-            .MaximumLength(100).WithMessage("Course name must not exceed 100 characters");
+            .NotEmpty().WithMessage("O nome do curso é obrigatório")
+            .MaximumLength(100).WithMessage("O nome do curso não deve exceder 100 caracteres");
             
         RuleFor(x => x.Description)
-            .NotEmpty().WithMessage("Course description is required")
-            .MaximumLength(2000).WithMessage("Course description must not exceed 2000 characters");
+            .NotEmpty().WithMessage("A descrição do curso é obrigatória")
+            .MaximumLength(2000).WithMessage("A descrição do curso não deve exceder 2000 caracteres");
             
         RuleFor(x => x.Syllabus)
-            .NotEmpty().WithMessage("Syllabus is required")
-            .MaximumLength(5000).WithMessage("Syllabus must not exceed 5000 characters");
+            .NotEmpty().WithMessage("O programa é obrigatório")
+            .MaximumLength(5000).WithMessage("O programa não deve exceder 5000 caracteres");
             
         RuleFor(x => x.LearningObjectives)
-            .NotEmpty().WithMessage("Learning objectives are required")
-            .MaximumLength(2000).WithMessage("Learning objectives must not exceed 2000 characters");
+            .NotEmpty().WithMessage("Os objetivos de aprendizagem são obrigatórios")
+            .MaximumLength(2000).WithMessage("Os objetivos de aprendizagem não devem exceder 2000 caracteres");
             
         RuleFor(x => x.Language)
-            .NotEmpty().WithMessage("Language is required")
-            .MaximumLength(50).WithMessage("Language must not exceed 50 characters");
+            .NotEmpty().WithMessage("O idioma é obrigatório")
+            .MaximumLength(50).WithMessage("O idioma não deve exceder 50 caracteres");
             
         RuleFor(x => x.Level)
-            .NotEmpty().WithMessage("Level is required")
-            .MaximumLength(50).WithMessage("Level must not exceed 50 characters");
+            .NotEmpty().WithMessage("O nível é obrigatório")
+            .MaximumLength(50).WithMessage("O nível não deve exceder 50 caracteres");
             
         RuleFor(x => x.PreRequisites)
-            .MaximumLength(1000).WithMessage("Prerequisites must not exceed 1000 characters");
+            .MaximumLength(1000).WithMessage("Os pré-requisitos não devem exceder 1000 caracteres");
             
         RuleFor(x => x.TargetAudience)
-            .MaximumLength(1000).WithMessage("Target audience must not exceed 1000 characters");
+            .MaximumLength(1000).WithMessage("O público-alvo não deve exceder 1000 caracteres");
     }
 } 

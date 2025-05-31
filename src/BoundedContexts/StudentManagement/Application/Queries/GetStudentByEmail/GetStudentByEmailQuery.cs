@@ -22,7 +22,7 @@ public class GetStudentByEmailQueryHandler : IRequestHandler<GetStudentByEmailQu
         var student = await _studentRepository.GetByEmailAsync(request.Email);
         
         if (student == null)
-            throw new NotFoundException($"Student with email {request.Email} not found");
+            throw new NotFoundException($"Estudante com email {request.Email} não encontrado");
 
         var enrollments = await _studentRepository.GetEnrollmentsByStudentIdAsync(student.Id);
         var certificates = await _studentRepository.GetCertificatesByStudentIdAsync(student.Id);

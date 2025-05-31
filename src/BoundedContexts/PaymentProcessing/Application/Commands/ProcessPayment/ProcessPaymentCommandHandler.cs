@@ -25,8 +25,6 @@ public class ProcessPaymentCommandHandler : IRequestHandler<ProcessPaymentComman
 
     public async Task<Guid> Handle(ProcessPaymentCommand request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Processing payment for student {StudentId}", request.StudentId);
-
         try
         {
             // Criar detalhes do cartão para o gateway (modelo da aplicação)

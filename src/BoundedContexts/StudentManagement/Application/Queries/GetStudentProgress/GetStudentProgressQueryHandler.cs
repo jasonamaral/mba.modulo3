@@ -34,7 +34,7 @@ public class GetStudentProgressQueryHandler : IRequestHandler<GetStudentProgress
     public async Task<StudentProgressViewModel> Handle(GetStudentProgressQuery request, CancellationToken cancellationToken)
     {
 
-        var student = await _studentRepository.GetByIdAsync(request.StudentId) ?? throw new NotFoundException($"Student with ID {request.StudentId} not found");
+        var student = await _studentRepository.GetByIdAsync(request.StudentId) ?? throw new NotFoundException($"Estudante com ID {request.StudentId} não encontrado");
 
         var enrollments = await _enrollmentRepository.GetByStudentIdAsync(request.StudentId);
         

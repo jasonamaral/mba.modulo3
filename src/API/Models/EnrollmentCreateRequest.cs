@@ -5,10 +5,10 @@ namespace FluencyHub.API.Models;
 
 public class EnrollmentCreateRequest
 {
-    [Required(ErrorMessage = "Course ID is required.")]
+    [Required(ErrorMessage = "O ID do curso é obrigatório.")]
     public Guid CourseId { get; set; }
 
-    [Required(ErrorMessage = "Student ID is required.")]
+    [Required(ErrorMessage = "O ID do estudante é obrigatório.")]
     public Guid StudentId { get; set; }
 
     public decimal? DiscountPercentage { get; set; }

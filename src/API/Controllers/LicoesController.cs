@@ -125,7 +125,7 @@ public class LicoesController : ControllerBase
     {
         if (command.Id != lessonId)
         {
-            return BadRequest("Lesson ID in the route must match the ID in the command");
+            return BadRequest("O ID da lição na rota deve corresponder ao ID no comando");
         }
 
         try
@@ -204,7 +204,7 @@ public class LicoesController : ControllerBase
     {
         if (!request.Completed)
         {
-            return BadRequest("The 'Completed' field must be true to mark a lesson as completed.");
+            return BadRequest("O campo 'Completed' deve ser verdadeiro para marcar uma lição como concluída.");
         }
 
         try
@@ -212,7 +212,7 @@ public class LicoesController : ControllerBase
             var studentIdClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier);
             if (studentIdClaim == null || !Guid.TryParse(studentIdClaim.Value, out var studentId))
             {
-                return BadRequest("Student ID could not be determined from the authentication token.");
+                return BadRequest("O ID do estudante não pôde ser determinado a partir do token de autenticação.");
             }
 
             var command = new CompleteLessonForStudentCommand 

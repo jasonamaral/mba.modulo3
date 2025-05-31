@@ -18,7 +18,7 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
         var student = await _studentRepository.GetByIdAsync(request.Id);
         
         if (student == null)
-            throw new NotFoundException($"Student with ID {request.Id} not found");
+            throw new NotFoundException($"Estudante com ID {request.Id} não encontrado");
 
         student.Update(
             request.FirstName,

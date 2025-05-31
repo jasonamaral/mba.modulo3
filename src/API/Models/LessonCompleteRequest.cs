@@ -4,7 +4,7 @@ namespace FluencyHub.API.Models;
 
 public class LessonCompleteRequest
 {
-    [Required(ErrorMessage = "The 'Completed' field is required.")]
+    [Required(ErrorMessage = "O campo 'Completed' é obrigatório.")]
     public bool Completed { get; set; }
     
     public int? Score { get; set; }

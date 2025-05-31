@@ -37,17 +37,16 @@ public class GenerateCertificateCommandHandler : IRequestHandler<GenerateCertifi
     {
         var student = await _studentRepository.GetByIdAsync(request.StudentId);
         if (student == null)
-            throw new NotFoundException($"Student with ID {request.StudentId} not found");
+            throw new NotFoundException($"Estudante com ID {request.StudentId} não encontrado");
 
-        // Verificar se o curso existe usando o adaptador
+        // Verificar se o curso existe
         var courseExists = await _courseRepository.ExistsAsync(request.CourseId);
         if (!courseExists)
-            throw new NotFoundException($"Course with ID {request.CourseId} not found");
+            throw new NotFoundException($"Curso com ID {request.CourseId} não encontrado");
 
-        // Obter as informações do curso
         var courseInfo = await _courseRepository.GetByIdAsync(request.CourseId);
         if (courseInfo == null)
-            throw new NotFoundException($"Course with ID {request.CourseId} not found");
+            throw new NotFoundException($"Curso com ID {request.CourseId} não encontrado");
 
         // Verificar se já existe um certificado para este aluno e curso
         var existingCertificate = await _certificateRepository.GetByStudentAndCourseAsync(request.StudentId, request.CourseId);

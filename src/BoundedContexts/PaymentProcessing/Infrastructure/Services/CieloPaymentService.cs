@@ -43,9 +43,6 @@ public class CieloPaymentService : IPaymentService
     {
         try
         {
-            _logger.LogInformation("Processing payment for student {StudentId}, enrollment {EnrollmentId}",
-                studentId, enrollmentId);
-
             // Criar objeto de solicitação de pagamento
             var paymentRequest = new
             {
@@ -95,8 +92,6 @@ public class CieloPaymentService : IPaymentService
                 // Códigos de status da Cielo: 2 = Autorizado, 1 = Pendente
                 if (status == 2 || status == 1)
                 {
-                    _logger.LogInformation("Payment successful for enrollment {EnrollmentId}, transaction ID: {TransactionId}",
-                        enrollmentId, transactionId);
                     return PaymentResult.Success(transactionId ?? string.Empty);
                 }
                 else
@@ -105,16 +100,12 @@ public class CieloPaymentService : IPaymentService
                         ? returnMessage.GetString()
                         : "Pagamento falhou com código de status: " + status;
 
-                    _logger.LogWarning("Payment failed for enrollment {EnrollmentId}: {Message}",
-                        enrollmentId, message);
                     return PaymentResult.Failure(message ?? "Erro desconhecido");
                 }
             }
             else
             {
                 var errorContent = await response.Content.ReadAsStringAsync();
-                _logger.LogError("Payment gateway returned error: {StatusCode}, {Error}",
-                    response.StatusCode, errorContent);
                 return PaymentResult.Failure($"Erro no gateway de pagamento: {response.StatusCode}");
             }
         }
@@ -130,8 +121,6 @@ public class CieloPaymentService : IPaymentService
     {
         try
         {
-            _logger.LogInformation("Checking payment status for transaction {TransactionId}", transactionId);
-
             // Fazer chamada à API
             var response = await _httpClient.GetAsync($"1/sales/{transactionId}");
 
@@ -150,15 +139,11 @@ public class CieloPaymentService : IPaymentService
                     ? returnMessage.GetString()
                     : null;
 
-                _logger.LogInformation("Payment status for transaction {TransactionId}: {Status}",
-                    transactionId, paymentStatus);
                 return PaymentStatusResult.Create(transactionId, paymentStatus, message);
             }
             else
             {
                 var errorContent = await response.Content.ReadAsStringAsync();
-                _logger.LogError("Payment gateway returned error when checking status: {StatusCode}, {Error}",
-                    response.StatusCode, errorContent);
                 return PaymentStatusResult.Create(transactionId, StatusPagamento.Desconhecido,
                     $"Falha ao obter status: {response.StatusCode}");
             }
@@ -176,9 +161,6 @@ public class CieloPaymentService : IPaymentService
     {
         try
         {
-            _logger.LogInformation("Requesting refund for transaction {TransactionId}, amount {Amount}",
-                transactionId, amount);
-
             // Criar objeto de solicitação de reembolso
             var refundRequest = new
             {
@@ -209,8 +191,6 @@ public class CieloPaymentService : IPaymentService
                         ? voidId.GetString()
                         : Guid.NewGuid().ToString();
 
-                    _logger.LogInformation("Refund successful for transaction {TransactionId}, refund ID: {RefundId}",
-                        transactionId, refundTransactionId);
                     return RefundResult.Success(transactionId, refundTransactionId ?? string.Empty, amount);
                 }
                 else
@@ -219,16 +199,12 @@ public class CieloPaymentService : IPaymentService
                         ? returnMessage.GetString()
                         : "Reembolso falhou com código de status: " + status;
 
-                    _logger.LogWarning("Refund failed for transaction {TransactionId}: {Message}",
-                        transactionId, message);
                     return RefundResult.Failure(transactionId, message ?? "Erro desconhecido");
                 }
             }
             else
             {
                 var errorContent = await response.Content.ReadAsStringAsync();
-                _logger.LogError("Payment gateway returned error when requesting refund: {StatusCode}, {Error}",
-                    response.StatusCode, errorContent);
                 return RefundResult.Failure(transactionId, $"Erro na solicitação de reembolso: {response.StatusCode}");
             }
         }

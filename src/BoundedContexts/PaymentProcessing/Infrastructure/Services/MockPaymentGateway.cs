@@ -28,7 +28,7 @@ public class MockPaymentGateway : IPaymentGateway
         }
         else
         {
-            return Task.FromResult(PaymentResult.Failure("Card was declined"));
+            return Task.FromResult(PaymentResult.Failure("Cartão foi recusado"));
         }
     }
 
@@ -54,7 +54,7 @@ public class MockPaymentGateway : IPaymentGateway
             }
             else if (payment != null)
             {
-                return RefundResult.Failure(transactionId, $"Payment not in approved status: {payment.Status}");
+                return RefundResult.Failure(transactionId, $"Pagamento não está em status aprovado: {payment.Status}");
             }
         }
         catch (Exception ex)
@@ -62,6 +62,6 @@ public class MockPaymentGateway : IPaymentGateway
             _logger.LogError(ex, "MockPaymentGateway: Error checking database for transaction {TransactionId}", transactionId);
         }
 
-        return RefundResult.Failure(transactionId, "Transaction not found");
+        return RefundResult.Failure(transactionId, "Transação não encontrada");
     }
 }

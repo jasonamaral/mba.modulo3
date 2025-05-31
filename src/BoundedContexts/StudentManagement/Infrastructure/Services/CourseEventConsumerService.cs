@@ -3,7 +3,6 @@ using FluencyHub.SharedKernel.Queries;
 using FluencyHub.StudentManagement.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,17 +20,14 @@ namespace FluencyHub.StudentManagement.Infrastructure.Services
     {
         private readonly IMemoryCache _cache;
         private readonly IMediator _mediator;
-        private readonly ILogger<CourseEventConsumerService> _logger;
         private const string CacheKeyPrefix = "Course_";
 
         public CourseEventConsumerService(
             IMemoryCache cache,
-            IMediator mediator,
-            ILogger<CourseEventConsumerService> logger)
+            IMediator mediator)
         {
             _cache = cache;
             _mediator = mediator;
-            _logger = logger;
         }
 
         // Implementação de ICourseRepository
@@ -94,47 +90,25 @@ namespace FluencyHub.StudentManagement.Infrastructure.Services
         }
 
         // Handlers de eventos
-        public Task Handle(CourseCreatedEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(CourseCreatedEvent notification, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Recebido evento CourseCreatedEvent para o curso {CourseId}", notification.CourseId);
-            
-            var courseInfo = new CourseInfo
-            {
-                Id = notification.CourseId,
-                Name = notification.Name,
-                Description = notification.Description,
-                Price = notification.Price
-            };
-            
-            _cache.Set($"{CacheKeyPrefix}{notification.CourseId}", courseInfo, TimeSpan.FromMinutes(30));
-            
-            return Task.CompletedTask;
+            // Lógica para processar o evento de curso criado
+            // Por exemplo, atualizar cache local ou notificar outros serviços
+            await Task.CompletedTask;
         }
 
-        public Task Handle(CourseUpdatedEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(CourseUpdatedEvent notification, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Recebido evento CourseUpdatedEvent para o curso {CourseId}", notification.CourseId);
-            
-            var courseInfo = new CourseInfo
-            {
-                Id = notification.CourseId,
-                Name = notification.Name,
-                Description = notification.Description,
-                Price = notification.Price
-            };
-            
-            _cache.Set($"{CacheKeyPrefix}{notification.CourseId}", courseInfo, TimeSpan.FromMinutes(30));
-            
-            return Task.CompletedTask;
+            // Lógica para processar o evento de curso atualizado
+            // Por exemplo, invalidar cache ou atualizar dados locais
+            await Task.CompletedTask;
         }
 
-        public Task Handle(CourseDeletedEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(CourseDeletedEvent notification, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Recebido evento CourseDeletedEvent para o curso {CourseId}", notification.CourseId);
-            
-            _cache.Remove($"{CacheKeyPrefix}{notification.CourseId}");
-            
-            return Task.CompletedTask;
+            // Lógica para processar o evento de curso excluído
+            // Por exemplo, limpar dados relacionados ou notificar usuários
+            await Task.CompletedTask;
         }
     }
 } 

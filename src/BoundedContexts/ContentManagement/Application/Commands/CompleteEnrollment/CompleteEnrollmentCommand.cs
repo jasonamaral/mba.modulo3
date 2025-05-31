@@ -20,7 +20,7 @@ public class CompleteEnrollmentCommandHandler : IRequestHandler<CompleteEnrollme
         var enrollment = await _enrollmentRepository.GetByIdAsync(request.EnrollmentId);
         
         if (enrollment == null)
-            throw new NotFoundException($"Enrollment with ID {request.EnrollmentId} not found");
+            throw new NotFoundException($"Matrícula com ID {request.EnrollmentId} não encontrada");
 
         enrollment.Status = "Completed";
         enrollment.CompletionDate = DateTime.UtcNow;

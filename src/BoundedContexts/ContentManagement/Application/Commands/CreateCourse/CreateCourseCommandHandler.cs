@@ -1,21 +1,17 @@
 using FluencyHub.ContentManagement.Domain;
 using FluencyHub.ContentManagement.Application.Common.Interfaces;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace FluencyHub.ContentManagement.Application.Commands.CreateCourse;
 
 public class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand, Guid>
 {
     private readonly FluencyHub.ContentManagement.Application.Common.Interfaces.ICourseRepository _courseRepository;
-    private readonly ILogger<CreateCourseCommandHandler> _logger;
 
     public CreateCourseCommandHandler(
-        FluencyHub.ContentManagement.Application.Common.Interfaces.ICourseRepository courseRepository,
-        ILogger<CreateCourseCommandHandler> logger)
+        FluencyHub.ContentManagement.Application.Common.Interfaces.ICourseRepository courseRepository)
     {
         _courseRepository = courseRepository;
-        _logger = logger;
     }
 
     public async Task<Guid> Handle(CreateCourseCommand request, CancellationToken cancellationToken)

@@ -38,9 +38,6 @@ public class CompleteCourseForStudentCommandHandler : IRequestHandler<CompleteCo
 
     public async Task<CompleteCourseForStudentResult> Handle(CompleteCourseForStudentCommand request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Processando conclusão do curso {CourseId} para o estudante {StudentId}", 
-            request.CourseId, request.StudentId);
-
         // Verificar se o estudante existe
         var student = await _studentRepository.GetByIdAsync(request.StudentId);
         if (student == null)
@@ -74,9 +71,6 @@ public class CompleteCourseForStudentCommandHandler : IRequestHandler<CompleteCo
         // Verificar se o curso já foi completado
         if (learningHistory.HasCompletedCourse(request.CourseId))
         {
-            _logger.LogWarning("Curso {CourseId} já foi completado pelo estudante {StudentId}", 
-                request.CourseId, request.StudentId);
-            
             return new CompleteCourseForStudentResult
             {
                 StudentId = request.StudentId,
@@ -108,9 +102,6 @@ public class CompleteCourseForStudentCommandHandler : IRequestHandler<CompleteCo
             request.FinalScore);
         
         await _domainEventService.PublishAsync(courseCompletedEvent);
-
-        _logger.LogInformation("Curso {CourseId} completado com sucesso pelo estudante {StudentId}. Certificado {CertificateId} gerado.", 
-            request.CourseId, request.StudentId, certificate?.Id);
 
         return new CompleteCourseForStudentResult
         {
@@ -148,9 +139,6 @@ public class CompleteCourseForStudentCommandHandler : IRequestHandler<CompleteCo
             // Adicionar certificado ao contexto (assumindo que existe um repositório de certificados)
             // Por enquanto, vamos apenas retornar o certificado criado
             // Em uma implementação completa, você salvaria no banco de dados
-
-            _logger.LogInformation("Certificado {CertificateNumber} gerado para o estudante {StudentId} no curso {CourseId}", 
-                certificate.CertificateNumber, student.Id, (Guid)courseInfo.Id);
 
             return certificate;
         }

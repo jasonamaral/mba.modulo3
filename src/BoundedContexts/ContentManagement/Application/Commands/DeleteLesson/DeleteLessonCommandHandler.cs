@@ -22,19 +22,15 @@ public class DeleteLessonCommandHandler : IRequestHandler<DeleteLessonCommand, b
     {
         try
         {
-            _logger.LogInformation("Excluindo lição com ID: {LessonId}", request.Id);
-
             // Verifica se a lição existe antes de tentar excluir
             var lesson = await _lessonRepository.GetByIdAsync(request.Id, cancellationToken);
             if (lesson == null)
             {
-                _logger.LogWarning("Lição com ID {LessonId} não encontrada", request.Id);
                 throw new NotFoundException($"Lição com ID {request.Id} não foi encontrada.");
             }
 
             await _lessonRepository.DeleteAsync(request.Id, cancellationToken);
 
-            _logger.LogInformation("Lição com ID {LessonId} excluída com sucesso", request.Id);
             return true;
         }
         catch (Exception ex)

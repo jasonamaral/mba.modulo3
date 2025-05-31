@@ -18,7 +18,7 @@ public class GetStudentByIdQueryHandler : IRequestHandler<GetStudentByIdQuery, S
         var student = await _studentRepository.GetByIdAsync(request.StudentId);
         
         if (student == null)
-            throw new NotFoundException($"Student with ID {request.StudentId} not found");
+            throw new NotFoundException($"Estudante com ID {request.StudentId} não encontrado");
 
         return new StudentDto
         {

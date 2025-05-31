@@ -5,38 +5,38 @@ namespace FluencyHub.API.Models;
 
 public class CourseCreateRequest
 {
-    [Required(ErrorMessage = "Course name is required.")]
-    [StringLength(100, MinimumLength = 3, ErrorMessage = "Name must be between 3 and 100 characters.")]
+    [Required(ErrorMessage = "O nome do curso é obrigatório.")]
+    [StringLength(100, MinimumLength = 3, ErrorMessage = "O nome deve ter entre 3 e 100 caracteres.")]
     public string Name { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "Course description is required.")]
-    [StringLength(2000, MinimumLength = 10, ErrorMessage = "Description must be between 10 and 2000 characters.")]
+    [Required(ErrorMessage = "A descrição do curso é obrigatória.")]
+    [StringLength(2000, MinimumLength = 10, ErrorMessage = "A descrição deve ter entre 10 e 2000 caracteres.")]
     public string Description { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "Course syllabus is required.")]
-    [StringLength(5000, ErrorMessage = "Syllabus must be at most 5000 characters.")]
+    [Required(ErrorMessage = "O programa do curso é obrigatório.")]
+    [StringLength(5000, ErrorMessage = "O programa deve ter no máximo 5000 caracteres.")]
     public string Syllabus { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "Learning objectives are required.")]
-    [StringLength(2000, ErrorMessage = "Learning objectives must be at most 2000 characters.")]
+    [Required(ErrorMessage = "Os objetivos de aprendizagem são obrigatórios.")]
+    [StringLength(2000, ErrorMessage = "Os objetivos de aprendizagem devem ter no máximo 2000 caracteres.")]
     public string LearningObjectives { get; set; } = string.Empty;
 
-    [StringLength(1000, ErrorMessage = "Prerequisites must be at most 1000 characters.")]
+    [StringLength(1000, ErrorMessage = "Os pré-requisitos devem ter no máximo 1000 caracteres.")]
     public string PreRequisites { get; set; } = string.Empty;
 
-    [StringLength(1000, ErrorMessage = "Target audience must be at most 1000 characters.")]
-    public string TargetAudience { get; set; } = "All students";
+    [StringLength(1000, ErrorMessage = "O público-alvo deve ter no máximo 1000 caracteres.")]
+    public string TargetAudience { get; set; } = "Todos os estudantes";
 
-    [Required(ErrorMessage = "Language is required.")]
-    [StringLength(50, ErrorMessage = "Language must be at most 50 characters.")]
+    [Required(ErrorMessage = "O idioma é obrigatório.")]
+    [StringLength(50, ErrorMessage = "O idioma deve ter no máximo 50 caracteres.")]
     public required string Language { get; set; }
 
-    [Required(ErrorMessage = "Course level is required.")]
-    [StringLength(50, ErrorMessage = "Level must be at most 50 characters.")]
+    [Required(ErrorMessage = "O nível do curso é obrigatório.")]
+    [StringLength(50, ErrorMessage = "O nível deve ter no máximo 50 caracteres.")]
     public required string Level { get; set; }
 
-    [Required(ErrorMessage = "Price is required.")]
-    [Range(0, 10000, ErrorMessage = "Price must be between 0 and 10,000.")]
+    [Required(ErrorMessage = "O preço é obrigatório.")]
+    [Range(0, 10000, ErrorMessage = "O preço deve estar entre 0 e 10.000.")]
     public decimal Price { get; set; }
 
     public CreateCourseCommand ToCommand()

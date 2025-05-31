@@ -7,24 +7,22 @@ public class EnrollStudentCommandValidator : AbstractValidator<EnrollStudentComm
     public EnrollStudentCommandValidator()
     {
         RuleFor(x => x.StudentId)
-            .NotEmpty()
-            .WithMessage("Student ID is required");
+            .NotEmpty().WithMessage("O ID do estudante é obrigatório");
 
         RuleFor(x => x.CourseId)
-            .NotEmpty()
-            .WithMessage("Course ID is required");
+            .NotEmpty().WithMessage("O ID do curso é obrigatório");
 
         RuleFor(x => x.EnrollmentDate)
-            .NotEmpty()
-            .WithMessage("Enrollment date is required")
-            .LessThanOrEqualTo(DateTime.UtcNow.AddDays(1))
-            .WithMessage("Enrollment date cannot be more than 1 day in the future");
+            .NotEmpty().WithMessage("A data de matrícula é obrigatória")
+            .Must(BeValidEnrollmentDate).WithMessage("A data de matrícula não pode ser mais de 1 dia no futuro");
 
         RuleFor(x => x.DiscountPercentage)
-            .GreaterThanOrEqualTo(0)
-            .WithMessage("Discount percentage cannot be negative")
-            .LessThanOrEqualTo(100)
-            .WithMessage("Discount percentage cannot exceed 100%")
-            .When(x => x.DiscountPercentage.HasValue);
+            .GreaterThanOrEqualTo(0).WithMessage("A porcentagem de desconto não pode ser negativa")
+            .LessThanOrEqualTo(100).WithMessage("A porcentagem de desconto não pode exceder 100%");
+    }
+
+    private static bool BeValidEnrollmentDate(DateTime enrollmentDate)
+    {
+        return enrollmentDate <= DateTime.UtcNow.AddDays(1);
     }
 } 

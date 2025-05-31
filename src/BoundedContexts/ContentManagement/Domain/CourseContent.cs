@@ -25,19 +25,19 @@ public class CourseContent
         string level)
     {
         if (string.IsNullOrWhiteSpace(syllabus))
-            throw new ArgumentException("Syllabus cannot be empty", nameof(syllabus));
+            throw new ArgumentException("O programa não pode estar vazio", nameof(syllabus));
             
         if (string.IsNullOrWhiteSpace(learningObjectives))
-            throw new ArgumentException("Learning objectives cannot be empty", nameof(learningObjectives));
+            throw new ArgumentException("Os objetivos de aprendizagem não podem estar vazios", nameof(learningObjectives));
             
         if (string.IsNullOrWhiteSpace(targetAudience))
-            throw new ArgumentException("Target audience cannot be empty", nameof(targetAudience));
+            throw new ArgumentException("O público-alvo não pode estar vazio", nameof(targetAudience));
             
         if (string.IsNullOrWhiteSpace(language))
-            throw new ArgumentException("Language cannot be empty", nameof(language));
+            throw new ArgumentException("O idioma não pode estar vazio", nameof(language));
             
         if (string.IsNullOrWhiteSpace(level))
-            throw new ArgumentException("Level cannot be empty", nameof(level));
+            throw new ArgumentException("O nível não pode estar vazio", nameof(level));
         
         Syllabus = syllabus;
         LearningObjectives = learningObjectives;

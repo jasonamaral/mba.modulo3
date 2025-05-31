@@ -22,12 +22,9 @@ public class UpdateLessonCommandHandler : IRequestHandler<UpdateLessonCommand, b
     {
         try
         {
-            _logger.LogInformation("Atualizando lição com ID: {LessonId}", request.Id);
-
             var lesson = await _lessonRepository.GetByIdAsync(request.Id, cancellationToken);
             if (lesson == null)
             {
-                _logger.LogWarning("Lição com ID {LessonId} não encontrada", request.Id);
                 throw new NotFoundException($"Lição com ID {request.Id} não foi encontrada.");
             }
 
@@ -49,7 +46,6 @@ public class UpdateLessonCommandHandler : IRequestHandler<UpdateLessonCommand, b
             await _lessonRepository.UpdateAsync(lesson, cancellationToken);
             await _lessonRepository.SaveChangesAsync(cancellationToken);
 
-            _logger.LogInformation("Lição com ID {LessonId} atualizada com sucesso", request.Id);
             return true;
         }
         catch (Exception ex)

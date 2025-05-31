@@ -7,28 +7,28 @@ public class AddLessonCommandValidator : AbstractValidator<AddLessonCommand>
     public AddLessonCommandValidator()
     {
         RuleFor(x => x.CourseId)
-            .NotEmpty().WithMessage("Course ID is required");
+            .NotEmpty().WithMessage("O ID do curso é obrigatório");
             
         RuleFor(x => x.Title)
-            .NotEmpty().WithMessage("Lesson title is required")
-            .MaximumLength(200).WithMessage("Title must not exceed 200 characters");
+            .NotEmpty().WithMessage("O título da lição é obrigatório")
+            .MaximumLength(200).WithMessage("O título não deve exceder 200 caracteres");
             
         RuleFor(x => x.Description)
-            .NotEmpty().WithMessage("Lesson description is required")
-            .MaximumLength(500).WithMessage("Description must not exceed 500 characters");
+            .NotEmpty().WithMessage("A descrição da lição é obrigatória")
+            .MaximumLength(500).WithMessage("A descrição não deve exceder 500 caracteres");
             
         RuleFor(x => x.Content)
-            .NotEmpty().WithMessage("Lesson content is required")
-            .MaximumLength(10000).WithMessage("Content must not exceed 10,000 characters");
+            .NotEmpty().WithMessage("O conteúdo da lição é obrigatório")
+            .MaximumLength(10000).WithMessage("O conteúdo não deve exceder 10.000 caracteres");
             
         RuleFor(x => x.Order)
-            .GreaterThan(0).WithMessage("Order must be greater than 0");
+            .GreaterThan(0).WithMessage("A ordem deve ser maior que 0");
             
         RuleFor(x => x.DurationMinutes)
-            .GreaterThanOrEqualTo(0).WithMessage("Duration must be greater than or equal to 0");
+            .GreaterThanOrEqualTo(0).WithMessage("A duração deve ser maior ou igual a 0");
             
         RuleFor(x => x.VideoUrl)
-            .Must(BeValidUrl).WithMessage("Video URL must be a valid URL")
+            .Must(BeValidUrl).WithMessage("A URL do vídeo deve ser uma URL válida")
             .When(x => !string.IsNullOrEmpty(x.VideoUrl));
     }
     
