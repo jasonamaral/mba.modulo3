@@ -1,5 +1,3 @@
-using System;
-
 namespace FluencyHub.SharedKernel.Contracts;
 
 public interface IEnrollment

@@ -1,9 +1,9 @@
 using MediatR;
-using FluencyHub.StudentManagement.Application.Common.Exceptions;
 using FluencyHub.StudentManagement.Domain;
 using FluencyHub.StudentManagement.Domain.Enums;
 using FluencyHub.SharedKernel.Queries;
 using FluencyHub.SharedKernel.Contracts;
+using FluencyHub.SharedKernel.Common.Exceptions;
 using IStudentRepository = FluencyHub.StudentManagement.Application.Common.Interfaces.IStudentRepository;
 using IEnrollmentRepository = FluencyHub.StudentManagement.Application.Common.Interfaces.IEnrollmentRepository;
 

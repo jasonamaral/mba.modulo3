@@ -2,9 +2,10 @@ using Xunit;
 using Moq;
 using FluentAssertions;
 using FluencyHub.StudentManagement.Application.Queries.GetStudentById;
-using FluencyHub.StudentManagement.Application.Common.Exceptions;
+using FluencyHub.StudentManagement.Application.Common.Models;
 using FluencyHub.StudentManagement.Domain;
 using AppInterfaces = FluencyHub.StudentManagement.Application.Common.Interfaces;
+using FluencyHub.SharedKernel.Common.Exceptions;
 
 namespace FluencyHub.Tests.Unit.StudentManagement.Application.Queries;
 

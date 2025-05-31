@@ -1,7 +1,3 @@
-using FluencyHub.PaymentProcessing.Domain;
-using FluencyHub.PaymentProcessing.Application.Common.Interfaces;
-using FluencyHub.PaymentProcessing.Application.Common.Models;
-
 namespace FluencyHub.PaymentProcessing.Infrastructure.Services;
 
 public class PaymentGatewayAdapter : Domain.IPaymentGateway

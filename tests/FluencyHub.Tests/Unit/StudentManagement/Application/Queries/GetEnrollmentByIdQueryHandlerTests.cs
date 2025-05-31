@@ -1,6 +1,6 @@
 using FluencyHub.StudentManagement.Application.Queries.GetEnrollmentById;
-using FluencyHub.StudentManagement.Application.Common.Exceptions;
 using FluencyHub.StudentManagement.Domain;
+using FluencyHub.StudentManagement.Domain.Enums;
 using FluencyHub.SharedKernel.Queries;
 using FluencyHub.SharedKernel.Contracts;
 using MediatR;
@@ -10,6 +10,7 @@ using Xunit;
 using FluentAssertions;
 using IStudentRepository = FluencyHub.StudentManagement.Application.Common.Interfaces.IStudentRepository;
 using IEnrollmentRepository = FluencyHub.StudentManagement.Application.Common.Interfaces.IEnrollmentRepository;
+using FluencyHub.SharedKernel.Common.Exceptions;
 
 namespace FluencyHub.Tests.Unit.StudentManagement.Application.Queries;
 

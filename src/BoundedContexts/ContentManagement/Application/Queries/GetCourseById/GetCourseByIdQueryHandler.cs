@@ -1,6 +1,5 @@
 using MediatR;
 using FluencyHub.ContentManagement.Application.Common.Interfaces;
-using FluencyHub.ContentManagement.Application.Common.Models;
 
 namespace FluencyHub.ContentManagement.Application.Queries.GetCourseById;
 

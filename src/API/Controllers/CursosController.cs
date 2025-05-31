@@ -1,9 +1,9 @@
 ﻿using FluencyHub.API.Models;
 using FluencyHub.API.SwaggerExamples;
-using FluencyHub.ContentManagement.Application.Common.Exceptions;
-using FluencyHub.ContentManagement.Application.Common.Models;
 using FluencyHub.ContentManagement.Application.Queries.GetAllCourses;
 using FluencyHub.ContentManagement.Application.Queries.GetCourseById;
+using FluencyHub.ContentManagement.Application.Commands.CreateCourse;
+using FluencyHub.ContentManagement.Application.Commands.UpdateCourse;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +12,6 @@ using Swashbuckle.AspNetCore.Filters;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mime;
 using FluencyHub.SharedKernel.Common.Exceptions;
-using ValidationException = FluencyHub.SharedKernel.Common.Exceptions.ValidationException;
 
 namespace FluencyHub.API.Controllers;
 
@@ -106,7 +105,7 @@ public class CursosController : Controller
             var courseId = await _mediator.Send(command);
             return CreatedAtAction(nameof(GetCourseById), new { id = courseId }, new { id = courseId });
         }
-        catch (ValidationException ex)
+        catch (FluencyHub.SharedKernel.Common.Exceptions.ValidationException ex)
         {
             return BadRequest(ex.Errors);
         }
@@ -157,7 +156,7 @@ public class CursosController : Controller
         {
             return NotFound(ex.Message);
         }
-        catch (ValidationException ex)
+        catch (FluencyHub.SharedKernel.Common.Exceptions.ValidationException ex)
         {
             return BadRequest(ex.Errors);
         }

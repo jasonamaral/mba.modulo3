@@ -1,11 +1,11 @@
 using MediatR;
 using FluencyHub.StudentManagement.Application.Common.Interfaces;
-using FluencyHub.StudentManagement.Application.Common.Exceptions;
 using FluencyHub.SharedKernel.Queries;
 using FluencyHub.ContentManagement.Application.Queries.GetLessonsByCourseId;
 using Microsoft.Extensions.Logging;
 using IStudentRepository = FluencyHub.StudentManagement.Application.Common.Interfaces.IStudentRepository;
 using IEnrollmentRepository = FluencyHub.StudentManagement.Application.Common.Interfaces.IEnrollmentRepository;
+using FluencyHub.SharedKernel.Common.Exceptions;
 
 namespace FluencyHub.StudentManagement.Application.Queries.GetStudentProgress;
 

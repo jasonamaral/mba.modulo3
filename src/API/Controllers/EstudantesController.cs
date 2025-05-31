@@ -1,5 +1,4 @@
-﻿using FluencyHub.API.Common.Exceptions;
-using FluencyHub.API.SwaggerExamples;
+﻿using FluencyHub.API.SwaggerExamples;
 using FluencyHub.StudentManagement.Application.Commands.ActivateStudent;
 using FluencyHub.StudentManagement.Application.Commands.CompleteCourseForStudent;
 using FluencyHub.StudentManagement.Application.Commands.CompleteLessonForStudent;
@@ -7,6 +6,7 @@ using FluencyHub.StudentManagement.Application.Commands.CreateStudent;
 using FluencyHub.StudentManagement.Application.Commands.DeactivateStudent;
 using FluencyHub.StudentManagement.Application.Commands.UpdateStudent;
 using FluencyHub.StudentManagement.Application.Common.Interfaces;
+using FluencyHub.StudentManagement.Application.Common.Models;
 using FluencyHub.StudentManagement.Application.Queries.GetAllStudents;
 using FluencyHub.StudentManagement.Application.Queries.GetStudentByEmail;
 using FluencyHub.StudentManagement.Application.Queries.GetStudentById;
@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
 using System.Security.Claims;
+using FluencyHub.SharedKernel.Common.Exceptions;
 
 namespace FluencyHub.API.Controllers;
 
@@ -51,7 +52,7 @@ public class EstudantesController : Controller
         Description = "Recupera uma lista de todos os estudantes no sistema. Requer função de Administrador.",
         OperationId = "GetAllStudents"
     )]
-    [ProducesResponseType(typeof(IEnumerable<FluencyHub.StudentManagement.Application.Queries.GetAllStudents.StudentDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<StudentDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(StudentListDtoExample))]
     public async Task<IActionResult> GetAllStudents()
@@ -81,31 +82,23 @@ public class EstudantesController : Controller
         Description = "Recupera os detalhes do estudante atualmente autenticado com base no token JWT",
         OperationId = "GetCurrentStudent"
     )]
-    [ProducesResponseType(typeof(FluencyHub.StudentManagement.Application.Queries.GetStudentById.StudentDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(StudentDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(StudentDtoExample))]
     public async Task<IActionResult> GetCurrentStudent()
     {
         var userEmail = User.FindFirstValue(ClaimTypes.Email);
-        Console.WriteLine($"Student/me endpoint called. Email from token: {userEmail}");
 
-        foreach (var claim in User.Claims)
-        {
-            Console.WriteLine($"Claim: {claim.Type} = {claim.Value}");
-        }
 
         if (string.IsNullOrEmpty(userEmail))
         {
-            Console.WriteLine("Email not found in token");
             return BadRequest(new { error = "E-mail não encontrado no token" });
         }
 
         try
         {
-            Console.WriteLine($"Looking for student with email: {userEmail}");
             var student = await _mediator.Send(new GetStudentByEmailQuery(userEmail));
-            Console.WriteLine($"Student found: {student.Id}");
             return Ok(student);
         }
         catch (NotFoundException ex)
@@ -130,7 +123,7 @@ public class EstudantesController : Controller
         Description = "Recupera um estudante específico pelo seu identificador único. Requer função de Administrador.",
         OperationId = "GetStudentById"
     )]
-    [ProducesResponseType(typeof(FluencyHub.StudentManagement.Application.Queries.GetStudentById.StudentDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(StudentDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(StudentDtoExample))]
@@ -419,264 +412,5 @@ public class EstudantesController : Controller
         }
     }
 
-    /// <summary>
-    /// [DEBUG] Verificar lições completadas de um estudante
-    /// </summary>
-    /// <param name="studentId">ID do estudante</param>
-    /// <returns>Lista de lições completadas</returns>
-    [HttpGet("{studentId}/debug/completed-lessons")]
-    [AllowAnonymous]
-    [SwaggerOperation(
-        Summary = "[DEBUG] Verificar lições completadas",
-        Description = "Endpoint temporário para debug - verificar lições completadas de um estudante",
-        OperationId = "DebugCompletedLessons"
-    )]
-    public async Task<IActionResult> DebugCompletedLessons(Guid studentId)
-    {
-        try
-        {
-            var learningHistory = await _studentRepository.GetLearningHistoryByStudentIdAsync(studentId);
-            if (learningHistory == null)
-            {
-                return Ok(new { message = "Nenhum histórico de aprendizado encontrado", completedLessons = new List<object>() });
-            }
-
-            var result = new
-            {
-                studentId = studentId,
-                learningHistoryId = learningHistory.Id,
-                courseProgresses = learningHistory.CourseProgresses.Select(cp => new
-                {
-                    courseId = cp.CourseId,
-                    isCompleted = cp.IsCompleted,
-                    lastUpdated = cp.LastUpdated,
-                    completedLessonsCount = cp.CompletedLessons.Count,
-                    completedLessons = cp.CompletedLessons.Select(cl => new
-                    {
-                        id = cl.Id,
-                        lessonId = cl.LessonId,
-                        completedAt = cl.CompletedAt,
-                        courseProgressId = cl.CourseProgressId
-                    }).ToList()
-                }).ToList()
-            };
-
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { error = ex.Message, stackTrace = ex.StackTrace });
-        }
-    }
-
-    /// <summary>
-    /// [DEBUG] Limpar dados de progresso de um estudante
-    /// </summary>
-    /// <param name="studentId">ID do estudante</param>
-    /// <returns>Resultado da limpeza</returns>
-    [HttpDelete("{studentId}/debug/clear-progress")]
-    [AllowAnonymous]
-    [SwaggerOperation(
-        Summary = "[DEBUG] Limpar progresso do estudante",
-        Description = "Endpoint temporário para debug - limpar todo o progresso de aprendizado de um estudante",
-        OperationId = "ClearStudentProgress"
-    )]
-    public async Task<IActionResult> ClearStudentProgress(Guid studentId)
-    {
-        try
-        {
-            var learningHistory = await _studentRepository.GetLearningHistoryByStudentIdAsync(studentId);
-            
-            if (learningHistory == null)
-            {
-                return Ok(new { message = "Nenhum histórico de aprendizado encontrado para limpar", studentId });
-            }
-
-            // Contar registros antes da limpeza
-            var totalCourseProgresses = learningHistory.CourseProgresses.Count;
-            var totalCompletedLessons = learningHistory.CourseProgresses.SelectMany(cp => cp.CompletedLessons).Count();
-            var totalLearningRecords = learningHistory.Records.Count;
-
-            // Remover o histórico completo - cascade delete removerá as dependências
-            await _studentRepository.DeleteLearningHistoryAsync(studentId);
-
-            var result = new
-            {
-                message = "Progresso do estudante limpo com sucesso",
-                studentId = studentId,
-                deletedData = new
-                {
-                    courseProgresses = totalCourseProgresses,
-                    completedLessons = totalCompletedLessons,
-                    learningRecords = totalLearningRecords
-                }
-            };
-
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { error = ex.Message, stackTrace = ex.StackTrace });
-        }
-    }
-
-    /// <summary>
-    /// [DEBUG] Verificar tabela CompletedLessons diretamente
-    /// </summary>
-    /// <param name="studentId">ID do estudante</param>
-    /// <returns>Dados diretos da tabela CompletedLessons</returns>
-    [HttpGet("{studentId}/debug/completed-lessons-raw")]
-    [SwaggerOperation(
-        Summary = "[DEBUG] Verificar tabela CompletedLessons diretamente",
-        Description = "Endpoint temporário para debug - verificar dados diretos da tabela CompletedLessons",
-        OperationId = "DebugCompletedLessonsRaw"
-    )]
-    public async Task<IActionResult> DebugCompletedLessonsRaw(Guid studentId)
-    {
-        try
-        {
-            // Como não temos acesso direto ao DbContext aqui, vamos usar o repositório
-            var learningHistory = await _studentRepository.GetLearningHistoryByStudentIdAsync(studentId);
-            
-            if (learningHistory == null)
-            {
-                return Ok(new 
-                { 
-                    studentId = studentId,
-                    learningHistoryExists = false,
-                    learningHistoryId = (Guid?)null,
-                    totalCourseProgresses = 0,
-                    allCompletedLessons = new List<object>()
-                });
-            }
-
-            var completedLessons = learningHistory.CourseProgresses
-                .SelectMany(cp => cp.CompletedLessons.Select(cl => new
-                {
-                    completedLessonId = cl.Id,
-                    lessonId = cl.LessonId,
-                    completedAt = cl.CompletedAt,
-                    courseProgressId = cl.CourseProgressId,
-                    courseId = cp.CourseId
-                }))
-                .OrderByDescending(x => x.completedAt)
-                .ToList();
-
-            var result = new
-            {
-                studentId = studentId,
-                learningHistoryExists = true,
-                learningHistoryId = learningHistory.Id,
-                totalCourseProgresses = learningHistory.CourseProgresses.Count,
-                allCompletedLessons = completedLessons
-            };
-
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { error = ex.Message, stackTrace = ex.StackTrace });
-        }
-    }
-
-    /// <summary>
-    /// [DEBUG] Teste direto de persistência CompletedLesson
-    /// </summary>
-    /// <param name="studentId">ID do estudante</param>
-    /// <param name="courseId">ID do curso</param>
-    /// <param name="lessonId">ID da lição</param>
-    /// <returns>Resultado do teste</returns>
-    [HttpPost("{studentId}/debug/force-complete-lesson/{courseId}/{lessonId}")]
-    [SwaggerOperation(
-        Summary = "[DEBUG] Teste direto de persistência",
-        Description = "Endpoint temporário para debug - força criação direta de CompletedLesson no contexto EF",
-        OperationId = "DebugForceCompleteLesson"
-    )]
-    public async Task<IActionResult> DebugForceCompleteLesson(Guid studentId, Guid courseId, Guid lessonId)
-    {
-        try
-        {
-            // Primeiro, vamos obter ou criar o histórico de aprendizado
-            var learningHistory = await _studentRepository.GetLearningHistoryByStudentIdAsync(studentId);
-            
-            if (learningHistory == null)
-            {
-                return BadRequest(new { error = "LearningHistory não encontrado", studentId });
-            }
-
-            // Obter ou criar o CourseProgress
-            var courseProgress = learningHistory.CourseProgresses.FirstOrDefault(cp => cp.CourseId == courseId);
-            
-            if (courseProgress == null)
-            {
-                return BadRequest(new { error = "CourseProgress não encontrado", courseId });
-            }
-
-            // Teste: adicionar CompletedLesson através do domínio
-            var countBefore = courseProgress.CompletedLessons.Count;
-            
-            courseProgress.AddCompletedLesson(lessonId);
-            
-            var countAfter = courseProgress.CompletedLessons.Count;
-
-            // Salvar explicitamente
-            await _studentRepository.SaveChangesAsync();
-
-            // Verificar se foi salvo
-            var reloadedHistory = await _studentRepository.GetLearningHistoryByStudentIdAsync(studentId);
-            var reloadedCourseProgress = reloadedHistory?.CourseProgresses.FirstOrDefault(cp => cp.CourseId == courseId);
-            var persistedCount = reloadedCourseProgress?.CompletedLessons.Count ?? 0;
-
-            var result = new
-            {
-                message = "Teste de persistência CompletedLesson",
-                studentId = studentId,
-                courseId = courseId,
-                lessonId = lessonId,
-                countBefore = countBefore,
-                countAfterDomainCall = countAfter,
-                countAfterSave = persistedCount,
-                wasAddedInMemory = countAfter > countBefore,
-                wasPersisted = persistedCount > countBefore,
-                completedLessons = reloadedCourseProgress?.CompletedLessons.Select(cl => new
-                {
-                    id = cl.Id,
-                    lessonId = cl.LessonId,
-                    completedAt = cl.CompletedAt,
-                    courseProgressId = cl.CourseProgressId
-                }).Cast<object>().ToList() ?? new List<object>()
-            };
-
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { error = ex.Message, stackTrace = ex.StackTrace });
-        }
-    }
-
-    /// <summary>
-    /// [DEBUG] Criar matrícula para teste
-    /// </summary>
-    /// <param name="studentId">ID do estudante</param>
-    /// <param name="courseId">ID do curso</param>
-    /// <returns>Resultado da criação</returns>
-    [HttpPost("{studentId}/debug/create-enrollment/{courseId}")]
-    [SwaggerOperation(
-        Summary = "[DEBUG] Criar matrícula para teste",
-        Description = "Endpoint temporário para debug - criar matrícula necessária para teste",
-        OperationId = "DebugCreateEnrollment"
-    )]
-    public async Task<IActionResult> DebugCreateEnrollment(Guid studentId, Guid courseId)
-    {
-        try
-        {
-            return Ok(new { message = "Método temporariamente desabilitado - use a API de matrículas" });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { error = ex.Message, stackTrace = ex.StackTrace });
-        }
-    }
 }
 

@@ -1,5 +1,3 @@
-using FluencyHub.ContentManagement.Domain;
-using FluencyHub.ContentManagement.Application.Common.Interfaces;
 using FluencyHub.ContentManagement.Infrastructure.Persistence;
 using FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;

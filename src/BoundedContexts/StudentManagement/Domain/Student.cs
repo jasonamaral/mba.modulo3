@@ -1,7 +1,6 @@
 using FluencyHub.StudentManagement.Domain.Enums;
 using FluencyHub.StudentManagement.Domain.Events;
 using FluencyHub.StudentManagement.Domain.Models;
-using FluencyHub.SharedKernel.Contracts;
 using FluencyHub.SharedKernel.Domain;
 using System.Text.Json.Serialization;
 

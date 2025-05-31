@@ -8,12 +8,6 @@ public class StudentRegisteredEventHandler : IIntegrationEventHandler<StudentReg
     {
     }
 
-    public Task Handle(StudentRegisteredEvent notification, CancellationToken cancellationToken)
-    {
-        // Aqui você pode implementar a lógica específica do BC ContentManagement
-        // Por exemplo: criar um perfil de estudante no sistema de conteúdo,
-        // configurar permissões iniciais, etc.
+    public Task Handle(StudentRegisteredEvent notification, CancellationToken cancellationToken) => Task.CompletedTask;
 
-        return Task.CompletedTask;
-    }
-} 
+}

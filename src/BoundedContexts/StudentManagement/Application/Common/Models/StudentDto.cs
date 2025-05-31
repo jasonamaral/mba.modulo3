@@ -1,4 +1,4 @@
-namespace FluencyHub.StudentManagement.Application.Queries.GetStudentById;
+namespace FluencyHub.StudentManagement.Application.Common.Models;
 
 public class StudentDto
 {

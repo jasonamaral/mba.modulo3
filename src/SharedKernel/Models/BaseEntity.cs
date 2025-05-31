@@ -1,5 +1,3 @@
-using System;
-
 namespace FluencyHub.SharedKernel.Models
 {
     public abstract class BaseEntity

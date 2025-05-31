@@ -1,9 +1,8 @@
 using MediatR;
 using FluencyHub.StudentManagement.Application.Common.Interfaces;
-using FluencyHub.StudentManagement.Application.Common.Exceptions;
+using FluencyHub.SharedKernel.Common.Exceptions;
 using FluencyHub.StudentManagement.Domain;
 using IStudentRepositoryInterface = FluencyHub.StudentManagement.Application.Common.Interfaces.IStudentRepository;
-using FluencyHub.SharedKernel.Contracts;
 using FluencyHub.StudentManagement.Domain.Models;
 
 namespace FluencyHub.StudentManagement.Application.Commands.GenerateCertificate;

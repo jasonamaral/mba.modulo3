@@ -1,8 +1,8 @@
-using FluencyHub.StudentManagement.Application.Common.Exceptions;
 using FluencyHub.StudentManagement.Application.Common.Interfaces;
 using FluencyHub.StudentManagement.Application.Queries.GetEnrollmentById;
 using MediatR;
 using IStudentRepositoryInterface = FluencyHub.StudentManagement.Application.Common.Interfaces.IStudentRepository;
+using FluencyHub.SharedKernel.Common.Exceptions;
 
 namespace FluencyHub.StudentManagement.Application.Queries.GetStudentEnrollments;
 

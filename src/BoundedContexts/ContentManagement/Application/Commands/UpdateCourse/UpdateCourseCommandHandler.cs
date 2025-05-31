@@ -1,5 +1,5 @@
 using FluencyHub.ContentManagement.Domain;
-using FluencyHub.ContentManagement.Application.Common.Exceptions;
+using FluencyHub.SharedKernel.Common.Exceptions;
 using MediatR;
 using ICourseRepository = FluencyHub.ContentManagement.Application.Common.Interfaces.ICourseRepository;
 

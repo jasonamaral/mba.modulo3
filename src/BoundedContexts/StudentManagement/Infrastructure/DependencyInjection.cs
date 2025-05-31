@@ -6,12 +6,9 @@ using FluencyHub.StudentManagement.Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Identity;
-using FluencyHub.StudentManagement.Domain;
 using IApplicationStudentRepository = FluencyHub.StudentManagement.Application.Common.Interfaces.IStudentRepository;
 using IDomainStudentRepository = FluencyHub.StudentManagement.Domain.IStudentRepository;
-using FluencyHub.SharedKernel.Contracts;
 
 namespace FluencyHub.StudentManagement.Infrastructure;
 

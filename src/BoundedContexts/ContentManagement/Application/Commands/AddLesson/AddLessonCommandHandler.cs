@@ -1,8 +1,8 @@
 using MediatR;
-using FluencyHub.ContentManagement.Application.Common.Exceptions;
 using FluencyHub.ContentManagement.Application.Common.Interfaces;
 using FluencyHub.ContentManagement.Domain;
 using ICourseRepository = FluencyHub.ContentManagement.Application.Common.Interfaces.ICourseRepository;
+using FluencyHub.SharedKernel.Common.Exceptions;
 
 namespace FluencyHub.ContentManagement.Application.Commands.AddLesson;
 

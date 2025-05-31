@@ -3,7 +3,6 @@ using FluencyHub.PaymentProcessing.Domain;
 using FluencyHub.StudentManagement.Domain;
 using FluencyHub.SharedKernel.Contracts;
 using FluencyHub.StudentManagement.Domain.Models;
-using Moq;
 
 namespace FluencyHub.Tests.Helpers;
 

@@ -2,7 +2,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using FluentValidation;
 using MediatR;
-using FluencyHub.StudentManagement.Application.Common.Interfaces;
 using FluencyHub.StudentManagement.Application.Handlers;
 using FluencyHub.SharedKernel.Events.PaymentProcessing;
 using FluencyHub.PaymentProcessing.Domain.Events;

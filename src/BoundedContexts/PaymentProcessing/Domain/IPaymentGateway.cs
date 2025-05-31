@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 namespace FluencyHub.PaymentProcessing.Domain
 {
     public interface IPaymentGateway

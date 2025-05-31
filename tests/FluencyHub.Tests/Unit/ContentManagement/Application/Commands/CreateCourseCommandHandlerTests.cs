@@ -1,6 +1,5 @@
 using FluencyHub.ContentManagement.Application.Commands.CreateCourse;
 using FluencyHub.ContentManagement.Domain;
-using FluencyHub.ContentManagement.Application.Common.Interfaces;
 using Moq;
 using Xunit;
 using FluentAssertions;

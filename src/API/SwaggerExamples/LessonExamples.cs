@@ -2,8 +2,6 @@ using FluencyHub.API.Models;
 using FluencyHub.ContentManagement.Application.Commands.UpdateLesson;
 using FluencyHub.ContentManagement.Application.Common.Models;
 using Swashbuckle.AspNetCore.Filters;
-using System;
-using System.Collections.Generic;
 
 namespace FluencyHub.API.SwaggerExamples;
 

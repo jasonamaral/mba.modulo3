@@ -1,6 +1,3 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using FluencyHub.SharedKernel.Contracts;
 
 namespace FluencyHub.PaymentProcessing.Application.Common.Interfaces;

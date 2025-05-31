@@ -3,9 +3,6 @@ using FluentAssertions;
 using FluencyHub.StudentManagement.Domain;
 using FluencyHub.StudentManagement.Domain.Models;
 using FluencyHub.StudentManagement.Domain.Enums;
-using FluencyHub.StudentManagement.Domain.Events;
-using FluencyHub.SharedKernel.Contracts;
-using Moq;
 
 namespace FluencyHub.Tests.Unit.StudentManagement.Domain;
 

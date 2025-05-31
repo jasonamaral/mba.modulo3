@@ -1,6 +1,5 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
-using FluencyHub.PaymentProcessing.Application.Common.Interfaces;
 using AppModels = FluencyHub.PaymentProcessing.Application.Common.Models;
 using FluencyHub.PaymentProcessing.Domain;
 using AppInterfaces = FluencyHub.PaymentProcessing.Application.Common.Interfaces;

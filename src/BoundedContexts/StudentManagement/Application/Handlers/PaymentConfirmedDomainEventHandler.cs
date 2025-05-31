@@ -1,6 +1,5 @@
 using FluencyHub.PaymentProcessing.Domain.Events;
 using FluencyHub.StudentManagement.Application.Common.Interfaces;
-using FluencyHub.StudentManagement.Domain;
 using FluencyHub.StudentManagement.Domain.Enums;
 using MediatR;
 using Microsoft.Extensions.Logging;

@@ -1,5 +1,4 @@
 using FluencyHub.API.SwaggerExamples;
-using FluencyHub.StudentManagement.Application.Common.Exceptions;
 using FluencyHub.StudentManagement.Application.Commands.GenerateCertificate;
 using FluencyHub.StudentManagement.Application.Queries.GetCertificateById;
 using FluencyHub.StudentManagement.Application.Queries.GetStudentCertificates;
@@ -8,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
+using FluencyHub.SharedKernel.Common.Exceptions;
 
 namespace FluencyHub.API.Controllers;
 

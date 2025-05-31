@@ -1,10 +1,7 @@
 using FluencyHub.API.Models;
 using FluencyHub.StudentManagement.Application.Queries.GetEnrollmentById;
-using FluencyHub.StudentManagement.Domain;
 using FluencyHub.StudentManagement.Domain.Enums;
 using Swashbuckle.AspNetCore.Filters;
-using System;
-using System.Collections.Generic;
 
 namespace FluencyHub.API.SwaggerExamples;
 

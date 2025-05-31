@@ -1,6 +1,4 @@
 using FluencyHub.SharedKernel.Events.ContentManagement;
-using FluencyHub.PaymentProcessing.Application.Common.Interfaces;
-using FluencyHub.PaymentProcessing.Domain;
 using MediatR;
 
 namespace FluencyHub.PaymentProcessing.Application.Handlers;

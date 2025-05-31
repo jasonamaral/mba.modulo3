@@ -2,7 +2,6 @@ using FluencyHub.API.Models;
 using FluencyHub.PaymentProcessing.Application.Queries.GetPaymentById;
 using FluencyHub.PaymentProcessing.Domain;
 using Swashbuckle.AspNetCore.Filters;
-using System;
 
 namespace FluencyHub.API.SwaggerExamples;
 

@@ -1,8 +1,6 @@
 using FluencyHub.StudentManagement.Application.Commands.GenerateCertificate;
 using FluencyHub.StudentManagement.Application.Queries.GetCertificateById;
 using Swashbuckle.AspNetCore.Filters;
-using System;
-using System.Collections.Generic;
 
 namespace FluencyHub.API.SwaggerExamples;
 

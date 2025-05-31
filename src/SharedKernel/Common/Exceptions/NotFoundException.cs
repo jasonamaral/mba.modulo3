@@ -1,9 +1,9 @@
-namespace FluencyHub.PaymentProcessing.Application.Common.Exceptions;
+namespace FluencyHub.SharedKernel.Common.Exceptions;
 
 public class NotFoundException : Exception
 {
     public NotFoundException()
-        : base()
+        : base("O recurso solicitado não foi encontrado.")
     {
     }
 
@@ -21,4 +21,4 @@ public class NotFoundException : Exception
         : base($"Entidade \"{name}\" ({key}) não foi encontrada.")
     {
     }
-}
+} 

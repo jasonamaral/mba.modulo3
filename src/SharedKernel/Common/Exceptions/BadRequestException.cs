@@ -1,9 +1,9 @@
-namespace FluencyHub.API.Common.Exceptions;
+namespace FluencyHub.SharedKernel.Common.Exceptions;
 
 public class BadRequestException : Exception
 {
     public BadRequestException()
-        : base()
+        : base("A solicitação é inválida.")
     {
     }
 
@@ -14,6 +14,11 @@ public class BadRequestException : Exception
 
     public BadRequestException(string message, Exception innerException)
         : base(message, innerException)
+    {
+    }
+
+    public BadRequestException(string name, object key)
+        : base($"Solicitação inválida para \"{name}\" ({key}).")
     {
     }
 } 

@@ -1,15 +1,14 @@
 using MediatR;
 using FluencyHub.StudentManagement.Application.Common.Interfaces;
-using FluencyHub.StudentManagement.Application.Common.Exceptions;
 using FluencyHub.StudentManagement.Domain;
 using FluencyHub.StudentManagement.Domain.Enums;
 using FluencyHub.SharedKernel.Events.StudentManagement;
-using FluencyHub.SharedKernel.Queries;
 using FluencyHub.ContentManagement.Application.Queries.GetLessonsByCourseId;
 using FluencyHub.ContentManagement.Application.Queries.GetLessonById;
 using Microsoft.Extensions.Logging;
 using IDomainEventService = FluencyHub.SharedKernel.Events.IDomainEventService;
 using IStudentRepository = FluencyHub.StudentManagement.Application.Common.Interfaces.IStudentRepository;
+using FluencyHub.SharedKernel.Common.Exceptions;
 
 namespace FluencyHub.StudentManagement.Application.Commands.CompleteLessonForStudent;
 

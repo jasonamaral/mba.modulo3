@@ -4,14 +4,8 @@ using FluencyHub.StudentManagement.Application.Commands.CompleteLessonForStudent
 using FluencyHub.StudentManagement.Application.Commands.CreateStudent;
 using FluencyHub.StudentManagement.Application.Commands.DeactivateStudent;
 using FluencyHub.StudentManagement.Application.Commands.UpdateStudent;
-using FluencyHub.StudentManagement.Application.Queries.GetAllStudents;
-using FluencyHub.StudentManagement.Application.Queries.GetStudentById;
-using FluencyHub.StudentManagement.Application.Queries.GetStudentProgress;
+using FluencyHub.StudentManagement.Application.Common.Models;
 using Swashbuckle.AspNetCore.Filters;
-using System;
-using System.Collections.Generic;
-using GetStudentByIdDto = FluencyHub.StudentManagement.Application.Queries.GetStudentById.StudentDto;
-using GetAllStudentsDto = FluencyHub.StudentManagement.Application.Queries.GetAllStudents.StudentDto;
 
 namespace FluencyHub.API.SwaggerExamples;
 
@@ -47,34 +41,31 @@ public class UpdateStudentCommandExample : IExamplesProvider<UpdateStudentComman
     }
 }
 
-public class StudentDtoExample : IExamplesProvider<GetStudentByIdDto>
+public class StudentDtoExample : IExamplesProvider<StudentDto>
 {
-    public GetStudentByIdDto GetExamples()
+    public StudentDto GetExamples()
     {
-        return new GetStudentByIdDto
+        return new StudentDto
         {
             Id = Guid.Parse("22222222-2222-2222-2222-222222222222"),
             FirstName = "Maria",
             LastName = "Silva",
-            FullName = "Maria Silva",
             Email = "maria.silva@example.com",
             PhoneNumber = "+5511987654321",
             DateOfBirth = new DateTime(1995, 5, 15),
             IsActive = true,
-            EnrollmentsCount = 2,
-            CertificatesCount = 1,
             CreatedAt = DateTime.Now.AddDays(-60)
         };
     }
 }
 
-public class StudentListDtoExample : IExamplesProvider<List<GetAllStudentsDto>>
+public class StudentListDtoExample : IExamplesProvider<List<StudentDto>>
 {
-    public List<GetAllStudentsDto> GetExamples()
+    public List<StudentDto> GetExamples()
     {
-        return new List<GetAllStudentsDto>
+        return new List<StudentDto>
         {
-            new GetAllStudentsDto
+            new StudentDto
             {
                 Id = Guid.Parse("22222222-2222-2222-2222-222222222222"),
                 FirstName = "Maria",
@@ -84,7 +75,7 @@ public class StudentListDtoExample : IExamplesProvider<List<GetAllStudentsDto>>
                 IsActive = true,
                 CreatedAt = DateTime.Now.AddDays(-60)
             },
-            new GetAllStudentsDto
+            new StudentDto
             {
                 Id = Guid.Parse("33333333-3333-3333-3333-333333333333"),
                 FirstName = "João",

@@ -1,4 +1,3 @@
-using FluencyHub.API.Common.Exceptions;
 using FluencyHub.SharedKernel.Common.Exceptions;
 using System.Text.Json;
 

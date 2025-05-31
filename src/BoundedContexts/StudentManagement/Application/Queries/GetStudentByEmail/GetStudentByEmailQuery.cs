@@ -1,6 +1,5 @@
-using FluencyHub.StudentManagement.Application.Common.Exceptions;
-using FluencyHub.StudentManagement.Application.Common.Interfaces;
-using FluencyHub.StudentManagement.Application.Queries.GetStudentById;
+using FluencyHub.SharedKernel.Common.Exceptions;
+using FluencyHub.StudentManagement.Application.Common.Models;
 using MediatR;
 using IStudentRepositoryInterface = FluencyHub.StudentManagement.Application.Common.Interfaces.IStudentRepository;
 

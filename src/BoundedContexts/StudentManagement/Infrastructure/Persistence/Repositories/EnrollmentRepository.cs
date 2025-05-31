@@ -1,16 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+using FluencyHub.SharedKernel.Common.Exceptions;
 using FluencyHub.StudentManagement.Domain;
 using FluencyHub.StudentManagement.Domain.Enums;
-using FluencyHub.StudentManagement.Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using FluencyHub.StudentManagement.Infrastructure.Exceptions;
-using FluencyHub.SharedKernel.Events;
 using FluencyHub.SharedKernel.Domain;
-using FluencyHub.StudentManagement.Domain.Common;
 using IDomainEventService = FluencyHub.SharedKernel.Events.IDomainEventService;
 using IStudentManagementEnrollmentRepository = FluencyHub.StudentManagement.Application.Common.Interfaces.IStudentManagementEnrollmentRepository;
 using IApplicationEnrollmentRepository = FluencyHub.StudentManagement.Application.Common.Interfaces.IEnrollmentRepository;
@@ -137,7 +129,6 @@ public class EnrollmentRepository : IStudentManagementEnrollmentRepository, IApp
         await SaveChangesAsync();
     }
 
-    // Implementação da interface IEnrollmentRepository do SharedKernel
     async Task<ISharedEnrollment?> ISharedEnrollmentRepository.GetByIdAsync(Guid id)
     {
         return await GetByIdAsync(id);

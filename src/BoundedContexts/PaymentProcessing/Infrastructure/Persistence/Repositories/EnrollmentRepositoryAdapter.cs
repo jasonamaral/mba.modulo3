@@ -1,9 +1,5 @@
 using FluencyHub.StudentManagement.Application.Common.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
 using FluencyHub.SharedKernel.Contracts;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories
 {

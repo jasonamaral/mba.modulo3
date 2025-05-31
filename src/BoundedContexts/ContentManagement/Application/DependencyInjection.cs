@@ -3,7 +3,6 @@ using System.Reflection;
 using FluentValidation;
 using MediatR;
 using FluencyHub.ContentManagement.Application.Common.Behaviors;
-using FluencyHub.ContentManagement.Application.Common.Interfaces;
 using FluencyHub.ContentManagement.Application.Handlers;
 using FluencyHub.SharedKernel.Events.StudentManagement;
 

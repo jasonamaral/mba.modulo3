@@ -1,7 +1,7 @@
 using MediatR;
-using FluencyHub.ContentManagement.Application.Common.Exceptions;
 using FluencyHub.ContentManagement.Application.Common.Interfaces;
 using Microsoft.Extensions.Logging;
+using FluencyHub.SharedKernel.Common.Exceptions;
 
 namespace FluencyHub.ContentManagement.Application.Commands.DeleteLesson;
 

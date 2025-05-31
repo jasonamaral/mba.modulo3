@@ -2,8 +2,6 @@ using FluencyHub.PaymentProcessing.Domain;
 using FluencyHub.SharedKernel.Domain;
 using FluencyHub.SharedKernel.Events;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace FluencyHub.PaymentProcessing.Infrastructure.Persistence;
 

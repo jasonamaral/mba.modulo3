@@ -7,7 +7,7 @@ using IPaymentGateway = FluencyHub.PaymentProcessing.Application.Common.Interfac
 using IDomainEventService = FluencyHub.SharedKernel.Events.IDomainEventService;
 using DomainCardDetails = FluencyHub.PaymentProcessing.Domain.CardDetails;
 using ApplicationCardDetails = FluencyHub.PaymentProcessing.Application.Common.Models.CardDetails;
-using FluencyHub.PaymentProcessing.Domain.Events;
+using FluencyHub.SharedKernel.Common.Exceptions;
 
 namespace FluencyHub.PaymentProcessing.Application.Services;
 

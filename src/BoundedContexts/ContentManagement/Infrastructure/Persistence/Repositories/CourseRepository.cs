@@ -1,6 +1,6 @@
+using FluencyHub.SharedKernel.Common.Exceptions;
 using FluencyHub.ContentManagement.Domain;
 using FluencyHub.SharedKernel.Domain;
-using FluencyHub.ContentManagement.Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using FluencyHub.ContentManagement.Application.Common.Models;
 
@@ -111,10 +111,9 @@ public class CourseRepository :
     {
         try
         {
-            // Forçar a detecção de mudanças antes de salvar
+
             _dbContext.ChangeTracker.DetectChanges();
             
-            // Verificar se há cursos modificados com lições novas
             var modifiedCourses = _dbContext.ChangeTracker.Entries<Course>()
                 .Where(e => e.State == Microsoft.EntityFrameworkCore.EntityState.Modified)
                 .Select(e => e.Entity)
@@ -122,13 +121,11 @@ public class CourseRepository :
 
             foreach (var course in modifiedCourses)
             {
-                // Verificar se há lições que não estão sendo rastreadas
                 foreach (var lesson in course.Lessons)
                 {
                     var lessonEntry = _dbContext.Entry(lesson);
                     if (lessonEntry.State == Microsoft.EntityFrameworkCore.EntityState.Detached)
                     {
-                        Console.WriteLine($"[DEBUG] Adicionando lição {lesson.Id} ao contexto");
                         _dbContext.Lessons.Add(lesson);
                     }
                 }
@@ -145,11 +142,9 @@ public class CourseRepository :
                 var state = entry.State;
                 var entityId = entry.Entity is BaseEntity baseEntity ? baseEntity.Id.ToString() : "N/A";
                 
-                Console.WriteLine($"[DEBUG] Entidade: {entityName}, ID: {entityId}, Estado: {state}");
             }
 
             var result = await _dbContext.SaveChangesAsync(cancellationToken);
-            Console.WriteLine($"[DEBUG] SaveChanges executado com sucesso. {result} entidades afetadas.");
             
             return;
         }
@@ -200,8 +195,6 @@ public class CourseRepository :
     
     public async Task<IEnumerable<CourseProgressInfo>> GetCourseProgressesForStudent(Guid studentId, CancellationToken cancellationToken = default)
     {
-        // Como estamos desacoplando os contextos, este método retornará uma lista vazia
-        // Em uma implementação real, precisaríamos usar eventos para manter essa informação sincronizada
         return new List<CourseProgressInfo>();
     }
     
@@ -213,12 +206,7 @@ public class CourseRepository :
     public async Task<string> GetNameAsync(Guid courseId)
     {
         var course = await _dbContext.Courses.FindAsync(courseId);
-        if (course == null)
-        {
-            throw new NotFoundException(nameof(Course), courseId);
-        }
-        
-        return course.Name;
+        return course == null ? throw new NotFoundException(nameof(Course), courseId) : course.Name;
     }
 
     async Task<bool> FluencyHub.ContentManagement.Domain.ICourseRepository.DeleteAsync(Guid id)

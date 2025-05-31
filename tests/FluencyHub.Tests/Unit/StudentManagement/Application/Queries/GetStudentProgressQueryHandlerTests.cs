@@ -1,8 +1,7 @@
 using FluencyHub.StudentManagement.Application.Queries.GetStudentProgress;
-using FluencyHub.StudentManagement.Application.Common.Exceptions;
+using FluencyHub.StudentManagement.Application.Common.Interfaces;
 using FluencyHub.StudentManagement.Domain;
 using FluencyHub.SharedKernel.Queries;
-using FluencyHub.SharedKernel.Contracts;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -14,6 +13,7 @@ using ILearningRepository = FluencyHub.StudentManagement.Application.Common.Inte
 using FluencyHub.ContentManagement.Application.Queries.GetLessonsByCourseId;
 using FluencyHub.ContentManagement.Application.Common.Models;
 using SharedCourseDto = FluencyHub.SharedKernel.Queries.CourseDto;
+using FluencyHub.SharedKernel.Common.Exceptions;
 
 namespace FluencyHub.Tests.Unit.StudentManagement.Application.Queries;
 

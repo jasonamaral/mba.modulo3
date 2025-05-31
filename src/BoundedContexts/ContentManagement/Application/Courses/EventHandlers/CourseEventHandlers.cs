@@ -1,161 +1,154 @@
-using FluencyHub.ContentManagement.Domain;
 using FluencyHub.ContentManagement.Domain.Events;
-using FluencyHub.ContentManagement.Application.Common.Interfaces;
-using FluencyHub.SharedKernel.Events;
 using FluencyHub.SharedKernel.Events.ContentManagement;
 using FluencyHub.SharedKernel.Queries;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace FluencyHub.ContentManagement.Application.Courses.EventHandlers
+namespace FluencyHub.ContentManagement.Application.Courses.EventHandlers;
+
+/// <summary>
+/// Handler para o evento de curso criado no domínio
+/// </summary>
+public class CourseCreatedDomainEventHandler : INotificationHandler<CourseCreatedDomainEvent>
 {
-    /// <summary>
-    /// Handler para o evento de curso criado no domínio
-    /// </summary>
-    public class CourseCreatedDomainEventHandler : INotificationHandler<CourseCreatedDomainEvent>
+    private readonly FluencyHub.SharedKernel.Events.IDomainEventService _domainEventService;
+    private readonly ILogger<CourseCreatedDomainEventHandler> _logger;
+
+    public CourseCreatedDomainEventHandler(
+        FluencyHub.SharedKernel.Events.IDomainEventService domainEventService,
+        ILogger<CourseCreatedDomainEventHandler> logger)
     {
-        private readonly FluencyHub.SharedKernel.Events.IDomainEventService _domainEventService;
-        private readonly ILogger<CourseCreatedDomainEventHandler> _logger;
-
-        public CourseCreatedDomainEventHandler(
-            FluencyHub.SharedKernel.Events.IDomainEventService domainEventService,
-            ILogger<CourseCreatedDomainEventHandler> logger)
-        {
-            _domainEventService = domainEventService;
-            _logger = logger;
-        }
-
-        public async Task Handle(CourseCreatedDomainEvent notification, CancellationToken cancellationToken)
-        {
-            // Publicar evento de integração
-            var integrationEvent = new CourseCreatedEvent(
-                notification.CourseId,
-                notification.Name,
-                notification.Description,
-                notification.Content.Syllabus,
-                notification.Content.LearningObjectives,
-                notification.Content.PreRequisites,
-                notification.Content.TargetAudience,
-                notification.Content.Language,
-                notification.Content.Level,
-                notification.Price,
-                notification.IsActive,
-                notification.Status);
-
-            await _domainEventService.PublishEventAsync(integrationEvent);
-        }
+        _domainEventService = domainEventService;
+        _logger = logger;
     }
 
-    /// <summary>
-    /// Handler para o evento de curso atualizado no domínio
-    /// </summary>
-    public class CourseUpdatedDomainEventHandler : INotificationHandler<CourseUpdatedDomainEvent>
+    public async Task Handle(CourseCreatedDomainEvent notification, CancellationToken cancellationToken)
     {
-        private readonly FluencyHub.SharedKernel.Events.IDomainEventService _domainEventService;
-        private readonly ILogger<CourseUpdatedDomainEventHandler> _logger;
+        // Publicar evento de integração
+        var integrationEvent = new CourseCreatedEvent(
+            notification.CourseId,
+            notification.Name,
+            notification.Description,
+            notification.Content.Syllabus,
+            notification.Content.LearningObjectives,
+            notification.Content.PreRequisites,
+            notification.Content.TargetAudience,
+            notification.Content.Language,
+            notification.Content.Level,
+            notification.Price,
+            notification.IsActive,
+            notification.Status);
 
-        public CourseUpdatedDomainEventHandler(
-            FluencyHub.SharedKernel.Events.IDomainEventService domainEventService,
-            ILogger<CourseUpdatedDomainEventHandler> logger)
-        {
-            _domainEventService = domainEventService;
-            _logger = logger;
-        }
+        await _domainEventService.PublishEventAsync(integrationEvent);
+    }
+}
 
-        public async Task Handle(CourseUpdatedDomainEvent notification, CancellationToken cancellationToken)
-        {
-            // Publicar evento de integração
-            var integrationEvent = new CourseUpdatedEvent(
-                notification.CourseId,
-                notification.Name,
-                notification.Description,
-                notification.Content.Syllabus,
-                notification.Content.LearningObjectives,
-                notification.Content.PreRequisites,
-                notification.Content.TargetAudience,
-                notification.Content.Language,
-                notification.Content.Level,
-                notification.Price,
-                notification.IsActive,
-                notification.Status);
+/// <summary>
+/// Handler para o evento de curso atualizado no domínio
+/// </summary>
+public class CourseUpdatedDomainEventHandler : INotificationHandler<CourseUpdatedDomainEvent>
+{
+    private readonly FluencyHub.SharedKernel.Events.IDomainEventService _domainEventService;
+    private readonly ILogger<CourseUpdatedDomainEventHandler> _logger;
 
-            await _domainEventService.PublishEventAsync(integrationEvent);
-        }
+    public CourseUpdatedDomainEventHandler(
+        FluencyHub.SharedKernel.Events.IDomainEventService domainEventService,
+        ILogger<CourseUpdatedDomainEventHandler> logger)
+    {
+        _domainEventService = domainEventService;
+        _logger = logger;
     }
 
-    /// <summary>
-    /// Handler para o evento de curso excluído no domínio
-    /// </summary>
-    public class CourseDeletedDomainEventHandler : INotificationHandler<CourseDeletedDomainEvent>
+    public async Task Handle(CourseUpdatedDomainEvent notification, CancellationToken cancellationToken)
     {
-        private readonly FluencyHub.SharedKernel.Events.IDomainEventService _domainEventService;
-        private readonly ILogger<CourseDeletedDomainEventHandler> _logger;
+        // Publicar evento de integração
+        var integrationEvent = new CourseUpdatedEvent(
+            notification.CourseId,
+            notification.Name,
+            notification.Description,
+            notification.Content.Syllabus,
+            notification.Content.LearningObjectives,
+            notification.Content.PreRequisites,
+            notification.Content.TargetAudience,
+            notification.Content.Language,
+            notification.Content.Level,
+            notification.Price,
+            notification.IsActive,
+            notification.Status);
 
-        public CourseDeletedDomainEventHandler(
-            FluencyHub.SharedKernel.Events.IDomainEventService domainEventService,
-            ILogger<CourseDeletedDomainEventHandler> logger)
-        {
-            _domainEventService = domainEventService;
-            _logger = logger;
-        }
+        await _domainEventService.PublishEventAsync(integrationEvent);
+    }
+}
 
-        public async Task Handle(CourseDeletedDomainEvent notification, CancellationToken cancellationToken)
-        {
-            // Publicar evento de integração
-            var integrationEvent = new CourseDeletedEvent(notification.CourseId);
+/// <summary>
+/// Handler para o evento de curso excluído no domínio
+/// </summary>
+public class CourseDeletedDomainEventHandler : INotificationHandler<CourseDeletedDomainEvent>
+{
+    private readonly FluencyHub.SharedKernel.Events.IDomainEventService _domainEventService;
+    private readonly ILogger<CourseDeletedDomainEventHandler> _logger;
 
-            await _domainEventService.PublishEventAsync(integrationEvent);
-        }
+    public CourseDeletedDomainEventHandler(
+        FluencyHub.SharedKernel.Events.IDomainEventService domainEventService,
+        ILogger<CourseDeletedDomainEventHandler> logger)
+    {
+        _domainEventService = domainEventService;
+        _logger = logger;
     }
 
-    /// <summary>
-    /// Handler para a consulta GetCourseById
-    /// </summary>
-    public class GetCourseByIdHandler : IRequestHandler<GetCourseById, CourseDto?>
+    public async Task Handle(CourseDeletedDomainEvent notification, CancellationToken cancellationToken)
     {
-        private readonly FluencyHub.ContentManagement.Application.Common.Interfaces.ICourseRepository _courseRepository;
-        private readonly ILogger<GetCourseByIdHandler> _logger;
+        // Publicar evento de integração
+        var integrationEvent = new CourseDeletedEvent(notification.CourseId);
 
-        public GetCourseByIdHandler(
-            FluencyHub.ContentManagement.Application.Common.Interfaces.ICourseRepository courseRepository,
-            ILogger<GetCourseByIdHandler> logger)
-        {
-            _courseRepository = courseRepository;
-            _logger = logger;
-        }
+        await _domainEventService.PublishEventAsync(integrationEvent);
+    }
+}
 
-        public async Task<CourseDto?> Handle(GetCourseById request, CancellationToken cancellationToken)
+/// <summary>
+/// Handler para a consulta GetCourseById
+/// </summary>
+public class GetCourseByIdHandler : IRequestHandler<GetCourseById, CourseDto?>
+{
+    private readonly FluencyHub.ContentManagement.Application.Common.Interfaces.ICourseRepository _courseRepository;
+    private readonly ILogger<GetCourseByIdHandler> _logger;
+
+    public GetCourseByIdHandler(
+        FluencyHub.ContentManagement.Application.Common.Interfaces.ICourseRepository courseRepository,
+        ILogger<GetCourseByIdHandler> logger)
+    {
+        _courseRepository = courseRepository;
+        _logger = logger;
+    }
+
+    public async Task<CourseDto?> Handle(GetCourseById request, CancellationToken cancellationToken)
+    {
+        try
         {
-            try
+            var exists = await _courseRepository.ExistsAsync(request.CourseId);
+            
+            if (!exists)
             {
-                var exists = await _courseRepository.ExistsAsync(request.CourseId);
-                
-                if (!exists)
-                {
-                    return null;
-                }
-                
-                var course = await _courseRepository.GetByIdAsync(request.CourseId);
-                
-                if (course == null)
-                    return null;
-
-                return new CourseDto
-                {
-                    Id = course.Id,
-                    Name = course.Name,
-                    Description = course.Description,
-                    Price = course.Price
-                };
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Erro ao consultar curso {CourseId}", request.CourseId);
                 return null;
             }
+            
+            var course = await _courseRepository.GetByIdAsync(request.CourseId);
+            
+            if (course == null)
+                return null;
+
+            return new CourseDto
+            {
+                Id = course.Id,
+                Name = course.Name,
+                Description = course.Description,
+                Price = course.Price
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao consultar curso {CourseId}", request.CourseId);
+            return null;
         }
     }
-} 
+}

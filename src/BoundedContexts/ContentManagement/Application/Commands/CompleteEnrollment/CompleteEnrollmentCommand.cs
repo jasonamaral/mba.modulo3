@@ -1,5 +1,4 @@
-using FluencyHub.ContentManagement.Application.Common.Exceptions;
-using FluencyHub.ContentManagement.Application.Common.Interfaces;
+using FluencyHub.SharedKernel.Common.Exceptions;
 using MediatR;
 
 namespace FluencyHub.ContentManagement.Application.Commands.CompleteEnrollment;

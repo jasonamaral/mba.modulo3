@@ -3,7 +3,6 @@ using FluencyHub.API.SwaggerExamples;
 using FluencyHub.ContentManagement.Application.Commands.DeleteLesson;
 using FluencyHub.ContentManagement.Application.Commands.UpdateLesson;
 using FluencyHub.ContentManagement.Application.Queries.GetLessonsByCourseId;
-using FluencyHub.ContentManagement.Application.Common.Exceptions;
 using FluencyHub.StudentManagement.Application.Commands.CompleteLessonForStudent;
 using FluencyHub.ContentManagement.Application.Common.Models;
 using MediatR;
@@ -12,6 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
 using System.Security.Claims;
+using FluencyHub.ContentManagement.Application.Queries.GetLessonById;
+using FluencyHub.ContentManagement.Application.Commands.AddLesson;
+using FluencyHub.SharedKernel.Common.Exceptions;
 
 namespace FluencyHub.API.Controllers;
 
@@ -41,7 +43,7 @@ public class LicoesController : ControllerBase
         Description = "Recupera todas as lições que pertencem ao curso especificado",
         OperationId = "GetLessonsByCourse"
     )]
-    [ProducesResponseType(typeof(IEnumerable<LessonDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<FluencyHub.ContentManagement.Application.Common.Models.LessonDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(LessonDtoListExample))]
     public async Task<IActionResult> GetLessonsByCourse(Guid courseId)

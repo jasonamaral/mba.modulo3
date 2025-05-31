@@ -1,4 +1,5 @@
 using MediatR;
+using FluencyHub.StudentManagement.Application.Common.Models;
 
 namespace FluencyHub.StudentManagement.Application.Queries.GetStudentById;
 

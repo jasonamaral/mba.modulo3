@@ -1,5 +1,4 @@
 using FluentAssertions;
-using FluencyHub.PaymentProcessing.Application.Common.Interfaces;
 using FluencyHub.PaymentProcessing.Infrastructure.Services;
 using Microsoft.Extensions.Logging;
 using Moq;

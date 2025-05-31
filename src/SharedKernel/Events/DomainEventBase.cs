@@ -1,5 +1,3 @@
-using MediatR;
-
 namespace FluencyHub.SharedKernel.Events;
 
 /// <summary>

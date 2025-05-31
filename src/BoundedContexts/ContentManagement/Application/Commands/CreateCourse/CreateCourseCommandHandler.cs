@@ -1,5 +1,4 @@
 using FluencyHub.ContentManagement.Domain;
-using FluencyHub.ContentManagement.Application.Common.Interfaces;
 using MediatR;
 
 namespace FluencyHub.ContentManagement.Application.Commands.CreateCourse;

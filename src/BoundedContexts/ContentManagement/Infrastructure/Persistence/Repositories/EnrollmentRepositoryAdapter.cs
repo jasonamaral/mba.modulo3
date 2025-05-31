@@ -1,9 +1,4 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using FluencyHub.ContentManagement.Application.Commands.CompleteEnrollment;
-using FluencyHub.ContentManagement.Application.Common.Exceptions;
-using FluencyHub.SharedKernel.Contracts;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FluencyHub.ContentManagement.Infrastructure.Persistence.Repositories;

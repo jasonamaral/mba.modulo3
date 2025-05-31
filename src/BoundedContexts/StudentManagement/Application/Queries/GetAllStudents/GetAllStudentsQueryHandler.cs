@@ -1,5 +1,6 @@
 using MediatR;
 using FluencyHub.StudentManagement.Application.Common.Interfaces;
+using FluencyHub.StudentManagement.Application.Common.Models;
 
 namespace FluencyHub.StudentManagement.Application.Queries.GetAllStudents;
 
@@ -23,8 +24,18 @@ public class GetAllStudentsQueryHandler : IRequestHandler<GetAllStudentsQuery, I
             LastName = student.LastName,
             Email = student.Email,
             PhoneNumber = student.PhoneNumber ?? string.Empty,
+            DateOfBirth = student.DateOfBirth,
+            Address = student.Address,
+            City = student.City,
+            State = student.State,
+            Country = student.Country,
+            PostalCode = student.PostalCode,
             IsActive = student.IsActive,
-            CreatedAt = student.CreatedAt
+            CreatedAt = student.CreatedAt,
+            UpdatedAt = student.UpdatedAt,
+            FullName = student.FullName,
+            EnrollmentsCount = student.Enrollments.Count,
+            CertificatesCount = student.Certificates.Count
         });
     }
 } 

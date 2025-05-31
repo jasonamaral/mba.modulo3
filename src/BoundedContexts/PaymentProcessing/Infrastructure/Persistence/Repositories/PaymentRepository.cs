@@ -1,6 +1,7 @@
+using FluencyHub.PaymentProcessing.Application.Common.Interfaces;
 using FluencyHub.PaymentProcessing.Domain;
-using FluencyHub.PaymentProcessing.Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using FluencyHub.SharedKernel.Common.Exceptions;
 
 namespace FluencyHub.PaymentProcessing.Infrastructure.Persistence.Repositories;
 

@@ -1,6 +1,5 @@
 using MediatR;
-using FluencyHub.StudentManagement.Application.Common.Interfaces;
-using FluencyHub.StudentManagement.Application.Common.Exceptions;
+using FluencyHub.SharedKernel.Common.Exceptions;
 
 namespace FluencyHub.StudentManagement.Application.Commands.UpdateStudent;
 

@@ -3,9 +3,6 @@ using FluencyHub.SharedKernel.Queries;
 using FluencyHub.StudentManagement.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FluencyHub.StudentManagement.Infrastructure.Services
 {
