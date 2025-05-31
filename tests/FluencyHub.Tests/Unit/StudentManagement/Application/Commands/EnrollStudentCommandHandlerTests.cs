@@ -4,7 +4,6 @@ using FluencyHub.StudentManagement.Domain;
 using FluencyHub.SharedKernel.Queries;
 using FluencyHub.SharedKernel.Contracts;
 using MediatR;
-using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 using FluentAssertions;
@@ -18,7 +17,6 @@ public class EnrollStudentCommandHandlerTests
     private readonly Mock<IStudentRepository> _mockStudentRepository;
     private readonly Mock<IEnrollmentRepository> _mockEnrollmentRepository;
     private readonly Mock<IMediator> _mockMediator;
-    private readonly Mock<ILogger<EnrollStudentCommandHandler>> _mockLogger;
     private readonly EnrollStudentCommandHandler _handler;
 
     public EnrollStudentCommandHandlerTests()
@@ -26,13 +24,11 @@ public class EnrollStudentCommandHandlerTests
         _mockStudentRepository = new Mock<IStudentRepository>();
         _mockEnrollmentRepository = new Mock<IEnrollmentRepository>();
         _mockMediator = new Mock<IMediator>();
-        _mockLogger = new Mock<ILogger<EnrollStudentCommandHandler>>();
         
         _handler = new EnrollStudentCommandHandler(
             _mockStudentRepository.Object,
             _mockEnrollmentRepository.Object,
-            _mockMediator.Object,
-            _mockLogger.Object);
+            _mockMediator.Object);
     }
 
     [Fact]

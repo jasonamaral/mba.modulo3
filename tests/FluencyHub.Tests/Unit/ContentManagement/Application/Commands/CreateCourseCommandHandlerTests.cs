@@ -1,7 +1,6 @@
 using FluencyHub.ContentManagement.Application.Commands.CreateCourse;
 using FluencyHub.ContentManagement.Domain;
 using FluencyHub.ContentManagement.Application.Common.Interfaces;
-using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 using FluentAssertions;
@@ -11,14 +10,12 @@ namespace FluencyHub.Tests.Unit.ContentManagement.Application.Commands;
 public class CreateCourseCommandHandlerTests
 {
     private readonly Mock<FluencyHub.ContentManagement.Application.Common.Interfaces.ICourseRepository> _mockCourseRepository;
-    private readonly Mock<ILogger<CreateCourseCommandHandler>> _mockLogger;
     private readonly CreateCourseCommandHandler _handler;
 
     public CreateCourseCommandHandlerTests()
     {
         _mockCourseRepository = new Mock<FluencyHub.ContentManagement.Application.Common.Interfaces.ICourseRepository>();
-        _mockLogger = new Mock<ILogger<CreateCourseCommandHandler>>();
-        _handler = new CreateCourseCommandHandler(_mockCourseRepository.Object, _mockLogger.Object);
+        _handler = new CreateCourseCommandHandler(_mockCourseRepository.Object);
     }
 
     [Fact]
