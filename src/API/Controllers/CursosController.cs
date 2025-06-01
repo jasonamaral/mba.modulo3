@@ -2,8 +2,6 @@
 using FluencyHub.API.SwaggerExamples;
 using FluencyHub.ContentManagement.Application.Queries.GetAllCourses;
 using FluencyHub.ContentManagement.Application.Queries.GetCourseById;
-using FluencyHub.ContentManagement.Application.Commands.CreateCourse;
-using FluencyHub.ContentManagement.Application.Commands.UpdateCourse;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

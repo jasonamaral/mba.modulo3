@@ -11,7 +11,7 @@ namespace FluencyHub.Tests.Integration.Performance;
 
 public class StressTests : IntegrationTestBase
 {
-    // 227. StressTest_DatabaseConnections_ShouldHandleMaxConnections
+
     [Fact]
     public async Task DatabaseConnections_ShouldHandleMaxConnections()
     {
@@ -44,7 +44,6 @@ public class StressTests : IntegrationTestBase
         stopwatch.ElapsedMilliseconds.Should().BeLessThan(30000); // Menos de 30 segundos
     }
 
-    // 228. StressTest_MemoryUsage_ShouldNotExceedLimits_WhenProcessingLargeDatasets
     [Fact]
     public async Task MemoryUsage_ShouldNotExceedLimits_WhenProcessingLargeDatasets()
     {

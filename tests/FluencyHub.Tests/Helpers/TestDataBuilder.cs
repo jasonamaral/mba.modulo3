@@ -1,10 +1,7 @@
 using FluencyHub.ContentManagement.Domain;
 using FluencyHub.PaymentProcessing.Domain;
 using FluencyHub.StudentManagement.Domain;
-using FluencyHub.SharedKernel.Contracts;
 using FluencyHub.StudentManagement.Domain.Models;
-using System;
-using System.Reflection;
 
 namespace FluencyHub.Tests.Helpers;
 

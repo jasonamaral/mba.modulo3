@@ -3,7 +3,6 @@ using FluencyHub.StudentManagement.Infrastructure.Persistence;
 using FluencyHub.StudentManagement.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.InMemory;
 using Xunit;
 using FluentAssertions;
 

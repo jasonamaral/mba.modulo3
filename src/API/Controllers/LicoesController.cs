@@ -4,15 +4,12 @@ using FluencyHub.ContentManagement.Application.Commands.DeleteLesson;
 using FluencyHub.ContentManagement.Application.Commands.UpdateLesson;
 using FluencyHub.ContentManagement.Application.Queries.GetLessonsByCourseId;
 using FluencyHub.StudentManagement.Application.Commands.CompleteLessonForStudent;
-using FluencyHub.ContentManagement.Application.Common.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
 using System.Security.Claims;
-using FluencyHub.ContentManagement.Application.Queries.GetLessonById;
-using FluencyHub.ContentManagement.Application.Commands.AddLesson;
 using FluencyHub.SharedKernel.Common.Exceptions;
 
 namespace FluencyHub.API.Controllers;

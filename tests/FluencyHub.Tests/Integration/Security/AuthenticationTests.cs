@@ -12,7 +12,7 @@ namespace FluencyHub.Tests.Integration.Security;
 
 public class AuthenticationTests : IntegrationTestBase
 {
-    // 229. Security_JwtTokenValidation_ShouldRejectExpiredTokens
+
     [Fact]
     public async Task JwtTokenValidation_ShouldRejectExpiredTokens()
     {
@@ -28,7 +28,6 @@ public class AuthenticationTests : IntegrationTestBase
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
-    // 230. Security_JwtTokenValidation_ShouldRejectTamperedTokens
     [Fact]
     public async Task JwtTokenValidation_ShouldRejectTamperedTokens()
     {
@@ -52,7 +51,6 @@ public class AuthenticationTests : IntegrationTestBase
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
-    // 231. Security_PasswordHashing_ShouldUseSecureHashingAlgorithm
     [Fact]
     public async Task PasswordHashing_ShouldUseSecureHashingAlgorithm()
     {

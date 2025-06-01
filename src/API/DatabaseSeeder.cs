@@ -15,8 +15,6 @@ public static class DatabaseSeeder
 
         try
         {
-            // Os bancos de dados já foram criados pelas migrações no Program.cs
-            logger.LogInformation("Iniciando o preenchimento dos dados iniciais");
 
             await SeedRoles(services);
             await SeedUsers(services);
@@ -108,7 +106,6 @@ public static class DatabaseSeeder
         // Verificar se já existem estudantes
         if (studentDbContext.Students.Any())
         {
-            logger.LogInformation("Estudantes já existem no banco de dados");
             return;
         }
 
@@ -121,7 +118,5 @@ public static class DatabaseSeeder
 
         await studentDbContext.Students.AddRangeAsync(students);
         await studentDbContext.SaveChangesAsync();
-
-        logger.LogInformation($"Criados {students.Length} estudantes no banco de dados");
     }
 }

@@ -1,4 +1,3 @@
-using FluencyHub.PaymentProcessing.Application.Common.Interfaces;
 using FluencyHub.PaymentProcessing.Domain;
 using Microsoft.EntityFrameworkCore;
 using FluencyHub.SharedKernel.Common.Exceptions;

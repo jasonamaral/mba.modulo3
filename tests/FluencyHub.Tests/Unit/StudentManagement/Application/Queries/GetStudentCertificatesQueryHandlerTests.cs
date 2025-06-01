@@ -1,9 +1,7 @@
 using FluencyHub.StudentManagement.Application.Queries.GetStudentCertificates;
 using FluencyHub.StudentManagement.Application.Common.Interfaces;
 using FluencyHub.StudentManagement.Domain;
-using FluencyHub.StudentManagement.Domain.Models;
 using FluencyHub.SharedKernel.Common.Exceptions;
-using FluencyHub.SharedKernel.Contracts;
 using FluencyHub.Tests.Helpers;
 using Moq;
 using Xunit;

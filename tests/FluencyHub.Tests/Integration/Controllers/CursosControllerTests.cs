@@ -7,13 +7,11 @@ using FluencyHub.API.Models;
 using FluencyHub.ContentManagement.Application.Common.Models;
 using Microsoft.Extensions.DependencyInjection;
 using FluencyHub.ContentManagement.Infrastructure.Persistence;
-using FluencyHub.ContentManagement.Domain;
 
 namespace FluencyHub.Tests.Integration.Controllers;
 
 public class CursosControllerTests : IntegrationTestBase
 {
-    // 191. CursosController_GetAllCourses_ShouldReturnAllCourses
     [Fact]
     public async Task GetAllCourses_ShouldReturnAllCourses()
     {
@@ -29,7 +27,6 @@ public class CursosControllerTests : IntegrationTestBase
         courses.Should().NotBeEmpty();
     }
 
-    // 192. CursosController_GetCourseById_ShouldReturnCourse_WhenCourseExists
     [Fact]
     public async Task GetCourseById_ShouldReturnCourse_WhenCourseExists()
     {
@@ -46,7 +43,6 @@ public class CursosControllerTests : IntegrationTestBase
         course!.Id.Should().Be(courseId);
     }
 
-    // 193. CursosController_GetCourseById_ShouldReturnNotFound_WhenCourseNotExists
     [Fact]
     public async Task GetCourseById_ShouldReturnNotFound_WhenCourseNotExists()
     {
@@ -60,7 +56,6 @@ public class CursosControllerTests : IntegrationTestBase
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 
-    // 195. CursosController_CreateCourse_ShouldReturnForbidden_WhenStudentRole
     [Fact]
     public async Task CreateCourse_ShouldReturnForbidden_WhenStudentRole()
     {
@@ -82,14 +77,13 @@ public class CursosControllerTests : IntegrationTestBase
         response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
 
-    // 196. CursosController_UpdateCourse_ShouldUpdateCourse_WhenAdminRole
     [Fact]
     public async Task UpdateCourse_ShouldUpdateCourse_WhenAdminRole()
     {
         // Arrange
         var adminClient = CreateAdminClient();
         var courseId = await SeedCourseAsync();
-        
+
         var request = new CourseUpdateRequest
         {
             Id = courseId,
@@ -115,13 +109,13 @@ public class CursosControllerTests : IntegrationTestBase
     {
         using var scope = Factory.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<ContentDbContext>();
-        
+
         var course = TestDataBuilder.CreateValidCourse();
         TestDataBuilder.SetEntityId(course, Guid.NewGuid());
-        
+
         context.Courses.Add(course);
         await context.SaveChangesAsync();
-        
+
         return course.Id;
     }
 
@@ -129,7 +123,7 @@ public class CursosControllerTests : IntegrationTestBase
     {
         using var scope = Factory.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<ContentDbContext>();
-        
+
         var courses = new[]
         {
             TestDataBuilder.CreateValidCourse(name: "Inglês Básico", description: "Curso de inglês para iniciantes"),
@@ -142,7 +136,7 @@ public class CursosControllerTests : IntegrationTestBase
             TestDataBuilder.SetEntityId(course, Guid.NewGuid());
             context.Courses.Add(course);
         }
-        
+
         await context.SaveChangesAsync();
     }
-} 
+}

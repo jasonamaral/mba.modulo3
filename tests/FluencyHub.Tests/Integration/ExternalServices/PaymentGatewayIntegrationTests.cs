@@ -1,15 +1,12 @@
 using FluencyHub.Tests.Helpers;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using FluencyHub.PaymentProcessing.Application.Common.Interfaces;
-using FluencyHub.PaymentProcessing.Domain;
 using Xunit;
 
 namespace FluencyHub.Tests.Integration.ExternalServices;
 
 public class PaymentGatewayIntegrationTests : IntegrationTestBase
 {
-    // 177. PaymentGateway_RefundPaymentAsync_ShouldReturnSuccess_WhenValidRefund
     [Fact]
     public async Task PaymentGateway_RefundPaymentAsync_ShouldReturnSuccess_WhenValidRefund()
     {
@@ -32,7 +29,6 @@ public class PaymentGatewayIntegrationTests : IntegrationTestBase
         result.OriginalTransactionId.Should().Be(transactionId);
     }
 
-    // 221. PaymentGateway_Integration_ShouldProcessRealPayment_WhenValidData
     [Fact]
     public async Task PaymentGateway_Integration_ShouldProcessRealPayment_WhenValidData()
     {
@@ -58,7 +54,6 @@ public class PaymentGatewayIntegrationTests : IntegrationTestBase
         result.TransactionId.Should().NotBeNullOrEmpty();
     }
 
-    // 222. PaymentGateway_Integration_ShouldHandleTimeout_WhenGatewayUnavailable
     [Fact]
     public async Task PaymentGateway_Integration_ShouldHandleTimeout_WhenGatewayUnavailable()
     {
@@ -78,7 +73,6 @@ public class PaymentGatewayIntegrationTests : IntegrationTestBase
         result.ErrorMessage.Should().Contain("timeout");
     }
 
-    // 223. PaymentGateway_Integration_ShouldReturnError_WhenInvalidCardData
     [Fact]
     public async Task PaymentGateway_Integration_ShouldReturnError_WhenInvalidCardData()
     {
@@ -105,7 +99,6 @@ public class PaymentGatewayIntegrationTests : IntegrationTestBase
         result.ErrorMessage.Should().Contain("recusado");
     }
 
-    // Teste adicional: Verificar se o gateway lida com cartões expirados
     [Fact]
     public async Task PaymentGateway_Integration_ShouldReturnError_WhenCardExpired()
     {
@@ -132,7 +125,6 @@ public class PaymentGatewayIntegrationTests : IntegrationTestBase
         result.ErrorMessage.Should().Contain("recusado");
     }
 
-    // Teste adicional: Verificar se o gateway lida com valores inválidos
     [Fact]
     public async Task PaymentGateway_Integration_ShouldReturnError_WhenAmountIsZeroOrNegative()
     {

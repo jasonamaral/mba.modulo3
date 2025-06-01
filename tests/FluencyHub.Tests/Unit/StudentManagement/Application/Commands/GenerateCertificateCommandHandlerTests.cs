@@ -1,10 +1,8 @@
 using FluencyHub.StudentManagement.Application.Commands.GenerateCertificate;
 using FluencyHub.StudentManagement.Application.Common.Interfaces;
 using FluencyHub.StudentManagement.Domain;
-using FluencyHub.StudentManagement.Domain.Enums;
 using FluencyHub.SharedKernel.Common.Exceptions;
 using FluencyHub.SharedKernel.Contracts;
-using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 using FluentAssertions;

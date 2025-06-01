@@ -1,5 +1,4 @@
 using FluencyHub.StudentManagement.Application.Queries.GetStudentProgress;
-using FluencyHub.StudentManagement.Application.Common.Interfaces;
 using FluencyHub.StudentManagement.Domain;
 using FluencyHub.SharedKernel.Queries;
 using MediatR;

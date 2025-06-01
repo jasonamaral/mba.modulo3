@@ -9,7 +9,6 @@ namespace FluencyHub.Tests.Integration.Compatibility;
 
 public class ApiVersioningTests : IntegrationTestBase
 {
-    // 242. ApiVersioning_V1Endpoints_ShouldMaintainBackwardCompatibility
     [Fact]
     public async Task V1Endpoints_ShouldMaintainBackwardCompatibility()
     {
@@ -42,7 +41,6 @@ public class ApiVersioningTests : IntegrationTestBase
         }
     }
 
-    // 243. ApiVersioning_V2Endpoints_ShouldHandleNewFeatures
     [Fact]
     public async Task V2Endpoints_ShouldHandleNewFeatures()
     {

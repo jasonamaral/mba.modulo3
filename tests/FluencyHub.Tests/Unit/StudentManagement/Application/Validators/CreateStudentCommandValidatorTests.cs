@@ -1,7 +1,6 @@
 using FluencyHub.StudentManagement.Application.Commands.CreateStudent;
 using FluentValidation.TestHelper;
 using Xunit;
-using FluentAssertions;
 
 namespace FluencyHub.Tests.Unit.StudentManagement.Application.Validators;
 

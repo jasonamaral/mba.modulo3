@@ -5,7 +5,6 @@ using FluencyHub.SharedKernel.Events;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
-using FluentAssertions;
 
 namespace FluencyHub.Tests.Unit.ContentManagement.Infrastructure;
 

@@ -6,7 +6,6 @@ namespace FluencyHub.Tests.Unit.SharedKernel.Events;
 
 public class DomainEventBaseTests
 {
-    // Classe concreta para testes da DomainEventBase
     private class TestDomainEvent : DomainEventBase
     {
         public string Message { get; }

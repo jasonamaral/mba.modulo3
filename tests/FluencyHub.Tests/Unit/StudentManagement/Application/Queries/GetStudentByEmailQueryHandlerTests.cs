@@ -1,5 +1,4 @@
 using FluencyHub.StudentManagement.Application.Queries.GetStudentByEmail;
-using FluencyHub.StudentManagement.Application.Common.Interfaces;
 using FluencyHub.StudentManagement.Domain;
 using FluencyHub.SharedKernel.Common.Exceptions;
 using Moq;

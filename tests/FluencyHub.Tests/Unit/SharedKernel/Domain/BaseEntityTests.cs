@@ -7,7 +7,6 @@ namespace FluencyHub.Tests.Unit.SharedKernel.Domain;
 
 public class BaseEntityTests
 {
-    // Classe concreta para testes da BaseEntity
     private class TestEntity : BaseEntity
     {
         public TestEntity() : base() { }
@@ -18,7 +17,6 @@ public class BaseEntityTests
         }
     }
     
-    // Implementação simples de IDomainEvent para testes
     private class TestDomainEvent : IDomainEvent
     {
         public Guid EventId { get; } = Guid.NewGuid();

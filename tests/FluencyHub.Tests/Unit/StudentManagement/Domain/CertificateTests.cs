@@ -3,7 +3,6 @@ using FluentAssertions;
 using FluencyHub.StudentManagement.Domain;
 using FluencyHub.StudentManagement.Domain.Models;
 using FluencyHub.SharedKernel.Contracts;
-using System.Diagnostics.CodeAnalysis;
 
 namespace FluencyHub.Tests.Unit.StudentManagement.Domain;
 

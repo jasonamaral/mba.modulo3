@@ -3,14 +3,12 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using System.Net;
-using System.Net.Http.Json;
 using Xunit;
 
 namespace FluencyHub.Tests.Integration.Monitoring;
 
 public class HealthCheckTests : IntegrationTestBase
 {
-    // 249. HealthCheck_DatabaseConnection_ShouldReturnHealthy_WhenConnected
     [Fact]
     public async Task DatabaseConnection_ShouldReturnHealthy_WhenConnected()
     {
@@ -33,7 +31,6 @@ public class HealthCheckTests : IntegrationTestBase
         content.Should().NotBeNullOrEmpty();
     }
 
-    // 250. HealthCheck_ExternalServices_ShouldReturnHealthy_WhenAvailable
     [Fact]
     public async Task ExternalServices_ShouldReturnHealthy_WhenAvailable()
     {
@@ -148,7 +145,6 @@ public class HealthCheckTests : IntegrationTestBase
     }
 }
 
-// Classe para deserializar a resposta do health check
 public class HealthCheckResponse
 {
     public string Status { get; set; } = string.Empty;

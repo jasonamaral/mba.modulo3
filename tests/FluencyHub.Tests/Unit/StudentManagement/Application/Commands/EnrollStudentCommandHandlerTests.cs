@@ -1,6 +1,5 @@
 using FluencyHub.StudentManagement.Application.Commands.EnrollStudent;
 using FluencyHub.StudentManagement.Domain;
-using FluencyHub.StudentManagement.Domain.Enums;
 using FluencyHub.SharedKernel.Queries;
 using FluencyHub.SharedKernel.Contracts;
 using MediatR;

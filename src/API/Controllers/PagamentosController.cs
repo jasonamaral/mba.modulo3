@@ -1,10 +1,7 @@
 using FluencyHub.API.Models;
 using FluencyHub.API.SwaggerExamples;
-using FluencyHub.PaymentProcessing.Application.Common.Exceptions;
 using FluencyHub.PaymentProcessing.Application.Common.Interfaces;
 using FluencyHub.PaymentProcessing.Application.Queries.GetPaymentById;
-using FluencyHub.PaymentProcessing.Application.Services;
-using FluencyHub.PaymentProcessing.Application.Common.Models;
 using FluencyHub.SharedKernel.Common.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

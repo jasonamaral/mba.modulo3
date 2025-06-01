@@ -1,7 +1,6 @@
 using FluencyHub.StudentManagement.Application.Queries.GetStudentEnrollments;
 using FluencyHub.StudentManagement.Application.Common.Interfaces;
 using FluencyHub.StudentManagement.Domain;
-using FluencyHub.StudentManagement.Domain.Enums;
 using FluencyHub.SharedKernel.Common.Exceptions;
 using FluencyHub.Tests.Helpers;
 using Moq;

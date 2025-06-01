@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
@@ -6,8 +5,6 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using FluencyHub.StudentManagement.Infrastructure.Persistence;
 using FluencyHub.ContentManagement.Infrastructure.Persistence;
 using FluencyHub.PaymentProcessing.Infrastructure.Persistence;
-using Microsoft.AspNetCore.Identity;
-using FluencyHub.StudentManagement.Infrastructure.Identity;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
@@ -15,8 +12,6 @@ using Microsoft.Extensions.Options;
 using System.Text.Encodings.Web;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Xunit;
-using FluencyHub.Tests.Helpers;
 
 namespace FluencyHub.Tests.Helpers;
 

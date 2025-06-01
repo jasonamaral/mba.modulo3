@@ -22,7 +22,6 @@ public class ExceptionHandlingMiddleware
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An unhandled exception has occurred");
             await HandleExceptionAsync(context, ex);
         }
     }

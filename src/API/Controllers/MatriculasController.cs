@@ -1,6 +1,5 @@
 using FluencyHub.API.Models;
 using FluencyHub.API.SwaggerExamples;
-using FluencyHub.StudentManagement.Application.Commands.EnrollStudent;
 using FluencyHub.StudentManagement.Application.Queries.GetEnrollmentById;
 using FluencyHub.StudentManagement.Application.Queries.GetStudentEnrollments;
 using FluencyHub.SharedKernel.Common.Exceptions;

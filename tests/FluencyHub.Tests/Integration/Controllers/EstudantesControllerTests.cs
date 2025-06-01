@@ -4,20 +4,16 @@ using System.Net;
 using System.Net.Http.Json;
 using Xunit;
 using FluencyHub.StudentManagement.Application.Commands.CreateStudent;
-using FluencyHub.StudentManagement.Application.Commands.UpdateStudent;
-using FluencyHub.StudentManagement.Application.Commands.ActivateStudent;
-using FluencyHub.StudentManagement.Application.Commands.DeactivateStudent;
 using FluencyHub.StudentManagement.Application.Common.Models;
 using Microsoft.Extensions.DependencyInjection;
 using FluencyHub.StudentManagement.Infrastructure.Persistence;
-using FluencyHub.StudentManagement.Domain;
 using FluencyHub.StudentManagement.Application.Queries.GetStudentProgress;
 
 namespace FluencyHub.Tests.Integration.Controllers;
 
 public class EstudantesControllerTests : IntegrationTestBase
 {
-    // 182. EstudantesController_GetAllStudents_ShouldReturnAllStudents_WhenAdminRole
+
     [Fact]
     public async Task GetAllStudents_ShouldReturnAllStudents_WhenAdminRole()
     {
@@ -34,7 +30,6 @@ public class EstudantesControllerTests : IntegrationTestBase
         students.Should().NotBeEmpty();
     }
 
-    // 183. EstudantesController_GetAllStudents_ShouldReturnForbidden_WhenStudentRole
     [Fact]
     public async Task GetAllStudents_ShouldReturnForbidden_WhenStudentRole()
     {
@@ -48,7 +43,6 @@ public class EstudantesControllerTests : IntegrationTestBase
         response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
 
-    // 184. EstudantesController_GetCurrentStudent_ShouldReturnCurrentStudent_WhenAuthenticated
     [Fact]
     public async Task GetCurrentStudent_ShouldReturnCurrentStudent_WhenAuthenticated()
     {
@@ -67,7 +61,6 @@ public class EstudantesControllerTests : IntegrationTestBase
         student!.Email.Should().Be(email);
     }
 
-    // 185. EstudantesController_GetStudentById_ShouldReturnStudent_WhenStudentExists
     [Fact]
     public async Task GetStudentById_ShouldReturnStudent_WhenStudentExists()
     {
@@ -85,7 +78,6 @@ public class EstudantesControllerTests : IntegrationTestBase
         student!.Id.Should().Be(studentId);
     }
 
-    // 186. EstudantesController_CreateStudent_ShouldCreateStudent_WhenValidRequest
     [Fact]
     public async Task CreateStudent_ShouldCreateStudent_WhenValidRequest()
     {
@@ -113,7 +105,6 @@ public class EstudantesControllerTests : IntegrationTestBase
         response.Headers.Location.Should().NotBeNull();
     }
 
-    // 190. EstudantesController_GetStudentProgress_ShouldReturnProgress_WhenStudentExists
     [Fact]
     public async Task GetStudentProgress_ShouldReturnProgress_WhenStudentExists()
     {
