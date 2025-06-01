@@ -289,4 +289,117 @@ public class LessonTests
         action.Should().Throw<ArgumentException>()
             .WithMessage("A duração não pode ser negativa*");
     }
+
+    // Novos testes adicionados conforme especificação
+
+    [Fact]
+    public void Lesson_Constructor_ShouldThrowException_WhenTitleIsEmpty()
+    {
+        // Arrange
+        var course = CreateValidCourse();
+        var title = "";
+        var content = "Conteúdo válido";
+        var description = "Descrição válida";
+
+        // Act & Assert
+        var action = () => new Lesson(title, content, description, course, 1);
+        action.Should().Throw<ArgumentException>()
+            .WithMessage("O título não pode estar vazio*");
+    }
+
+    [Fact]
+    public void Lesson_Constructor_ShouldThrowException_WhenContentIsEmpty()
+    {
+        // Arrange
+        var course = CreateValidCourse();
+        var title = "Título válido";
+        var content = "";
+        var description = "Descrição válida";
+
+        // Act & Assert
+        var action = () => new Lesson(title, content, description, course, 1);
+        action.Should().Throw<ArgumentException>()
+            .WithMessage("O conteúdo não pode estar vazio*");
+    }
+
+    [Fact]
+    public void Lesson_Constructor_ShouldThrowException_WhenDurationIsNegative()
+    {
+        // Arrange
+        var course = CreateValidCourse();
+        var title = "Título válido";
+        var content = "Conteúdo válido";
+        var description = "Descrição válida";
+        var duration = -1;
+
+        // Act & Assert
+        var action = () => new Lesson(title, content, description, course, 1, duration);
+        action.Should().Throw<ArgumentException>()
+            .WithMessage("A duração não pode ser negativa*");
+    }
+
+    [Fact]
+    public void Lesson_UpdateTitle_ShouldUpdateTitle_WhenValidTitle()
+    {
+        // Arrange
+        var course = CreateValidCourse();
+        var lesson = new Lesson("Título inicial", "Conteúdo", "Descrição", course, 1);
+        var newTitle = "Novo título";
+
+        // Act
+        lesson.Update(newTitle, lesson.Description, lesson.Content, lesson.MaterialUrl, lesson.DurationMinutes);
+
+        // Assert
+        lesson.Title.Should().Be(newTitle);
+        lesson.UpdatedAt.Should().NotBeNull();
+    }
+
+    [Fact]
+    public void Lesson_UpdateContent_ShouldUpdateContent_WhenValidContent()
+    {
+        // Arrange
+        var course = CreateValidCourse();
+        var lesson = new Lesson("Título", "Conteúdo inicial", "Descrição", course, 1);
+        var newContent = "Novo conteúdo";
+
+        // Act
+        lesson.Update(lesson.Title, lesson.Description, newContent, lesson.MaterialUrl, lesson.DurationMinutes);
+
+        // Assert
+        lesson.Content.Should().Be(newContent);
+        lesson.UpdatedAt.Should().NotBeNull();
+    }
+
+    [Fact]
+    public void Lesson_UpdateOrder_ShouldUpdateOrder_WhenValidOrder()
+    {
+        // Arrange
+        var course = CreateValidCourse();
+        var lesson = new Lesson("Título", "Conteúdo", "Descrição", course, 1);
+        var newOrder = 3;
+
+        // Act
+        lesson.UpdateOrder(newOrder);
+
+        // Assert
+        lesson.Order.Should().Be(newOrder);
+        lesson.UpdatedAt.Should().NotBeNull();
+    }
+
+    [Fact]
+    public void Lesson_IsActive_ShouldBeTrue_WhenCreated()
+    {
+        // Arrange
+        var course = CreateValidCourse();
+
+        // Act
+        var lesson = new Lesson("Título", "Conteúdo", "Descrição", course, 1);
+
+        // Assert
+        lesson.IsActive.Should().BeTrue();
+    }
+
+    // Nota: Como a classe Lesson herda de BaseEntity mas não implementa métodos Activate/Deactivate específicos,
+    // estes testes verificam apenas a propriedade IsActive herdada da BaseEntity.
+    // Se métodos específicos forem adicionados à classe Lesson, os testes podem ser expandidos.
 } 

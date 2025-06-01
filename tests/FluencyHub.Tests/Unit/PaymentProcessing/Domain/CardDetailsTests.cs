@@ -46,9 +46,7 @@ public class CardDetailsTests
     [InlineData("")]
     [InlineData(" ")]
     [InlineData(null)]
-    [InlineData("123")]
-    [InlineData("12345678901234567890")]
-    public void CardDetails_Constructor_WithInvalidCardNumber_ShouldThrowArgumentException(string? cardNumber)
+    public void CardDetails_Constructor_ShouldThrowException_WhenCardNumberIsEmpty(string? cardNumber)
     {
         // Arrange
         var cardholderName = "João Silva";
@@ -57,13 +55,62 @@ public class CardDetailsTests
 
         // Act & Assert
         var action = () => new CardDetails(cardholderName, cardNumber!, expiryMonth, expiryYear);
-        action.Should().Throw<ArgumentException>();
+        action.Should().Throw<ArgumentException>()
+            .WithMessage("O número do cartão não pode estar vazio*");
     }
 
     [Theory]
     [InlineData("")]
     [InlineData(" ")]
     [InlineData(null)]
+    public void CardDetails_Constructor_ShouldThrowException_WhenExpiryMonthIsEmpty(string? expiryMonth)
+    {
+        // Arrange
+        var cardholderName = "João Silva";
+        var cardNumber = "4532015112830366";
+        var expiryYear = "2025";
+
+        // Act & Assert
+        var action = () => new CardDetails(cardholderName, cardNumber, expiryMonth!, expiryYear);
+        action.Should().Throw<ArgumentException>()
+            .WithMessage("O mês de validade não pode estar vazio*");
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData(" ")]
+    [InlineData(null)]
+    public void CardDetails_Constructor_ShouldThrowException_WhenExpiryYearIsEmpty(string? expiryYear)
+    {
+        // Arrange
+        var cardholderName = "João Silva";
+        var cardNumber = "4532015112830366";
+        var expiryMonth = "12";
+
+        // Act & Assert
+        var action = () => new CardDetails(cardholderName, cardNumber, expiryMonth, expiryYear!);
+        action.Should().Throw<ArgumentException>()
+            .WithMessage("O ano de validade não pode estar vazio*");
+    }
+
+    [Theory]
+    [InlineData("123")]
+    [InlineData("12345678901234567890")]
+    [InlineData("1234567890123456")] // Número inválido pelo algoritmo de Luhn
+    public void CardDetails_Constructor_ShouldThrowException_WhenCardNumberIsInvalid(string cardNumber)
+    {
+        // Arrange
+        var cardholderName = "João Silva";
+        var expiryMonth = "12";
+        var expiryYear = "2025";
+
+        // Act & Assert
+        var action = () => new CardDetails(cardholderName, cardNumber, expiryMonth, expiryYear);
+        action.Should().Throw<ArgumentException>()
+            .WithMessage("Número de cartão inválido*");
+    }
+
+    [Theory]
     [InlineData("0")]
     [InlineData("13")]
     [InlineData("abc")]
@@ -80,9 +127,6 @@ public class CardDetailsTests
     }
 
     [Theory]
-    [InlineData("")]
-    [InlineData(" ")]
-    [InlineData(null)]
     [InlineData("2020")]
     [InlineData("abc")]
     [InlineData("20")]
@@ -96,6 +140,21 @@ public class CardDetailsTests
         // Act & Assert
         var action = () => new CardDetails(cardholderName, cardNumber, expiryMonth, expiryYear!);
         action.Should().Throw<ArgumentException>();
+    }
+
+    [Fact]
+    public void CardDetails_Constructor_ShouldThrowException_WhenExpiryDateIsInvalid()
+    {
+        // Arrange
+        var cardholderName = "João Silva";
+        var cardNumber = "4532015112830366";
+        var expiryMonth = "01";
+        var expiryYear = "2020";
+
+        // Act & Assert
+        var action = () => new CardDetails(cardholderName, cardNumber, expiryMonth, expiryYear);
+        action.Should().Throw<ArgumentException>()
+            .WithMessage("Data de validade inválida");
     }
 
     [Fact]
@@ -117,18 +176,43 @@ public class CardDetailsTests
     }
 
     [Fact]
-    public void CardDetails_Constructor_WithExpiredDate_ShouldThrowArgumentException()
+    public void CardDetails_MaskCardNumber_ShouldMaskAllButLastFourDigits()
+    {
+        // Arrange & Act
+        var cardDetails = new CardDetails("João Silva", "4532015112830366", "12", "2025");
+
+        // Assert
+        cardDetails.MaskedCardNumber.Should().Be("453201******0366");
+        cardDetails.MaskedCardNumber.Should().StartWith("453201");
+        cardDetails.MaskedCardNumber.Should().EndWith("0366");
+        cardDetails.MaskedCardNumber.Should().Contain("******");
+    }
+
+    [Theory]
+    [InlineData("4532015112830366")] // Visa válido
+    [InlineData("5555555555554444")] // Mastercard válido
+    [InlineData("378282246310005")] // Amex válido
+    public void CardDetails_ValidateCardNumber_ShouldReturnTrue_WhenValidNumber(string validCardNumber)
+    {
+        // Arrange & Act - O construtor já chama a validação internamente
+        var action = () => new CardDetails("João Silva", validCardNumber, "12", "2025");
+
+        // Assert - Se não lançar exceção, significa que a validação passou
+        action.Should().NotThrow();
+    }
+
+    [Fact]
+    public void CardDetails_ValidateExpiryDate_ShouldReturnTrue_WhenValidDate()
     {
         // Arrange
-        var cardholderName = "João Silva";
-        var cardNumber = "4532015112830366";
-        var expiryMonth = "01";
-        var expiryYear = "2020";
+        var futureYear = (DateTime.Now.Year + 2).ToString();
+        var currentMonth = DateTime.Now.Month.ToString("D2");
 
-        // Act & Assert
-        var action = () => new CardDetails(cardholderName, cardNumber, expiryMonth, expiryYear);
-        action.Should().Throw<ArgumentException>()
-            .WithMessage("Data de validade inválida");
+        // Act - O construtor já chama a validação internamente
+        var action = () => new CardDetails("João Silva", "4532015112830366", currentMonth, futureYear);
+
+        // Assert - Se não lançar exceção, significa que a validação passou
+        action.Should().NotThrow();
     }
 
     [Fact]

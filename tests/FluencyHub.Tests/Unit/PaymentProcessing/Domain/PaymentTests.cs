@@ -1,5 +1,6 @@
 using FluentAssertions;
 using FluencyHub.PaymentProcessing.Domain;
+using FluencyHub.PaymentProcessing.Domain.Events;
 using Xunit;
 
 namespace FluencyHub.Tests.Unit.PaymentProcessing.Domain;
@@ -88,6 +89,26 @@ public class PaymentTests
         payment.IsPending.Should().BeFalse();
         payment.IsFailed.Should().BeFalse();
         payment.UpdatedAt.Should().NotBeNull();
+    }
+
+    [Fact]
+    public void MarkAsSuccess_WithValidTransactionId_ShouldAddPaymentConfirmedDomainEvent()
+    {
+        // Arrange
+        var enrollmentId = Guid.NewGuid();
+        var payment = new Payment(Guid.NewGuid(), enrollmentId, 100m, CreateValidCardDetails());
+        var transactionId = "TXN123456789";
+
+        // Act
+        payment.MarkAsSuccess(transactionId);
+
+        // Assert
+        payment.DomainEvents.Should().HaveCount(1);
+        var domainEvent = payment.DomainEvents.First() as PaymentConfirmedDomainEvent;
+        domainEvent.Should().NotBeNull();
+        domainEvent!.PaymentId.Should().Be(payment.Id);
+        domainEvent.EnrollmentId.Should().Be(enrollmentId);
+        domainEvent.TransactionId.Should().Be(transactionId);
     }
 
     [Theory]

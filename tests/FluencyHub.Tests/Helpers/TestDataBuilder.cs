@@ -3,6 +3,8 @@ using FluencyHub.PaymentProcessing.Domain;
 using FluencyHub.StudentManagement.Domain;
 using FluencyHub.SharedKernel.Contracts;
 using FluencyHub.StudentManagement.Domain.Models;
+using System;
+using System.Reflection;
 
 namespace FluencyHub.Tests.Helpers;
 
@@ -112,16 +114,54 @@ public static class TestDataBuilder
     public static Enrollment CreateValidEnrollment(
         Guid studentId,
         Guid courseId,
-        decimal amount = 299.99m)
+        decimal price = 299.99m)
     {
-        var student = CreateStudentWithId(studentId);
-        var course = CreateCourseWithId(courseId);
+        return CreateValidEnrollmentWithNavigation(studentId, courseId, price);
+    }
+
+    public static Enrollment CreateValidEnrollmentWithoutNavigation(
+        Guid studentId,
+        Guid courseId,
+        decimal price = 299.99m)
+    {
+        // Criar objetos dummy para satisfazer propriedades obrigatórias do EF
+        var dummyStudent = CreateDummyStudent();
+        var dummyCourse = CreateDummyCourse();
         
-        return new Enrollment(studentId, courseId, amount)
+        // Para testes unitários, criar enrollment básico sem navegação
+        var enrollment = new Enrollment(studentId, courseId, price)
+        {
+            Student = dummyStudent,
+            Course = dummyCourse
+        };
+        
+        // Definir um ID único para a matrícula usando reflection
+        SetEntityId(enrollment, Guid.NewGuid());
+        
+        return enrollment;
+    }
+
+    public static Enrollment CreateValidEnrollmentWithNavigation(
+        Guid studentId,
+        Guid courseId,
+        decimal price = 299.99m)
+    {
+        // Criar student com o ID específico do teste
+        var student = CreateValidStudent($"Student{studentId:N}"[..8], $"Test{studentId:N}"[..8], $"test{studentId:N}@email.com");
+        SetEntityId(student, studentId);
+        
+        var course = CreateValidCourseReference(courseId, $"Course{courseId:N}"[..10], "Test course description", price);
+        
+        var enrollment = new Enrollment(studentId, courseId, price)
         {
             Student = student,
-            Course = (ICourse)course
+            Course = course
         };
+        
+        // Definir um ID único para a matrícula
+        SetEntityId(enrollment, Guid.NewGuid());
+        
+        return enrollment;
     }
 
     public static Payment CreateValidPayment(
@@ -131,7 +171,10 @@ public static class TestDataBuilder
         CardDetails? cardDetails = null)
     {
         cardDetails ??= CreateValidCardDetails();
-        return new Payment(studentId, enrollmentId, amount, cardDetails);
+        var payment = new Payment(studentId, enrollmentId, amount, cardDetails);
+        // Garantir que o pagamento tenha um ID único
+        SetEntityId(payment, Guid.NewGuid());
+        return payment;
     }
 
     public static CardDetails CreateValidCardDetails(
@@ -141,6 +184,24 @@ public static class TestDataBuilder
         string expiryYear = "2025")
     {
         return new CardDetails(cardholderName, cardNumber, expiryMonth, expiryYear);
+    }
+
+    public static FluencyHub.PaymentProcessing.Application.Common.Models.CardDetails CreateValidApplicationCardDetails(
+        string cardholderName = "João Silva",
+        string cardNumber = "4532015112830366",
+        string expiryMonth = "12",
+        string expiryYear = "2025",
+        string cvv = "123")
+    {
+        return new FluencyHub.PaymentProcessing.Application.Common.Models.CardDetails
+        {
+            CardHolderName = cardholderName,
+            CardNumber = cardNumber,
+            MaskedCardNumber = $"****-****-****-{cardNumber.Substring(cardNumber.Length - 4)}",
+            ExpiryMonth = expiryMonth,
+            ExpiryYear = expiryYear,
+            Cvv = cvv
+        };
     }
 
     public static LearningHistory CreateValidLearningHistory(
@@ -154,16 +215,53 @@ public static class TestDataBuilder
         Guid courseId,
         string courseName = "Curso de Inglês")
     {
-        var student = CreateStudentWithId(studentId);
-        var course = CreateCourseWithId(courseId);
+        return CreateValidCertificateWithoutNavigation(studentId, courseId, courseName);
+    }
+
+    public static Certificate CreateValidCertificateWithoutNavigation(
+        Guid studentId,
+        Guid courseId,
+        string courseName = "Curso de Inglês")
+    {
+        // Para testes de integração, criar certificate com student e course dummy para satisfazer propriedades obrigatórias
+        var dummyStudent = CreateDummyStudent();
+        var dummyCourse = CreateDummyCourse();
         
-        return new Certificate(studentId, courseId, courseName)
+        var certificate = new Certificate(studentId, courseId, courseName)
         {
             Title = courseName,
-            CertificateNumber = $"CERT-{DateTime.UtcNow:yyyyMMdd}-{Guid.NewGuid().ToString().Substring(0, 8)}",
-            Student = student,
-            Course = (ICourse)course
+            CertificateNumber = $"CERT-{DateTime.UtcNow:yyyyMMddHHmmssfff}-{Guid.NewGuid().ToString().Substring(0, 8)}",
+            Student = dummyStudent,
+            Course = dummyCourse
         };
+        
+        // Definir um ID único para o certificado
+        SetEntityId(certificate, Guid.NewGuid());
+        return certificate;
+    }
+
+    public static Certificate CreateValidCertificateWithNavigation(
+        Guid studentId,
+        Guid courseId,
+        string courseName = "Curso de Inglês")
+    {
+        // Para testes de integração, criar navigation properties completas
+        var student = CreateValidStudent($"Student{studentId:N}"[..8], $"Test{studentId:N}"[..8], $"test{studentId:N}@email.com");
+        SetEntityId(student, studentId);
+        
+        var course = CreateValidCourseReference(courseId, courseName, "Test course description", 299.99m);
+        
+        var certificate = new Certificate(studentId, courseId, courseName)
+        {
+            Title = courseName,
+            CertificateNumber = $"CERT-{DateTime.UtcNow:yyyyMMddHHmmssfff}-{Guid.NewGuid().ToString().Substring(0, 8)}",
+            Student = student,
+            Course = course
+        };
+        
+        // Definir um ID único para o certificado
+        SetEntityId(certificate, Guid.NewGuid());
+        return certificate;
     }
 
     public static void SetEntityId<T>(T entity, Guid id) where T : class
@@ -199,5 +297,22 @@ public static class TestDataBuilder
         course.AddLesson("Introdução", "Conteúdo da introdução", "Primeira lição", 1, 30);
         course.AddLesson("Gramática Básica", "Conteúdo de gramática", "Segunda lição", 2, 45);
         return course;
+    }
+
+    private static Student CreateDummyStudent()
+    {
+        var student = CreateValidStudent("Dummy", "Student", $"dummy{Guid.NewGuid():N}@email.com");
+        SetEntityId(student, Guid.NewGuid());
+        return student;
+    }
+
+    private static CourseReference CreateDummyCourse()
+    {
+        return CreateValidCourseReference(
+            id: Guid.NewGuid(),
+            name: "Dummy Course",
+            description: "Dummy course for testing",
+            price: 299.99m,
+            isActive: true);
     }
 } 

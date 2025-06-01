@@ -78,7 +78,7 @@ public class GetEnrollmentByIdQueryHandlerTests
             .ReturnsAsync(student);
 
         _mockMediator.Setup(x => x.Send(It.IsAny<GetCourseById>(), It.IsAny<CancellationToken>()))
-            .Returns(Task.FromResult(courseDto));
+            .ReturnsAsync((FluencyHub.SharedKernel.Queries.CourseDto?)courseDto);
 
         var query = new GetEnrollmentByIdQuery { EnrollmentId = enrollmentId };
 

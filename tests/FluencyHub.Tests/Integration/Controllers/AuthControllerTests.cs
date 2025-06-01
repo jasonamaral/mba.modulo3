@@ -8,36 +8,55 @@ using System.Net;
 using System.Net.Http.Json;
 using Xunit;
 using FluentAssertions;
+using FluencyHub.Tests.Helpers;
 
 namespace FluencyHub.Tests.Integration.Controllers;
 
-public class AuthControllerTests : IClassFixture<WebApplicationFactory<Program>>
+public class AuthControllerTests : IntegrationTestBase
 {
-    private readonly WebApplicationFactory<Program> _factory;
-    private readonly HttpClient _client;
-    private readonly Mock<IIdentityService> _mockIdentityService;
-
-    public AuthControllerTests(WebApplicationFactory<Program> factory)
+    // 178. AuthController_Register_ShouldReturnToken_WhenValidRequest
+    [Fact]
+    public async Task Register_ShouldReturnToken_WhenValidRequest()
     {
-        _mockIdentityService = new Mock<IIdentityService>();
-        
-        _factory = factory.WithWebHostBuilder(builder =>
+        // Arrange
+        var registerRequest = new RegisterRequest
         {
-            builder.ConfigureServices(services =>
-            {
-                // Remove o serviço real e adiciona o mock
-                var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IIdentityService));
-                if (descriptor != null)
-                {
-                    services.Remove(descriptor);
-                }
-                services.AddSingleton(_mockIdentityService.Object);
-            });
-        });
-        
-        _client = _factory.CreateClient();
+            FirstName = "João",
+            LastName = "Silva",
+            Email = "joao.silva@email.com",
+            Password = "ValidPassword123!"
+        };
+
+        // Act
+        var response = await Client.PostAsJsonAsync("/api/auth/register", registerRequest);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var content = await response.Content.ReadAsStringAsync();
+        content.Should().Contain("mock-jwt-token");
     }
 
+    // 179. AuthController_Register_ShouldReturnBadRequest_WhenEmailExists
+    [Fact]
+    public async Task Register_ShouldReturnBadRequest_WhenEmailExists()
+    {
+        // Arrange
+        var registerRequest = new RegisterRequest
+        {
+            FirstName = "João",
+            LastName = "Silva",
+            Email = "existing@example.com", // Este email retorna erro no MockIdentityService
+            Password = "ValidPassword123!"
+        };
+
+        // Act
+        var response = await Client.PostAsJsonAsync("/api/auth/register", registerRequest);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    // 180. AuthController_Login_WithValidCredentials_ShouldReturnOk
     [Fact]
     public async Task Login_WithValidCredentials_ShouldReturnToken()
     {
@@ -48,39 +67,28 @@ public class AuthControllerTests : IClassFixture<WebApplicationFactory<Program>>
             Password = "ValidPassword123!"
         };
 
-        var authResult = AuthResult.Success("valid-jwt-token");
-
-        _mockIdentityService
-            .Setup(x => x.AuthenticateAsync(loginRequest.Email, loginRequest.Password))
-            .ReturnsAsync(authResult);
-
         // Act
-        var response = await _client.PostAsJsonAsync("/api/auth/login", loginRequest);
+        var response = await Client.PostAsJsonAsync("/api/auth/login", loginRequest);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var content = await response.Content.ReadAsStringAsync();
-        content.Should().Contain("valid-jwt-token");
+        content.Should().Contain("mock-jwt-token");
     }
 
+    // 181. AuthController_Login_WithInvalidCredentials_ShouldReturnUnauthorized
     [Fact]
     public async Task Login_WithInvalidCredentials_ShouldReturnUnauthorized()
     {
         // Arrange
         var loginRequest = new LoginRequest
         {
-            Email = "test@example.com",
-            Password = "InvalidPassword"
+            Email = "invalid@example.com", // Este email retorna erro no MockIdentityService
+            Password = "wrongpassword"
         };
 
-        var authResult = AuthResult.Failure("Invalid credentials");
-
-        _mockIdentityService
-            .Setup(x => x.AuthenticateAsync(loginRequest.Email, loginRequest.Password))
-            .ReturnsAsync(authResult);
-
         // Act
-        var response = await _client.PostAsJsonAsync("/api/auth/login", loginRequest);
+        var response = await Client.PostAsJsonAsync("/api/auth/login", loginRequest);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -97,7 +105,7 @@ public class AuthControllerTests : IClassFixture<WebApplicationFactory<Program>>
         };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/api/auth/login", loginRequest);
+        var response = await Client.PostAsJsonAsync("/api/auth/login", loginRequest);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -114,7 +122,7 @@ public class AuthControllerTests : IClassFixture<WebApplicationFactory<Program>>
         };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/api/auth/login", loginRequest);
+        var response = await Client.PostAsJsonAsync("/api/auth/login", loginRequest);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);

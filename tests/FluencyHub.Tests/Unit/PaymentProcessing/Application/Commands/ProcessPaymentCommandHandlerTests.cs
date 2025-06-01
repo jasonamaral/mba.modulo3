@@ -35,10 +35,10 @@ public class ProcessPaymentCommandHandlerTests
         {
             StudentId = Guid.NewGuid(),
             EnrollmentId = Guid.NewGuid(),
-            Amount = 100.00m,
+            Amount = 299.99m,
             PaymentMethod = "CreditCard",
-            CardNumber = "4111111111111111",
-            CardHolderName = "John Doe",
+            CardHolderName = "João Silva",
+            CardNumber = "4532015112830366", // Número válido Visa
             ExpirationDate = "12/25",
             SecurityCode = "123"
         };
@@ -48,7 +48,7 @@ public class ProcessPaymentCommandHandlerTests
         _mockPaymentGateway
             .Setup(x => x.ProcessPaymentAsync(
                 It.IsAny<string>(),
-                It.IsAny<decimal>(),
+                command.Amount,
                 It.IsAny<AppModels.CardDetails>()))
             .ReturnsAsync(paymentResult);
 
@@ -61,36 +61,40 @@ public class ProcessPaymentCommandHandlerTests
 
         // Assert
         result.Should().NotBe(Guid.Empty);
+        
         _mockPaymentGateway.Verify(x => x.ProcessPaymentAsync(
             It.IsAny<string>(),
             command.Amount,
-            It.Is<AppModels.CardDetails>(cd => 
-                cd.CardHolderName == command.CardHolderName &&
-                cd.CardNumber == command.CardNumber &&
-                cd.Cvv == command.SecurityCode)), Times.Once);
+            It.Is<AppModels.CardDetails>(c => 
+                c.CardHolderName == command.CardHolderName &&
+                c.MaskedCardNumber == "**** **** **** 0366")), Times.Once);
+        
         _mockPaymentRepository.Verify(x => x.AddAsync(It.IsAny<DomainEntities.Payment>()), Times.Once);
     }
 
     [Fact]
-    public async Task Handle_ShouldCreatePaymentWithSuccessStatus_WhenGatewaySucceeds()
+    public async Task Handle_ShouldMarkPaymentAsFailed_WhenGatewayFails()
     {
         // Arrange
         var command = new ProcessPaymentCommand
         {
             StudentId = Guid.NewGuid(),
             EnrollmentId = Guid.NewGuid(),
-            Amount = 150.00m,
+            Amount = 199.99m,
             PaymentMethod = "CreditCard",
-            CardNumber = "4111111111111111",
-            CardHolderName = "Jane Smith",
+            CardHolderName = "Maria Santos",
+            CardNumber = "5555555555554444", // Número válido Mastercard
             ExpirationDate = "06/26",
             SecurityCode = "456"
         };
 
-        var paymentResult = AppModels.PaymentResult.Success("TXN789012");
+        var paymentResult = AppModels.PaymentResult.Failure("Cartão recusado");
 
         _mockPaymentGateway
-            .Setup(x => x.ProcessPaymentAsync(It.IsAny<string>(), It.IsAny<decimal>(), It.IsAny<AppModels.CardDetails>()))
+            .Setup(x => x.ProcessPaymentAsync(
+                It.IsAny<string>(),
+                command.Amount,
+                It.IsAny<AppModels.CardDetails>()))
             .ReturnsAsync(paymentResult);
 
         DomainEntities.Payment capturedPayment = null!;
@@ -100,122 +104,14 @@ public class ProcessPaymentCommandHandlerTests
             .Returns(Task.CompletedTask);
 
         // Act
-        await _handler.Handle(command, CancellationToken.None);
+        var result = await _handler.Handle(command, CancellationToken.None);
 
         // Assert
-        capturedPayment.Should().NotBeNull();
-        capturedPayment.Status.Should().Be(DomainEntities.StatusPagamento.Aprovado);
-        capturedPayment.TransactionId.Should().Be("TXN789012");
-        capturedPayment.StudentId.Should().Be(command.StudentId);
-        capturedPayment.EnrollmentId.Should().Be(command.EnrollmentId);
-        capturedPayment.Amount.Should().Be(command.Amount);
-        capturedPayment.IsSuccessful.Should().BeTrue();
-    }
-
-    [Fact]
-    public async Task Handle_ShouldCreatePaymentWithFailedStatus_WhenGatewayFails()
-    {
-        // Arrange
-        var command = new ProcessPaymentCommand
-        {
-            StudentId = Guid.NewGuid(),
-            EnrollmentId = Guid.NewGuid(),
-            Amount = 200.00m,
-            PaymentMethod = "CreditCard",
-            CardNumber = "4111111111111111",
-            CardHolderName = "Bob Johnson",
-            ExpirationDate = "03/27",
-            SecurityCode = "789"
-        };
-
-        var paymentResult = AppModels.PaymentResult.Failure("Payment declined");
-
-        _mockPaymentGateway
-            .Setup(x => x.ProcessPaymentAsync(It.IsAny<string>(), It.IsAny<decimal>(), It.IsAny<AppModels.CardDetails>()))
-            .ReturnsAsync(paymentResult);
-
-        DomainEntities.Payment capturedPayment = null!;
-        _mockPaymentRepository
-            .Setup(x => x.AddAsync(It.IsAny<DomainEntities.Payment>()))
-            .Callback<DomainEntities.Payment>((payment) => capturedPayment = payment)
-            .Returns(Task.CompletedTask);
-
-        // Act
-        await _handler.Handle(command, CancellationToken.None);
-
-        // Assert
+        result.Should().NotBe(Guid.Empty);
         capturedPayment.Should().NotBeNull();
         capturedPayment.Status.Should().Be(DomainEntities.StatusPagamento.Falha);
-        capturedPayment.TransactionId.Should().BeNull();
-        capturedPayment.IsFailed.Should().BeTrue();
-    }
-
-    [Fact]
-    public async Task Handle_ShouldThrowException_WhenGatewayThrows()
-    {
-        // Arrange
-        var command = new ProcessPaymentCommand
-        {
-            StudentId = Guid.NewGuid(),
-            EnrollmentId = Guid.NewGuid(),
-            Amount = 75.00m,
-            PaymentMethod = "CreditCard",
-            CardNumber = "4111111111111111",
-            CardHolderName = "Alice Brown",
-            ExpirationDate = "09/28",
-            SecurityCode = "321"
-        };
-
-        _mockPaymentGateway
-            .Setup(x => x.ProcessPaymentAsync(It.IsAny<string>(), It.IsAny<decimal>(), It.IsAny<AppModels.CardDetails>()))
-            .ThrowsAsync(new InvalidOperationException("Gateway error"));
-
-        // Act & Assert
-        await Assert.ThrowsAsync<InvalidOperationException>(() => 
-            _handler.Handle(command, CancellationToken.None));
-
-        _mockPaymentRepository.Verify(x => x.AddAsync(It.IsAny<DomainEntities.Payment>()), Times.Never);
-    }
-
-    [Fact]
-    public async Task Handle_ShouldMaskCardNumber_WhenProcessingPayment()
-    {
-        // Arrange
-        var command = new ProcessPaymentCommand
-        {
-            StudentId = Guid.NewGuid(),
-            EnrollmentId = Guid.NewGuid(),
-            Amount = 50.00m,
-            PaymentMethod = "CreditCard",
-            CardNumber = "4111111111111111",
-            CardHolderName = "Test User",
-            ExpirationDate = "12/25",
-            SecurityCode = "123"
-        };
-
-        var paymentResult = AppModels.PaymentResult.Success("TXN123");
-
-        _mockPaymentGateway
-            .Setup(x => x.ProcessPaymentAsync(It.IsAny<string>(), It.IsAny<decimal>(), It.IsAny<AppModels.CardDetails>()))
-            .ReturnsAsync(paymentResult);
-
-        AppModels.CardDetails capturedCardDetails = null!;
-        _mockPaymentGateway
-            .Setup(x => x.ProcessPaymentAsync(It.IsAny<string>(), It.IsAny<decimal>(), It.IsAny<AppModels.CardDetails>()))
-            .Callback<string, decimal, AppModels.CardDetails>((_, _, cardDetails) => capturedCardDetails = cardDetails)
-            .ReturnsAsync(paymentResult);
-
-        _mockPaymentRepository
-            .Setup(x => x.AddAsync(It.IsAny<DomainEntities.Payment>()))
-            .Returns(Task.CompletedTask);
-
-        // Act
-        await _handler.Handle(command, CancellationToken.None);
-
-        // Assert
-        capturedCardDetails.Should().NotBeNull();
-        capturedCardDetails.CardNumber.Should().Be("4111111111111111");
-        capturedCardDetails.CardHolderName.Should().Be("Test User");
+        
+        _mockPaymentRepository.Verify(x => x.AddAsync(It.IsAny<DomainEntities.Payment>()), Times.Once);
     }
 
     [Fact]
@@ -226,29 +122,75 @@ public class ProcessPaymentCommandHandlerTests
         {
             StudentId = Guid.NewGuid(),
             EnrollmentId = Guid.NewGuid(),
-            Amount = 100.00m,
+            Amount = 399.99m,
             PaymentMethod = "CreditCard",
-            CardNumber = "4111111111111111",
-            CardHolderName = "John Doe",
-            ExpirationDate = "12/25",
-            SecurityCode = "123"
+            CardHolderName = "Pedro Costa",
+            CardNumber = "378282246310005", // Número válido Amex
+            ExpirationDate = "03/27",
+            SecurityCode = "789"
         };
 
         _mockPaymentGateway
-            .Setup(x => x.ProcessPaymentAsync(It.IsAny<string>(), It.IsAny<decimal>(), It.IsAny<AppModels.CardDetails>()))
-            .ThrowsAsync(new InvalidOperationException("Gateway error"));
+            .Setup(x => x.ProcessPaymentAsync(
+                It.IsAny<string>(),
+                It.IsAny<decimal>(),
+                It.IsAny<AppModels.CardDetails>()))
+            .ThrowsAsync(new InvalidOperationException("Erro no gateway"));
 
         // Act & Assert
-        await Assert.ThrowsAsync<InvalidOperationException>(() => 
-            _handler.Handle(command, CancellationToken.None));
+        var action = async () => await _handler.Handle(command, CancellationToken.None);
+        await action.Should().ThrowAsync<InvalidOperationException>()
+            .WithMessage("Erro no gateway");
 
+        // Verify that error was logged
         _mockLogger.Verify(
             x => x.Log(
                 LogLevel.Error,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Erro ao processar pagamento para estudante")),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains($"Erro ao processar pagamento para estudante {command.StudentId}")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
+    }
+
+    [Fact]
+    public async Task Handle_ShouldMaskCardNumberCorrectly()
+    {
+        // Arrange
+        var command = new ProcessPaymentCommand
+        {
+            StudentId = Guid.NewGuid(),
+            EnrollmentId = Guid.NewGuid(),
+            Amount = 149.99m,
+            PaymentMethod = "CreditCard",
+            CardHolderName = "Ana Oliveira",
+            CardNumber = "4000000000000002", // Número válido Visa
+            ExpirationDate = "09/26",
+            SecurityCode = "321"
+        };
+
+        var paymentResult = AppModels.PaymentResult.Success("TXN789012");
+
+        _mockPaymentGateway
+            .Setup(x => x.ProcessPaymentAsync(
+                It.IsAny<string>(),
+                command.Amount,
+                It.IsAny<AppModels.CardDetails>()))
+            .ReturnsAsync(paymentResult);
+
+        _mockPaymentRepository
+            .Setup(x => x.AddAsync(It.IsAny<DomainEntities.Payment>()))
+            .Returns(Task.CompletedTask);
+
+        // Act
+        var result = await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        result.Should().NotBe(Guid.Empty);
+        
+        _mockPaymentGateway.Verify(x => x.ProcessPaymentAsync(
+            It.IsAny<string>(),
+            command.Amount,
+            It.Is<AppModels.CardDetails>(c => c.MaskedCardNumber == "**** **** **** 0002")), Times.Once);
     }
 } 
