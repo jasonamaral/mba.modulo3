@@ -8,7 +8,7 @@
 	},
 	"item": [
 		{
-			"name": "Authentication",
+			"name": "Autenticação",
 			"item": [
 				{
 					"name": "Login Admin",
@@ -70,7 +70,7 @@
 					"response": []
 				},
 				{
-					"name": "Login Student",
+					"name": "Login estudante",
 					"event": [
 						{
 							"listen": "test",
@@ -121,10 +121,10 @@
 			"description": "Endpoints relacionados à autenticação e registro de usuários."
 		},
 		{
-			"name": "Students",
+			"name": "Estudentes",
 			"item": [
 				{
-					"name": "Get Current Student",
+					"name": "Obter aluno atual",
 					"event": [
 						{
 							"listen": "test",
@@ -155,13 +155,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/students/me",
+							"raw": "{{baseUrl}}/api/estudantes/me",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"students",
+								"estudantes",
 								"me"
 							]
 						},
@@ -170,7 +170,7 @@
 					"response": []
 				},
 				{
-					"name": "Get All Students",
+					"name": "Obter todos os alunos",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -185,13 +185,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/students",
+							"raw": "{{baseUrl}}/api/estudantes",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"students"
+								"estudantes"
 							]
 						},
 						"description": "Obtém informações do estudante atualmente logado."
@@ -199,7 +199,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Student by ID",
+					"name": "Obter aluno por ID",
 					"event": [
 						{
 							"listen": "test",
@@ -230,13 +230,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/students/{{studentId}}",
+							"raw": "{{baseUrl}}/api/estudantes/{{studentId}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"students",
+								"estudantes",
 								"{{studentId}}"
 							]
 						},
@@ -245,7 +245,7 @@
 					"response": []
 				},
 				{
-					"name": "Create Student",
+					"name": "Criar estutante",
 					"event": [
 						{
 							"listen": "test",
@@ -274,13 +274,13 @@
 							"raw": "{\n    \"firstName\": \"Jack\",\n    \"lastName\": \"Student 1\",\n    \"email\": \"jack.student1@fluencyhub.com\",\n    \"phoneNumber\": \"11912345678\",\n    \"dateOfBirth\": \"1995-01-01T00:00:00Z\",\n    \"password\": \"Test@123\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/students",
+							"raw": "{{baseUrl}}/api/estudantes",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"students"
+								"estudantes"
 							]
 						},
 						"description": "Cria um novo estudante e usuário correspondente com senha padrão 'FluencyHub@123'."
@@ -288,7 +288,7 @@
 					"response": []
 				},
 				{
-					"name": "Update Student",
+					"name": "Atualizar Aluno",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -309,16 +309,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": \"{{studentId}}\",\n    \"firstName\": \"Jack\",\n    \"lastName\": \"Amaral\",\n    \"phoneNumber\": \"11987654321\",\n    \"dateOfBirth\": \"2016-05-01T00:00:00Z\"\n}"
+							"raw": "{\n   \"id\": \"{{studentId}}\",\n   \"firstName\": \"Jack\",\n   \"lastName\": \"Amaral\",\n   \"email\": \"jack.student1@fluencyhub.com\",\n   \"phoneNumber\": \"11987654321\",\n   \"dateOfBirth\": \"2016-05-01T00:00:00Z\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/students/{{studentId}}",
+							"raw": "{{baseUrl}}/api/estudantes/{{studentId}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"students",
+								"estudantes",
 								"{{studentId}}"
 							]
 						},
@@ -327,7 +327,7 @@
 					"response": []
 				},
 				{
-					"name": "Deactivate Student",
+					"name": "Desativar Aluno",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -342,15 +342,15 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/students/{{studentId}}/deactivate",
+							"raw": "{{baseUrl}}/api/estudantes/{{studentId}}/desativar",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"students",
+								"estudantes",
 								"{{studentId}}",
-								"deactivate"
+								"desativar"
 							]
 						},
 						"description": "Desativa um estudante (apenas administradores)."
@@ -358,7 +358,7 @@
 					"response": []
 				},
 				{
-					"name": "Activate Student",
+					"name": "Ativar Aluno",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -373,15 +373,15 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/students/{{studentId}}/activate",
+							"raw": "{{baseUrl}}/api/estudantes/{{studentId}}/ativar",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"students",
+								"estudantes",
 								"{{studentId}}",
-								"activate"
+								"ativar"
 							]
 						},
 						"description": "Ativa um estudante (apenas administradores)."
@@ -389,7 +389,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Student Progress",
+					"name": "Obtenha o progresso do aluno",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -404,18 +404,95 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/students/{{studentId}}/progress",
+							"raw": "{{baseUrl}}/api/estudantes/{{studentId}}/progresso",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"students",
+								"estudantes",
 								"{{studentId}}",
-								"progress"
+								"progresso"
 							]
 						},
 						"description": "Obtém o progresso de um estudante em seus cursos."
+					},
+					"response": []
+				},
+				{
+					"name": "Concluir lição",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"completed\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/estudantes/{{studentId}}/curso/{{courseId}}/licao/{{lessonId}}/completa",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"estudantes",
+								"{{studentId}}",
+								"curso",
+								"{{courseId}}",
+								"licao",
+								"{{lessonId}}",
+								"completa"
+							]
+						},
+						"description": "Marca uma aula como concluída para um estudante."
+					},
+					"response": []
+				},
+				{
+					"name": "Complete Course",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/estudantes/{{studentId}}/curso/{{courseId}}/completo",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"estudantes",
+								"{{studentId}}",
+								"curso",
+								"{{courseId}}",
+								"completo"
+							]
+						},
+						"description": "Marca um curso como concluído para um estudante."
 					},
 					"response": []
 				}
@@ -423,10 +500,10 @@
 			"description": "Endpoints relacionados ao gerenciamento de estudantes."
 		},
 		{
-			"name": "Courses",
+			"name": "Cursos",
 			"item": [
 				{
-					"name": "Get All Courses",
+					"name": "Todos os cursos",
 					"event": [
 						{
 							"listen": "test",
@@ -438,7 +515,8 @@
 									"    pm.collectionVariables.set(\"courseId\", jsonData[0].id);",
 									"}"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -446,13 +524,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/courses",
+							"raw": "{{baseUrl}}/api/cursos",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"courses"
+								"cursos"
 							]
 						},
 						"description": "Lista todos os cursos disponíveis."
@@ -460,18 +538,18 @@
 					"response": []
 				},
 				{
-					"name": "Get Course by ID",
+					"name": "Curso por Id",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/courses/{{courseId}}",
+							"raw": "{{baseUrl}}/api/cursos/{{courseId}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"courses",
+								"cursos",
 								"{{courseId}}"
 							]
 						},
@@ -480,7 +558,7 @@
 					"response": []
 				},
 				{
-					"name": "Create Course",
+					"name": "Criar curso",
 					"event": [
 						{
 							"listen": "test",
@@ -533,13 +611,13 @@
 							"raw": "{\n    \"name\": \"Curso de Inglês Iniciante I\",\n    \"description\": \"Curso perfeito para iniciantes que desejam aprender inglês de forma eficiente.\",\n    \"price\": 199.90,\n    \"syllabus\":\"Este curso abrange vocabulário básico, gramática fundamental e exercícios práticos.\",\n    \"learningObjectives\": \"Ao final do curso, o aluno será capaz de se comunicar em situações cotidianas em inglês.\",\n    \"preRequisites\": \"Não há pré-requisitos para este curso.\",\n    \"targetAudience\":\"Todos\",\n    \"language\":\"Inglês\",\n    \"level\":\"Iniciante\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/courses",
+							"raw": "{{baseUrl}}/api/cursos",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"courses"
+								"cursos"
 							]
 						},
 						"description": "Cria um novo curso (apenas administradores)."
@@ -547,7 +625,7 @@
 					"response": []
 				},
 				{
-					"name": "Update Course",
+					"name": "Alterar curso",
 					"event": [
 						{
 							"listen": "test",
@@ -600,13 +678,13 @@
 							"raw": "{\n    \"id\": \"{{courseId}}\",\n    \"name\": \"Curso de Inglês Basico I.\",\n    \"description\": \"Curso perfeito para iniciantes que desejam aprender inglês de forma eficiente.\",\n    \"price\": 149.90,\n    \"syllabus\":\"Este curso abrange vocabulário básico, gramática fundamental e exercícios práticos.\",\n    \"learningObjectives\": \"Ao final do curso, o aluno será capaz de se comunicar em situações cotidianas em inglês.\",\n    \"preRequisites\": \"Não há pré-requisitos para este curso.\",\n    \"targetAudience\":\"Todos\",\n    \"language\":\"Inglês\",\n    \"level\":\"Iniciante\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/courses/{{courseId}}",
+							"raw": "{{baseUrl}}/api/cursos/{{courseId}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"courses",
+								"cursos",
 								"{{courseId}}"
 							]
 						},
@@ -618,10 +696,10 @@
 			"description": "Endpoints relacionados ao gerenciamento de cursos."
 		},
 		{
-			"name": "Lessons",
+			"name": "Lições",
 			"item": [
 				{
-					"name": "Get Lessons by Course",
+					"name": "Lições por curso",
 					"event": [
 						{
 							"listen": "test",
@@ -633,7 +711,8 @@
 									"    pm.collectionVariables.set(\"lessonId\", jsonData[0].id);",
 									"}"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -641,15 +720,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/courses/{{courseId}}/lessons",
+							"raw": "{{baseUrl}}/api/licoes/curso/{{courseId}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"courses",
-								"{{courseId}}",
-								"lessons"
+								"licoes",
+								"curso",
+								"{{courseId}}"
 							]
 						},
 						"description": "Lista todas as aulas de um curso específico."
@@ -657,7 +736,7 @@
 					"response": []
 				},
 				{
-					"name": "Add Lesson",
+					"name": "Adiciona lição",
 					"event": [
 						{
 							"listen": "test",
@@ -697,18 +776,18 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Introdução ao Vocabulário Básico I\",\n    \"content\": \"Nesta aula, aprenderemos o vocabulário básico necessário para apresentações e conversas simples em inglês.\",\n    \"materialUrl\": \"https://example.com/materials/basic-vocabulary.pdf\",\n    \"order\": 1\n}"
+							"raw": "{\n    \"title\": \"Introdução ao Vocabulário Básico I\",\n    \"content\": \"Nesta aula, aprenderemos o vocabulário básico necessário para apresentações e conversas simples em inglês.\",\n    \"description\":\"verbo to be \",\n    \"materialUrl\": \"https://example.com/materials/basic-vocabulary.pdf\",\n    \"order\": 1\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/courses/{{courseId}}/lessons",
+							"raw": "{{baseUrl}}/api/licoes/curso/{{courseId}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"courses",
-								"{{courseId}}",
-								"lessons"
+								"licoes",
+								"curso",
+								"{{courseId}}"
 							]
 						},
 						"description": "Adiciona uma nova aula a um curso (apenas administradores)."
@@ -716,7 +795,7 @@
 					"response": []
 				},
 				{
-					"name": "Update Lesson",
+					"name": "Atualiza lição",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -737,19 +816,19 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"courseId\": \"{{courseId}}\",\n    \"lessonId\": \"{{lessonId}}\",\n    \"title\": \"Introdução ao Vocabulário Básico - Atualizado\",\n    \"content\": \"Conteúdo atualizado da aula com exemplos e exercícios práticos.\",\n    \"materialUrl\": \"https://example.com/materials/updated-basic-vocabulary.pdf\"\n}"
+							"raw": "{\n  \"id\": \"{{lessonId}}\",\n  \"title\": \"Introdução ao Vocabulário Básico - Atualizado\",\n  \"description\": \"verbo to be.\",\n  \"content\": \"Conteúdo atualizado da aula com exemplos e exercícios práticos.\",\n  \"order\": 1,\n  \"durationMinutes\": 45\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/courses/{{courseId}}/lessons/{{lessonId}}",
+							"raw": "{{baseUrl}}/api/licoes/{{lessonId}}/curso/{{courseId}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"courses",
-								"{{courseId}}",
-								"lessons",
-								"{{lessonId}}"
+								"licoes",
+								"{{lessonId}}",
+								"curso",
+								"{{courseId}}"
 							]
 						},
 						"description": "Atualiza uma aula existente (apenas administradores)."
@@ -760,10 +839,10 @@
 			"description": "Endpoints relacionados ao gerenciamento de aulas."
 		},
 		{
-			"name": "Enrollments",
+			"name": "Matrículas",
 			"item": [
 				{
-					"name": "Enroll Student",
+					"name": "Matricular Aluno",
 					"event": [
 						{
 							"listen": "test",
@@ -803,13 +882,13 @@
 							"raw": "{\n    \"courseId\": \"{{courseId}}\",\n    \"studentId\": \"{{studentId}}\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/enrollments",
+							"raw": "{{baseUrl}}/api/matriculas",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"enrollments"
+								"matriculas"
 							]
 						},
 						"description": "Matricula um estudante em um curso."
@@ -817,7 +896,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Enrollment by ID",
+					"name": "Obter matrícula por ID",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -832,13 +911,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/enrollments/{{enrollmentId}}",
+							"raw": "{{baseUrl}}/api/matriculas/{{enrollmentId}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"enrollments",
+								"matriculas",
 								"{{enrollmentId}}"
 							]
 						},
@@ -847,7 +926,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Student Enrollments",
+					"name": "Matrículas de alunos",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -862,91 +941,18 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/enrollments/student/{{studentId}}",
+							"raw": "{{baseUrl}}/api/matriculas/estudente/{{studentId}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"enrollments",
-								"student",
+								"matriculas",
+								"estudente",
 								"{{studentId}}"
 							]
 						},
 						"description": "Lista todas as matrículas de um estudante."
-					},
-					"response": []
-				},
-				{
-					"name": "Complete Lesson",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"completed\": true\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/enrollments/{{enrollmentId}}/lessons/{{lessonId}}/complete",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"enrollments",
-								"{{enrollmentId}}",
-								"lessons",
-								"{{lessonId}}",
-								"complete"
-							]
-						},
-						"description": "Marca uma aula como concluída para um estudante."
-					},
-					"response": []
-				},
-				{
-					"name": "Complete Course",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/enrollments/{{enrollmentId}}/complete",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"enrollments",
-								"{{enrollmentId}}",
-								"complete"
-							]
-						},
-						"description": "Marca um curso como concluído para um estudante."
 					},
 					"response": []
 				}
@@ -954,10 +960,10 @@
 			"description": "Endpoints relacionados ao gerenciamento de matrículas."
 		},
 		{
-			"name": "Payments",
+			"name": "Pagamentos",
 			"item": [
 				{
-					"name": "Process Payment",
+					"name": "Processar Pagamento",
 					"event": [
 						{
 							"listen": "test",
@@ -997,13 +1003,13 @@
 							"raw": "{\n    \"enrollmentId\": \"{{enrollmentId}}\",\n    \"amount\": 199.90,\n    \"cardDetails\": {\n        \"cardholderName\": \"Test User\",\n        \"cardNumber\": \"4111111111111111\",\n        \"expiryMonth\": 12,\n        \"expiryYear\": 2028,\n        \"cvv\": \"123\"\n    }\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/payments",
+							"raw": "{{baseUrl}}/api/pagamentos",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"payments"
+								"pagamentos"
 							]
 						},
 						"description": "Processa um pagamento para uma matrícula."
@@ -1011,7 +1017,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Payment by ID",
+					"name": "Pagamento por ID",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1026,13 +1032,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/payments/{{paymentId}}",
+							"raw": "{{baseUrl}}/api/pagamentos/{{paymentId}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"payments",
+								"pagamentos",
 								"{{paymentId}}"
 							]
 						},
@@ -1041,7 +1047,7 @@
 					"response": []
 				},
 				{
-					"name": "Refund Payment",
+					"name": "Reembolso",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1065,15 +1071,15 @@
 							"raw": "{\n    \"reason\": \"Solicitação do cliente\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/payments/{{paymentId}}/refund",
+							"raw": "{{baseUrl}}/api/pagamentos/{{paymentId}}/reembolso",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"payments",
+								"pagamentos",
 								"{{paymentId}}",
-								"refund"
+								"reembolso"
 							]
 						},
 						"description": "Solicita reembolso de um pagamento (apenas administradores)."
@@ -1084,10 +1090,10 @@
 			"description": "Endpoints relacionados ao processamento de pagamentos."
 		},
 		{
-			"name": "Certificates",
+			"name": "Certificados",
 			"item": [
 				{
-					"name": "Generate Certificate",
+					"name": "Gerar certificado",
 					"event": [
 						{
 							"listen": "test",
@@ -1106,8 +1112,11 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"packages": {},
-								"type": "text/javascript"
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -1134,13 +1143,13 @@
 							"raw": "{\n    \"studentId\": \"{{studentId}}\",\n    \"courseId\": \"{{courseId}}\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/certificates",
+							"raw": "{{baseUrl}}/api/certificados",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"certificates"
+								"certificados"
 							]
 						},
 						"description": "Gera um certificado para um estudante que concluiu um curso."
@@ -1148,7 +1157,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Certificate by ID",
+					"name": "Obter certificado por ID",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1163,13 +1172,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/certificates/{{certificateId}}",
+							"raw": "{{baseUrl}}/api/certificados/{{certificateId}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"certificates",
+								"certificados",
 								"{{certificateId}}"
 							]
 						},
@@ -1178,7 +1187,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Student Certificates",
+					"name": "Obtenha certificados de estudante",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1193,14 +1202,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/certificates/student/{{studentId}}",
+							"raw": "{{baseUrl}}/api/certificados/estudente/{{studentId}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"certificates",
-								"student",
+								"certificados",
+								"estudente",
 								"{{studentId}}"
 							]
 						},
@@ -1251,10 +1260,6 @@
 		},
 		{
 			"key": "studentId",
-			"value": ""
-		},
-		{
-			"key": "enrollmentId",
 			"value": ""
 		},
 		{

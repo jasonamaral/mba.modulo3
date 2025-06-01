@@ -1,0 +1,51 @@
+using FluencyHub.ContentManagement.Application.Common.Interfaces;
+using FluencyHub.SharedKernel.Queries;
+using MediatR;
+using Microsoft.Extensions.Logging;
+
+namespace FluencyHub.ContentManagement.Application.Courses.Queries;
+
+public class GetCourseByIdHandler : IRequestHandler<GetCourseById, CourseDto?>
+{
+    private readonly ICourseRepository _courseRepository;
+    private readonly ILogger<GetCourseByIdHandler> _logger;
+
+    public GetCourseByIdHandler(
+        ICourseRepository courseRepository,
+        ILogger<GetCourseByIdHandler> logger)
+    {
+        _courseRepository = courseRepository;
+        _logger = logger;
+    }
+
+    public async Task<CourseDto?> Handle(GetCourseById request, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var exists = await _courseRepository.ExistsAsync(request.CourseId);
+            
+            if (!exists)
+            {
+                return null;
+            }
+            
+            var course = await _courseRepository.GetByIdAsync(request.CourseId);
+            
+            if (course == null)
+                return null;
+
+            return new CourseDto
+            {
+                Id = course.Id,
+                Name = course.Name,
+                Description = course.Description,
+                Price = course.Price
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao consultar curso {CourseId}", request.CourseId);
+            return null;
+        }
+    }
+}

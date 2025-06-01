@@ -44,6 +44,7 @@ graph TD
     classDef title fill:#1a237e,color:#ffffff,stroke:none,font-size:20px
     classDef bc fill:#1e1e1e,stroke:#aaa,stroke-width:1.5px,color:#90caf9
     classDef entity fill:#2c2c2c,stroke:#90caf9,stroke-width:1px,color:#ffffff
+    classDef valueobject fill:#4a4a4a,stroke:#90caf9,stroke-width:1px,color:#ffffff
     classDef relationship fill:#333,stroke:#888,stroke-dasharray:5
 
     %% Bounded Contexts
@@ -51,10 +52,10 @@ graph TD
         direction TB
         style BC1 fill:#2e7d32,stroke:#81c784,color:#ffffff
         C1(("Curso")):::entity
-        A1["▪ Aula - Vídeos Materiais"]:::entity
-        CP["▫ Conteúdo Programático- Objetivos - Ementa"]:::entity
+        A1["Aula"]:::entity
+        CC1["Conteúdo do Curso"]:::valueobject
         C1 --- A1
-        C1 --- CP
+        C1 --- CC1
     end
 
     subgraph BC2["Gestão de Alunos"]
@@ -63,20 +64,22 @@ graph TD
         AL(("Aluno")):::entity
         MT[Matrícula]:::entity
         CT[Certificado]:::entity
-        HA[Histórico Acadêmico]:::entity
+        HA[Histórico de Aprendizado]:::entity
+        PA[Progresso do Curso]:::entity
         AL -->|realiza| MT
         MT -->|gera| CT
-        MT -->|registra| HA
+        AL -->|possui| HA
+        HA -->|contém| PA
     end
 
-    subgraph BC3["Pagamento"]
+    subgraph BC3["Processamento de Pagamento"]
         direction LR
         style BC3 fill:#c62828,stroke:#ef9a9a,color:#ffffff
         PG(("Pagamento")):::entity
-        DC[[Dados do Cartão]]:::entity
-        SP{Status}:::entity
-        PG -->|processa| DC
-        PG -->|atualiza| SP
+        DC["Dados do Cartão"]:::valueobject
+        SP["Status do Pagamento"]:::valueobject
+        PG -->|contém| DC
+        PG -->|possui| SP
     end
 
     %% Relacionamentos entre BCs
@@ -86,32 +89,98 @@ graph TD
 
     %% Elementos auxiliares
     class T title
-    linkStyle 0,1,2 stroke:#90caf9,stroke-width:1.5px
-    linkStyle 3,4,5 stroke:#ffb74d,stroke-width:1.5px
-    linkStyle 6,7,8 stroke:#ef9a9a,stroke-width:1.5px
+    linkStyle 0,1 stroke:#90caf9,stroke-width:1.5px
+    linkStyle 2,3,4,5 stroke:#ffb74d,stroke-width:1.5px
+    linkStyle 6,7 stroke:#ef9a9a,stroke-width:1.5px
 
 ```
+O projeto está organizado em Bounded Contexts (BCs), cada um com suas próprias camadas:
 
 ```
-A estrutura do projeto é organizada da seguinte forma:
-	FluencyHub/
-	├── src/
-	│   ├── API/
-	│   │   ├── FluencyHub.API/             - API RESTful
-	│   │   ├── FluencyHub.Application/     - Models, Services, Extensions
-	│   │   ├── FluencyHub.Infrastructure/  - Repositórios, Migrations, Configurações do EF Core
-	│   │   ├── FluencyHub.Domain/          - Modelos de Domínio, Agregados, Objetos de Valor
-	├── tests/
-	│   ├── FluencyHub.Tests/               - Testes de Unidade e Integração
-	│   │   ├── Integration/                - Testes de Integração
-	│   │   ├── Unit/                       - Testes de Unidade
-	├── docs/                               - Documentação do Projeto
-	├── FluencyHub.sln                      - Solução do Visual Studio
-	├── README.md                           - Arquivo de Documentação do Projeto
-	├── feedback.md                         - Arquivo para Consolidação dos Feedbacks
-	├── .gitignore                          - Arquivo de Ignoração do Git
-
+src/
+  ├── BoundedContexts/
+  │   ├── StudentManagement/
+  │   │   ├── Domain/
+  │   │   ├── Application/
+  │   │   ├── Infrastructure/
+  │   │   └── ...
+  │   ├── ContentManagement/
+  │   │   ├── Domain/
+  │   │   ├── Application/
+  │   │   ├── Infrastructure/
+  │   │   └── ...
+  │   └── PaymentProcessing/
+  │       ├── Domain/
+  │       ├── Application/
+  │       ├── Infrastructure/
+  │       └── ...
+  ├── SharedKernel/
+  ├── API/
+  └── Tests/
 ```
+
+### Bounded Contexts
+
+1. **StudentManagement**
+   - Responsável pelo gerenciamento de alunos, matrículas e progresso
+   - Domínio isolado com suas próprias entidades e regras de negócio
+   - Comunicação via eventos de domínio
+
+2. **ContentManagement**
+   - Gerencia o conteúdo didático, aulas e materiais
+   - Domínio isolado com foco em conteúdo educacional
+   - Integração via eventos de domínio
+
+3. **PaymentProcessing**
+   - Processa pagamentos e gerencia assinaturas
+   - Domínio isolado para transações financeiras
+   - Comunicação assíncrona via eventos
+
+### Camadas
+
+1. **Domain**
+   - Entidades
+   - Value Objects
+   - Agregados
+   - Eventos de Domínio
+   - Interfaces de Repositório
+
+2. **Application**
+   - Use Cases
+   - DTOs
+   - Interfaces de Serviço
+   - Handlers de Eventos
+   - Validações
+
+3. **Infrastructure**
+   - Implementações de Repositório
+   - Serviços Externos
+   - Persistência
+   - Configurações
+
+4. **API**
+   - Controllers
+   - Middlewares
+   - Configurações de API
+
+### SharedKernel
+
+- Tipos compartilhados
+- Eventos de integração
+- Utilitários comuns
+- Abstrações base
+
+## Comunicação entre Bounded Contexts
+
+- Utiliza MediatR para publicação e manipulação de eventos
+- Eventos de domínio para comunicação assíncrona
+- Cada BC possui seus próprios handlers de eventos
+
+## Banco de Dados
+
+- Cada BC possui seu próprio banco de dados
+- Migrations independentes
+- Conexões configuradas em `appsettings.json`
 
 ## **5. Funcionalidades Implementadas**
 
